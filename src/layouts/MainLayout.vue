@@ -5,12 +5,17 @@
       <q-toolbar>
         <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
 
-        <q-toolbar-title>
+        <q-toolbar-title class="">
           <q-avatar>
+            <!-- get camino logo -->
             <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
           </q-avatar>
           {{ t("title") }}
         </q-toolbar-title>
+
+        <!-- <router-link to='/ecosystem' > -->
+
+
       </q-toolbar>
     </q-header>
 
@@ -25,15 +30,23 @@
   </q-layout>
 </template>
 
-<script setup lang="ts">
-import { ref } from 'vue'
+<script lang="ts">
+import { defineComponent, ref } from 'vue'
 import { useI18n } from 'vue-i18n';
-
-const { t } = useI18n();
 
 const leftDrawerOpen = ref(false)
 
-function toggleLeftDrawer() {
-  leftDrawerOpen.value = !leftDrawerOpen.value
-}
+export default defineComponent({
+  name: 'MainLayout',
+  setup() {
+    const { t } = useI18n();
+    return {
+      leftDrawerOpen,
+      toggleLeftDrawer() {
+        leftDrawerOpen.value = !leftDrawerOpen.value
+      },
+      t
+    }
+  }
+})
 </script>
