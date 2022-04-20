@@ -16,28 +16,20 @@
 
 <script lang="ts">
 import { defineComponent, ref, Ref } from 'vue'
+import { useCIndexStore } from 'src/stores/c-index-store';
 import { reactive } from 'vue'
 import {
   Avalanche,
 } from "avalanche"
 import { HealthResponse } from 'avalanche/dist/apis/health/interfaces';
 
-
-const formData = reactive({ ip: "127.0.0.1", port: 0 })
+const cIndexStore = useCIndexStore();
+const formData = reactive({ ip: "127.0.0.1", port: 9650 })
 
 let healthResponse = ref(null);
 
 async function checkHealth() {
-  const avalanche = new Avalanche(formData.ip, formData.port, "http", 12345)
-  const healthApi = avalanche.Health();
-  console.log("healthApi", healthApi)
-  const res = await healthApi.health()
-  console.log("Health", res);
-  healthResponse.value = res;
-  // const data = new JsonRpcWrapper("health.health")
-  // const response = await axios.post(buildUrl("health"), data)
-  // console.log(response)
-  // healthResponse.response = response;
+  cIndexStore.loadTXs();
 }
 
 

@@ -81,7 +81,7 @@ module.exports = configure(function (/* ctx */) {
           global: {},
           process: {
             env: 'Development'
-          }
+          },
         }
       },
       // viteVuePluginOptions: {},
