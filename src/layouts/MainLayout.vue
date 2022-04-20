@@ -37,7 +37,9 @@
 
     <body>
       <q-page-container>
-        <router-view />
+        <Suspense>
+          <router-view />
+        </Suspense>
       </q-page-container>
     </body>
   </q-layout>

@@ -39,7 +39,7 @@
             </div>
             <div class="col-3">
               {{ item.transactions }}<br>
-              {{ item.hash }}
+              {{ item.hash.substring(0, 12) + "..." }}
             </div>
             <div class="col-2 burn-icon">
               <q-icon class="text-red" size="sm" name="mdi-fire" />
@@ -89,7 +89,7 @@
 import { defineComponent, ref, Ref } from 'vue'
 import ListCard from 'src/components/ListCard.vue';
 import { Duration } from 'luxon'
-
+import { useCIndexStore } from 'src/stores/c-index-store'
 let searchInput: Ref<string> = ref('');
 
 function getRelativeTime(timestamp: Date) {
@@ -105,45 +105,6 @@ function getRelativeTime(timestamp: Date) {
   }
 }
 
-function createMockBlocks() {
-  const olderTimstamp = new Date();
-  olderTimstamp.setMinutes(olderTimstamp.getMinutes() - 1);
-  console.log('olderTimestamp', olderTimstamp)
-  const someSecondsOld = new Date();
-  someSecondsOld.setSeconds(someSecondsOld.getSeconds() - 3);
-  return [{
-    hash: '12341223',
-    transactions: 21,
-    height: 13663334,
-    timestamp: olderTimstamp,
-    burned: 0.27,
-  },
-  {
-    hash: '12341223',
-    transactions: 21,
-    height: 13663334,
-    timestamp: someSecondsOld,
-    burned: 0.27,
-  }, {
-    hash: '12341223',
-    transactions: 21,
-    height: 13663334,
-    timestamp: new Date(),
-    burned: 0.27,
-  }, {
-    hash: '12341223',
-    transactions: 21,
-    height: 13663334,
-    timestamp: new Date(),
-    burned: 0.27,
-  }, {
-    hash: '12341223',
-    transactions: 21,
-    height: 13663334,
-    timestamp: new Date(),
-    burned: 0.27,
-  },]
-}
 
 function createMockTransactions() {
   const olderTimstamp = new Date();
@@ -190,12 +151,12 @@ function createMockTransactions() {
 
 export default defineComponent({
   name: 'IndexPage',
+  
 
-
-  setup() {
+  async setup() {
     return {
       searchInput,
-      blocks: createMockBlocks(),
+      blocks: await useCIndexStore().loadBlocks(),
       transactions: createMockTransactions(),
       getRelativeTime
     };
