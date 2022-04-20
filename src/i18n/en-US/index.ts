@@ -4,5 +4,6 @@
 export default {
   failed: 'Action failed',
   success: 'Action was successful',
-  title: "Camino Explorer"
+  camino: 'Camino',
+  explorer: 'Explorer'
 }
