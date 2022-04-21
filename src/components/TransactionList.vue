@@ -33,7 +33,7 @@
         </div>
       </div>
       <div class="col-2 gas-used">
-        <q-icon class="text-red" size="sm" name="mdi-fire" />
+        <q-icon class="text-red" size="sm" name="img:src/assets/camino-coin-logo.png" />
         {{ item.fee }} CAM
       </div>
     </template>
@@ -42,7 +42,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import { getRelativeTime, displayLongString } from 'src/utils/DisplayUtils'
+import { getRelativeTime, displayLongString } from 'src/utils/display-utils'
 import ListCard from './ListCard.vue'
 import { Transaction } from 'src/types/transaction'
 

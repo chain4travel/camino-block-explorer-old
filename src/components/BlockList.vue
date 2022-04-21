@@ -20,7 +20,7 @@
       </div>
       <div class="col-2 burn-icon">
         <q-icon class="text-red" size="sm" name="mdi-fire" />
-        {{ item.burned }} CAM
+        {{ item.burned }} WEI
       </div>
     </template>
   </list-card>
@@ -29,7 +29,7 @@
 <script lang="ts">
 import { Block } from 'src/types/block'
 import { defineComponent, PropType } from 'vue'
-import { getRelativeTime, displayLongString } from 'src/utils/DisplayUtils'
+import { getRelativeTime, displayLongString } from 'src/utils/display-utils'
 import ListCard from './ListCard.vue'
 
 export default defineComponent({
