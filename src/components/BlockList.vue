@@ -20,7 +20,7 @@
       </div>
       <div class="col-2 burn-icon">
         <q-icon class="text-red" size="sm" name="mdi-fire" />
-        {{ item.burned }} CAM
+        {{ item.burned }} WEI
       </div>
     </template>
   </list-card>

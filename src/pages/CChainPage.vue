@@ -1,28 +1,15 @@
 <template>
-  <q-page class="flex">
-    <search-banner @search="search"></search-banner>
-    <div class="row full-width q-mr-xl">
-      <div class="offset-1 col-5">
-        <!-- Latest Blocks-->
-        <block-list :blocks="blocks"></block-list>
-      </div>
-      <!-- Latest Transactions-->
-      <div class="col-5 q-ml-xl">
-        <transaction-list :transactions="transactions"></transaction-list>
-      </div>
-    </div>
+  <q-page>
+    <chain-view @search="search" :blocks="blocks" :transactions="transactions"></chain-view>
   </q-page>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref } from 'vue'
+import { defineComponent } from 'vue'
 import { getRelativeTime } from 'src/utils/display-utils'
 import { useCIndexStore } from 'src/stores/c-index-store'
-import BlockList from 'src/components/BlockList.vue';
-import TransactionList from 'src/components/TransactionList.vue';
 import { Transaction } from 'src/types/transaction';
-import SearchBanner from 'src/components/SearchBanner.vue';
-
+import ChainView from 'src/components/ChainView.vue';
 
 function createMockTransactions(): Transaction[] {
   const olderTimstamp = new Date();
@@ -78,42 +65,17 @@ function createMockTransactions(): Transaction[] {
 
 export default defineComponent({
   name: 'IndexPage',
-
-
+  components: { ChainView },
   async setup() {
     return {
       blocks: await useCIndexStore().loadBlocks(),
       transactions: createMockTransactions(),
       getRelativeTime,
-      search(value) {
-        console.log('Searching for value', value)
+      search(value: string) {
+        console.log('Searching for value', value);
       }
     };
   },
-  components: { BlockList, TransactionList, SearchBanner }
+
 })
 </script>
-
-<style lang="sass" scoped>
-
-.burn-icon
-  background-color:  rgba(255, 53, 53, 0.15)
-  border-radius: 30px
-  display: flex
-  align-items: center
-  align-content: flex-start
-  justify-content: center
-  justify-items: center
-.icon-background
-  background-color: #455374
-  padding: 12px
-  color: white
-.gas-used
-  background-color:  rgba(255, 255, 255, 0.15)
-  border-radius: 30px
-  display: flex
-  align-items: center
-  align-content: flex-start
-  justify-content: center
-  justify-items: center
-</style>
