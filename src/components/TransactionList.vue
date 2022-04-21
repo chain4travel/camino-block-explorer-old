@@ -42,7 +42,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import { getRelativeTime, displayLongString } from 'src/utils/DisplayUtils'
+import { getRelativeTime, displayLongString } from 'src/utils/display-utils'
 import ListCard from './ListCard.vue'
 import { Transaction } from 'src/types/transaction'
 

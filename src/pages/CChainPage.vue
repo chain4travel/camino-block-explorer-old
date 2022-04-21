@@ -35,7 +35,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, Ref } from 'vue'
-import { getRelativeTime } from 'src/utils/DisplayUtils'
+import { getRelativeTime } from 'src/utils/display-utils'
 import { useCIndexStore } from 'src/stores/c-index-store'
 import BlockList from 'src/components/BlockList.vue';
 import TransactionList from 'src/components/TransactionList.vue';
@@ -45,7 +45,6 @@ let searchInput: Ref<string> = ref('');
 function createMockTransactions(): Transaction[] {
   const olderTimstamp = new Date();
   olderTimstamp.setMinutes(olderTimstamp.getMinutes() - 1);
-  console.log('olderTimestamp', olderTimstamp)
   return [{
     originAdress: '0x279f8940ca2a44c35ca3edf7d28945254d0f0ae6',
     destinationAdress: '0xbbc0c798be9c5c857f0d6c51aa4a4ab2f5a197aa',

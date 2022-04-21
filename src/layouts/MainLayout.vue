@@ -64,7 +64,6 @@ export default defineComponent({
   setup() {
     const { t } = useI18n();
     const router = useRouter();
-    console.log('drawer', leftDrawerOpen)
     leftDrawerOpen.value = false;
     // Can be optimized to filter earlier and not gather all routes
     let allRoutes: Array<RouteRecordRaw> = [];

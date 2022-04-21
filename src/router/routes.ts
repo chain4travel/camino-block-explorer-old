@@ -10,8 +10,8 @@ const routes: RouteRecordRaw[] = [
       { name: 'X-Chain', path: 'x-chain', component: () => import('src/pages/XChainPage.vue'), meta: { showInMenu: true } },
       { name: 'P-Chain', path: 'p-chain', component: () => import('src/pages/PChainPage.vue'), meta: { showInMenu: true } },
       // these will probably not be part of this application, but instead lead to external links
-      { name: 'Documentation', path: 'documentation', component: () => import('src/pages/StatsPage.vue'), meta: { showInMenu: true } },
-      { name: 'Wallet', path: 'wallet', component: () => import('src/pages/WalletPage.vue'), meta: { showInMenu: true } }
+      { name: 'Documentation', path: 'documentation', component: () => import('src/pages/CChainPage.vue'), meta: { showInMenu: true } },
+      { name: 'Wallet', path: 'wallet', component: () => import('src/pages/CChainPage.vue'), meta: { showInMenu: true } }
     ],
   },
 
