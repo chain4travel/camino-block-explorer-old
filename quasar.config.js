@@ -88,6 +88,7 @@ module.exports = configure(function (/* ctx */) {
         };
         viteConf.resolve.alias.process = 'process/browser';
         viteConf.resolve.alias.stream = 'stream-browserify';
+        viteConf.resolve.alias.http = 'agent-base';
         viteConf.resolve.alias.zlib = 'browserify-zlib';
         viteConf.resolve.alias.util = 'util';
       },
