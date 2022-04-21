@@ -33,7 +33,7 @@
         </div>
       </div>
       <div class="col-2 gas-used">
-        <q-icon class="text-red" size="sm" name="mdi-fire" />
+        <q-icon class="text-red" size="sm" name="img:src/assets/camino-coin-logo.png" />
         {{ item.fee }} CAM
       </div>
     </template>

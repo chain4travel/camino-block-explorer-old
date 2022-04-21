@@ -1,25 +1,24 @@
 <template>
   <q-page class="flex">
     <q-card class="headline-card text-white text-center">
-      <q-card-section>
-        <div class="text-h2">Explore the true potential of travel.</div>
-      </q-card-section>
-      <q-card-section class="container">
-        <div class="row">
-          <q-input label="Search by Address / Hash /Block / Token" rounded class="col-6 offset-3" dark outlined
-            v-model="searchInput" clearable>
-            <template v-slot:prepend>
-              <q-avatar size="lg" color="dark" text-color="white" icon="search">
-              </q-avatar>
-            </template>
-            <template v-slot:append>
-              <q-avatar size="lg" class="append-icon" icon="mdi-arrow-right">
-              </q-avatar>
-            </template>
-
-          </q-input>
+      <q-img src="src/assets/banner-bg.png" height="100%">
+        <div class="absolute-center img-caption">
+          <div class="text-h2 q-mt-xl ">Explore the true potential of travel.</div>
+          <q-card-section class="container q-mt-xl">
+            <q-input label="Search by Address / Hash /Block / Token" dark outlined v-model="searchInput" clearable>
+              <template v-slot:prepend>
+                <q-avatar size="lg" color="dark" text-color="white" icon="search">
+                </q-avatar>
+              </template>
+              <template v-slot:append>
+                <q-avatar size="lg" class="append-icon" icon="mdi-arrow-right">
+                </q-avatar>
+              </template>
+            </q-input>
+          </q-card-section>
         </div>
-      </q-card-section>
+
+      </q-img>
     </q-card>
     <div class="row full-width q-mr-xl">
       <div class="offset-1 col-5">
@@ -115,13 +114,14 @@ export default defineComponent({
 <style lang="sass" scoped>
 .headline-card
   width: 100%
-  max-height: 25em
-  background: linear-gradient(135deg, #149EED 10.48%, #B440FC 89.52%)
+  max-height: 22em
+  background: black
+  align-items: center
 .search-input
   width: 50%
 .append-icon
   color: white
-  background-color: orange
+  background-color: $primary
 .burn-icon
   background-color:  rgba(255, 53, 53, 0.15)
   border-radius: 30px
@@ -150,4 +150,6 @@ export default defineComponent({
   align-content: flex-start
   justify-content: center
   justify-items: center
+.img-caption
+  background: none
 </style>

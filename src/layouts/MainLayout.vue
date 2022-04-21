@@ -2,14 +2,13 @@
   <q-layout view="hHh lpR fFf">
     <q-header elevated class="bg-dark text-white">
       <q-toolbar color="toolbar">
-        <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
 
-        <q-toolbar-title class="">
-          <q-avatar>
-            <!-- get camino logo -->
-            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
-          </q-avatar>
-          {{ t("camino") }} | <router-link class="text-accent q-ml-md" to="/">{{ t("explorer") }}</router-link>
+        <q-toolbar-title>
+          <div class="logo-container">
+            <q-img src="src/assets/camino-company-logo.png" height="32px" width="120px">
+            </q-img>
+            <router-link class="text-accent q-ml-xs q-mt-xs" to="/">{{ t("explorer") }}</router-link>
+          </div>
         </q-toolbar-title>
 
         <router-link class="text-white q-mr-md no-underscore" v-for="route in menuRoutes" :key="route?.name"
@@ -17,7 +16,8 @@
           {{ route?.name }} </router-link>
       </q-toolbar>
     </q-header>
-    <q-drawer class="bg-dark" show-if-above v-model="leftDrawerOpen" side="left" bordered>
+    <!-- mobile??? -->
+    <q-drawer class="bg-dark" v-model="leftDrawerOpen" side="left" bordered>
       <q-scroll-area class="fit">
         <q-list dense>
           <template v-for="(menuItem, index) in menuRoutes" :key="index">
@@ -64,20 +64,24 @@ export default defineComponent({
   setup() {
     const { t } = useI18n();
     const router = useRouter();
+    console.log('drawer', leftDrawerOpen)
+    leftDrawerOpen.value = false;
     // Can be optimized to filter earlier and not gather all routes
-    let menuRoutes: Array<RouteRecordRaw> = [];
+    let allRoutes: Array<RouteRecordRaw> = [];
     router.options.routes.forEach(route => {
-      menuRoutes.push(route);
-      addAllChildRoutes(menuRoutes, route);
+      allRoutes.push(route);
+      addAllChildRoutes(allRoutes, route);
     });
-    menuRoutes = menuRoutes.filter(e => e?.meta?.showInMenu)
+    const menuRoutes = allRoutes.filter(e => e?.meta?.showInMenu)
+    const tabRoutes = allRoutes.filter(e => e?.meta?.showInTabBar)
     return {
       leftDrawerOpen,
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value
       },
       t,
-      menuRoutes
+      menuRoutes,
+      tabRoutes
     }
   }
 })
@@ -87,4 +91,7 @@ export default defineComponent({
   background: $toolbar !important
 a
   text-decoration: none
+.logo-container
+  display: flex
+  align-items: center
 </style>
