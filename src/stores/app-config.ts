@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import type { I18n } from 'vue-i18n';
 import { Network } from 'src/types/network'
 
 export const useAppConfig = defineStore({
@@ -7,10 +6,31 @@ export const useAppConfig = defineStore({
   state: () => ({
     activeNetwork: 'camino-local',
     networks: [
-      new Network('camino-mainnet', 'Camino MainNet', 'http', '127.0.0.1', 9650, true), //TODO: changeme
-      new Network('camino-testnet', 'Camino TestNet', 'http', '127.0.0.1', 9650, true), //TODO: changeme
-      new Network('camino-local', 'Camino Local', 'http', '127.0.0.1', 9650, true),
-    ],
+      {
+        name: 'camino-mainnet',
+        displayName: 'Camino MainNet',
+        protocol: 'http',
+        host: '127.0.0.1',
+        port: 9650,
+        predefined: true
+      }, //TODO: changeme
+      {
+        name: 'camino-testnet',
+        displayName: 'Camino TestNet',
+        protocol: 'http',
+        host: '127.0.0.1',
+        port: 9650,
+        predefined: true
+      }, //TODO: changeme,
+      {
+        name: 'camino-local',
+        displayName: 'Camino Local',
+        protocol: 'http',
+        host: '127.0.0.1',
+        port: 9650,
+        predefined: true
+      },
+    ] as Network[],
     customNetworks: [] as Network[]
   }),
   getters: {
@@ -35,7 +55,7 @@ export const useAppConfig = defineStore({
       this.customNetworks.push(network);
     },
     removeNetwork(name: string) {
-      this.customNetworks = this.customNetworks.filter((value, index, arr) => {
+      this.customNetworks = this.customNetworks.filter((value) => {
         value.name !== name;
       });
     }

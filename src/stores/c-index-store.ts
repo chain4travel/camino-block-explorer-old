@@ -10,14 +10,15 @@ import { useAppConfig } from 'src/stores/app-config'
 
 const clamp = (num: number, min: number, max: number) => Math.min(Math.max(num, min), max)
 
-const createBlock = (av_container, eth_block) => {
-  return new Block(av_container.id,
-    av_container.index,
-    new Date(Date.parse(av_container.timestamp)),
-    eth_block.hash,
-    eth_block.gasUsed,
-    eth_block.transactions.length
-  )
+function createBlock(av_container: Record<string, unknown>, eth_block: Record<string, unknown>) : Block {
+  return <Block> {
+    id: av_container.id,
+    height: av_container.index,
+    timestamp: new Date(Date.parse(av_container.timestamp as string)),
+    hash: eth_block.hash,
+    burned: eth_block.gasUsed,
+    transactions: (eth_block.transactions as Array<unknown>).length
+  }
 }
 
 const getAvalancheClient = () => {
