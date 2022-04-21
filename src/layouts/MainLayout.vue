@@ -2,7 +2,6 @@
   <q-layout view="hHh lpR fFf">
     <q-header elevated class="bg-dark text-white">
       <q-toolbar color="toolbar">
-
         <q-toolbar-title>
           <div class="logo-container">
             <q-img src="src/assets/camino-company-logo.png" height="32px" width="120px">
@@ -12,8 +11,10 @@
         </q-toolbar-title>
 
         <router-link class="text-white q-mr-md no-underscore" v-for="route in menuRoutes" :key="route?.name"
-          :to="route?.name">
+          :to="{ name: route?.name }">
           {{ route?.name }} </router-link>
+        <a class="text-white q-mr-md no-underscore" v-for="link in additionalMenuItems" :key="link.name"
+          :href="link.href" target="_blank">{{ link.name }}</a>
       </q-toolbar>
     </q-header>
     <!-- mobile??? -->
@@ -23,7 +24,7 @@
           <template v-for="(menuItem, index) in menuRoutes" :key="index">
             <q-item :to="{ name: menuItem.name }" clickable :active="menuItem.name === $route.name" v-ripple>
               <q-item-section avatar>
-                <q-icon v-if="menuItem.meta?.icon" :name="menuItem.meta?.icon" />
+                <q-icon v-if="menuItem.meta?.icon" :name="menuItem.meta.icon" />
               </q-item-section>
               <q-item-section>
                 {{ menuItem.name }}
@@ -49,6 +50,7 @@
 import { defineComponent, ref } from 'vue'
 import { useI18n } from 'vue-i18n';
 import { RouteRecordRaw, useRouter } from 'vue-router';
+import type { ExternalMenuLink } from 'src/types/external-menu-link';
 
 const leftDrawerOpen = ref(false)
 
@@ -72,7 +74,10 @@ export default defineComponent({
       addAllChildRoutes(allRoutes, route);
     });
     const menuRoutes = allRoutes.filter(e => e?.meta?.showInMenu)
-    const tabRoutes = allRoutes.filter(e => e?.meta?.showInTabBar)
+    const additionalMenuItems = [
+      { name: 'Documentation', href: 'https://docs.camino.foundation' },
+      { name: 'Wallet', href: 'https://wallet.camino.foundation' }
+    ] as ExternalMenuLink[]
     return {
       leftDrawerOpen,
       toggleLeftDrawer() {
@@ -80,17 +85,19 @@ export default defineComponent({
       },
       t,
       menuRoutes,
-      tabRoutes
+      additionalMenuItems
     }
   }
 })
 </script>
 <style scoped lang="sass">
-.bg-toolbar 
+.bg-toolbar
   background: $toolbar !important
 a
   text-decoration: none
 .logo-container
   display: flex
   align-items: center
+.router-link-exact-active
+  color: $primary !important
 </style>

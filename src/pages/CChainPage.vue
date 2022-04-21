@@ -1,25 +1,6 @@
 <template>
   <q-page class="flex">
-    <q-card class="headline-card text-white text-center">
-      <q-img src="src/assets/banner-bg.png" height="100%">
-        <div class="absolute-center img-caption">
-          <div class="text-h2 q-mt-xl ">Explore the true potential of travel.</div>
-          <q-card-section class="container q-mt-xl">
-            <q-input label="Search by Address / Hash /Block / Token" dark outlined v-model="searchInput" clearable>
-              <template v-slot:prepend>
-                <q-avatar size="lg" color="dark" text-color="white" icon="search">
-                </q-avatar>
-              </template>
-              <template v-slot:append>
-                <q-avatar size="lg" class="append-icon" icon="mdi-arrow-right">
-                </q-avatar>
-              </template>
-            </q-input>
-          </q-card-section>
-        </div>
-
-      </q-img>
-    </q-card>
+    <search-banner @search="search"></search-banner>
     <div class="row full-width q-mr-xl">
       <div class="offset-1 col-5">
         <!-- Latest Blocks-->
@@ -40,7 +21,8 @@ import { useCIndexStore } from 'src/stores/c-index-store'
 import BlockList from 'src/components/BlockList.vue';
 import TransactionList from 'src/components/TransactionList.vue';
 import { Transaction } from 'src/types/transaction';
-let searchInput: Ref<string> = ref('');
+import SearchBanner from 'src/components/SearchBanner.vue';
+
 
 function createMockTransactions(): Transaction[] {
   const olderTimstamp = new Date();
@@ -100,27 +82,20 @@ export default defineComponent({
 
   async setup() {
     return {
-      searchInput,
       blocks: await useCIndexStore().loadBlocks(),
       transactions: createMockTransactions(),
-      getRelativeTime
+      getRelativeTime,
+      search(value) {
+        console.log('Searching for value', value)
+      }
     };
   },
-  components: { BlockList, TransactionList }
+  components: { BlockList, TransactionList, SearchBanner }
 })
 </script>
 
 <style lang="sass" scoped>
-.headline-card
-  width: 100%
-  max-height: 22em
-  background: black
-  align-items: center
-.search-input
-  width: 50%
-.append-icon
-  color: white
-  background-color: $primary
+
 .burn-icon
   background-color:  rgba(255, 53, 53, 0.15)
   border-radius: 30px
@@ -141,14 +116,4 @@ export default defineComponent({
   align-content: flex-start
   justify-content: center
   justify-items: center
-.search-icon
-  background: #141A18
-  border-radius: 30px
-  display: flex
-  align-items: center
-  align-content: flex-start
-  justify-content: center
-  justify-items: center
-.img-caption
-  background: none
 </style>
