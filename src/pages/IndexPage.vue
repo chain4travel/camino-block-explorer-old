@@ -19,139 +19,86 @@
 
           </q-input>
         </div>
-
       </q-card-section>
     </q-card>
     <div class="row full-width q-mr-xl">
       <div class="offset-1 col-5">
         <!-- Latest Blocks-->
-        <list-card title="Latest Blocks" :items="blocks">
-          <template v-slot="{ item }">
-            <div class="col-1">
-              <q-icon class="icon-background" size="sm" name="mdi-cube-outline" />
-            </div>
-            <div class="col-6">
-              <div>
-                {{ item.height }}</div>
-              <div>
-                {{ getRelativeTime(item.timestamp) + " ago" }}
-              </div>
-            </div>
-            <div class="col-3">
-              {{ item.transactions }}<br>
-              {{ item.hash.substring(0, 12) + "..." }}
-            </div>
-            <div class="col-2 burn-icon">
-              <q-icon class="text-red" size="sm" name="mdi-fire" />
-              {{ item.burned }} CAM
-            </div>
-          </template>
-        </list-card>
+        <block-list :blocks="blocks"></block-list>
       </div>
       <!-- Latest Transactions-->
       <div class="col-5 q-ml-xl">
-        <list-card title="Latest Transactions" :items="transactions">
-          <template v-slot="{ item }">
-            <div class="col-1">
-              <q-icon class="icon-background" size="sm" name="mdi-transfer" />
-            </div>
-            <div class="col-6">
-              <div>
-                {{ item.hash.substring(0, 12) + "..." }}</div>
-              <div>
-                {{ getRelativeTime(item.timestamp) + " ago" }}
-              </div>
-            </div>
-            <div class="col-3">
-              <div class="row">
-                <div class="col-3">From </div>
-                <div class="col-9">{{ item.from }}</div>
-              </div>
-              <div class="row">
-                <div class="col-3">To </div>
-                <div class="col-9">{{ item.to }}</div>
-              </div>
-            </div>
-            <div class="col-2 gas-used">
-              <q-icon class="text-red" size="sm" name="mdi-fire" />
-              {{ item.gasUsed }} CAM
-            </div>
-          </template>
-        </list-card>
+        <transaction-list :transactions="transactions"></transaction-list>
       </div>
-
-
     </div>
   </q-page>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, Ref } from 'vue'
-import ListCard from 'src/components/ListCard.vue';
-import { Duration } from 'luxon'
+import { getRelativeTime } from 'src/utils/DisplayUtils'
 import { useCIndexStore } from 'src/stores/c-index-store'
+import BlockList from 'src/components/BlockList.vue';
+import TransactionList from 'src/components/TransactionList.vue';
+import { Transaction } from 'src/types/transaction';
 let searchInput: Ref<string> = ref('');
 
-function getRelativeTime(timestamp: Date) {
-  console.log('date', timestamp)
-  const duration = Duration.fromMillis(new Date().getTime() - timestamp.getTime()).shiftTo('seconds');
-  console.log('duration', duration.toHuman())
-  if (duration.seconds < 1) {
-    return 'less than one second'
-  } else if (duration.seconds < 60) {
-    return duration.toHuman({ maximumFractionDigits: 0 });
-  } else {
-    return duration.shiftTo('minutes').toHuman({ maximumFractionDigits: 0 })
-  }
-}
-
-
-function createMockTransactions() {
+function createMockTransactions(): Transaction[] {
   const olderTimstamp = new Date();
   olderTimstamp.setMinutes(olderTimstamp.getMinutes() - 1);
   console.log('olderTimestamp', olderTimstamp)
   return [{
-    from: '1',
-    to: '123456',
+    originAdress: '0x279f8940ca2a44c35ca3edf7d28945254d0f0ae6',
+    destinationAdress: '0xbbc0c798be9c5c857f0d6c51aa4a4ab2f5a197aa',
     hash: '0xeca18bc16551031a2a7032b2a0ea8e22977415adc0732012f2188e7dd083f1a3',
-    gasUsed: 11234556,
-    timestamp: olderTimstamp,
-    burned: 0.27,
+    fee: 11234556,
+    timestamp: new Date().getTime(),
+    status: 'success',
+    block: 1,
+    value: 233
   },
   {
-    from: '12341223',
-    to: '123456',
+    originAdress: '0x279f8940ca2a44c35ca3edf7d28945254d0f0ae6',
+    destinationAdress: '0xbbc0c798be9c5c857f0d6c51aa4a4ab2f5a197aa',
     hash: '0xeca18bc16551031a2a7032b2a0ea8e22977415adc0732012f2188e7dd083f1a3',
-    gasUsed: 11234556,
-    timestamp: new Date(),
-    burned: 0.27,
+    fee: 11234556,
+    timestamp: olderTimstamp.getTime(),
+    status: 'success',
+    block: 1,
+    value: 233
   }, {
-    from: '12341223',
-    to: '123456',
+    originAdress: '0x279f8940ca2a44c35ca3edf7d28945254d0f0ae6',
+    destinationAdress: '0xbbc0c798be9c5c857f0d6c51aa4a4ab2f5a197aa',
     hash: '0xeca18bc16551031a2a7032b2a0ea8e22977415adc0732012f2188e7dd083f1a3',
-    gasUsed: 11234556,
-    timestamp: new Date(),
-    burned: 0.27,
+    fee: 11234556,
+    timestamp: olderTimstamp.getTime(),
+    status: 'success',
+    block: 1,
+    value: 233
   }, {
-    from: '12341223',
-    to: '123456',
+    originAdress: '0x279f8940ca2a44c35ca3edf7d28945254d0f0ae6',
+    destinationAdress: '0xbbc0c798be9c5c857f0d6c51aa4a4ab2f5a197aa',
     hash: '0xeca18bc16551031a2a7032b2a0ea8e22977415adc0732012f2188e7dd083f1a3',
-    gasUsed: 11234556,
-    timestamp: new Date(),
-    burned: 0.27,
+    fee: 11234556,
+    timestamp: olderTimstamp.getTime(),
+    status: 'success',
+    block: 1,
+    value: 233
   }, {
-    from: '12341223',
-    to: '123456',
+    originAdress: '0x279f8940ca2a44c35ca3edf7d28945254d0f0ae6',
+    destinationAdress: '0xbbc0c798be9c5c857f0d6c51aa4a4ab2f5a197aa',
     hash: '0xeca18bc16551031a2a7032b2a0ea8e22977415adc0732012f2188e7dd083f1a3',
-    gasUsed: 11234556,
-    timestamp: new Date(),
-    burned: 0.27,
+    fee: 11234556,
+    timestamp: olderTimstamp.getTime(),
+    status: 'success',
+    block: 1,
+    value: 233
   },]
 }
 
 export default defineComponent({
   name: 'IndexPage',
-  
+
 
   async setup() {
     return {
@@ -161,7 +108,7 @@ export default defineComponent({
       getRelativeTime
     };
   },
-  components: { ListCard }
+  components: { BlockList, TransactionList }
 })
 </script>
 
@@ -180,7 +127,7 @@ export default defineComponent({
   border-radius: 30px
   display: flex
   align-items: center
-  align-content: start
+  align-content: flex-start
   justify-content: center
   justify-items: center
 .icon-background
@@ -192,7 +139,7 @@ export default defineComponent({
   border-radius: 30px
   display: flex
   align-items: center
-  align-content: start
+  align-content: flex-start
   justify-content: center
   justify-items: center
 .search-icon
@@ -200,7 +147,7 @@ export default defineComponent({
   border-radius: 30px
   display: flex
   align-items: center
-  align-content: start
+  align-content: flex-start
   justify-content: center
   justify-items: center
 </style>

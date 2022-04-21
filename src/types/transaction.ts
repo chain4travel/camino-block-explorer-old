@@ -3,12 +3,12 @@ export class Transaction {
   status: string; // enum?
   block: number;
   timestamp: EpochTimeStamp;
-  originAdress: String;
-  destinationAdress: String;
+  originAdress: string;
+  destinationAdress: string;
   value: number;
   fee: number;
 
-  constructor(hash: string, status: string, block: number, timestamp: EpochTimeStamp, originAdress: String, destinationAdress: String, value: number, fee: number) {
+  constructor(hash: string, status: string, block: number, timestamp: EpochTimeStamp, originAdress: string, destinationAdress: string, value: number, fee: number) {
     this.hash = hash;
     this.status = status;
     this.block = block;
