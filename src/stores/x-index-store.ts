@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia';
 import { Block } from 'src/types/block'
-import Web3 from 'web3'
 
 import {
   Avalanche,
@@ -22,8 +21,6 @@ export const useCIndexStore = defineStore('cindex', {
   },
   actions: {
     async loadBlocks(offset = 0, count = 10) : Promise<Block[]> {
-      const web3 = new Web3("ws://localhost:8545");
-
       const indexAPI = this.avalancheClient.Index();
       const lastAccepted = await indexAPI.getLastAccepted('hex', this.baseUrl);
       const currentIndex = parseInt(lastAccepted.index)

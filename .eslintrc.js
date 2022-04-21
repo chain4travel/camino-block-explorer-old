@@ -41,12 +41,13 @@ module.exports = {
   ],
 
   plugins: [
-    // required to apply rules which need type information
-    '@typescript-eslint',
 
     // https://eslint.vuejs.org/user-guide/#why-doesn-t-it-work-on-vue-files
     // required to lint *.vue files
-    'vue'
+    'vue',
+        // required to apply rules which need type information
+    '@typescript-eslint'
+
     
     // https://github.com/typescript-eslint/typescript-eslint/issues/389#issuecomment-509292674
     // Prettier has not been included as plugin to avoid performance impact

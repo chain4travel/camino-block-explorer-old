@@ -85,7 +85,11 @@ module.exports = configure(function (/* ctx */) {
           process: {
             env: 'Development'
           },
-        }
+        };
+        viteConf.resolve.alias.process = 'process/browser';
+        viteConf.resolve.alias.stream = 'stream-browserify';
+        viteConf.resolve.alias.zlib = 'browserify-zlib';
+        viteConf.resolve.alias.util = 'util';
       },
       // viteVuePluginOptions: {},
 
