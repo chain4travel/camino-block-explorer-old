@@ -1,35 +1,47 @@
 import { defineStore } from 'pinia';
-import { Block } from 'src/types/block'
 import Web3 from 'web3'
-
 import {
   Avalanche,
 } from 'avalanche'
 import { GetContainerRangeResponse } from 'avalanche/dist/apis/index/interfaces';
+
+import { Block } from 'src/types/block'
+import { useAppConfig } from 'src/stores/app-config'
 
 const clamp = (num: number, min: number, max: number) => Math.min(Math.max(num, min), max)
 
 const createBlock = (av_container, eth_block) => {
   return new Block(av_container.id,
     av_container.index,
-      new Date(Date.parse(av_container.timestamp)),
-      eth_block.hash,
-      eth_block.gasUsed,
-      eth_block.transactions.length
-      )
+    new Date(Date.parse(av_container.timestamp)),
+    eth_block.hash,
+    eth_block.gasUsed,
+    eth_block.transactions.length
+  )
 }
 
+const getAvalancheClient = () => {
+  const network = useAppConfig().getActive;
+  return new Avalanche(network.host, network.port, network.protocol);
+}
+
+const getWeb3Client = () => {
+  const network = useAppConfig().getActive;
+  return new Web3(`${network.protocol}://${network.host}:${network.port}/ext/bc/C/rpc`)
+}
+
+// s: await useCIndexStore().loadBlocks(),
 export const useCIndexStore = defineStore('cindex', {
   state: () => ({
     blocks: [] as Block[],
-    avalancheClient: new Avalanche('127.0.0.1', 9650, 'http', 12345),
+    avalancheClient: getAvalancheClient(),
     baseUrl: '/ext/index/C/block'
   }),
   getters: {
   },
   actions: {
-    async loadBlocks(offset = 0, count = 10) : Promise<Block[]> {
-      const web3 = new Web3("http://127.0.0.1:9650/ext/bc/C/rpc")
+    async loadBlocks(offset = 0, count = 10): Promise<Block[]> {
+      const web3 = getWeb3Client();
 
       const indexAPI = this.avalancheClient.Index();
       try {
