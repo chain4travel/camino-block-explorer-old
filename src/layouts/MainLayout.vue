@@ -38,7 +38,6 @@
       </q-scroll-area>
     </q-drawer>
 
-
     <body>
       <q-page-container>
         <Suspense>
@@ -46,8 +45,10 @@
             <router-view />
           </template>
           <template #fallback>
-            <p class="text-center text-body1" v-if="startupErrorCaptured">{{ "Error Initialising" }}</p>
-            <q-spinner v-else color="primary" size="5em" class="center" />
+            <div class="row">
+              <h5 class="col text-center" v-if="startupErrorCaptured">{{ "Error Initialising" }}</h5>
+              <q-spinner class="justify-center col" v-else color="primary" size="5em" />
+            </div>
           </template>
 
         </Suspense>
@@ -78,13 +79,10 @@ export default defineComponent({
   setup() {
     const { t } = useI18n();
     const router = useRouter();
-
     const startupErrorCaptured = ref(false);
     onErrorCaptured(() => {
       startupErrorCaptured.value = true;
     })
-
-
     leftDrawerOpen.value = false;
     // Can be optimized to filter earlier and not gather all routes
     let allRoutes: Array<RouteRecordRaw> = [];

@@ -1,7 +1,12 @@
 <template>
   <q-card>
     <q-card-section v-if="title">
-      <div class="text-subtitle1">{{ title }}</div>
+      <div class="row">
+        <div class="text-subtitle1 col-11">{{ title }}</div>
+        <div class="col-1">
+          <q-btn color="primary" icon="mdi-refresh" @click="() => $emit('refresh')" />
+        </div>
+      </div>
     </q-card-section>
     <q-card-section v-if="items.length > 0" class="container">
       <q-list dense bordered separator>
@@ -25,6 +30,7 @@ import { defineComponent, PropType } from 'vue'
 
 export default defineComponent({
   name: 'ListCard',
+  emits: ['refresh'],
   props: {
     title: { type: String, required: false },
     items: { type: Array, required: true }
@@ -33,7 +39,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="sass">
-* 
+*
   background: #27324C
   color: white
 </style>

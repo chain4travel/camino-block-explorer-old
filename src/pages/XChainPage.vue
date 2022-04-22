@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <chain-view @search="search" :blocks="blocks" :transactions="transactions"></chain-view>
+    <chain-view @search="search" :store="xStore" />
   </q-page>
 </template>
 
@@ -14,8 +14,7 @@ export default defineComponent({
   async setup() {
     const xStore = useXIndexStore();
     return {
-      blocks: await xStore.loadLatestBlocks(),
-      transactions: await xStore.loadLatestTransactions(),
+      xStore,
       search(value: string) {
         console.log('Seaching for ', value)
       }

@@ -1,5 +1,5 @@
 <template>
-  <list-card :title="title || 'Latest Blocks'" :items="blocks">
+  <list-card :title="title || 'Latest Blocks'" :items="blocks" @refresh="() => $emit('refresh')">
     <template v-slot="{ item }">
       <div class="col-1">
         <q-icon class="icon-background" size="sm" name="mdi-cube-outline" />
@@ -34,6 +34,7 @@ import ListCard from './ListCard.vue'
 
 export default defineComponent({
   name: 'BlockList',
+  emits: ['refresh'],
   props: {
     title: { type: String, required: false },
     blocks: { type: Array as PropType<Block[]>, required: true }

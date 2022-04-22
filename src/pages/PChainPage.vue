@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <chain-view @search="search" :blocks="blocks" :transactions="transactions"></chain-view>
+    <chain-view @search="search" :store="pStore" />
   </q-page>
 </template>
 
@@ -14,8 +14,7 @@ export default defineComponent({
   async setup() {
     const pStore = usePIndexStore();
     return {
-      blocks: await pStore.loadLatestBlocks(),
-      transactions: await pStore.loadLatestTransactions(),
+      pStore,
       search(value: string) {
         console.log('Seaching for ', value)
       }

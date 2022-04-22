@@ -1,5 +1,5 @@
 <template>
-  <list-card title="Latest Transactions" :items="transactions">
+  <list-card title="Latest Transactions" :items="transactions" @refresh="() => $emit('refresh')">
     <template v-slot="{ item }">
       <div class="col-1">
         <q-icon class="icon-background" size="sm" name="mdi-transfer" />
@@ -48,6 +48,7 @@ import { Transaction } from 'src/types/transaction'
 
 export default defineComponent({
   name: 'TransactionList',
+  emits: ['refresh'],
   props: {
     title: { type: String, required: false },
     transactions: { type: Array as PropType<Transaction[]>, required: true }

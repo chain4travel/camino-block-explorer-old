@@ -5,7 +5,7 @@ import { Transaction } from 'src/types/transaction';
 import { createMockBlock, createMockTransaction } from 'src/utils/mock-utils';
 
 
-export const useXIndexStore = defineStore('cindex', {
+export const useXIndexStore = defineStore('xindex', {
   state: () => ({
   }),
   getters: {
