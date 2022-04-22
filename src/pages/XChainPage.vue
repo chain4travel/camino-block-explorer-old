@@ -7,13 +7,15 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import ChainView from 'src/components/ChainView.vue'
+import { useXIndexStore } from 'src/stores/x-index-store';
 export default defineComponent({
   name: 'XChainPage',
   components: { ChainView },
-  setup() {
+  async setup() {
+    const xStore = useXIndexStore();
     return {
-      blocks: [],
-      transactions: [],
+      blocks: await xStore.loadLatestBlocks(),
+      transactions: await xStore.loadLatestTransactions(),
       search(value: string) {
         console.log('Seaching for ', value)
       }

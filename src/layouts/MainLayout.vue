@@ -42,7 +42,14 @@
     <body>
       <q-page-container>
         <Suspense>
-          <router-view />
+          <template #default>
+            <router-view />
+          </template>
+          <template #fallback>
+            <p class="text-center text-body1" v-if="startupErrorCaptured">{{ "Error Initialising" }}</p>
+            <q-spinner v-else color="primary" size="5em" class="center" />
+          </template>
+
         </Suspense>
       </q-page-container>
     </body>
@@ -50,7 +57,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, onErrorCaptured, ref } from 'vue'
 import { useI18n } from 'vue-i18n';
 import { RouteRecordRaw, useRouter } from 'vue-router';
 import type { ExternalMenuLink } from 'src/types/external-menu-link';
@@ -72,6 +79,12 @@ export default defineComponent({
     const { t } = useI18n();
     const router = useRouter();
 
+    const startupErrorCaptured = ref(false);
+    onErrorCaptured(() => {
+      startupErrorCaptured.value = true;
+    })
+
+
     leftDrawerOpen.value = false;
     // Can be optimized to filter earlier and not gather all routes
     let allRoutes: Array<RouteRecordRaw> = [];
@@ -92,6 +105,7 @@ export default defineComponent({
       t,
       menuRoutes,
       additionalMenuItems,
+      startupErrorCaptured
     };
   },
   components: { NetworkSelect }

@@ -7,13 +7,15 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import ChainView from 'src/components/ChainView.vue'
+import { usePIndexStore } from 'src/stores/p-index-store'
 export default defineComponent({
   name: 'PChainPage',
   components: { ChainView },
-  setup() {
+  async setup() {
+    const pStore = usePIndexStore();
     return {
-      blocks: [],
-      transactions: [],
+      blocks: await pStore.loadLatestBlocks(),
+      transactions: await pStore.loadLatestTransactions(),
       search(value: string) {
         console.log('Seaching for ', value)
       }

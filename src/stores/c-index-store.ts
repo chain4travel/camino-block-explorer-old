@@ -7,11 +7,13 @@ import { GetContainerRangeResponse } from 'avalanche/dist/apis/index/interfaces'
 
 import { Block } from 'src/types/block'
 import { useAppConfig } from 'src/stores/app-config'
+import { Transaction } from 'src/types/transaction';
+import { createMockTransaction } from 'src/utils/mock-utils';
 
 const clamp = (num: number, min: number, max: number) => Math.min(Math.max(num, min), max)
 
-function createBlock(av_container: Record<string, unknown>, eth_block: Record<string, unknown>) : Block {
-  return <Block> {
+function createBlock(av_container: Record<string, unknown>, eth_block: Record<string, unknown>): Block {
+  return <Block>{
     id: av_container.id,
     height: av_container.index,
     timestamp: new Date(Date.parse(av_container.timestamp as string)),
@@ -41,7 +43,7 @@ export const useCIndexStore = defineStore('cindex', {
   getters: {
   },
   actions: {
-    async loadBlocks(offset = 0, count = 10): Promise<Block[]> {
+    async loadLatestBlocks(offset = 0, count = 10): Promise<Block[]> {
       const web3 = getWeb3Client();
 
       const indexAPI = this.avalancheClient.Index();
@@ -59,7 +61,6 @@ export const useCIndexStore = defineStore('cindex', {
           console.log(eth3_block);
           blocks.unshift(block);
         }
-
         return blocks;
       } catch (e) {
         console.error(e);
@@ -67,5 +68,12 @@ export const useCIndexStore = defineStore('cindex', {
         return [];
       }
     },
+    async loadLatestTransactions(offset = 0, count = 10): Promise<Transaction[]> {
+      const transactions = [];
+      for (let i = offset; i < count; i++) {
+        transactions.unshift(createMockTransaction(offset));
+      }
+      return Promise.resolve(transactions);
+    }
   },
 });
