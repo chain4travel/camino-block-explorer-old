@@ -1,26 +1,28 @@
 <template>
   <list-card :title="title || 'Latest Blocks'" :items="blocks" @refresh="() => $emit('refresh')">
     <template v-slot="{ item }">
-      <div class="col-1">
-        <q-icon class="icon-background" size="sm" name="mdi-cube-outline" />
-      </div>
-      <div class="col-6">
-        <div>
-          {{ item.height }}</div>
-        <div>
-          {{ getRelativeTime(item.timestamp) + " ago" }}
+      <div @click="() => $emit('row-clicked', item)" class="row">
+        <div class="col-1">
+          <q-icon class="icon-background" size="sm" name="mdi-cube-outline" />
         </div>
-      </div>
-      <div class="col-3">
-        {{ item.transactions }}<br>
-        {{ displayLongString(item.hash) }}
-        <q-tooltip>
-          {{ item.hash }}
-        </q-tooltip>
-      </div>
-      <div class="col-2 burn-icon">
-        <q-icon class="text-red" size="sm" name="mdi-fire" />
-        {{ item.burned }} WEI
+        <div class="col-6">
+          <div>
+            {{ item.height }}</div>
+          <div>
+            {{ getRelativeTime(item.timestamp) + " ago" }}
+          </div>
+        </div>
+        <div class="col-3">
+          {{ item.transactions }}<br>
+          {{ displayLongString(item.hash) }}
+          <q-tooltip>
+            {{ item.hash }}
+          </q-tooltip>
+        </div>
+        <div class="col-2 burn-icon">
+          <q-icon class="text-red" size="sm" name="mdi-fire" />
+          {{ item.burned }} WEI
+        </div>
       </div>
     </template>
   </list-card>
@@ -34,7 +36,7 @@ import ListCard from './ListCard.vue'
 
 export default defineComponent({
   name: 'BlockList',
-  emits: ['refresh'],
+  emits: ['refresh', 'row-clicked'],
   props: {
     title: { type: String, required: false },
     blocks: { type: Array as PropType<Block[]>, required: true }

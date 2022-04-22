@@ -12,9 +12,7 @@
       <q-list dense bordered separator>
         <q-item v-for="item, index in items" :key="index" clickable v-ripple>
           <q-item-section>
-            <div class="row">
               <slot :item="item"></slot>
-            </div>
           </q-item-section>
         </q-item>
       </q-list>
@@ -26,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'ListCard',
