@@ -16,8 +16,26 @@
             {{ route?.name }} </router-link>
           <a class="text-white q-mr-md no-underscore" v-for="link in additionalMenuItems" :key="link.name"
             :href="link.href" target="_blank">{{ link.name }}</a>
-          <q-select style="min-width: auto;" dense size="sm" dark rounded outlined v-model="selectedNetwork"
-            :options="networkOptions" @update:model-value="networkSelectionChanged" />
+          <q-select dense dark rounded outlined v-model="selectedNetwork" :options="networkOptions"
+            @update:model-value="networkSelectionChanged">
+            <template v-slot:prepend>
+              <q-icon class="text-white" size="xs" name="mdi-web" />
+            </template>
+            <template v-slot:option="scope">
+              <q-item v-bind="scope.itemProps" :class="scope.opt.value === undefined ? 'test' : ''">
+                <q-item-section>
+                  <q-item-label>
+                    {{ scope.opt.label }}
+                  </q-item-label>
+                </q-item-section>
+                <q-item-section v-if="canBeDeleted(scope.opt.value, scope.selected)" side top>
+                  <q-btn @click.stop="removeNetworkOption(scope.index)" round size="sm" color="primary"
+                    icon="mdi-delete-forever" />
+                </q-item-section>
+              </q-item>
+            </template>
+
+          </q-select>
         </div>
       </q-toolbar>
     </q-header>
@@ -57,6 +75,8 @@ import { useI18n } from 'vue-i18n';
 import { RouteRecordRaw, useRouter } from 'vue-router';
 import type { ExternalMenuLink } from 'src/types/external-menu-link';
 import AddNetworkDialog from 'src/components/dialogs/AddNetworkDialog.vue';
+import { useAppConfig } from 'src/stores/app-config';
+import { Network } from 'src/types/network';
 
 const leftDrawerOpen = ref(false)
 
@@ -67,11 +87,21 @@ function addAllChildRoutes(gathered: Array<RouteRecordRaw>, route: RouteRecordRa
   }
 }
 
+function createNetworkOptions(networks: Network[]): Array<{ label: string, value: Network | undefined }> {
+  const networkOptions = networks.map(network => ({
+    label: network.displayName,
+    value: network as Network | undefined
+  }));
+  networkOptions.push({ label: 'Create new Network', value: undefined });
+  return networkOptions
+}
+
 export default defineComponent({
   name: 'MainLayout',
   setup() {
     const { t } = useI18n();
     const router = useRouter();
+    const appConfig = useAppConfig();
     leftDrawerOpen.value = false;
     // Can be optimized to filter earlier and not gather all routes
     let allRoutes: Array<RouteRecordRaw> = [];
@@ -84,10 +114,9 @@ export default defineComponent({
       { name: 'Documentation', href: 'https://docs.camino.foundation' },
       { name: 'Wallet', href: 'https://wallet.camino.foundation' }
     ] as ExternalMenuLink[];
-    const networkOptions = ['Mainnet', 'Columbus', 'Local'];
     const showNewNetworkDialog = ref(false);
-    const selectedNetwork = ref('Mainnet')
-    networkOptions.push('Create New Network');
+    const networkOptions = ref(createNetworkOptions(appConfig.getAllNetworks));
+    const selectedNetwork = ref(networkOptions.value.find(e => e.value === appConfig.getActive) || networkOptions.value[0])
     return {
       leftDrawerOpen,
       toggleLeftDrawer() {
@@ -99,17 +128,31 @@ export default defineComponent({
       networkOptions,
       selectedNetwork,
       showNewNetworkDialog,
-      networkSelectionChanged(value: string) {
-        console.log('network select changed', value);
-        //CLEAN UP!!!!
-        if (value === 'Create New Network') {
+      networkSelectionChanged(selectedOption: { label: string, value: Network }) {
+        if (selectedOption.value === undefined) {
           showNewNetworkDialog.value = true;
+        } else {
+          //TODO handle sucess/not success!
+          appConfig.setActive(selectedOption.value.id)
         }
       },
-      createNewNetwork(value: object) {
-        console.log('Creating new network', JSON.stringify(value));
-        selectedNetwork.value = 'Mainnet';
+      createNewNetwork(value: Network) {
+        appConfig.pushNetwork(value);
+        appConfig.setActive(value.id);
+        selectedNetwork.value = { label: value.displayName, value: value }
+        networkOptions.value.splice(networkOptions.value.length - 1, 0, { label: value.displayName, value: value })
         showNewNetworkDialog.value = false;
+      },
+      removeNetworkOption(index: number) {
+        const network = networkOptions.value[index];
+        if (network.value === undefined) {
+          return;
+        }
+        appConfig.removeNetwork(network.value.id)
+        networkOptions.value = createNetworkOptions(appConfig.getAllNetworks);
+      },
+      canBeDeleted(value: Network, selected: boolean) {
+        return value !== undefined && !value.predefined && !selected
       }
     };
   },
@@ -126,4 +169,6 @@ a
   align-items: center
 .router-link-exact-active
   color: $primary !important
+.test
+  background-color: $primary
 </style>

@@ -7,7 +7,7 @@ export const useAppConfig = defineStore({
     activeNetwork: 'camino-local',
     networks: [
       {
-        name: 'camino-mainnet',
+        id: 'camino-mainnet',
         displayName: 'Camino MainNet',
         protocol: 'http',
         host: '127.0.0.1',
@@ -15,7 +15,7 @@ export const useAppConfig = defineStore({
         predefined: true
       }, //TODO: changeme
       {
-        name: 'camino-testnet',
+        id: 'camino-testnet',
         displayName: 'Camino TestNet',
         protocol: 'http',
         host: '127.0.0.1',
@@ -23,7 +23,7 @@ export const useAppConfig = defineStore({
         predefined: true
       }, //TODO: changeme,
       {
-        name: 'camino-local',
+        id: 'camino-local',
         displayName: 'Camino Local',
         protocol: 'http',
         host: '127.0.0.1',
@@ -38,14 +38,14 @@ export const useAppConfig = defineStore({
       return this.networks.concat(this.customNetworks);
     },
     getActive(): Network {
-      return this.networks.find(network => network.name === this.activeNetwork) || this.networks[0];
+      return this.networks.find(network => network.id === this.activeNetwork) || this.networks[0];
     },
   },
   actions: {
-    setActive(name: string): boolean {
-      const newActiveNewtork = this.networks.find(network => network.name === name)
+    setActive(id: string): boolean {
+      const newActiveNewtork = this.getAllNetworks.find(network => network.id === id)
       if (newActiveNewtork) {
-        this.activeNetwork = name;
+        this.activeNetwork = id;
         return true;
       } else {
         return false
@@ -54,9 +54,9 @@ export const useAppConfig = defineStore({
     pushNetwork(network: Network) {
       this.customNetworks.push(network);
     },
-    removeNetwork(name: string) {
+    removeNetwork(id: string) {
       this.customNetworks = this.customNetworks.filter((value) => {
-        value.name !== name;
+        return value.id !== id;
       });
     }
   }

@@ -1,5 +1,5 @@
 export interface Network {
-  name: string;
+  id: string;
   displayName: string;
   protocol: string;
   host: string;
