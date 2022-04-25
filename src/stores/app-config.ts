@@ -38,7 +38,7 @@ export const useAppConfig = defineStore({
       return this.networks.concat(this.customNetworks);
     },
     getActive(): Network {
-      return this.networks.find(network => network.id === this.activeNetwork) || this.networks[0];
+      return this.getAllNetworks.find(network => network.id === this.activeNetwork) || this.networks[0];
     },
   },
   actions: {

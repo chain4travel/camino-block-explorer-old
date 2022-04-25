@@ -37,7 +37,6 @@ const getWeb3Client = () => {
 export const useCIndexStore = defineStore('cindex', {
   state: () => ({
     blocks: [] as Block[],
-    avalancheClient: getAvalancheClient(),
     baseUrl: '/ext/index/C/block'
   }),
   getters: {
@@ -46,7 +45,9 @@ export const useCIndexStore = defineStore('cindex', {
     async loadLatestBlocks(offset = 0, count = 10): Promise<Block[]> {
       const web3 = getWeb3Client();
 
-      const indexAPI = this.avalancheClient.Index();
+      const avalancheClient = getAvalancheClient();
+
+      const indexAPI = avalancheClient.Index();
       try {
         const lastAccepted = await indexAPI.getLastAccepted('hex', this.baseUrl);
         const currentIndex = parseInt(lastAccepted.index)
