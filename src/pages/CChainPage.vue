@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <chain-view @search="search" :store="cStore" />
+    <chain-view @search="search" :store="cStore" :type="chainType" />
   </q-page>
 </template>
 
@@ -9,6 +9,7 @@ import { defineComponent, ref } from 'vue'
 import { getRelativeTime } from 'src/utils/display-utils'
 import { useCIndexStore } from 'src/stores/c-index-store'
 import ChainView from 'src/components/ChainView.vue';
+import { ChainType } from 'src/types/chain-type';
 
 export default defineComponent({
   name: 'CChainPage',
@@ -18,6 +19,7 @@ export default defineComponent({
     const cStore = useCIndexStore();
     return {
       cStore,
+      chainType: ChainType.C_CHAIN,
       getRelativeTime,
       search(value: string) {
         console.log('Searching for value', value);

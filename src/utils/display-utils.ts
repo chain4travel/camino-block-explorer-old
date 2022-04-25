@@ -12,7 +12,13 @@ export function getRelativeTime(timestamp: Date | number) {
   }
 }
 
-
 export function displayLongString(val: string, maxLength = 12): string {
   return val.substring(0, maxLength) + '...';
+}
+
+export function getStringOrFirstElement(param: string | string[]) {
+  if (param instanceof Array) {
+    return param[0];
+  }
+  return param;
 }

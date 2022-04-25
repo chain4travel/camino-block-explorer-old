@@ -8,7 +8,7 @@ import { GetContainerRangeResponse } from 'avalanche/dist/apis/index/interfaces'
 import { Block } from 'src/types/block'
 import { useAppConfig } from 'src/stores/app-config'
 import { Transaction } from 'src/types/transaction';
-import { createMockTransaction } from 'src/utils/mock-utils';
+import { createMockBlock, createMockTransaction } from 'src/utils/mock-utils';
 
 const clamp = (num: number, min: number, max: number) => Math.min(Math.max(num, min), max)
 
@@ -74,6 +74,16 @@ export const useCIndexStore = defineStore('cindex', {
         transactions.unshift(createMockTransaction(offset));
       }
       return Promise.resolve(transactions);
+    },
+    async loadTransactionById(transactionId: string): Promise<Transaction> {
+      const mock = createMockTransaction(1);
+      mock.hash = transactionId;
+      return Promise.resolve(mock);
+    },
+    async loadByBlockId(blockId: string): Promise<block> {
+      const mock = createMockBlock(0, 1);
+      mock.hash = blockId;
+      return Promise.resolve(mock);
     }
   },
 });

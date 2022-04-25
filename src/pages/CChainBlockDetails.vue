@@ -3,8 +3,7 @@
     <!-- content -->
     <div class="row">
       <div class="offset-2 col-8">
-        <details-view :title="'C-Chain Transaction ' + transactionId" :back-route="backroute"
-          :content="loadedTransaction">
+        <details-view :title="'C-Chain Bock ' + blockId" :back-route="backroute" :content="loadedBlock">
         </details-view>
       </div>
     </div>
@@ -21,17 +20,16 @@ import { ChainType } from 'src/types/chain-type';
 import { useCIndexStore } from 'src/stores/c-index-store';
 import { getStringOrFirstElement } from 'src/utils/display-utils';
 
-
 export default defineComponent({
-  name: 'CChainTransactionDetails',
+  name: 'CChainBlockdetails',
   components: { DetailsView },
   async setup() {
     const route = useRoute();
     const cChain = useCIndexStore();
     return {
-      transactionId: route.params.transactionId,
+      blockId: route.params.blockId,
       backroute: getBasePath(ChainType.C_CHAIN),
-      loadedTransaction: await cChain.loadTransactionById(getStringOrFirstElement(route.params.transactionId))
+      loadedBlock: await cChain.loadByBlockId(getStringOrFirstElement(route.params.blockId))
     }
   }
 })
