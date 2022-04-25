@@ -9,7 +9,7 @@
             :rules="[val => val && val.length > 0 || 'Please type something']" />
           <q-input filled v-model="form.host" label="Host" lazy-rules
             :rules="[val => val && val.length > 0 || 'Please type something']" />
-          <q-input type="number" filled v-model="form.port" label="Port" lazy-rules
+          <q-input type="number" filled v-model.number="form.port" label="Port" lazy-rules
             :rules="[val => val && val > 0 || 'Please type something']" />
           <q-card-actions>
             <q-btn icon-right="cancel" label="Cancel" @click="onClose" class="text-dark" />

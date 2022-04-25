@@ -1,10 +1,11 @@
 import { defineStore } from 'pinia'
 import { Network } from 'src/types/network'
+import { useStorage } from '@vueuse/core'
 
 export const useAppConfig = defineStore({
   id: 'appConfig',
   state: () => ({
-    activeNetwork: 'camino-local',
+    activeNetwork: useStorage('cam-explorer-active-network', 'camino-local'),
     networks: [
       {
         id: 'camino-mainnet',
@@ -31,7 +32,7 @@ export const useAppConfig = defineStore({
         predefined: true
       },
     ] as Network[],
-    customNetworks: [] as Network[]
+    customNetworks: useStorage('cam-explorer-custom-networks', [] as Network[])
   }),
   getters: {
     getAllNetworks(): Network[] {

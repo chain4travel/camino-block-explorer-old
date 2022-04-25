@@ -25,7 +25,7 @@ import { ChainViewLoader } from 'src/types/chain-view-loader';
 import { Block } from 'src/types/block';
 import { Transaction } from 'src/types/transaction';
 import { useRouter } from 'vue-router';
-import { getBlockDetailsPath, getTransactionDetailsPath, getTransactionsPathName } from 'src/utils/route-utils';
+import { getBlockDetailsPath, getTransactionDetailsPath } from 'src/utils/route-utils';
 import { ChainType } from 'src/types/chain-type';
 
 export default defineComponent({
