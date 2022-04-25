@@ -24,6 +24,16 @@ export const useXIndexStore = defineStore('xindex', {
         transactions.unshift(createMockTransaction(offset));
       }
       return Promise.resolve(transactions);
+    },
+    async loadTransactionById(transactionId: string): Promise<Transaction> {
+      const mock = createMockTransaction(1);
+      mock.hash = transactionId;
+      return Promise.resolve(mock);
+    },
+    async loadByBlockId(blockId: string): Promise<Block> {
+      const mock = createMockBlock(0, 1);
+      mock.hash = blockId;
+      return Promise.resolve(mock);
     }
   },
 });

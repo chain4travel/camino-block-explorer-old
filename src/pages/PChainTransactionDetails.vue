@@ -3,10 +3,12 @@
     <!-- content -->
     <div class="row">
       <div class="offset-2 col-8">
-        <details-view :title="'C-Chain Block ' + blockId" :back-route="backroute" :content="loadedBlock">
+        <details-view :title="'P-Chain Transaction ' + transactionId" :back-route="backroute"
+          :content="loadedTransaction">
         </details-view>
       </div>
     </div>
+
   </q-page>
 </template>
 
@@ -16,19 +18,20 @@ import DetailsView from 'src/components/DetailsView.vue'
 import { useRoute } from 'vue-router'
 import { getBasePath } from 'src/utils/route-utils';
 import { ChainType } from 'src/types/chain-type';
-import { useCIndexStore } from 'src/stores/c-index-store';
 import { getStringOrFirstElement } from 'src/utils/display-utils';
+import { usePIndexStore } from 'src/stores/p-index-store';
+
 
 export default defineComponent({
-  name: 'CChainBlockdetails',
+  name: 'PChainTransactionDetails',
   components: { DetailsView },
   async setup() {
     const route = useRoute();
-    const cChain = useCIndexStore();
+    const pChain = usePIndexStore();
     return {
-      blockId: route.params.blockId,
-      backroute: getBasePath(ChainType.C_CHAIN),
-      loadedBlock: await cChain.loadByBlockId(getStringOrFirstElement(route.params.blockId))
+      transactionId: route.params.transactionId,
+      backroute: getBasePath(ChainType.P_CHAIN),
+      loadedTransaction: await pChain.loadTransactionById(getStringOrFirstElement(route.params.transactionId))
     }
   }
 })

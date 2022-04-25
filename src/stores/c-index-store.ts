@@ -80,7 +80,7 @@ export const useCIndexStore = defineStore('cindex', {
       mock.hash = transactionId;
       return Promise.resolve(mock);
     },
-    async loadByBlockId(blockId: string): Promise<block> {
+    async loadByBlockId(blockId: string): Promise<Block> {
       const mock = createMockBlock(0, 1);
       mock.hash = blockId;
       return Promise.resolve(mock);
