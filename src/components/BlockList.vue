@@ -13,11 +13,8 @@
           </div>
         </div>
         <div class="col-3">
-          {{ item.transactions }}<br>
-          {{ displayLongString(item.hash) }}
-          <q-tooltip>
-            {{ item.hash }}
-          </q-tooltip>
+          {{ item.transactions.length }}<br>
+          <long-string :value="item.hash" :max-length="15"></long-string>
         </div>
         <div class="col-2 burn-icon">
           <q-icon class="text-red" size="sm" name="mdi-fire" />
@@ -33,6 +30,7 @@ import { Block } from 'src/types/block'
 import { defineComponent, PropType } from 'vue'
 import { getRelativeTime, displayLongString } from 'src/utils/display-utils'
 import ListCard from './ListCard.vue'
+import LongString from './ui/LongString.vue'
 
 export default defineComponent({
   name: 'BlockList',
@@ -44,6 +42,6 @@ export default defineComponent({
   setup() {
     return { getRelativeTime, displayLongString };
   },
-  components: { ListCard }
+  components: { ListCard, LongString }
 })
 </script>

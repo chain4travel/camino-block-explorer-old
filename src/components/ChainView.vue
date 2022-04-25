@@ -55,7 +55,7 @@ export default defineComponent({
       },
       openBlockDetail(item: Block) {
         console.log('Opening block detail', item)
-        router.push(getBlockDetailsPath(props.type, item.hash))
+        router.push(getBlockDetailsPath(props.type, item.id))
       },
       openTransactionDetail(item: Transaction) {
         console.log('Opening transaction detail', item)

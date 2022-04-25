@@ -11,7 +11,10 @@
           <q-item-section>
             {{ key }}
           </q-item-section>
-          <q-item-section>{{ value }}</q-item-section>
+          <q-item-section>
+            <LongString v-if="value" :value="value" :max-length="64"></LongString>
+            <div v-else>{{ "" }}</div>
+          </q-item-section>
         </q-item>
       </q-list>
     </q-card-section>
@@ -23,6 +26,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
+import LongString from './ui/LongString.vue'
 export default defineComponent({
   name: 'TransactionDetails',
   props: {
@@ -31,9 +35,10 @@ export default defineComponent({
     content: { type: Object as PropType<object>, required: true }
   },
   setup(props) {
-    console.log(Object.entries(props.content))
-    return {}
-  }
+    console.log(Object.entries(props.content));
+    return {};
+  },
+  components: { LongString }
 })
 </script>
 

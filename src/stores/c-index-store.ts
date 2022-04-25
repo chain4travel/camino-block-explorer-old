@@ -8,18 +8,18 @@ import { GetContainerRangeResponse } from 'avalanche/dist/apis/index/interfaces'
 import { Block } from 'src/types/block'
 import { useAppConfig } from 'src/stores/app-config'
 import { Transaction } from 'src/types/transaction';
-import { createMockBlock, createMockTransaction } from 'src/utils/mock-utils';
 
 const clamp = (num: number, min: number, max: number) => Math.min(Math.max(num, min), max)
 
 function createBlock(av_container: Record<string, unknown>, eth_block: Record<string, unknown>): Block {
   return <Block>{
+    ...eth_block,
     id: av_container.id,
     height: av_container.index,
     timestamp: new Date(Date.parse(av_container.timestamp as string)),
     hash: eth_block.hash,
     burned: eth_block.gasUsed,
-    transactions: (eth_block.transactions as Array<unknown>).length
+    transactions: (eth_block.transactions as Array<unknown>),
   }
 }
 
@@ -42,7 +42,10 @@ export const useCIndexStore = defineStore('cindex', {
   getters: {
   },
   actions: {
-    async loadLatestBlocks(offset = 0, count = 10): Promise<Block[]> {
+    async loadLatestBlocks(offset = 0, count = 10, forceReload = false): Promise<Block[]> {
+      if (!forceReload && this.blocks && this.blocks.length > 0) {
+        return this.blocks;
+      }
       const web3 = getWeb3Client();
 
       const avalancheClient = getAvalancheClient();
@@ -57,12 +60,14 @@ export const useCIndexStore = defineStore('cindex', {
 
         const blocks: Block[] = [];
         for (const container of containerList.containers) {
+          console.log('Av container', container)
           const eth3_block = await web3.eth.getBlock(container.index,);
           const block = createBlock(container, eth3_block);
           console.log(eth3_block);
           blocks.unshift(block);
         }
-        return blocks;
+        this.blocks = blocks;
+        return this.blocks;
       } catch (e) {
         console.error(e);
         // todo add q notify as display of error! (or throw and let component deal with it)
@@ -71,20 +76,39 @@ export const useCIndexStore = defineStore('cindex', {
     },
     async loadLatestTransactions(offset = 0, count = 10): Promise<Transaction[]> {
       const transactions = [];
-      for (let i = offset; i < count; i++) {
-        transactions.unshift(createMockTransaction(offset));
+      const latestBlocks = await this.loadLatestBlocks();
+      const web3 = getWeb3Client();
+      for (const block of latestBlocks) {
+        for (const singleTransaction of block.transactions || []) {
+          const transaction = await web3.eth.getTransaction(singleTransaction)
+          const receipt = await web3.eth.getTransactionReceipt(singleTransaction);
+          console.log('transaction', transaction);
+          console.log('receipt', receipt);
+          transactions.push(<Transaction>{
+            ...transaction,
+            ...receipt,
+            timestamp: block.timestamp
+          })
+        }
       }
-      return Promise.resolve(transactions);
+      return transactions;
     },
     async loadTransactionById(transactionId: string): Promise<Transaction> {
-      const mock = createMockTransaction(1);
-      mock.hash = transactionId;
-      return Promise.resolve(mock);
+      const web3 = getWeb3Client();
+      const transaction = await web3.eth.getTransaction(transactionId);
+      const receipt = await web3.eth.getTransactionReceipt(transactionId);
+      return { ...transaction, ...receipt }
     },
     async loadByBlockId(blockId: string): Promise<Block> {
-      const mock = createMockBlock(0, 1);
-      mock.hash = blockId;
-      return Promise.resolve(mock);
+      const web3 = getWeb3Client();
+      const avalancheClient = getAvalancheClient();
+      const indexAPI = avalancheClient.Index();
+      const container = await indexAPI.getContainerByID(blockId, 'hex', this.baseUrl);
+      console.log('Container Loaded yay', container)
+      const eth3_block = await web3.eth.getBlock(container.index);
+      console.log('eth block Loaded yay', container)
+      const block = createBlock(container, eth3_block);
+      return block;
     }
   },
 });

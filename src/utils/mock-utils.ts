@@ -22,11 +22,11 @@ export function createMockBlock(offset: number, index: number): Block {
 export function createMockTransaction(offset: number): Transaction {
   const fee = Math.random() * 21000;
   return {
-    originAdress: createHash(),
-    destinationAdress: createHash(),
+    from: createHash(),
+    to: createHash(),
     block: offset + 1,
     hash: createHash(),
-    fee,
+    gasPrice: fee,
     status: Math.random() > 0.95 ? 'fail' : 'success',
     value: fee + Math.random() * 50000,
     timestamp: Date.now()

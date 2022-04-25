@@ -18,24 +18,20 @@
         <div class="col-3">
           <div class="row">
             <div class="col-3">From </div>
-            <div class="col-9">{{ displayLongString(item.originAdress) }}
-              <q-tooltip>
-                {{ item.originAdress }}
-              </q-tooltip>
+            <div class="col-9">
+              <long-string :value="item.from" :max-length="15"></long-string>
             </div>
           </div>
           <div class="row">
             <div class="col-3">To </div>
-            <div class="col-9">{{ displayLongString(item.destinationAdress) }}
-              <q-tooltip>
-                {{ item.destinationAdress }}
-              </q-tooltip>
+            <div class="col-9">
+              <long-string :value="item.to" :max-length="15"></long-string>
             </div>
           </div>
         </div>
         <div class="col-2 gas-used">
           <q-icon class="text-red" size="sm" name="img:src/assets/camino-coin-logo.png" />
-          {{ item.fee }} CAM
+          {{ item.gasPrice }} WEI
         </div>
       </div>
     </template>
@@ -47,6 +43,7 @@ import { defineComponent, PropType } from 'vue'
 import { getRelativeTime, displayLongString } from 'src/utils/display-utils'
 import ListCard from './ListCard.vue'
 import { Transaction } from 'src/types/transaction'
+import LongString from './ui/LongString.vue'
 
 export default defineComponent({
   name: 'TransactionList',
@@ -58,6 +55,6 @@ export default defineComponent({
   setup() {
     return { getRelativeTime, displayLongString };
   },
-  components: { ListCard }
+  components: { ListCard, LongString }
 })
 </script>
