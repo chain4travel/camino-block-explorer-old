@@ -30,7 +30,7 @@
           </div>
         </div>
         <div class="col-2 gas-used">
-          <q-icon class="text-red" size="sm" name="img:src/assets/camino-coin-logo.png" />
+          <q-icon class="text-red" size="sm" name="img:camino-coin-logo.png" />
           {{ item.gasPrice }} WEI
         </div>
       </div>

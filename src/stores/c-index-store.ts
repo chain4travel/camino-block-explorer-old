@@ -37,19 +37,18 @@ const getWeb3Client = () => {
 export const useCIndexStore = defineStore('cindex', {
   state: () => ({
     blocks: [] as Block[],
+    transactions: [] as Transaction[],
     baseUrl: '/ext/index/C/block'
   }),
   getters: {
   },
   actions: {
-    async loadLatestBlocks(offset = 0, count = 10, forceReload = false): Promise<Block[]> {
+    async loadLatestBlocks(forceReload = false, offset = 0, count = 10): Promise<Block[]> {
       if (!forceReload && this.blocks && this.blocks.length > 0) {
         return this.blocks;
       }
       const web3 = getWeb3Client();
-
       const avalancheClient = getAvalancheClient();
-
       const indexAPI = avalancheClient.Index();
       try {
         const lastAccepted = await indexAPI.getLastAccepted('hex', this.baseUrl);
@@ -57,13 +56,11 @@ export const useCIndexStore = defineStore('cindex', {
         const start_index = clamp(currentIndex - offset - count, 0, currentIndex)
 
         const containerList: GetContainerRangeResponse[] = await indexAPI.getContainerRange(start_index, count, 'hex', this.baseUrl)
-
         const blocks: Block[] = [];
         for (const container of containerList.containers) {
           console.log('Av container', container)
-          const eth3_block = await web3.eth.getBlock(container.index,);
+          const eth3_block = await web3.eth.getBlock(container.index);
           const block = createBlock(container, eth3_block);
-          console.log(eth3_block);
           blocks.unshift(block);
         }
         this.blocks = blocks;
@@ -74,7 +71,10 @@ export const useCIndexStore = defineStore('cindex', {
         return [];
       }
     },
-    async loadLatestTransactions(offset = 0, count = 10): Promise<Transaction[]> {
+    async loadLatestTransactions(forceReload = false, offset = 0, count = 10): Promise<Transaction[]> {
+      if (!forceReload && this.transactions && this.transactions.length > 0) {
+        return this.transactions;
+      }
       const transactions = [];
       const latestBlocks = await this.loadLatestBlocks();
       const web3 = getWeb3Client();
@@ -91,6 +91,7 @@ export const useCIndexStore = defineStore('cindex', {
           })
         }
       }
+      this.transactions = transactions;
       return transactions;
     },
     async loadTransactionById(transactionId: string): Promise<Transaction> {

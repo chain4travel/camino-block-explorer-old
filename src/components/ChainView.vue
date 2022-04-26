@@ -38,8 +38,8 @@ export default defineComponent({
   },
   async setup(props, { emit }) {
     const router = useRouter();
-    const blocks = ref(await props.store?.loadLatestBlocks())
-    const transactions = ref(await props.store?.loadLatestTransactions())
+    const blocks = ref(await props.store?.loadLatestBlocks(true))
+    const transactions = ref(await props.store?.loadLatestTransactions(true))
 
     return {
       blocks,
@@ -48,10 +48,10 @@ export default defineComponent({
         emit('search', value);
       },
       async refreshBlocks() {
-        blocks.value = await props.store?.loadLatestBlocks()
+        blocks.value = await props.store?.loadLatestBlocks(true)
       },
       async refreshTransactions() {
-        transactions.value = await props.store?.loadLatestTransactions()
+        transactions.value = await props.store?.loadLatestTransactions(true)
       },
       openBlockDetail(item: Block) {
         console.log('Opening block detail', item)
@@ -59,6 +59,9 @@ export default defineComponent({
       },
       openTransactionDetail(item: Transaction) {
         console.log('Opening transaction detail', item)
+        if (!item.hash) {
+          return;
+        }
         router.push(getTransactionDetailsPath(props.type, item.hash))
       }
     }

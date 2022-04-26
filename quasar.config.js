@@ -80,17 +80,12 @@ module.exports = configure(function (/* ctx */) {
       // distDir
 
       extendViteConf (viteConf) {
-        viteConf.define = {
-          global: {},
-          process: {
-            env: 'Development'
-          },
-        };
         viteConf.resolve.alias.process = 'process/browser';
         viteConf.resolve.alias.stream = 'stream-browserify';
         viteConf.resolve.alias.http = 'agent-base';
         viteConf.resolve.alias.zlib = 'browserify-zlib';
         viteConf.resolve.alias.util = 'util';
+        viteConf.resolve.alias.web3 = 'web3/dist/web3.min.js'
       },
       // viteVuePluginOptions: {},
 
@@ -108,7 +103,7 @@ module.exports = configure(function (/* ctx */) {
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#devServer
     devServer: {
       // https: true
-      open: true // opens browser window automatically
+      open: true // opens browser window automatically,
     },
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#framework

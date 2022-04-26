@@ -2,6 +2,6 @@ import { Block } from './block';
 import { Transaction } from './transaction';
 
 export interface ChainViewLoader {
-  loadLatestBlocks(): Promise<Block[]>;
-  loadLatestTransactions(): Promise<Transaction[]>;
+  loadLatestBlocks(forceRefresh: boolean): Promise<Block[]>;
+  loadLatestTransactions(forceRefresh: boolean): Promise<Transaction[]>;
 }
