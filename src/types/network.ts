@@ -4,5 +4,6 @@ export interface Network {
   protocol: string;
   host: string;
   port: number;
-  predefined? : boolean;
+  predefined?: boolean;
+  orteliusAddress: string;
 }

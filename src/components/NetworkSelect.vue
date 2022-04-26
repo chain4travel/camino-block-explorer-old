@@ -58,6 +58,9 @@ export default defineComponent({
         }
       },
       createNewNetwork(value: Network) {
+        if (!value.orteliusAddress) {
+          value.orteliusAddress = `${value.protocol}://${value.host}:${value.port}/ortelius`
+        }
         appConfig.pushNetwork(value);
         appConfig.setActive(value.id);
         selectedNetwork.value = { label: value.displayName, value: value }
