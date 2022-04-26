@@ -6,7 +6,6 @@ const TRANSACTIONS_PATH_NAME = '-Transactions';
 const BLOCKS_PATH_NAME = '-Blocks';
 
 export function getTransactionDetailsPath(chaintype: ChainType, transactionId: string): string {
-  console.log('Opening for type', chaintype)
   const basePath = getBasePath(chaintype) + TRANSACTION_DETAILS_BASEPATH;
   if (transactionId) {
     return basePath + transactionId;

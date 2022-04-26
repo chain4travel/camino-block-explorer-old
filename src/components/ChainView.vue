@@ -54,11 +54,9 @@ export default defineComponent({
         transactions.value = await props.store?.loadLatestTransactions(true)
       },
       openBlockDetail(item: Block) {
-        console.log('Opening block detail', item)
         router.push(getBlockDetailsPath(props.type, item.id))
       },
       openTransactionDetail(item: Transaction) {
-        console.log('Opening transaction detail', item)
         if (!item.hash) {
           return;
         }

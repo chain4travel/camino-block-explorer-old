@@ -30,8 +30,10 @@
           </div>
         </div>
         <div class="col-2 gas-used">
-          <q-icon class="text-red" size="sm" name="img:camino-coin-logo.png" />
-          {{ item.gasPrice }} WEI
+          <long-string :value="getDisplayValue(item.value)" :max-length="12">
+            <q-icon class="q-ml-sm" size="sm" name="img:camino-coin-logo.png" />
+          </long-string>
+
         </div>
       </div>
     </template>
@@ -41,6 +43,8 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import { getRelativeTime, displayLongString } from 'src/utils/display-utils'
+import { getDisplayValue } from 'src/utils/currency-conversion'
+
 import ListCard from './ListCard.vue'
 import { Transaction } from 'src/types/transaction'
 import LongString from './ui/LongString.vue'
@@ -53,7 +57,7 @@ export default defineComponent({
     transactions: { type: Array as PropType<Transaction[]>, required: true }
   },
   setup() {
-    return { getRelativeTime, displayLongString };
+    return { getRelativeTime, displayLongString, getDisplayValue };
   },
   components: { ListCard, LongString }
 })

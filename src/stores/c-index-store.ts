@@ -8,6 +8,8 @@ import { GetContainerRangeResponse } from 'avalanche/dist/apis/index/interfaces'
 import { Block } from 'src/types/block'
 import { useAppConfig } from 'src/stores/app-config'
 import { Transaction } from 'src/types/transaction';
+import { BlockDetails } from 'src/types/block-detail';
+import { TranscationDetails } from 'src/types/transaction-detail';
 
 const clamp = (num: number, min: number, max: number) => Math.min(Math.max(num, min), max)
 
@@ -18,7 +20,7 @@ function createBlock(av_container: Record<string, unknown>, eth_block: Record<st
     height: av_container.index,
     timestamp: new Date(Date.parse(av_container.timestamp as string)),
     hash: eth_block.hash,
-    burned: eth_block.gasUsed,
+    gasUsed: eth_block.gasUsed,
     transactions: (eth_block.transactions as Array<unknown>),
   }
 }
@@ -58,7 +60,6 @@ export const useCIndexStore = defineStore('cindex', {
         const containerList: GetContainerRangeResponse[] = await indexAPI.getContainerRange(start_index, count, 'hex', this.baseUrl)
         const blocks: Block[] = [];
         for (const container of containerList.containers) {
-          console.log('Av container', container)
           const eth3_block = await web3.eth.getBlock(container.index);
           const block = createBlock(container, eth3_block);
           blocks.unshift(block);
@@ -82,11 +83,14 @@ export const useCIndexStore = defineStore('cindex', {
         for (const singleTransaction of block.transactions || []) {
           const transaction = await web3.eth.getTransaction(singleTransaction)
           const receipt = await web3.eth.getTransactionReceipt(singleTransaction);
-          console.log('transaction', transaction);
-          console.log('receipt', receipt);
           transactions.push(<Transaction>{
-            ...transaction,
-            ...receipt,
+            block: transaction.blockNumber,
+            from: transaction.from,
+            to: transaction.to,
+            gasPrice: transaction.gas,
+            hash: transaction.hash,
+            status: receipt.status ? 'success' : 'failed',
+            value: transaction.value,
             timestamp: block.timestamp
           })
         }
@@ -94,22 +98,19 @@ export const useCIndexStore = defineStore('cindex', {
       this.transactions = transactions;
       return transactions;
     },
-    async loadTransactionById(transactionId: string): Promise<Transaction> {
+    async loadTransactionById(transactionId: string): Promise<TranscationDetails> {
       const web3 = getWeb3Client();
       const transaction = await web3.eth.getTransaction(transactionId);
       const receipt = await web3.eth.getTransactionReceipt(transactionId);
       return { ...transaction, ...receipt }
     },
-    async loadByBlockId(blockId: string): Promise<Block> {
+    async loadByBlockId(blockId: string): Promise<BlockDetails> {
       const web3 = getWeb3Client();
       const avalancheClient = getAvalancheClient();
       const indexAPI = avalancheClient.Index();
       const container = await indexAPI.getContainerByID(blockId, 'hex', this.baseUrl);
-      console.log('Container Loaded yay', container)
       const eth3_block = await web3.eth.getBlock(container.index);
-      console.log('eth block Loaded yay', container)
-      const block = createBlock(container, eth3_block);
-      return block;
+      return eth3_block;
     }
   },
 });

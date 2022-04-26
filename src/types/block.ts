@@ -3,7 +3,6 @@ export interface Block {
   hash: string;
   height: number;
   timestamp: Date;
-  burned: number;
   parentHash?: string;
   baseFeePerGas?: number;
   nonce?: string;

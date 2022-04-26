@@ -5,6 +5,5 @@ export interface Transaction {
   timestamp?: Date;
   from?: string;
   to?: string;
-  value?: number;
-  gasPrice?: number;
+  value?: string;
 }

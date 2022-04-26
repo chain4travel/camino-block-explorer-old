@@ -1,6 +1,7 @@
 <template>
   <div>
     {{ value.length > maxLength ? displayLongString(value, maxLength - 3) : value }}
+    <slot></slot>
     <q-tooltip v-if="value.length > maxLength">
       {{ value }}
     </q-tooltip>
