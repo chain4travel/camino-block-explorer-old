@@ -24,3 +24,7 @@ export function getDisplayValue(weiVal: number): string {
   }
   return weiVal + ' WEI'
 }
+
+export const currencyFields = [
+  'baseFeePerGas', 'gasLimit', 'gasUsed', 'cumulativeGasUsed', 'gasUsed', 'effectiveGasPrice', 'value', 'gasPrice', 'gas'
+]

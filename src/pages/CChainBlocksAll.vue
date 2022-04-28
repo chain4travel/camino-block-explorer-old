@@ -3,8 +3,7 @@
     <!-- content -->
     <div class="row q-mt-xl">
       <div class="offset-2 col-8">
-        <details-table :columns="columns" title="C-Blocks" :store="store"
-          @row-clicked="(event, item) => rowEvent(event, item)">
+        <details-table :columns="columns" title="C-Blocks" :store="store" @row-clicked="(item) => rowEvent(item)">
         </details-table>
       </div>
     </div>
@@ -18,7 +17,7 @@ import { useCIndexStore } from 'src/stores/c-index-store';
 import { getRelativeTime } from 'src/utils/display-utils';
 import { BlockTableData } from 'src/types/block';
 import { useRouter } from 'vue-router'
-import { getAllBlocksPath, getBasePath, getBlockDetailsPath } from 'src/utils/route-utils';
+import { getAllBlocksPath, getBlockDetailsPath } from 'src/utils/route-utils';
 import { ChainType } from 'src/types/chain-type';
 
 const columns = [
@@ -62,9 +61,9 @@ export default defineComponent({
     return {
       store: useCIndexStore(),
       columns,
-      rowEvent(event: any, item: BlockTableData) {
+      rowEvent(item: BlockTableData) {
         console.log(item);
-        router.push({ path: getBlockDetailsPath(ChainType.C_CHAIN, item.id), query: { back: getAllBlocksPath(ChainType.C_CHAIN) } })
+        router.push({ path: getBlockDetailsPath(ChainType.C_CHAIN, item.hash), query: { back: getAllBlocksPath(ChainType.C_CHAIN) } })
       }
 
     }

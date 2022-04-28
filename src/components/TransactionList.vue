@@ -44,7 +44,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import { getRelativeTime, displayLongString } from 'src/utils/display-utils'
-import { getDisplayValue } from 'src/utils/currency-conversion'
+import { getDisplayValue } from 'src/utils/currency-utils'
 
 import ListCard from './ListCard.vue'
 import { Transaction } from 'src/types/transaction'

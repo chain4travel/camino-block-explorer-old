@@ -3,7 +3,7 @@
     <!-- content -->
     <div class="row">
       <div class="offset-2 col-8">
-        <details-view :title="'C-Chain Transaction ' + transactionId" :back-route="backroute"
+        <details-view :type="type" :title="'C-Chain Transaction ' + transactionId" :back-route="backroute"
           :content="loadedTransaction">
         </details-view>
       </div>
@@ -31,7 +31,8 @@ export default defineComponent({
     return {
       transactionId: route.params.transactionId,
       backroute: getBasePath(ChainType.C_CHAIN),
-      loadedTransaction: await cChain.loadTransactionById(getStringOrFirstElement(route.params.transactionId))
+      loadedTransaction: await cChain.loadTransactionById(getStringOrFirstElement(route.params.transactionId)),
+      type: ChainType.C_CHAIN
     }
   }
 })

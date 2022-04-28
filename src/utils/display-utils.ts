@@ -33,3 +33,8 @@ export function getStringOrFirstElement(param: string | string[]) {
   return param;
 }
 
+export function camelCaseToRegular(val: string) {
+  return val.replace(/([A-Z])/g, ' $1')
+  // uppercase the first character
+  .replace(/^./, function(str){ return str.toUpperCase(); })
+}

@@ -63,7 +63,7 @@ export default defineComponent({
         transactions.value = await props.store?.loadLatestTransactions(true, (transactionsPage.value - 1) * props.pageSize, props.pageSize)
       },
       openBlockDetail(item: Block) {
-        router.push(getBlockDetailsPath(props.type, item.id))
+        router.push(getBlockDetailsPath(props.type, item.hash))
       },
       openTransactionDetail(item: Transaction) {
         if (!item.hash) {

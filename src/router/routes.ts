@@ -9,7 +9,8 @@ const routes: RouteRecordRaw[] = [
     children: [
       {
         path: '',
-        redirect: ChainType.C_CHAIN
+        redirect: ChainType.C_CHAIN,
+        name: 'index'
       },
       {
         name: getPathName(ChainType.C_CHAIN),

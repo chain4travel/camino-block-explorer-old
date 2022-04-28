@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <q-table class="my-sticky-dynamic" :title="title" :rows="data" :columns="columns" :loading="loading" row-key="index"
       virtual-scroll :virtual-scroll-item-size="48" :virtual-scroll-sticky-size-start="48" :rows-per-page-options="[0]"
-      @virtual-scroll="onScroll" @row-click="(event, item) => $emit('row-clicked', event, item)">
+      @virtual-scroll="onScroll" @row-click="(event, item) => $emit('row-clicked', item)">
       <template v-slot:top-right>
         <q-btn color="primary" icon="mdi-refresh" @click="() => refresh()" />
       </template>
@@ -67,7 +67,7 @@ export default defineComponent({
         }
 
 
-        if (loading.value !== true && to === lastIndex && (data.value.length === 0 || data.value.every(e => e.height > 0))) {
+        if (loading.value !== true && to === lastIndex && (data.value.length === 0 || data.value.every(e => e.height > 1))) {
           loading.value = true;
           console.log('calling: ', currentOffset.value);
           const apiData = await props.store.loadLatestBlocks(true, currentOffset.value, 10);
