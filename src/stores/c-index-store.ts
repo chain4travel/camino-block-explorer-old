@@ -17,7 +17,7 @@ function createBlock(av_container: Record<string, unknown>, eth_block: Record<st
   return <Block>{
     ...eth_block,
     id: av_container.id,
-    height: av_container.index,
+    height: parseInt(av_container.index),
     timestamp: new Date(Date.parse(av_container.timestamp as string)),
     hash: eth_block.hash,
     gasUsed: eth_block.gasUsed,
@@ -111,6 +111,6 @@ export const useCIndexStore = defineStore('cindex', {
       const container = await indexAPI.getContainerByID(blockId, 'hex', this.baseUrl);
       const eth3_block = await web3.eth.getBlock(container.index);
       return eth3_block;
-    }
+    },
   },
 });

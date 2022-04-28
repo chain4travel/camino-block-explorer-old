@@ -27,7 +27,7 @@ export default defineComponent({
     const cChain = useCIndexStore();
     return {
       blockId: route.params.blockId,
-      backroute: getBasePath(ChainType.C_CHAIN),
+      backroute: route.query.back ? route.query.back : getBasePath(ChainType.C_CHAIN),
       loadedBlock: await cChain.loadByBlockId(getStringOrFirstElement(route.params.blockId))
     }
   }

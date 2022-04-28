@@ -1,4 +1,4 @@
-import { getBasePath, getBlockDetailsPath, getBlockDetailsPathName, getPathName, getTransactionDetailsPath, getTransactionsPathName } from 'src/utils/route-utils';
+import { getAllBlocksPath, getAllBlocksPathName, getAllTransactionsPath, getAllTransactionsPathName, getBasePath, getBlockDetailsPath, getBlockDetailsPathName, getPathName, getTransactionDetailsPath, getTransactionsPathName } from 'src/utils/route-utils';
 import { ChainType } from 'src/types/chain-type';
 import { RouteRecordRaw } from 'vue-router';
 
@@ -39,6 +39,16 @@ const routes: RouteRecordRaw[] = [
         name: getBlockDetailsPathName(ChainType.C_CHAIN),
         path: getBlockDetailsPath(ChainType.C_CHAIN, ':blockId'),
         component: () => import('src/pages/CChainBlockDetails.vue'),
+      },
+      {
+        name: getAllBlocksPathName(ChainType.C_CHAIN),
+        path: getAllBlocksPath(ChainType.C_CHAIN),
+        component: () => import('src/pages/CChainBlocksAll.vue'),
+      },
+      {
+        name: getAllTransactionsPathName(ChainType.C_CHAIN),
+        path: getAllTransactionsPath(ChainType.C_CHAIN),
+        component: () => import('src/pages/CChainTransactionsAll.vue'),
       },
       //X-Chain details
       {

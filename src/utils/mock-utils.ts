@@ -11,10 +11,11 @@ export function createMockBlock(offset: number, index: number): Block {
   return {
     id: (offset + index) + '',
     hash: createHash(),
-    burned: Math.random() * 21000,
+    gasUsed: Math.random() * 21000,
+    gasLimit: Math.random() * 21000,
     height: offset + index,
     timestamp: new Date(),
-    transactions: Math.random() * 50
+    transactions: [createHash()]
   }
 }
 

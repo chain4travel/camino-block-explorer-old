@@ -32,3 +32,4 @@ export function getStringOrFirstElement(param: string | string[]) {
   }
   return param;
 }
+

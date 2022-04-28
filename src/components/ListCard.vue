@@ -12,7 +12,7 @@
       <q-list dense bordered separator>
         <q-item v-for="item, index in items" :key="index" clickable v-ripple>
           <q-item-section>
-              <slot :item="item"></slot>
+            <slot :item="item"></slot>
           </q-item-section>
         </q-item>
       </q-list>
@@ -20,6 +20,11 @@
     <q-card-section v-else class="container">
       <div class="text-body1">No Elements found</div>
     </q-card-section>
+    <q-card-actions v-if="detailsLink">
+      <q-btn :to="detailsLink" color="primary" class="row full-width justify-center">
+        Show All
+      </q-btn>
+    </q-card-actions>
   </q-card>
 </template>
 
@@ -31,7 +36,8 @@ export default defineComponent({
   emits: ['refresh'],
   props: {
     title: { type: String, required: false },
-    items: { type: Array, required: true }
+    items: { type: Array, required: true },
+    detailsLink: { type: String, required: false },
   }
 })
 </script>

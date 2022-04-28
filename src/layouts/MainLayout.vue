@@ -6,7 +6,9 @@
           <div class="logo-container">
             <q-img src="src/assets/camino-company-logo.png" height="32px" width="120px">
             </q-img>
-            <router-link class="text-accent q-ml-xs q-mt-xs" to="/">{{ "Explorer" }}</router-link>
+            <router-link class="text-accent q-ml-xs q-mt-xs" :to="{
+              path: '/'
+            }">{{ "Explorer" }}</router-link>
             <div class="text-accent text-caption q-ml-xs q-mt-xs">Alpha</div>
           </div>
         </q-toolbar-title>

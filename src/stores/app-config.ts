@@ -13,10 +13,10 @@ export const useAppConfig = defineStore({
         displayName: 'Columbus Network',
         protocol: 'https',
         host: 'columbus.camino.foundation',
-        orteliusAddress: 'https://ortelius.columbus.camino.foundation/',
+        orteliusAddress: 'https://columbus.camino.foundation/ortelius',
         port: 443,
         predefined: true
-      }, //TODO: changeme,
+      },
     ] as Network[],
     customNetworks: useStorage('cam-explorer-custom-networks', [] as Network[])
   }),

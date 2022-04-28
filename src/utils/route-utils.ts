@@ -4,6 +4,7 @@ export const TRANSACTION_DETAILS_BASEPATH = '/transactions/';
 const BLOCK_DETAILS_BASEPATH = '/blocks/';
 const TRANSACTIONS_PATH_NAME = '-Transactions';
 const BLOCKS_PATH_NAME = '-Blocks';
+const ALL_PATH_NAME = '-All'
 
 export function getTransactionDetailsPath(chaintype: ChainType, transactionId: string): string {
   const basePath = getBasePath(chaintype) + TRANSACTION_DETAILS_BASEPATH;
@@ -39,6 +40,23 @@ export function getTransactionsPathName(chaintype: ChainType) {
 export function getBlockDetailsPathName(chaintype: ChainType) {
   return getPathName(chaintype) + BLOCKS_PATH_NAME;
 }
+
+export function getAllBlocksPath(chaintype: ChainType) {
+  return getBasePath(chaintype) + '/all' + BLOCK_DETAILS_BASEPATH;
+}
+
+export function getAllBlocksPathName(chaintype: ChainType) {
+  return getPathName(chaintype) + BLOCKS_PATH_NAME + ALL_PATH_NAME;
+}
+
+export function getAllTransactionsPath(chaintype: ChainType) {
+  return getBasePath(chaintype) + '/all' + TRANSACTION_DETAILS_BASEPATH;
+}
+
+export function getAllTransactionsPathName(chaintype: ChainType) {
+  return getPathName(chaintype) + TRANSACTIONS_PATH_NAME + ALL_PATH_NAME;
+}
+
 
 export function getBasePath(chaintype: ChainType): string {
   return '/' + chaintype.toLowerCase();
