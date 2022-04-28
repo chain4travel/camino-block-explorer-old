@@ -7,7 +7,7 @@
     </q-card-section>
     <q-card-section class="container">
       <q-list bordered separator>
-        <q-item :key="key" v-for="[key, value] of Object.entries(content)" v-ripple clickable
+        <q-item :key="key" v-for="[key, value] in linesToRender" v-ripple clickable
           @click="copyToClipBoard(value)">
           <q-item-section class="col-4">
             {{ camelCaseToRegular(key) }}
@@ -66,6 +66,7 @@ import { BlockDetails } from 'src/types/block-detail'
 import { getBlockDetailsPath } from 'src/utils/route-utils'
 import { ChainType } from 'src/types/chain-type'
 import { useRouter } from 'vue-router'
+import { computed } from '@vue/reactivity'
 
 
 
@@ -84,11 +85,16 @@ export default defineComponent({
       'childHash': (value: string) => getBlockDetailsPath(props.type, value)
     }
 
+    const keysTohide = ['additionalInformation']
+
     const $q = useQuasar()
     const router = useRouter();
     const showAdditionaldetails = ref(false);
     return {
       showAdditionaldetails,
+      linesToRender: computed(() => {
+        return Object.entries(props.content).filter(([key]) => !keysTohide.includes(key));
+      }),
       copyToClipBoard: async (value: string) => {
         await navigator.clipboard.writeText(value);
         $q.notify({
@@ -115,7 +121,7 @@ export default defineComponent({
           //router.go(0)
           return;
         }
-      }
+      },
     };
   },
   components: { LongString }

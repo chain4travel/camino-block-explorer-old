@@ -3,7 +3,7 @@
     <!-- content -->
     <div class="row">
       <div class="offset-2 col-8">
-        <details-view :type="type" :title="'C-Chain Block ' + blockId" :back-route="backroute" :content="loadedBlock">
+        <details-view :type="type" :title="'C-Chain Block '" :back-route="backroute" :content="loadedBlock">
         </details-view>
       </div>
     </div>
