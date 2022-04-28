@@ -5,9 +5,9 @@
 
       <!-- Latest Transactions-->
       <div class="offset-1 col-10 q-ml-xl">
-        <transaction-list :transactions="transactions" :details-link="getAllTransactionsPath(chainType)"
+        <x-transaction-list :transactions="transactions" :details-link="getAllTransactionsPath(chainType)"
           @refresh="refreshTransactions" @row-clicked="openTransactionDetail">
-        </transaction-list>
+        </x-transaction-list>
       </div>
     </div>
   </q-page>
@@ -16,7 +16,7 @@
 <script lang="ts">
 import { defineComponent, PropType, ref } from 'vue'
 import BlockList from 'src/components/BlockList.vue';
-import TransactionList from 'src/components/TransactionList.vue';
+import XTransactionList from 'src/components/XTransactionList.vue';
 import SearchBanner from 'src/components/SearchBanner.vue';
 import { ChainViewLoader } from 'src/types/chain-view-loader';
 import { Block } from 'src/types/block';
@@ -29,7 +29,7 @@ import { useXIndexStore } from 'src/stores/x-index-store'
 
 export default defineComponent({
   name: 'XChainPage',
-  components: { TransactionList, SearchBanner },
+  components: { XTransactionList, SearchBanner },
   emits: ['search', 'refresh-blocks', 'refresh-transactions'],
   async setup(props, { emit }) {
     const router = useRouter();

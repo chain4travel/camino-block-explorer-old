@@ -15,14 +15,22 @@ export function weiToGwei(weiVal: number) {
   return weiVal / conversionWeiPerGwei;
 }
 
+export function getDisplayValueForGewi(GweiVal: number): string {
+  return getDisplayValue(GweiVal * conversionWeiPerGwei);
+}
+
 export function getDisplayValue(weiVal: number): string {
   if (weiVal >= WEI_CAM_CONVERSION_THRESHHOLD) {
-    return weiToCam(weiVal) + ' CAM'
+    return formatAmount(weiToCam(weiVal), ' CAM');
   }
   if (weiVal >= WEI_GWEI_CONVERSION_THRESHHOLD) {
-    return weiToGwei(weiVal) + ' GWEI';
+    return formatAmount(weiToGwei(weiVal), ' GWEI');
   }
-  return weiVal + ' WEI'
+  return formatAmount(weiVal, ' WEI');
+}
+
+export function formatAmount(value: number, currency: string): string {
+  return `${value.toLocaleString('en-US')} ${currency}`;
 }
 
 export const currencyFields = [
