@@ -24,6 +24,8 @@ import { getRelativeTime } from 'src/utils/display-utils';
 import { CTransactionList } from 'src/types/transaction'
 import { getDisplayValue } from 'src/utils/currency-utils';
 
+const pageSize=10;
+
 const columns = [
   {
     name: 'blockNumber',
@@ -98,7 +100,7 @@ export default defineComponent({
         currentOffset.value = 0;
         knownHashes = [];
         const newData :TransactionTableData[] = []
-        lastResponse = await store.loadLatestTransactions(true, currentOffset.value, 10);
+        lastResponse = await store.loadLatestTransactions(true, currentOffset.value, pageSize);
         currentOffset.value += lastResponse.transactions.length;
         lastResponse.transactions.map(mapToTableData).forEach(newBlock => {
           if (!knownHashes.includes(newBlock.hash)) {
@@ -114,7 +116,7 @@ export default defineComponent({
 
         if (loading.value !== true && to === lastIndex && (!lastResponse || lastResponse.hasMore)) {
           loading.value = true;
-          lastResponse = await store.loadLatestTransactions(true, currentOffset.value, 50);
+          lastResponse = await store.loadLatestTransactions(true, currentOffset.value, pageSize);
           currentOffset.value += lastResponse.transactions.length;
           lastResponse.transactions.map(mapToTableData).forEach(newTransaction => {
             if (!knownHashes.includes(newTransaction.hash)) {
