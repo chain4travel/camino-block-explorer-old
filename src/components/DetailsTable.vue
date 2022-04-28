@@ -48,7 +48,7 @@ export default defineComponent({
         console.log('refreshing')
         loading.value = true;
         currentOffset.value = 0;
-        const apiData = await props.store.loadLatestBlocks(true, currentOffset.value, 10);
+        const apiData = await props.store.loadLatestBlocks(true, currentOffset.value, 50);
         const newData: BlockTableData[] = []
         knownHashes = [];
         apiData.map(mapToTableData).forEach(newBlock => {
@@ -70,7 +70,7 @@ export default defineComponent({
         if (loading.value !== true && to === lastIndex && (data.value.length === 0 || data.value.every(e => e.height > 1))) {
           loading.value = true;
           console.log('calling: ', currentOffset.value);
-          const apiData = await props.store.loadLatestBlocks(true, currentOffset.value, 10);
+          const apiData = await props.store.loadLatestBlocks(true, currentOffset.value, 50);
           currentOffset.value += apiData.length;
           console.log('api data', apiData);
           apiData.map(mapToTableData).forEach(newBlock => {

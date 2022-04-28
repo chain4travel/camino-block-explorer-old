@@ -7,7 +7,7 @@ import { GetContainerRangeResponse } from 'avalanche/dist/apis/index/interfaces'
 
 import { Block } from 'src/types/block'
 import { useAppConfig } from 'src/stores/app-config'
-import { Transaction } from 'src/types/transaction';
+import { CTransaction, CTransactionList } from 'src/types/transaction';
 import { BlockDetails } from 'src/types/block-detail';
 import { TranscationDetails } from 'src/types/transaction-detail';
 import { BlockTransactionString } from 'web3-eth';
@@ -39,7 +39,10 @@ const getWeb3Client = () => {
 export const useCIndexStore = defineStore('cindex', {
   state: () => ({
     blocks: [] as Block[],
-    transactions: [] as Transaction[],
+    transactionResponse: {
+      transactions: [],
+      hasMore: true
+    } as CTransactionList,
     baseUrl: '/ext/index/C/block'
   }),
   getters: {
@@ -65,9 +68,7 @@ export const useCIndexStore = defineStore('cindex', {
         }
         const blocks: Block[] = [];
         for (const container of containerList.containers) {
-          console.log('container index', container.index)
           try {
-            console.log('container index', (parseInt(container.index) + 1))
             const eth3_block = await web3.eth.getBlock(parseInt(container.index) + 1);
             const block = createBlock(container, eth3_block);
             blocks.unshift(block);
@@ -84,31 +85,41 @@ export const useCIndexStore = defineStore('cindex', {
         return [];
       }
     },
-    async loadLatestTransactions(forceReload = false, offset = 0, count = 10): Promise<Transaction[]> {
-      if (!forceReload && this.transactions && this.transactions.length > 0) {
-        return this.transactions;
-      }
+    async loadLatestTransactions(forceReload = false, offset = 0, count = 10): Promise<CTransactionList> {
+      // if (!forceReload && this.transactionResponse && this.transactionResponse.transactions.length > 0) {
+      //   return this.transactionResponse;
+      // }
       const transactions = [];
-      const latestBlocks = await this.loadLatestBlocks();
+      let hasMoreTransactions = true;
+      let currentblockNumber = undefined
       const web3 = getWeb3Client();
-      for (const block of latestBlocks) {
-        for (const singleTransaction of block.transactions || []) {
-          const transaction = await web3.eth.getTransaction(singleTransaction)
-          const receipt = await web3.eth.getTransactionReceipt(singleTransaction);
-          transactions.push(<Transaction>{
-            block: transaction.blockNumber,
-            from: transaction.from,
-            to: transaction.to,
-            gasPrice: transaction.gas,
-            hash: transaction.hash,
-            status: receipt.status ? 'success' : 'failed',
-            value: transaction.value,
-            timestamp: block.timestamp
-          })
+      while (transactions.length < count+offset && hasMoreTransactions) {
+        const latestBlocks = await this.loadLatestBlocks(forceReload, 0, count+offset);
+        console.log('Loaded blocks count', latestBlocks.length)
+        for (const block of latestBlocks) {
+          for (const singleTransaction of block.transactions || []) {
+            const transaction = await web3.eth.getTransaction(singleTransaction)
+            const receipt = await web3.eth.getTransactionReceipt(singleTransaction);
+            transactions.push(<CTransaction>{
+              block: transaction.blockNumber,
+              from: transaction.from,
+              to: transaction.to,
+              gasPrice: transaction.gas,
+              hash: transaction.hash,
+              status: receipt.status ? 'success' : 'failed',
+              value: transaction.value,
+              timestamp: block.timestamp
+            })
+          }
+          currentblockNumber = block.height
+          hasMoreTransactions = currentblockNumber !== 1;
         }
       }
-      this.transactions = transactions;
-      return transactions;
+      console.log('have all transactions', transactions);
+      console.log('slicing', offset, count, transactions.slice(offset,count))
+      this.transactionResponse = {transactions: transactions.slice(offset,offset+count), hasMore: hasMoreTransactions};
+      console.log('Returning transactions', this.transactionResponse)
+      return this.transactionResponse;
     },
     async loadTransactionById(transactionId: string): Promise<TranscationDetails> {
       const web3 = getWeb3Client();
