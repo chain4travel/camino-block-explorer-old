@@ -1,8 +1,8 @@
 <template>
   <div>
-    {{ value.length > maxLength ? displayLongString(value, maxLength - 3) : value }}
+    {{ value && value.length > maxLength ? displayLongString(value, maxLength - 3) : value }}
     <slot></slot>
-    <q-tooltip v-if="value.length > maxLength">
+    <q-tooltip v-if="value && value.length > maxLength">
       {{ value }}
     </q-tooltip>
   </div>
@@ -13,7 +13,7 @@ import { displayLongString } from 'src/utils/display-utils'
 export default defineComponent({
   name: 'LongString',
   props: {
-    value: { type: String, required: true },
+    value: { type: String, required: false },
     maxLength: { type: Number, default: 32 }
   },
   setup() {
