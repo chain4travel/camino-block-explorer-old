@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 import { getRelativeTime } from 'src/utils/display-utils'
 import { useCIndexStore } from 'src/stores/c-index-store'
 import ChainView from 'src/components/ChainView.vue';

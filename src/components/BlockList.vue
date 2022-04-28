@@ -1,5 +1,6 @@
 <template>
-  <list-card :title="title || 'Latest Blocks'" :items="blocks" @refresh="() => $emit('refresh')">
+  <list-card :title="title || 'Latest Blocks'" :items="blocks" :details-link="detailsLink"
+    @refresh="() => $emit('refresh')">
     <template v-slot="{ item }">
       <div @click="() => $emit('row-clicked', item)" class="row">
         <div class="col-1">
@@ -29,7 +30,7 @@
 import { Block } from 'src/types/block'
 import { defineComponent, PropType } from 'vue'
 import { getRelativeTime, displayLongString } from 'src/utils/display-utils'
-import { getDisplayValue } from 'src/utils/currency-conversion'
+import { getDisplayValue } from 'src/utils/currency-utils'
 import ListCard from './ListCard.vue'
 import LongString from './ui/LongString.vue'
 
@@ -38,10 +39,13 @@ export default defineComponent({
   emits: ['refresh', 'row-clicked'],
   props: {
     title: { type: String, required: false },
-    blocks: { type: Array as PropType<Block[]>, required: true }
+    blocks: { type: Array as PropType<Block[]>, required: true },
+    detailsLink: { type: String, required: false }
   },
   setup() {
-    return { getRelativeTime, displayLongString, getDisplayValue };
+    return {
+      getRelativeTime, displayLongString, getDisplayValue
+    };
   },
   components: { ListCard, LongString }
 })

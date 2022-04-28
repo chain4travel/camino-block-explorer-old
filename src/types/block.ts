@@ -20,3 +20,14 @@ export interface Block {
   transactions?: string[],
   uncles?: string[]
 }
+
+
+export interface BlockTableData {
+  id: string,
+  height: number;
+  timestamp: Date;
+  numberOfTransactions: number;
+  hash: string;
+  gasUsed?: number;
+  gasLimit?: number;
+}

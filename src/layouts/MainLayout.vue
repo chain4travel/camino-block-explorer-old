@@ -6,7 +6,9 @@
           <div class="logo-container">
             <q-img src="src/assets/camino-company-logo.png" height="32px" width="120px">
             </q-img>
-            <router-link class="text-accent q-ml-xs q-mt-xs" to="/">{{ "Explorer" }}</router-link>
+            <router-link class="text-accent q-ml-xs q-mt-xs fixed-color" :to="{
+              name: 'C-Chain'
+            }">{{ "Explorer" }}</router-link>
             <div class="text-accent text-caption q-ml-xs q-mt-xs">Alpha</div>
           </div>
         </q-toolbar-title>
@@ -43,7 +45,7 @@
       <q-page-container>
         <Suspense>
           <template #default>
-            <router-view />
+            <router-view :key="$route.fullPath" />
           </template>
           <template #fallback>
             <div class="row">
@@ -118,6 +120,6 @@ a
 .logo-container
   display: flex
   align-items: center
-.router-link-exact-active
+.router-link-exact-active:not(.fixed-color)
   color: $primary !important
 </style>

@@ -10,18 +10,18 @@ import { useAppConfig } from 'src/stores/app-config'
 import { Transaction } from 'src/types/transaction';
 import { BlockDetails } from 'src/types/block-detail';
 import { TranscationDetails } from 'src/types/transaction-detail';
+import { BlockTransactionString } from 'web3-eth';
 
 const clamp = (num: number, min: number, max: number) => Math.min(Math.max(num, min), max)
 
-function createBlock(av_container: Record<string, unknown>, eth_block: Record<string, unknown>): Block {
+function createBlock(av_container: Record<string, unknown>, eth_block: BlockTransactionString): Block {
   return <Block>{
-    ...eth_block,
-    id: av_container.id,
-    height: av_container.index,
+    height: eth_block.number,
     timestamp: new Date(Date.parse(av_container.timestamp as string)),
     hash: eth_block.hash,
     gasUsed: eth_block.gasUsed,
     transactions: (eth_block.transactions as Array<unknown>),
+
   }
 }
 
@@ -55,14 +55,26 @@ export const useCIndexStore = defineStore('cindex', {
       try {
         const lastAccepted = await indexAPI.getLastAccepted('hex', this.baseUrl);
         const currentIndex = parseInt(lastAccepted.index)
-        const start_index = clamp(currentIndex - offset - count, 0, currentIndex)
+        const start_index = clamp(currentIndex - offset - count + 1, 0, currentIndex)
+        let containerList: GetContainerRangeResponse[] = []
 
-        const containerList: GetContainerRangeResponse[] = await indexAPI.getContainerRange(start_index, count, 'hex', this.baseUrl)
+        try {
+          containerList = await indexAPI.getContainerRange(start_index, count, 'hex', this.baseUrl)
+        } catch (e) {
+          console.log('avalanche did not work', e)
+        }
         const blocks: Block[] = [];
         for (const container of containerList.containers) {
-          const eth3_block = await web3.eth.getBlock(container.index);
-          const block = createBlock(container, eth3_block);
-          blocks.unshift(block);
+          console.log('container index', container.index)
+          try {
+            console.log('container index', (parseInt(container.index) + 1))
+            const eth3_block = await web3.eth.getBlock(parseInt(container.index) + 1);
+            const block = createBlock(container, eth3_block);
+            blocks.unshift(block);
+          } catch (e) {
+            console.log('did not work', e)
+          }
+
         }
         this.blocks = blocks;
         return this.blocks;
@@ -106,11 +118,35 @@ export const useCIndexStore = defineStore('cindex', {
     },
     async loadByBlockId(blockId: string): Promise<BlockDetails> {
       const web3 = getWeb3Client();
-      const avalancheClient = getAvalancheClient();
-      const indexAPI = avalancheClient.Index();
-      const container = await indexAPI.getContainerByID(blockId, 'hex', this.baseUrl);
-      const eth3_block = await web3.eth.getBlock(container.index);
-      return eth3_block;
-    }
+      const eth3_block = await web3.eth.getBlock(blockId);
+      let nextBlock = undefined
+      try {
+        nextBlock = await web3.eth.getBlock(eth3_block.number + 1);
+      } catch (e) {
+        // there was no next block
+        console.log('no child block found')
+      }
+      return {
+        additionalInformation: {
+          difficulty: eth3_block.difficulty,
+          extraData: eth3_block.extraData,
+          logsBloom: eth3_block.logsBloom,
+          nonce: eth3_block.nonce,
+          totalDifficulty: eth3_block.totalDifficulty,
+          uncles: eth3_block.uncles
+        },
+        blockNumber: eth3_block.number,
+        childHash: nextBlock ? nextBlock.hash : undefined,
+        hash: eth3_block.hash,
+        parentHash: eth3_block.parentHash,
+        fees: eth3_block.gasUsed,
+        baseGaseFee: eth3_block.baseFeePerGas,
+        transactionCount: eth3_block.transactions ? eth3_block.transactions.length : 0,
+        gasLimit: eth3_block.gasLimit,
+        gasUsed: eth3_block.gasUsed,
+        size: eth3_block.size,
+        timestamp: new Date(eth3_block.timestamp * 1000)
+      };
+    },
   },
 });
