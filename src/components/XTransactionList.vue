@@ -1,5 +1,5 @@
 <template>
-  <list-card title="Latest Transactions" :items="transactions" :details-link="detailsLink"
+  <list-card title="Latest Transactions" :items="transactions"
     @refresh="() => $emit('refresh')">
     <template v-slot="{ item }">
       <div @click="() => $emit('row-clicked', item)" class="row">
@@ -10,7 +10,7 @@
           <div>
             {{ displayLongString(item.id, 16) }}</div>
           <q-tooltip>
-            {{ item.hash }}
+            {{ item.id }}
           </q-tooltip>
           <div>
             {{ getRelativeTime(item.timestamp) + " ago" }}
@@ -47,7 +47,7 @@
           </div>
         </div>
         <div class="col-2 text-right gas-used">
-          <long-string :value="getDisplayValue(item.fee * 1000000000)" :max-length="12">
+          <long-string :value="getDisplayValue(item.fee * 1000000000)" :max-length="20">
             <q-icon class="text-red q-ml-sm" size="sm" name="mdi-fire" />
           </long-string>
 
