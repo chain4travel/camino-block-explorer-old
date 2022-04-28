@@ -27,24 +27,7 @@
             </q-btn>
           </q-item-section>
         </q-item>
-        <div v-if="showAdditionaldetails">
-          <q-item :key="key" v-for="[key, value] of Object.entries(content.additionalInformation)" v-ripple clickable
-            @click="copyToClipBoard(value)">
-            <q-item-section>
-              {{ camelCaseToRegular(key) }}
-            </q-item-section>
-            <q-item-section>
-              <LongString v-if="fieldIncurrencyFields(key)" :value="getDisplayValue(value)">
-                <q-icon class="q-ml-sm" size="sm" name="img:camino-coin-logo.png" />
-              </LongString>
-              <LongString v-else-if="isString(value)" :value="value" :max-length="64">
-              </LongString>
-              <LongString v-else-if="value" :value="value" :max-length="64"></LongString>
-              <div v-else>{{ "" }}</div>
-            </q-item-section>
-          </q-item>
-        </div>
-        <q-item>
+        <q-item v-if="content.additionalInformation">
           <q-btn class="offset-5" color="primary" @click="() => showAdditionaldetails = !showAdditionaldetails">
             {{ showAdditionaldetails ? "Show Less" : "Show More" }}</q-btn>
         </q-item>
@@ -81,7 +64,7 @@ export default defineComponent({
   setup(props) {
     console.log('props.type', props.type);
     const keyWithRoutes = {
-      'parentHash': (value: string) => getBlockDetailsPath(props.type, value),
+      'blockHash': (value: string) => getBlockDetailsPath(props.type, value),
       'childHash': (value: string) => getBlockDetailsPath(props.type, value)
     }
 
@@ -93,7 +76,11 @@ export default defineComponent({
     return {
       showAdditionaldetails,
       linesToRender: computed(() => {
-        return Object.entries(props.content).filter(([key]) => !keysTohide.includes(key));
+        const dataToShow = Object.entries(props.content);
+        if(showAdditionaldetails.value && props.content.additionalInformation) {
+          dataToShow.push(...Object.entries(props.content.additionalInformation));
+        }
+        return dataToShow.filter(([key]) => !keysTohide.includes(key));
       }),
       copyToClipBoard: async (value: string) => {
         await navigator.clipboard.writeText(value);
