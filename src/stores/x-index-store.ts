@@ -93,11 +93,11 @@ export const useXIndexStore = defineStore('xindex', {
 
     async loadLatestTransactions(offset = 0, count = 10): Promise<XTransaction[]> {
       const xChainId = await this.loadXChainId();
-      const rawTransactions = await axios.get(`${getMagellanBaseUrl()}${transactionApi}?chainID=${xChainId}&limit=10&sort=timestamp-asc`);
+      const rawTransactions = await axios.get(`${getMagellanBaseUrl()}${transactionApi}?chainID=${xChainId}&limit=10&sort=timestamp-desc`);
       const transObjList: XTransaction[] = [];
       for (const transaction of rawTransactions.data.transactions) {
         const mappedTransaction = createTransaction(transaction);
-        transObjList.unshift(mappedTransaction);
+        transObjList.push(mappedTransaction);
       }
 
       return Promise.resolve(transObjList);
