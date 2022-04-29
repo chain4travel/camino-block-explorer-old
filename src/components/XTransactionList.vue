@@ -19,26 +19,28 @@
         <div class="col-6">
           <div class="row">
             <div class="col-2">From </div>
-            <div v-if="item.from[0]" class="row col-9">
-              <div class="col-3">
-                <long-string :value="item.from[0].address" :max-length="20"></long-string>
-              </div>
-              <div class="col-9 text-right">
-                <long-string :value="getDisplayValue(item.from[0].value * 1000000000)" :max-length="50">
-                  <q-icon class="q-ml-sm" size="sm" name="img:camino-coin-logo.png" />
-                </long-string>
+            <div class="col-9">
+              <div class="row" :key="ad.id" v-for="ad in item.from">
+                <div class="col-3">
+                  <long-string :value="ad.address" :max-length="20"></long-string>
+                </div>
+                <div class="col-9 text-right">
+                  <long-string  :value="getDisplayValue(ad.value * 1000000000)" :max-length="50">
+                    <q-icon class="q-ml-sm" size="sm" name="img:camino-coin-logo.png" />
+                  </long-string>
+                </div>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-2">To </div>
             <div class="col-9">
-              <div class="row" :key="item.id" v-for="item in item.to">
+              <div v-bind:class="{'text-grey-8': item.from && item.from[0] && ad.address == item.from[0].address, 'row': true}" :key="ad.id" v-for="ad in item.to">
                 <div class="col-3">
-                  <long-string :value="item.address" :max-length="20"></long-string>
+                  <long-string :value="ad.address" :max-length="20"></long-string>
                 </div>
                 <div class="col-9 text-right">
-                  <long-string :value="getDisplayValue(item.value * 1000000000)" :max-length="50">
+                  <long-string :value="getDisplayValue(ad.value * 1000000000)" :max-length="50">
                     <q-icon class="q-ml-sm" size="sm" name="img:camino-coin-logo.png" />
                   </long-string>
                 </div>
@@ -63,7 +65,7 @@ import { getRelativeTime, displayLongString } from 'src/utils/display-utils'
 import { getDisplayValue } from 'src/utils/currency-utils'
 
 import ListCard from './ListCard.vue'
-import { Transaction } from 'src/types/transaction'
+import { XTransaction } from 'src/types/transaction'
 import LongString from './ui/LongString.vue'
 
 export default defineComponent({
@@ -71,7 +73,7 @@ export default defineComponent({
   emits: ['refresh', 'row-clicked'],
   props: {
     title: { type: String, required: false },
-    transactions: { type: Array as PropType<Transaction[]>, required: true },
+    transactions: { type: Array as PropType<XTransaction[]>, required: true },
     detailsLink: { type: String, required: false }
   },
   setup() {
