@@ -1,7 +1,8 @@
 import { Duration } from 'luxon';
 
-export function getRelativeTime(timestamp: Date | number): string {
-  const time = timestamp instanceof Date ? timestamp.getTime() : timestamp
+export function getRelativeTime(timestamp: Date | number | string): string {
+  console.log(typeof(timestamp))
+  const time = getTime(timestamp)
   if (!Number.isInteger(time)) {
     return 'Unknown';
   }
@@ -17,6 +18,18 @@ export function getRelativeTime(timestamp: Date | number): string {
   } else {
     return duration.shiftTo('days').toHuman({ maximumFractionDigits: 0 })
   }
+}
+
+function getTime(timestamp: Date | number | string): number {
+  if(timestamp instanceof Date) {
+    return timestamp.getTime();
+  }
+  console.log('timestamp', timestamp)
+  if(typeof(timestamp) === 'string') {
+    console.log('is string', timestamp)
+    return new Date(timestamp).getTime();
+  }
+  return timestamp;
 }
 
 export function displayLongString(val: string, maxLength = 12): string {

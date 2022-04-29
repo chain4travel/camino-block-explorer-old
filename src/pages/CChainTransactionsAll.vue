@@ -21,7 +21,6 @@ import { defineComponent, Ref, ref } from 'vue'
 import { useRouter } from 'vue-router';
 import { CTransaction, TransactionTableData } from 'src/types/transaction'
 import { getRelativeTime } from 'src/utils/display-utils';
-import { CTransactionList } from 'src/types/transaction'
 import { getDisplayValue } from 'src/utils/currency-utils';
 
 const pageSize=10;
@@ -85,6 +84,7 @@ export default defineComponent({
     let lastResponse: CTransactionList | undefined = undefined;
     const currentOffset = ref(0);
     const loading = ref(false);
+    const moreToLoad = ref(true);
     let knownHashes: string[] = []
     return {
       columns,
@@ -101,8 +101,8 @@ export default defineComponent({
         knownHashes = [];
         const newData :TransactionTableData[] = []
         lastResponse = await store.loadLatestTransactions(true, currentOffset.value, pageSize);
-        currentOffset.value += lastResponse.transactions.length;
-        lastResponse.transactions.map(mapToTableData).forEach(newBlock => {
+        currentOffset.value += lastResponse.length;
+        lastResponse.map(mapToTableData).forEach(newBlock => {
           if (!knownHashes.includes(newBlock.hash)) {
             newData.push(newBlock);
             knownHashes.push(newBlock.hash);
@@ -114,14 +114,16 @@ export default defineComponent({
       async onScroll({ to }: { to: number }) {
         const lastIndex = data.value.length - 1;
 
-        if (loading.value !== true && to === lastIndex && (!lastResponse || lastResponse.hasMore)) {
+        if (loading.value !== true && to === lastIndex && moreToLoad) {
           loading.value = true;
+          moreToLoad.value = false;
           lastResponse = await store.loadLatestTransactions(true, currentOffset.value, pageSize);
-          currentOffset.value += lastResponse.transactions.length;
-          lastResponse.transactions.map(mapToTableData).forEach(newTransaction => {
+          currentOffset.value += lastResponse.length;
+          lastResponse.map(mapToTableData).forEach(newTransaction => {
             if (!knownHashes.includes(newTransaction.hash)) {
               data.value.push(newTransaction);
               knownHashes.push(newTransaction.hash);
+              moreToLoad.value = true
             }
           })
           loading.value = false;

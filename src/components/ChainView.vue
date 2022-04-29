@@ -43,7 +43,7 @@ export default defineComponent({
   async setup(props, { emit }) {
     const router = useRouter();
     const blocks = ref(await props.store?.loadLatestBlocks(true, 0, props.pageSize))
-    const transactions = ref(await (await props.store?.loadLatestTransactions(true, 0, props.pageSize)).transactions)
+    const transactions = ref(await props.store?.loadLatestTransactions(true, 0, props.pageSize))
     const blockPage = ref(1);
     const transactionsPage = ref(1);
 
@@ -60,7 +60,7 @@ export default defineComponent({
         blocks.value = await props.store?.loadLatestBlocks(true, (blockPage.value - 1) * props.pageSize, props.pageSize)
       },
       async refreshTransactions() {
-        transactions.value = (await props.store?.loadLatestTransactions(true, (transactionsPage.value - 1) * props.pageSize, props.pageSize)).transactions
+        transactions.value = (await props.store?.loadLatestTransactions(true, (transactionsPage.value - 1) * props.pageSize, props.pageSize))
       },
       openBlockDetail(item: Block) {
         router.push(getBlockDetailsPath(props.type, item.hash))
@@ -76,7 +76,7 @@ export default defineComponent({
         blockPage.value = newPageNumber;
       },
       async loadTransactionPage(newPageNumber: number) {
-        transactions.value = await (await props.store.loadLatestTransactions(true, (newPageNumber - 1) * props.pageSize, props.pageSize)).transactions;
+        transactions.value = await (await props.store.loadLatestTransactions(true, (newPageNumber - 1) * props.pageSize, props.pageSize));
         transactionsPage.value = newPageNumber
       },
       getAllBlocksPath,

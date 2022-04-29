@@ -1,11 +1,14 @@
 import { defineStore } from 'pinia';
 import { GetContainerRangeResponse } from 'avalanche/dist/apis/index/interfaces';
 import { Block } from 'src/types/block'
-import { CTransaction, CTransactionList } from 'src/types/transaction';
+import { CTransaction } from 'src/types/transaction';
 import { BlockDetails } from 'src/types/block-detail';
 import { TranscationDetails } from 'src/types/transaction-detail';
 import { BlockTransactionString } from 'web3-eth';
-import { getAvalancheClient, getWeb3Client } from 'src/utils/client-utils';
+import { getAvalancheClient, getMagellanBaseUrl, getWeb3Client } from 'src/utils/client-utils';
+import axios from 'axios';
+import { cTransactionApi } from 'src/utils/magellan-api-utils';
+import { CTransactionResponse } from 'src/types/magellan-types';
 
 const clamp = (num: number, min: number, max: number) => Math.min(Math.max(num, min), max)
 
@@ -68,41 +71,22 @@ export const useCIndexStore = defineStore('cindex', {
         return [];
       }
     },
-    async loadLatestTransactions(forceReload = false, offset = 0, count = 10): Promise<CTransactionList> {
-      // if (!forceReload && this.transactionResponse && this.transactionResponse.transactions.length > 0) {
-      //   return this.transactionResponse;
-      // }
-      const transactions = [];
-      let hasMoreTransactions = true;
-      let currentblockNumber = undefined
-      const web3 = getWeb3Client();
-      while (transactions.length < count+offset && hasMoreTransactions) {
-        const latestBlocks = await this.loadLatestBlocks(forceReload, 0, count+offset);
-        console.log('Loaded blocks count', latestBlocks.length)
-        for (const block of latestBlocks) {
-          for (const singleTransaction of block.transactions || []) {
-            const transaction = await web3.eth.getTransaction(singleTransaction)
-            const receipt = await web3.eth.getTransactionReceipt(singleTransaction);
-            transactions.push(<CTransaction>{
-              block: transaction.blockNumber,
-              from: transaction.from,
-              to: transaction.to,
-              gasPrice: transaction.gas,
-              hash: transaction.hash,
-              status: receipt.status ? 'success' : 'failed',
-              value: transaction.value,
-              timestamp: block.timestamp
-            })
-          }
-          currentblockNumber = block.height
-          hasMoreTransactions = currentblockNumber !== 1;
-        }
-      }
-      console.log('have all transactions', transactions);
-      console.log('slicing', offset, count, transactions.slice(offset,count))
-      this.transactionResponse = {transactions: transactions.slice(offset,offset+count), hasMore: hasMoreTransactions};
-      console.log('Returning transactions', this.transactionResponse)
-      return this.transactionResponse;
+    async loadLatestTransactions(forceReload = false, offset = 0, count = 10): Promise<CTransaction[]> {
+      return this.loadTransactionsMagellan(offset, count);
+    },
+    async loadTransactionsMagellan(offset = 0, count= 10): Promise<CTransaction[]> {
+      // currently offset is not available "natively", so we add offset and count and skip the offset elements in processing
+      // this does not work for more than 5k elements at once.. will need to adjust for that to work
+      const cTransactions : CTransactionResponse = await (await axios.get(`${getMagellanBaseUrl()}${cTransactionApi}?limit=${count+offset}`)).data;
+      return cTransactions.Transactions.splice(offset, count).map(element => (<CTransaction>{
+        block: element.block,
+        from: element.fromAddr,
+        hash: element.hash,
+        status: 'Not available',
+        timestamp: element.createdAt,
+        to: element.toAddr,
+        value: element.value
+      }));
     },
     async loadTransactionById(transactionId: string): Promise<TranscationDetails> {
       const web3 = getWeb3Client();

@@ -1,8 +1,3 @@
-export interface CTransactionList {
-  transactions: CTransaction[];
-  hasMore: boolean;
-}
-
 export interface CTransaction {
   hash: string;
   status: string; // enum?
