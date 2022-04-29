@@ -5,8 +5,13 @@ import { XTransaction, Fund } from 'src/types/transaction';
 import axios from 'axios';
 import {  transactionApi } from 'src/utils/magellan-api-utils';
 
-import { getAvalancheClient, getMagellanBaseUrl } from 'src/utils/client-utils';
+import { getChainId, getMagellanBaseUrl } from 'src/utils/client-utils';
 
+export interface MagellanResponse {
+  transactions: MagellanTransaction[];
+  startTime: string;
+  endTime: string;
+}
 
 export interface MagellanTransaction {
   id: string;
@@ -14,6 +19,7 @@ export interface MagellanTransaction {
   inputs: MagellanInput[];
   outputs: MagellanOutput[];
   txFee: number;
+  type: string;
 }
 
 export interface MagellanOutput {
@@ -26,18 +32,19 @@ export interface MagellanInput {
   output: MagellanOutput,
 }
 
-function createTransaction(magellanTransaction: MagellanTransaction): XTransaction {
+export function createTransaction(magellanTransaction: MagellanTransaction): XTransaction {
   console.log(magellanTransaction);
   return <XTransaction> {
     id: magellanTransaction.id,
     timestamp: new Date(Date.parse(magellanTransaction.timestamp)),
+    type: magellanTransaction.type,
     from: getInputFunds(magellanTransaction),
     to: getOutputFunds(magellanTransaction),
     fee: magellanTransaction.txFee,
   }
 }
 
-function getOutputFunds(magellanTransaction: MagellanTransaction): Fund[] {
+export function getOutputFunds(magellanTransaction: MagellanTransaction): Fund[] {
   const outputfunds: Fund[] = [];
   for (const output of magellanTransaction.outputs || []) {
     outputfunds.push(createFundFromOutput(output));
@@ -45,7 +52,7 @@ function getOutputFunds(magellanTransaction: MagellanTransaction): Fund[] {
   return outputfunds;
 }
 
-function getInputFunds(magellanTransaction: MagellanTransaction): Fund[] {
+export function getInputFunds(magellanTransaction: MagellanTransaction): Fund[] {
   const inputfunds: Fund[] = [];
   if (magellanTransaction.inputs) {
     for (const input of magellanTransaction.inputs) {
@@ -61,6 +68,7 @@ function createFundFromOutput(magellanOutput: MagellanOutput): Fund {
   }
 }
 
+
 export const useXIndexStore = defineStore('xindex', {
   state: () => ({
     xChainId: undefined as string | undefined
@@ -68,56 +76,17 @@ export const useXIndexStore = defineStore('xindex', {
   getters: {
   },
   actions: {
-    // async loadXChainIFromMagellan(): Promise<string | undefined> {
-    //   if (this.xChainId) {
-    //     return this.xChainId;
-    //   }
-    //   const response = await axios.get(getOrteliusBaseUrl() + baseEndpoint)
-    //   console.log('response', response);
-    //   const data = await response.data;
-    //   const value = Object.entries(data.chains).filter(([key, value]) => {
-    //     console.log('value', value)
-    //     return value.chainAlias === 'x';
-    //   })
-    //   if (value && value.length > 0) {
-    //     this.xChainId = value[0][0];
-    //   }
-    //   return this.xChainId;
-    // },
-
-    async loadXChainId(): Promise<string | undefined> {
-      if (this.xChainId) {
-        return this.xChainId;
+    async getChainId() : Promise<string>{
+      if(!this.xChainId) {
+        this.xChainId = await getChainId('x');
       }
-      const pChainApi = getAvalancheClient().PChain();
-      const blockchains = await pChainApi.getBlockchains()
-      const xChains = blockchains.filter(chain => {
-        return chain.name === 'X-Chain';
-      });
-      this.xChainId = xChains[0].id;
-      return this.xChainId;
-    },
-
-    async loadLatestBlocks(offset = 0, count = 10): Promise<Block[]> {
-      const blocks = [];
-      // if (import.meta.env.DEV) {
-      //   for (let i = offset; i < count; i++) {
-      //     blocks.unshift(createMockBlock(offset, i));
-      //   }
-      // }
-      return Promise.resolve([]);
+      return this.xChainId
     },
 
     async loadLatestTransactions(offset = 0, count = 10): Promise<XTransaction[]> {
-      const xChainId = await this.loadXChainId();
-      const rawTransactions = await axios.get(`${getMagellanBaseUrl()}${transactionApi}?chainID=${xChainId}&limit=10&sort=timestamp-desc`);
-      const transObjList: XTransaction[] = [];
-      for (const transaction of rawTransactions.data.transactions) {
-        const mappedTransaction = createTransaction(transaction);
-        transObjList.push(mappedTransaction);
-      }
-
-      return Promise.resolve(transObjList);
+      const chainId = await this.getChainId();
+      const rawTransactions: MagellanResponse = await (await axios.get(`${getMagellanBaseUrl()}${transactionApi}?chainID=${chainId}&limit=${offset+count}&sort=timestamp-desc`)).data;
+      return rawTransactions.transactions.splice(offset, count).map(createTransaction);
     },
 
     async loadTransactionById(transactionId: string): Promise<XTransaction> {

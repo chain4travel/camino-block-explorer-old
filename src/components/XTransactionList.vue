@@ -1,18 +1,13 @@
 <template>
-  <list-card title="Latest Transactions" :items="transactions"
-    @refresh="() => $emit('refresh')">
+  <list-card title="Latest Transactions" :items="transactions" @refresh="() => $emit('refresh')">
     <template v-slot="{ item }">
       <div @click="() => $emit('row-clicked', item)" class="row">
         <div class="col-1">
           <q-icon class="icon-background" size="sm" name="mdi-transfer" />
         </div>
         <div class="col-3">
-          <div>
-            {{ displayLongString(item.id, 16) }}</div>
-          <q-tooltip>
-            {{ item.id }}
-          </q-tooltip>
-          <div>
+          <long-string :value="item.id" :max-length="16"><q-chip size="sm">{{ item.type }}</q-chip></long-string>
+          <div class="q-mt-xs">
             {{ getRelativeTime(item.timestamp) + " ago" }}
           </div>
         </div>
@@ -25,7 +20,7 @@
                   <long-string :value="ad.address" :max-length="20"></long-string>
                 </div>
                 <div class="col-9 text-right">
-                  <long-string  :value="getDisplayValue(ad.value * 1000000000)" :max-length="50">
+                  <long-string :value="getDisplayValue(ad.value * 1000000000)" :max-length="50">
                     <q-icon class="q-ml-sm" size="sm" name="img:camino-coin-logo.png" />
                   </long-string>
                 </div>
@@ -35,7 +30,9 @@
           <div class="row">
             <div class="col-2">To </div>
             <div class="col-9">
-              <div v-bind:class="{'text-grey-8': item.from && item.from[0] && ad.address == item.from[0].address, 'row': true}" :key="ad.id" v-for="ad in item.to">
+              <div
+                v-bind:class="{ 'text-grey-8': item.from && item.from[0] && ad.address == item.from[0].address, 'row': true }"
+                :key="ad.id" v-for="ad in item.to">
                 <div class="col-3">
                   <long-string :value="ad.address" :max-length="20"></long-string>
                 </div>
@@ -74,7 +71,8 @@ export default defineComponent({
   props: {
     title: { type: String, required: false },
     transactions: { type: Array as PropType<XTransaction[]>, required: true },
-    detailsLink: { type: String, required: false }
+    detailsLink: { type: String, required: false },
+    showType: { type: Boolean, default: false }
   },
   setup() {
     return { getRelativeTime, displayLongString, getDisplayValue };

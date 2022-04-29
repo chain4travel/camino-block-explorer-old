@@ -1,52 +1,27 @@
+import axios from 'axios';
 import { defineStore } from 'pinia';
-import { Block } from 'src/types/block'
-
-import { Transaction } from 'src/types/transaction';
-import { createMockBlock, createMockTransaction } from 'src/utils/mock-utils';
-
+import { XTransaction } from 'src/types/transaction';
+import { getChainId, getMagellanBaseUrl } from 'src/utils/client-utils';
+import { transactionApi } from 'src/utils/magellan-api-utils';
+import { createTransaction, getInputFunds, getOutputFunds, MagellanResponse, MagellanTransaction } from './x-index-store';
 
 export const usePIndexStore = defineStore('pindex', {
   state: () => ({
+    pChainId : undefined as string|undefined
   }),
   getters: {
   },
   actions: {
-    async loadLatestBlocks(offset = 0, count = 10): Promise<Block[]> {
-
-      const blocks = [];
-      //if dev mode
-      if (import.meta.env.DEV) {
-        for (let i = offset; i < count; i++) {
-          blocks.unshift(createMockBlock(offset, i));
-        }
+    async getChainId() : Promise<string>{
+      if(!this.pChainId) {
+        this.pChainId = await getChainId('p');
       }
-      return Promise.resolve(blocks);
+      return this.pChainId
     },
-    async loadLatestTransactions(offset = 0, count = 10): Promise<Transaction[]> {
-      const transactions = [];
-      if (import.meta.env.DEV) {
-        for (let i = offset; i < count; i++) {
-          transactions.unshift(createMockTransaction(offset));
-        }
-      }
-      return Promise.resolve(transactions);
+    async loadLatestTransactions(offset = 0, count = 10): Promise<XTransaction[]> {
+      const chainId = await this.getChainId();
+      const rawTransactions: MagellanResponse = await (await axios.get(`${getMagellanBaseUrl()}${transactionApi}?chainID=${chainId}&limit=${offset+count}&sort=timestamp-desc`)).data;
+      return rawTransactions.transactions.splice(offset, count).map(createTransaction);
     },
-    async loadTransactionById(transactionId: string): Promise<Transaction> {
-      if (import.meta.env.DEV) {
-        const mock = createMockTransaction(1);
-        mock.hash = transactionId;
-        return Promise.resolve(mock);
-      }
-      return Promise.resolve({});
-
-    },
-    async loadByBlockId(blockId: string): Promise<Block> {
-      if (import.meta.env.DEV) {
-        const mock = createMockBlock(0, 1);
-        mock.hash = blockId;
-        return Promise.resolve(mock);
-      }
-      return Promise.resolve({});
-    }
   },
 });
