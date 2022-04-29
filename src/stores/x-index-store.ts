@@ -68,23 +68,6 @@ export const useXIndexStore = defineStore('xindex', {
   getters: {
   },
   actions: {
-    // async loadXChainIFromMagellan(): Promise<string | undefined> {
-    //   if (this.xChainId) {
-    //     return this.xChainId;
-    //   }
-    //   const response = await axios.get(getOrteliusBaseUrl() + baseEndpoint)
-    //   console.log('response', response);
-    //   const data = await response.data;
-    //   const value = Object.entries(data.chains).filter(([key, value]) => {
-    //     console.log('value', value)
-    //     return value.chainAlias === 'x';
-    //   })
-    //   if (value && value.length > 0) {
-    //     this.xChainId = value[0][0];
-    //   }
-    //   return this.xChainId;
-    // },
-
     async loadXChainId(): Promise<string | undefined> {
       if (this.xChainId) {
         return this.xChainId;
@@ -110,11 +93,11 @@ export const useXIndexStore = defineStore('xindex', {
 
     async loadLatestTransactions(offset = 0, count = 10): Promise<XTransaction[]> {
       const xChainId = await this.loadXChainId();
-      const rawTransactions = await axios.get(`${getMagellanBaseUrl()}${transactionApi}?chainID=${xChainId}&limit=10&sort=timestamp-desc`);
+      const rawTransactions = await axios.get(`${getMagellanBaseUrl()}${transactionApi}?chainID=${xChainId}&limit=10&sort=timestamp-asc`);
       const transObjList: XTransaction[] = [];
       for (const transaction of rawTransactions.data.transactions) {
         const mappedTransaction = createTransaction(transaction);
-        transObjList.push(mappedTransaction);
+        transObjList.unshift(mappedTransaction);
       }
 
       return Promise.resolve(transObjList);
