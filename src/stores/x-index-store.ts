@@ -20,6 +20,7 @@ export interface MagellanTransaction {
   outputs: MagellanOutput[];
   txFee: number;
   type: string;
+  chainID: string;
 }
 
 export interface MagellanOutput {

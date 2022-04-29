@@ -73,6 +73,13 @@ const routes: RouteRecordRaw[] = [
         path: getBlockDetailsPath(ChainType.P_CHAIN, ':blockId'),
         component: () => import('src/pages/PChainBlockDetails.vue'),
       },
+      // The wallet sends this with a magellan tx id. Reroute to correct detail view.
+      // Cannot inline here as we need to make asynchronous calls to find out correct redirect route
+      {
+        name: 'walletTransactionsRedirect',
+        path: '/tx/:txId',
+        component: () => import('src/pages/TxRedirectPage.vue'),
+      },
       // Always leave this as last one,
       // but you can also remove it
       {
