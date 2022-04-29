@@ -5,21 +5,14 @@ import { XTransaction, Fund } from 'src/types/transaction';
 import { createMockBlock, createMockTransaction } from 'src/utils/mock-utils';
 import axios from 'axios';
 import { useAppConfig } from './app-config';
-import { baseEndpoint, transactionApi } from 'src/utils/ortelius-api-utils';
+import { baseEndpoint, transactionApi } from 'src/utils/magellan-api-utils';
 import {
   Avalanche,
 } from 'avalanche'
 import { ChainAddressPayload } from 'avalanche/dist/utils';
 import { timeStamp } from 'console';
+import { getAvalancheClient, getMagellanBaseUrl } from 'src/utils/client-utils';
 
-function getMagellanBaseUrl(): string {
-  return useAppConfig().getActive.orteliusAddress;
-}
-
-const getAvalancheClient = () => {
-  const network = useAppConfig().getActive;
-  return new Avalanche(network.host, network.port, network.protocol);
-}
 
 export interface MagellanTransaction {
   id: string;

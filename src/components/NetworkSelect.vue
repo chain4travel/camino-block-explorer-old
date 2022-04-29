@@ -58,8 +58,8 @@ export default defineComponent({
         }
       },
       createNewNetwork(value: Network) {
-        if (!value.orteliusAddress) {
-          value.orteliusAddress = `${value.protocol}://${value.host}:${value.port}/ortelius`
+        if (!value.magellanAddress) {
+          value.magellanAddress = `${value.protocol}://${value.host}:${value.port}/magellan`
         }
         appConfig.pushNetwork(value);
         appConfig.setActive(value.id);

@@ -11,7 +11,7 @@
             :rules="[val => val && val.length > 0 || 'Please type something']" />
           <q-input type="number" filled v-model.number="form.port" label="Port" lazy-rules
             :rules="[val => val && val > 0 || 'Please type something']" />
-          <q-input filled v-model="form.orteliusAddress" label="OrteliusAddress" />
+          <q-input filled v-model="form.magellanAddress" label="Magellan Address" />
           <q-card-actions>
             <q-btn icon-right="cancel" label="Cancel" @click="onClose" class="text-dark" />
             <q-btn icon-right="save" label="Create" type="submit" color="primary" />
@@ -61,7 +61,7 @@ export default defineComponent({
       protocol: 'http',
       host: '127.0.0.1',
       port: 9650,
-      orteliusAddress: ''
+      magellanAddress: ''
     });
     let show = useModelWrapper(props, emit, 'modelValue')
 
@@ -82,7 +82,7 @@ export default defineComponent({
           protocol: 'http',
           host: '127.0.0.1',
           port: 9650,
-          orteliusAddress: ''
+          magellanAddress: ''
         }
       }
     }

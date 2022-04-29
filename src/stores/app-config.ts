@@ -13,7 +13,7 @@ export const useAppConfig = defineStore({
         displayName: 'Columbus Network',
         protocol: 'https',
         host: 'columbus.camino.foundation',
-        orteliusAddress: 'https://columbus.camino.foundation/ortelius',
+        magellanAddress: 'https://columbus.camino.foundation/magellan',
         port: 443,
         predefined: true
       },

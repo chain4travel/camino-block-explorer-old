@@ -1,16 +1,11 @@
 import { defineStore } from 'pinia';
-import Web3 from 'web3'
-import {
-  Avalanche,
-} from 'avalanche'
 import { GetContainerRangeResponse } from 'avalanche/dist/apis/index/interfaces';
-
 import { Block } from 'src/types/block'
-import { useAppConfig } from 'src/stores/app-config'
 import { CTransaction, CTransactionList } from 'src/types/transaction';
 import { BlockDetails } from 'src/types/block-detail';
 import { TranscationDetails } from 'src/types/transaction-detail';
 import { BlockTransactionString } from 'web3-eth';
+import { getAvalancheClient, getWeb3Client } from 'src/utils/client-utils';
 
 const clamp = (num: number, min: number, max: number) => Math.min(Math.max(num, min), max)
 
@@ -21,21 +16,9 @@ function createBlock(av_container: Record<string, unknown>, eth_block: BlockTran
     hash: eth_block.hash,
     gasUsed: eth_block.gasUsed,
     transactions: (eth_block.transactions as Array<unknown>),
-
   }
 }
 
-const getAvalancheClient = () => {
-  const network = useAppConfig().getActive;
-  return new Avalanche(network.host, network.port, network.protocol);
-}
-
-const getWeb3Client = () => {
-  const network = useAppConfig().getActive;
-  return new Web3(`${network.protocol}://${network.host}:${network.port}/ext/bc/C/rpc`)
-}
-
-// s: await useCIndexStore().loadBlocks(),
 export const useCIndexStore = defineStore('cindex', {
   state: () => ({
     blocks: [] as Block[],

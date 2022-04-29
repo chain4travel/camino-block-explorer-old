@@ -5,5 +5,5 @@ export interface Network {
   host: string;
   port: number;
   predefined?: boolean;
-  orteliusAddress: string;
+  magellanAddress: string;
 }
