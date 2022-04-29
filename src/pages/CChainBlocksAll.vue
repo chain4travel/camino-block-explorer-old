@@ -62,7 +62,6 @@ export default defineComponent({
       store: useCIndexStore(),
       columns,
       rowEvent(item: BlockTableData) {
-        console.log(item);
         router.push({ path: getBlockDetailsPath(ChainType.C_CHAIN, item.hash), query: { back: getAllBlocksPath(ChainType.C_CHAIN) } })
       }
 

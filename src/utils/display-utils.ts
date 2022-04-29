@@ -1,7 +1,6 @@
 import { Duration } from 'luxon';
 
 export function getRelativeTime(timestamp: Date | number | string): string {
-  console.log(typeof(timestamp))
   const time = getTime(timestamp)
   if (!Number.isInteger(time)) {
     return 'Unknown';
@@ -24,9 +23,7 @@ function getTime(timestamp: Date | number | string): number {
   if(timestamp instanceof Date) {
     return timestamp.getTime();
   }
-  console.log('timestamp', timestamp)
   if(typeof(timestamp) === 'string') {
-    console.log('is string', timestamp)
     return new Date(timestamp).getTime();
   }
   return timestamp;

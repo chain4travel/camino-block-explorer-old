@@ -2,15 +2,9 @@ import { defineStore } from 'pinia';
 import { Block } from 'src/types/block'
 
 import { XTransaction, Fund } from 'src/types/transaction';
-import { createMockBlock, createMockTransaction } from 'src/utils/mock-utils';
 import axios from 'axios';
-import { useAppConfig } from './app-config';
-import { baseEndpoint, transactionApi } from 'src/utils/magellan-api-utils';
-import {
-  Avalanche,
-} from 'avalanche'
-import { ChainAddressPayload } from 'avalanche/dist/utils';
-import { timeStamp } from 'console';
+import {  transactionApi } from 'src/utils/magellan-api-utils';
+
 import { getAvalancheClient, getMagellanBaseUrl } from 'src/utils/client-utils';
 
 
@@ -97,7 +91,6 @@ export const useXIndexStore = defineStore('xindex', {
       }
       const pChainApi = getAvalancheClient().PChain();
       const blockchains = await pChainApi.getBlockchains()
-      console.log(blockchains);
       const xChains = blockchains.filter(chain => {
         return chain.name === 'X-Chain';
       });
@@ -122,8 +115,6 @@ export const useXIndexStore = defineStore('xindex', {
       for (const transaction of rawTransactions.data.transactions) {
         const mappedTransaction = createTransaction(transaction);
         transObjList.push(mappedTransaction);
-        console.log('raw transaction', transaction);
-        console.log('mapped transaction', mappedTransaction);
       }
 
       return Promise.resolve(transObjList);

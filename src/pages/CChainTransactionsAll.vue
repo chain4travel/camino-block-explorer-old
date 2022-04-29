@@ -92,7 +92,6 @@ export default defineComponent({
       loading,
       pagination: { rowsPerPage: 0 },
       rowEvent(item: TransactionTableData) {
-        console.log(item);
         router.push({ path: getTransactionDetailsPath(ChainType.C_CHAIN, item.hash), query: { back: getAllTransactionsPath(ChainType.C_CHAIN) } })
       },
       async refresh() {
@@ -114,7 +113,7 @@ export default defineComponent({
       async onScroll({ to }: { to: number }) {
         const lastIndex = data.value.length - 1;
 
-        if (loading.value !== true && to === lastIndex && moreToLoad) {
+        if (loading.value !== true && to === lastIndex && moreToLoad.value) {
           loading.value = true;
           moreToLoad.value = false;
           lastResponse = await store.loadLatestTransactions(true, currentOffset.value, pageSize);

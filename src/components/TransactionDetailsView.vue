@@ -62,7 +62,7 @@ export default defineComponent({
     content: { type: Object as PropType<BlockDetails>, required: true }
   },
   setup(props) {
-    console.log('props.type', props.type);
+
     const keyWithRoutes = {
       'blockHash': (value: string) => getBlockDetailsPath(props.type, value),
       'childHash': (value: string) => getBlockDetailsPath(props.type, value)

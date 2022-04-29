@@ -47,7 +47,7 @@ export default defineComponent({
       loading,
       pagination: { rowsPerPage: 0 },
       async refresh() {
-        console.log('refreshing')
+
         loading.value = true;
         currentOffset.value = 0;
         const apiData = await props.store.loadLatestBlocks(true, currentOffset.value, pageSize);
@@ -64,17 +64,12 @@ export default defineComponent({
       },
       async onScroll({ to }: { to: number }) {
         const lastIndex = data.value.length - 1;
-        if (data.value && data.value.length) {
-          console.log(data.value[data.value.length - 1].height)
-        }
 
 
         if (loading.value !== true && to === lastIndex && (data.value.length === 0 || data.value.every(e => e.height > 1))) {
           loading.value = true;
-          console.log('calling: ', currentOffset.value);
           const apiData = await props.store.loadLatestBlocks(true, currentOffset.value, pageSize);
           currentOffset.value += apiData.length;
-          console.log('api data', apiData);
           apiData.map(mapToTableData).forEach(newBlock => {
             if (!knownHashes.includes(newBlock.hash)) {
               data.value.push(newBlock);
