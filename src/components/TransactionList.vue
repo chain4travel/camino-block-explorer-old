@@ -3,10 +3,10 @@
     @refresh="() => $emit('refresh')">
     <template v-slot="{ item }">
       <div @click="() => $emit('row-clicked', item)" class="row">
-        <div class="col-1">
-          <q-icon class="icon-background" size="sm" name="mdi-transfer" />
+        <div class="col-1 square icon-background text-center">
+          <q-icon size="sm" name="mdi-transfer" />
         </div>
-        <div class="col-6">
+        <div class="col-5 q-pl-sm">
           <div>
             {{ displayLongString(item.hash, 30) }}</div>
           <q-tooltip>
@@ -16,17 +16,17 @@
             {{ getRelativeTime(item.timestamp) + " ago" }}
           </div>
         </div>
-        <div class="col-3">
+        <div class="col-4">
           <div class="row">
             <div class="col-3">From </div>
             <div class="col-9">
-              <long-string class="grey-color" :value="item.from" :max-length="15"></long-string>
+              <long-string class="grey-color" :value="item.from" :max-length="26"></long-string>
             </div>
           </div>
           <div class="row">
             <div class="col-3">To </div>
             <div class="col-9">
-              <long-string class="grey-color" :value="item.to" :max-length="15"></long-string>
+              <long-string class="grey-color" :value="item.to" :max-length="26"></long-string>
             </div>
           </div>
         </div>
@@ -73,4 +73,11 @@ export default defineComponent({
   min-width: 110px
 .grey-color
   opacity: 60%
+.icon-background
+  background: #2E3234
+  padding: 10px
+.square:before
+  display: block
+  padding-top: 100%
+  background: #2E3234
 </style>

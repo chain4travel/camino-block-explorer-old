@@ -2,13 +2,13 @@
   <q-card>
     <q-card-section v-if="title">
       <div class="row">
-        <div class="text-subtitle1 col-11">{{ title }}</div>
+        <div class="text-h6 col-11">{{ title }}</div>
         <div class="col-1">
           <q-btn color="primary" icon="mdi-refresh" @click="() => $emit('refresh')" />
         </div>
       </div>
     </q-card-section>
-    <q-card-section v-if="items.length > 0" class="container">
+    <q-card-section v-if="items.length > 0">
       <q-list dense separator dark>
         <q-item class="limit-height" v-for="item, index in items" :key="index" clickable v-ripple>
           <q-item-section>

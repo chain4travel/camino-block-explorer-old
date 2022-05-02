@@ -3,10 +3,10 @@
     @refresh="() => $emit('refresh')">
     <template v-slot="{ item }">
       <div @click="() => $emit('row-clicked', item)" class="row">
-        <div class="col-1">
-          <q-icon class="icon-background" size="sm" name="mdi-cube-outline" />
+        <div class="col-1 square icon-background text-center">
+          <q-icon size="sm" name="mdi-cube-outline" />
         </div>
-        <div class="col-6">
+        <div class="col-6 q-pl-sm">
           <div>
             {{ item.height }}</div>
           <div class="grey-color">
@@ -60,4 +60,11 @@ export default defineComponent({
   text-align: end
 .grey-color
   opacity: 60%
+.icon-background
+  background: #2E3234
+  padding: 10px
+.square:before
+  display: block
+  padding-top: 100%
+  background: #2E3234
 </style>
