@@ -6,16 +6,16 @@
         <div class="col-1 square icon-background text-center">
           <q-icon size="sm" name="mdi-cube-outline" />
         </div>
-        <div class="col-6 q-pl-sm">
+        <div class="col-3 q-pl-sm">
           <div>
             {{ item.height }}</div>
           <div class="grey-color">
             {{ getRelativeTime(item.timestamp) + " ago" }}
           </div>
         </div>
-        <div class="col-3">
-          {{ item.transactions.length }}<br>
-          <long-string class="grey-color" :value="item.hash" :max-length="15"></long-string>
+        <div class="col-6">
+          {{ item.transactions.length + " txns" }}<br>
+          <long-string class="grey-color" :value="item.hash" :max-length="45"></long-string>
         </div>
         <div class="col-2 burn-icon">
           <q-chip class="q-chip-bg text-right justify-end" icon-right="img:camino-coin-logo.png">

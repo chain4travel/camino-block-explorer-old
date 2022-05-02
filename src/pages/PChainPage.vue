@@ -10,7 +10,7 @@
       <div class=" col-11">
         <!-- Rename that component-->
         <x-transaction-list :show-type="true" :transactions="transactions"
-          :show-all-link="getAllTransactionsPath(chainType)" @refresh="refreshTransactions"
+          @refresh="refreshTransactions"
           @row-clicked="openTransactionDetail">
         </x-transaction-list>
       </div>
