@@ -1,8 +1,8 @@
 <template>
   <q-page>
-    <div class="row ">
+    <div class="row q-pa-md">
       <div class="col">
-        <search-banner class="q-pa-md" @search="search"></search-banner>
+        <search-banner @search="search"></search-banner>
       </div>
     </div>
     <div class="row ">

@@ -24,7 +24,7 @@ import { BlockTableData } from 'src/types/block';
 import { ChainViewLoader } from 'src/types/chain-view-loader';
 import LongString from './ui/LongString.vue';
 
-const pageSize = 50;
+const pageSize = 20;
 
 export default defineComponent({
     name: 'DetailsTable',
