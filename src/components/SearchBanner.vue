@@ -2,7 +2,7 @@
   <q-card class="justify-center own-bg">
     <q-card-section class="min-height container q-pt-xl q-pb-xl text-center">
       <div class="row">
-        <div class="col-12 justify.center text-center text-h2">Explore the true potential of travel.</div>
+        <div class="col-12 justify.center text-center text-h2 text-bold">Explore the true potential of travel.</div>
       </div>
       <div class="row">
         <div class="offset-4 q-mt-xl col-4">
