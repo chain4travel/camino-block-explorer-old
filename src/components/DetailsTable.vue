@@ -6,6 +6,9 @@
       <template v-slot:top-right>
         <q-btn color="primary" icon="mdi-refresh" @click="() => refresh()" />
       </template>
+      <template v-slot:bottom>
+        <q-btn color="primary" icon="mdi-arrow-left" @click="() => $router.back()" />
+      </template>
     </q-table>
   </div>
 </template>
