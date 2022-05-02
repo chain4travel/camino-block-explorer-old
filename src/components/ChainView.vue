@@ -1,15 +1,19 @@
 <template>
-  <q-page class="flex">
-    <search-banner @search="search"></search-banner>
-    <div class="row full-width q-mr-xl">
-      <div class="offset-1 col-5">
+  <q-page>
+    <div class="row ">
+      <div class="col">
+        <search-banner class="q-pa-md" @search="search"></search-banner>
+      </div>
+    </div>
+    <div class="row ">
+      <div class="col-6 q-pr-s q-pl-md">
         <!-- Latest Blocks-->
         <block-list :has-next-page="blockHasNextPage" :blocks="blocks" :details-link="getAllBlocksPath(type)"
           @refresh="refreshBlocks" @row-clicked="openBlockDetail">
         </block-list>
       </div>
       <!-- Latest Transactions-->
-      <div class="col-5 q-ml-xl">
+      <div class="col-6 q-pl-md q-pr-md">
         <transaction-list :transactions="transactions" :details-link="getAllTransactionsPath(type)"
           @refresh="refreshTransactions" @row-clicked="openTransactionDetail">
         </transaction-list>
@@ -86,5 +90,7 @@ export default defineComponent({
 })
 </script>
 
-<style>
+<style scoped lang="sass">
+*
+  background: #1A1B1E
 </style>

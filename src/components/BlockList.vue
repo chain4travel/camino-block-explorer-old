@@ -9,17 +9,18 @@
         <div class="col-6">
           <div>
             {{ item.height }}</div>
-          <div>
+          <div class="grey-color">
             {{ getRelativeTime(item.timestamp) + " ago" }}
           </div>
         </div>
         <div class="col-3">
           {{ item.transactions.length }}<br>
-          <long-string :value="item.hash" :max-length="15"></long-string>
+          <long-string class="grey-color" :value="item.hash" :max-length="15"></long-string>
         </div>
         <div class="col-2 burn-icon">
-          {{ getDisplayValue(item.gasUsed) }}
-          <q-icon class="q-ml-sm" size="sm" name="img:camino-coin-logo.png" />
+          <q-chip class="q-chip-bg text-right justify-end" icon-right="img:camino-coin-logo.png">
+            {{ getDisplayValue(item.gasUsed) }}
+          </q-chip>
         </div>
       </div>
     </template>
@@ -50,3 +51,13 @@ export default defineComponent({
   components: { ListCard, LongString }
 })
 </script>
+<style lang="sass" scoped>
+.q-chip-bg
+  background: rgba(255, 255, 255, 0.15)
+  color: white
+  border-radius: 99px
+  min-width: 120px
+  text-align: end
+.grey-color
+  opacity: 60%
+</style>

@@ -1,5 +1,5 @@
 <template>
-  <q-card>
+  <q-card dark>
     <q-card-section v-if="title">
       <div class="row">
         <div class="text-subtitle1 col-11">{{ title }}</div>

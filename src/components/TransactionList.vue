@@ -12,7 +12,7 @@
           <q-tooltip>
             {{ item.hash }}
           </q-tooltip>
-          <div>
+          <div class="grey-color">
             {{ getRelativeTime(item.timestamp) + " ago" }}
           </div>
         </div>
@@ -20,21 +20,22 @@
           <div class="row">
             <div class="col-3">From </div>
             <div class="col-9">
-              <long-string :value="item.from" :max-length="15"></long-string>
+              <long-string class="grey-color" :value="item.from" :max-length="15"></long-string>
             </div>
           </div>
           <div class="row">
             <div class="col-3">To </div>
             <div class="col-9">
-              <long-string :value="item.to" :max-length="15"></long-string>
+              <long-string class="grey-color" :value="item.to" :max-length="15"></long-string>
             </div>
           </div>
         </div>
         <div class="col-2 gas-used">
-          <long-string :value="getDisplayValue(item.value)" :max-length="12">
-            <q-icon class="q-ml-sm" size="sm" name="img:camino-coin-logo.png" />
-          </long-string>
-
+          <q-chip class="q-chip-bg" icon-right="img:camino-coin-logo.png">
+            <long-string class="text-right" :value="getDisplayValue(item.value)" :max-length="12">
+              <!-- <q-icon class="q-ml-sm" size="sm" name="img:camino-coin-logo.png" /> -->
+            </long-string>
+          </q-chip>
         </div>
       </div>
     </template>
@@ -47,7 +48,7 @@ import { getRelativeTime, displayLongString } from 'src/utils/display-utils'
 import { getDisplayValue } from 'src/utils/currency-utils'
 
 import ListCard from './ListCard.vue'
-import { Transaction } from 'src/types/transaction'
+import { CTransaction } from 'src/types/transaction'
 import LongString from './ui/LongString.vue'
 
 export default defineComponent({
@@ -55,7 +56,7 @@ export default defineComponent({
   emits: ['refresh', 'row-clicked'],
   props: {
     title: { type: String, required: false },
-    transactions: { type: Array as PropType<Transaction[]>, required: true },
+    transactions: { type: Array as PropType<CTransaction[]>, required: true },
     detailsLink: { type: String, required: false }
   },
   setup() {
@@ -64,3 +65,12 @@ export default defineComponent({
   components: { ListCard, LongString }
 })
 </script>
+<style lang="sass" scoped>
+.q-chip-bg
+  background: rgba(255, 255, 255, 0.15)
+  color: white
+  border-radius: 99px
+  min-width: 110px
+.grey-color
+  opacity: 60%
+</style>

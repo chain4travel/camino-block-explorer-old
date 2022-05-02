@@ -1,12 +1,17 @@
 <template>
-  <q-page class="flex">
-    <search-banner @search="search"></search-banner>
-    <div class="row full-width q-mr-xl">
+  <q-page>
+    <div class="row q-pa-md">
+      <div class="col">
+        <search-banner @search="search"></search-banner>
+      </div>
+    </div>
+    <div class="row full-width q-mr-xl justify-center">
       <!-- Latest Transactions-->
-      <div class="offset-1 col-10 q-ml-xl">
+      <div class=" col-11">
         <!-- Rename that component-->
-        <x-transaction-list :show-type="true" :transactions="transactions" :details-link="getAllTransactionsPath(chainType)"
-          @refresh="refreshTransactions" @row-clicked="openTransactionDetail">
+        <x-transaction-list :show-type="true" :transactions="transactions"
+          :details-link="getAllTransactionsPath(chainType)" @refresh="refreshTransactions"
+          @row-clicked="openTransactionDetail">
         </x-transaction-list>
       </div>
     </div>
