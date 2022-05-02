@@ -1,5 +1,5 @@
 <template>
-  <q-page >
+  <q-page>
     <div class="row q-pa-md">
       <div class="col">
         <search-banner @search="search"></search-banner>
@@ -8,7 +8,7 @@
     <div class="row full-width q-pt-md q-pr-xl justify-center">
       <!-- Latest Transactions-->
       <div class="col-11">
-        <x-transaction-list :transactions="transactions" :details-link="getAllTransactionsPath(chainType)"
+        <x-transaction-list :transactions="transactions" :show-all-link="getAllTransactionsPath(chainType)"
           @refresh="refreshTransactions" @row-clicked="openTransactionDetail">
         </x-transaction-list>
       </div>

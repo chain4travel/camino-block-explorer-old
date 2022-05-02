@@ -34,10 +34,7 @@ export const useCIndexStore = defineStore('cindex', {
   getters: {
   },
   actions: {
-    async loadLatestBlocks(forceReload = false, offset = 0, count = 10): Promise<Block[]> {
-      if (!forceReload && this.blocks && this.blocks.length > 0) {
-        return this.blocks;
-      }
+    async loadLatestBlocks(offset = 0, count = 10): Promise<Block[]> {
       const web3 = getWeb3Client();
       const avalancheClient = getAvalancheClient();
       const indexAPI = avalancheClient.Index();
@@ -71,7 +68,7 @@ export const useCIndexStore = defineStore('cindex', {
         return [];
       }
     },
-    async loadLatestTransactions(forceReload = false, offset = 0, count = 10): Promise<CTransaction[]> {
+    async loadLatestTransactions(offset = 0, count = 10): Promise<CTransaction[]> {
       return this.loadTransactionsMagellan(offset, count);
     },
     async loadTransactionsMagellan(offset = 0, count= 10): Promise<CTransaction[]> {

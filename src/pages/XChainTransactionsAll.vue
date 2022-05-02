@@ -3,8 +3,8 @@
     <!-- content -->
     <div class="row q-mt-xl">
       <div class="offset-1 col-10">
-        <details-table :back-addr="backAddr" :load-data="loadTransactions" :require-load-more="requireLoadMore"
-          :columns="columns" title="C-Blocks" :store="store" @row-clicked="(item) => rowEvent(item)">
+        <details-table :back-addr="backAddr" :load-data="loadTransactions" :require-load-more="requireLoadMore" :columns="columns"
+          title="X-Transactions" :store="store" @row-clicked="(item) => rowEvent(item)">
         </details-table>
       </div>
     </div>
@@ -12,22 +12,22 @@
 </template>
 
 <script lang="ts">
-import { useCIndexStore } from 'src/stores/c-index-store';
 import { ChainType } from 'src/types/chain-type';
 import { getAllTransactionsPath, getBasePath, getTransactionDetailsPath } from 'src/utils/route-utils';
 import { defineComponent } from 'vue'
 import { useRouter } from 'vue-router';
-import { CTransaction, TransactionTableData } from 'src/types/transaction'
+import { XTransaction, XTransactionTableData } from 'src/types/transaction'
 import { getRelativeTime } from 'src/utils/display-utils';
 import { getDisplayValue } from 'src/utils/currency-utils';
 import { ChainViewLoader } from 'src/types/chain-view-loader';
 import DetailsTable from '../components/DetailsTable.vue';
+import {  useXIndexStore } from 'src/stores/x-index-store';
 
 const columns = [
   {
-    name: 'blockNumber',
-    label: 'Block',
-    field: 'blockNumber',
+    name: 'hash',
+    label: 'Hash',
+    field: 'hash',
     align: 'left'
   },
   {
@@ -43,40 +43,49 @@ const columns = [
     align: 'left'
   },
   {
-    name: 'hash',
-    label: 'Hash',
-    field: 'hash',
-    align: 'left'
-  },
-  {
     name: 'timestamp',
     label: 'Timestamp',
-    field: (row: TransactionTableData) => getRelativeTime(row.timestamp),
+    field: (row: XTransactionTableData) => getRelativeTime(row.timestamp) + ' ago',
     align: 'left'
   },
   {
-    name: 'status',
-    label: 'Status',
-    field: 'status',
+    name: 'type',
+    label: 'Type',
+    field: 'type',
     align: 'left'
   },
   {
     value: 'value',
     label: 'Value',
-    field: (row: TransactionTableData) => getDisplayValue(row.value),
+    field: (row: XTransactionTableData) => getDisplayValue(row.value),
+    align: 'left'
+  },
+  {
+    value: 'fee',
+    label: 'Fee',
+    field: (row: XTransactionTableData) => getDisplayValue(row.fee),
     align: 'left'
   }
 ]
 
-function mapToTableData(transaction: CTransaction): TransactionTableData {
+function getValue(outputTotal?: object, inputTotal?: object): number {
+  console.log('outputs', outputTotal);
+  console.log('inputTotal', inputTotal);
+  const output = outputTotal ? Object.entries(outputTotal).map(([key, value]) => parseInt(value)).reduce((pv, cv) => pv + cv, 0) : 0;
+  const input = inputTotal ? Object.entries(inputTotal).map(([key, value]) => parseInt(value)).reduce((pv, cv) => pv + cv, 0) : 0;
+  return output - input;
+}
+
+function mapToTableData(transaction: XTransaction): XTransactionTableData {
+  console.log('transaction', transaction)
   return {
-    blockNumber: transaction.block,
-    from: transaction.from,
-    hash: transaction.hash,
-    status: transaction.status,
+    from: transaction.from.map(e => e.address).join(' '),
+    hash: transaction.id,
+    type: transaction.type,
     timestamp: transaction.timestamp,
-    to: transaction.to,
-    value: transaction.value
+    to: transaction.to.map(e => e.address).join(' '),
+    value: getValue(transaction.outputTotals, transaction.inputTotals),
+    fee: transaction.fee
   }
 }
 
@@ -86,19 +95,20 @@ export default defineComponent({
     const router = useRouter();
     let moreToLoad = true;
     return {
-      store: useCIndexStore(),
+      store: useXIndexStore(),
       columns,
-      backAddr: getBasePath(ChainType.C_CHAIN),
-      rowEvent(item: TransactionTableData) {
-        router.push({ path: getTransactionDetailsPath(ChainType.C_CHAIN, item.hash), query: { back: getAllTransactionsPath(ChainType.C_CHAIN) } });
+      backAddr: getBasePath(ChainType.X_CHAIN),
+      rowEvent(item: XTransactionTableData) {
+        router.push({ path: getTransactionDetailsPath(ChainType.X_CHAIN, item.hash), query: { back: getAllTransactionsPath(ChainType.X_CHAIN) } });
       },
       requireLoadMore(): boolean {
         return moreToLoad;
       },
       async loadTransactions(store: ChainViewLoader, knownHashes: string[], offset: number, limit: number) {
-        console.log('on scroll');
-        const apiData = await store.loadLatestTransactions(offset, limit);
-        const newData: TransactionTableData[] = [];
+        const apiData: XTransaction[] = await store.loadLatestTransactions(offset, limit);
+        console.log('api', apiData)
+        const newData: XTransactionTableData[] = [];
+        console.log('From api ', apiData)
         moreToLoad = false;
         apiData.map(mapToTableData).forEach(newTransaction => {
           if (!knownHashes.includes(newTransaction.hash)) {
@@ -107,6 +117,7 @@ export default defineComponent({
             moreToLoad = true;
           }
         });
+        console.log('mapped ', newData)
         return newData;
       }
     };

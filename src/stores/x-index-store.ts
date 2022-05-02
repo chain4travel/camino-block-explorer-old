@@ -21,6 +21,8 @@ export interface MagellanTransaction {
   txFee: number;
   type: string;
   chainID: string;
+  inputTotals: object,
+  outputTotals: object
 }
 
 export interface MagellanOutput {
@@ -42,6 +44,8 @@ export function createTransaction(magellanTransaction: MagellanTransaction): XTr
     from: getInputFunds(magellanTransaction),
     to: getOutputFunds(magellanTransaction),
     fee: magellanTransaction.txFee,
+    inputTotals: magellanTransaction.inputTotals,
+    outputTotals: magellanTransaction.outputTotals
   }
 }
 
@@ -85,6 +89,7 @@ export const useXIndexStore = defineStore('xindex', {
     },
 
     async loadLatestTransactions(offset = 0, count = 10): Promise<XTransaction[]> {
+      console.log('loading', offset, count)
       const chainId = await this.getChainId();
       const rawTransactions: MagellanResponse = await (await axios.get(`${getMagellanBaseUrl()}${transactionApi}?chainID=${chainId}&limit=${offset+count}&sort=timestamp-desc`)).data;
       return rawTransactions.transactions.splice(offset, count).map(createTransaction);

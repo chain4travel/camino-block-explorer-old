@@ -1,5 +1,5 @@
 <template>
-  <list-card title="Latest Transactions" :items="transactions" @refresh="() => $emit('refresh')">
+  <list-card title="Latest Transactions" :items="transactions" @refresh="() => $emit('refresh')" :show-all-link="showAllLink">
     <template v-slot="{ item }">
       <div @click="() => $emit('row-clicked', item)" class="row">
         <div class="col-1">
@@ -71,7 +71,7 @@ export default defineComponent({
   props: {
     title: { type: String, required: false },
     transactions: { type: Array as PropType<XTransaction[]>, required: true },
-    detailsLink: { type: String, required: false },
+    showAllLink: { type: String, required: false },
     showType: { type: Boolean, default: false }
   },
   setup() {

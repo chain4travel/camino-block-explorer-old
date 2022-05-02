@@ -62,6 +62,11 @@ const routes: RouteRecordRaw[] = [
         path: getBlockDetailsPath(ChainType.X_CHAIN, ':blockId'),
         component: () => import('src/pages/XChainBlockDetails.vue'),
       },
+      {
+        name: getAllTransactionsPathName(ChainType.X_CHAIN),
+        path: getAllTransactionsPath(ChainType.X_CHAIN),
+        component: () => import('src/pages/XChainTransactionsAll.vue'),
+      },
       //P-Chain details
       {
         name: getTransactionsPathName(ChainType.P_CHAIN),

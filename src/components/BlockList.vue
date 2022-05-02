@@ -1,5 +1,5 @@
 <template>
-  <list-card :title="title || 'Latest Blocks'" :items="blocks" :details-link="detailsLink"
+  <list-card :title="title || 'Latest Blocks'" :items="blocks" :show-all-link="showAllLink"
     @refresh="() => $emit('refresh')">
     <template v-slot="{ item }">
       <div @click="() => $emit('row-clicked', item)" class="row">
@@ -41,7 +41,7 @@ export default defineComponent({
   props: {
     title: { type: String, required: false },
     blocks: { type: Array as PropType<Block[]>, required: true },
-    detailsLink: { type: String, required: false }
+    showAllLink: { type: String, required: false }
   },
   setup() {
     return {

@@ -1,5 +1,5 @@
 <template>
-  <list-card title="Latest Transactions" :items="transactions" :details-link="detailsLink"
+  <list-card title="Latest Transactions" :items="transactions" :show-all-link="showAllLink"
     @refresh="() => $emit('refresh')">
     <template v-slot="{ item }">
       <div @click="() => $emit('row-clicked', item)" class="row">
@@ -31,9 +31,8 @@
           </div>
         </div>
         <div class="col-2 gas-used">
-          <q-chip class="q-chip-bg" icon-right="img:camino-coin-logo.png">
+          <q-chip class="q-chip-bg" icon="img:camino-coin-logo.png">
             <long-string class="text-right" :value="getDisplayValue(item.value)" :max-length="12">
-              <!-- <q-icon class="q-ml-sm" size="sm" name="img:camino-coin-logo.png" /> -->
             </long-string>
           </q-chip>
         </div>
@@ -57,7 +56,7 @@ export default defineComponent({
   props: {
     title: { type: String, required: false },
     transactions: { type: Array as PropType<CTransaction[]>, required: true },
-    detailsLink: { type: String, required: false }
+    showAllLink: { type: String, required: false }
   },
   setup() {
     return { getRelativeTime, displayLongString, getDisplayValue };
