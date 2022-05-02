@@ -44,6 +44,6 @@ export default defineComponent({
 
 <style scoped lang="sass">
 *
-  background: #27324C
+  background: $background-card
   color: white
 </style>

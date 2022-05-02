@@ -12,29 +12,19 @@
 
 <script lang="ts">
 import { defineComponent, PropType, Ref, ref } from 'vue';
-import { BlockTableData, Block } from 'src/types/block';
+import { BlockTableData } from 'src/types/block';
 import { ChainViewLoader } from 'src/types/chain-view-loader';
 
-const pageSize = 10;
+const pageSize = 50;
 
-
-function mapToTableData(block: Block): BlockTableData {
-  return {
-    id: block.id,
-    height: block.height,
-    gasLimit: block.gasLimit,
-    gasUsed: block.gasUsed,
-    hash: block.hash,
-    numberOfTransactions: block.transactions ? block.transactions.length : 0,
-    timestamp: block.timestamp
-  }
-}
 export default defineComponent({
   name: 'DetailsTable',
   props: {
     store: { type: Object as PropType<ChainViewLoader>, required: true },
     title: { type: String, required: true },
-    columns: { type: Array, required: true }
+    columns: { type: Array, required: true },
+    loadData: {type: Function, required: true},
+    requireLoadMore: {type: Function, required: true}
   },
   emits: ['row-clicked'],
   async setup(props) {
@@ -47,41 +37,29 @@ export default defineComponent({
       loading,
       pagination: { rowsPerPage: 0 },
       async refresh() {
-
         loading.value = true;
         currentOffset.value = 0;
-        const apiData = await props.store.loadLatestBlocks(true, currentOffset.value, pageSize);
-        const newData: BlockTableData[] = []
         knownHashes = [];
-        apiData.map(mapToTableData).forEach(newBlock => {
-          if (!knownHashes.includes(newBlock.hash)) {
-            knownHashes.push(newBlock.hash);
-            newData.push(newBlock);
-          }
-        })
-        data.value = newData
+        data.value = await props.loadData(props.store, knownHashes, currentOffset.value, pageSize);
+        currentOffset.value += data.value.length;
         loading.value = false
       },
       async onScroll({ to }: { to: number }) {
+        console.log('lastKnown', knownHashes)
+        console.log('currentOffset', currentOffset.value)
+        console.log('loading.value', loading.value)
         const lastIndex = data.value.length - 1;
-
-
-        if (loading.value !== true && to === lastIndex && (data.value.length === 0 || data.value.every(e => e.height > 1))) {
+        if (loading.value !== true && to === lastIndex && props.requireLoadMore(data.value)) {
+          console.log('Loading')
           loading.value = true;
-          const apiData = await props.store.loadLatestBlocks(true, currentOffset.value, pageSize);
-          currentOffset.value += apiData.length;
-          apiData.map(mapToTableData).forEach(newBlock => {
-            if (!knownHashes.includes(newBlock.hash)) {
-              data.value.push(newBlock);
-              knownHashes.push(newBlock.hash);
-            }
-          })
+          const apiData = await props.loadData(props.store, knownHashes, currentOffset.value, pageSize)
+          console.log('apiData', apiData)
+          currentOffset.value += apiData.length || 1;
+          data.value.push(...apiData);
+          console.log('done')
           loading.value = false;
         }
-
-
       }
-
     }
   }
 })
@@ -89,7 +67,7 @@ export default defineComponent({
 
 <style scoped lang="sass">
 *
-  background: #27324C
+  background: $background-card
   color: white
 .my-sticky-dynamic
   /* height or max-height is important */
@@ -108,4 +86,5 @@ export default defineComponent({
     top: 48px
   thead tr:first-child th
     top: 0
+
 </style>
