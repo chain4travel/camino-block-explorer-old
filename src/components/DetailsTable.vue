@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <q-table :grid="$q.screen.xs" dark class="my-sticky-dynamic" :title="title" :rows="data" :columns="computedColumns"
+    <q-table :grid="$q.screen.xs" class="my-sticky-dynamic" :title="title" :rows="data" :columns="computedColumns"
       :loading="loading" row-key="index" virtual-scroll :virtual-scroll-item-size="48"
       :virtual-scroll-sticky-size-start="48" :rows-per-page-options="[0]" @virtual-scroll="onScroll"
       @row-click="(event, item) => $emit('row-clicked', item)">

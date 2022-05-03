@@ -9,7 +9,7 @@
       </div>
     </q-card-section>
     <q-card-section v-if="items.length > 0">
-      <q-list dense separator dark>
+      <q-list dense separator>
         <q-item class="limit-height" v-for="item, index in items" :key="index" clickable v-ripple>
           <q-item-section>
             <slot :item="item"></slot>

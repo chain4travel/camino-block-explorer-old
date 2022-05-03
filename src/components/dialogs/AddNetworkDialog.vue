@@ -13,7 +13,7 @@
             :rules="[val => val && val > 0 || 'Please type something']" />
           <q-input filled v-model="form.magellanAddress" label="Magellan Address" />
           <q-card-actions>
-            <q-btn icon-right="cancel" label="Cancel" @click="onClose" class="text-dark" />
+            <q-btn icon-right="cancel" label="Cancel" @click="onClose" color="grey" text-color="black" />
             <q-btn icon-right="save" label="Create" type="submit" color="primary" />
           </q-card-actions>
         </q-form>
@@ -52,7 +52,6 @@ export default defineComponent({
   props: {
     modelValue: Boolean
   },
-
   setup(props, { emit }) {
     const appConfig = useAppConfig();
     const form: Ref<Network> = ref({
@@ -72,6 +71,7 @@ export default defineComponent({
         emit('new-network', form.value)
       },
       onClose() {
+        emit('cancel')
         show.value = false;
       },
       initForm() {
