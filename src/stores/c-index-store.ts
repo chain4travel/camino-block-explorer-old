@@ -1,67 +1,39 @@
 import { defineStore } from 'pinia';
-import { GetContainerRangeResponse } from 'avalanche/dist/apis/index/interfaces';
-import { Block } from 'src/types/block'
+import { BlockTableData } from 'src/types/block'
 import { CTransaction } from 'src/types/transaction';
 import { BlockDetails } from 'src/types/block-detail';
 import { TranscationDetails } from 'src/types/transaction-detail';
-import { BlockTransactionString } from 'web3-eth';
-import { getAvalancheClient, getMagellanBaseUrl, getWeb3Client } from 'src/utils/client-utils';
+import {  getMagellanBaseUrl, getWeb3Client } from 'src/utils/client-utils';
 import axios from 'axios';
-import { cTransactionApi } from 'src/utils/magellan-api-utils';
-import { CTransactionResponse } from 'src/types/magellan-types';
+import { cBlocksApi } from 'src/utils/magellan-api-utils';
+import { MagellanCBlocksResponse } from 'src/types/magellan';
 
-const clamp = (num: number, min: number, max: number) => Math.min(Math.max(num, min), max)
 
-function createBlock(av_container: Record<string, unknown>, eth_block: BlockTransactionString): Block {
-  return <Block>{
-    height: eth_block.number,
-    timestamp: new Date(Date.parse(av_container.timestamp as string)),
-    hash: eth_block.hash,
-    gasUsed: eth_block.gasUsed,
-    transactions: (eth_block.transactions as Array<unknown>),
-  }
+async function loadBlocksAndTransactions(blockOffset = 0, blockCount = 10, transactionOffset = 0, transactionCount = 10): Promise<MagellanCBlocksResponse> {
+  return await (await axios.get(`${getMagellanBaseUrl()}${cBlocksApi}?limit=${blockCount}&limit=${transactionCount}&offset=${blockOffset}&offset=${transactionOffset}`)).data;
 }
 
 export const useCIndexStore = defineStore('cindex', {
   state: () => ({
-    blocks: [] as Block[],
-    transactionResponse: {
-      transactions: [],
-      hasMore: true
-    } as CTransactionList,
     baseUrl: '/ext/index/C/block'
   }),
   getters: {
   },
   actions: {
-    async loadLatestBlocks(offset = 0, count = 10): Promise<Block[]> {
-      const web3 = getWeb3Client();
-      const avalancheClient = getAvalancheClient();
-      const indexAPI = avalancheClient.Index();
+    async loadLatestBlocks(offset = 0, count = 10): Promise<BlockTableData[]> {
       try {
-        const lastAccepted = await indexAPI.getLastAccepted('hex', this.baseUrl);
-        const currentIndex = parseInt(lastAccepted.index)
-        const start_index = clamp(currentIndex - offset - count + 1, 0, currentIndex)
-        let containerList: GetContainerRangeResponse[] = []
-
-        try {
-          containerList = await indexAPI.getContainerRange(start_index, count, 'hex', this.baseUrl)
-        } catch (e) {
-          console.log('avalanche did not work', e)
+        const cBlockresponse = await loadBlocksAndTransactions(offset, count, 0,0);
+        if(!cBlockresponse.blocks) {
+          return[];
         }
-        const blocks: Block[] = [];
-        for (const container of containerList.containers) {
-          try {
-            const eth3_block = await web3.eth.getBlock(parseInt(container.index) + 1);
-            const block = createBlock(container, eth3_block);
-            blocks.unshift(block);
-          } catch (e) {
-            console.log('did not work', e)
-          }
-
-        }
-        this.blocks = blocks;
-        return this.blocks;
+        return cBlockresponse.blocks.map(block => <BlockTableData>{
+          hash: block.hash,
+          number: parseInt(block.number),
+          timestamp: new Date(block.timestamp * 1000),
+          gasLimit: parseInt(block.gasLimit),
+          gasUsed: parseInt(block.gasUsed),
+          numberOfTransactions: block.evmTx ? block.evmTx : 0
+        });
       } catch (e) {
         console.error(e);
         // todo add q notify as display of error! (or throw and let component deal with it)
@@ -69,23 +41,21 @@ export const useCIndexStore = defineStore('cindex', {
       }
     },
     async loadLatestTransactions(offset = 0, count = 10): Promise<CTransaction[]> {
-      return this.loadTransactionsMagellan(offset, count);
-    },
-    async loadTransactionsMagellan(offset = 0, count = 10): Promise<CTransaction[]> {
       // currently offset is not available "natively", so we add offset and count and skip the offset elements in processing
       // this does not work for more than 5k elements at once.. will need to adjust for that to work
       try {
-
-
-        const cTransactions: CTransactionResponse = await (await axios.get(`${getMagellanBaseUrl()}${cTransactionApi}?limit=${count + offset}`)).data;
-        return cTransactions.Transactions.splice(offset, count).map(element => (<CTransaction>{
+        const cBlockresponse = await loadBlocksAndTransactions(0, 0, offset, count);
+        if(!cBlockresponse.transactions) {
+          return [];
+        }
+        return cBlockresponse.transactions.map(element => (<CTransaction>{
           block: element.block,
-          from: element.fromAddr,
+          from: element.from,
           hash: element.hash,
-          status: 'Not available',
-          timestamp: element.createdAt,
-          to: element.toAddr,
-          value: element.value
+          status: element.status +'',
+          timestamp: new Date(element.timestamp*1000),
+          to: element.to,
+          value: element.value + ''
         }));
       } catch (e) {
         return []
