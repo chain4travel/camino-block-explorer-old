@@ -7,7 +7,7 @@
       <q-icon class="q-ml-sm text-grey" size="xs" name="mdi-circle-off-outline" />
     </q-item-section>
     <q-item-section v-else-if="type == 'string'" class="col-10">
-      {{ value }}
+      <long-string :value="value" :max-length="16"></long-string>
     </q-item-section>
     <q-item-section v-else-if="type == 'txstatus'" class="col-10">
       <q-icon :class="getStatusClass(value)" size="xs" :name="getStatusIcon(value)">
@@ -17,18 +17,18 @@
       </q-icon>
     </q-item-section>
     <q-item-section v-else-if="type == 'txtype'" class="col-10">
-      <long-string :value="value" :max-length="16"><q-chip size="sm">{{ value }}</q-chip></long-string>
-       <!-- <q-icon :class="getStatusClass(value)" size="xs" :name="getStatusIcon(value)" /> -->
+      <div><q-chip size="sm">{{ value }}</q-chip></div>
     </q-item-section>
     <q-item-section v-else-if="type == 'timestamp'" class="col-10">
         <div class="row">
-          <div class="q-pr-md"><q-icon class="q-ml-sm q-pr-sm" size="xs" name="mdi-clock-outline" />{{ getRelativeTime(value) }} ago</div>
-          (<long-string :value="value" :max-length="16">{{ value }}</long-string>)
+          <div class="q-pr-md"><q-icon class="q-ml-sm q-pr-sm" size="xs" name="mdi-clock-outline" />{{ getRelativeTime(value) }} ago</div><div><long-string :value="value" :max-length="16" /></div>
         </div>
-       <!-- <q-icon :class="getStatusClass(value)" size="xs" :name="getStatusIcon(value)" /> -->
     </q-item-section>
     <q-item-section v-else-if="type == 'gwei'" class="col-10">
-      {{ getDisplayValueForGewi(value) }}
+      <div class="row">
+        <q-icon class="q-ml-sm q-pr-sm" size="sm" name="img:camino-coin-logo.png" />
+        {{ getDisplayValueForGewi(value) }}
+      </div>
     </q-item-section>
   </q-item>
 </template>
@@ -36,6 +36,7 @@
 import { defineComponent } from 'vue'
 import { getRelativeTime } from 'src/utils/display-utils'
 import { getDisplayValueForGewi } from 'src/utils/currency-utils'
+import LongString from './ui/LongString.vue'
 
 function getStatusIcon(status: string) {
   if(status === 'accepted') {
@@ -70,7 +71,8 @@ export default defineComponent({
         getRelativeTime,
         getDisplayValueForGewi
     }
-  }
+  },
+  components: { LongString }
 })
 </script>
 
