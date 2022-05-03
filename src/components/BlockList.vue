@@ -3,8 +3,8 @@
     @refresh="() => $emit('refresh')">
     <template v-slot="{ item }">
       <div @click="() => $emit('row-clicked', item)" class="row">
-        <div class="col-1 text-center">
-          <q-icon class="squareBackground" size="sm" name="mdi-cube-outline" />
+        <div class="col-1 text-center q-pt-sm q-pb-sm">
+          <q-icon class="square-background" size="sm" name="mdi-cube-outline" />
         </div>
         <div class="col-3 q-pl-sm">
           <div>
@@ -17,7 +17,7 @@
           {{ item.transactions.length + " txns" }}<br>
           <long-string class="grey-color" :value="item.hash" :max-length="45"></long-string>
         </div>
-        <div class="col-2 burn-icon">
+        <div class="col-2 burn-icon q-pt-sm">
           <q-chip class="q-chip-bg justify-end">
             <q-icon size="sm" name="mdi-fire" class="text-red"></q-icon>
             {{ getDisplayValue(item.gasUsed) }}

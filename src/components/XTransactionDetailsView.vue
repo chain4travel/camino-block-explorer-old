@@ -6,7 +6,7 @@
       </div>
     </q-card-section>
     <q-card-section class="container">
-      <q-list bordered separator>
+      <q-list  separator>
         <DetailField field="Id" :value="content.id" type="string" />
         <DetailField field="Status" :value="content.status" type="txstatus" />
         <DetailField field="Type" :value="content.type" type="txtype" />

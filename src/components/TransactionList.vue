@@ -3,8 +3,8 @@
     @refresh="() => $emit('refresh')">
     <template v-slot="{ item }">
       <div @click="() => $emit('row-clicked', item)" class="row">
-        <div class="col-1 squareBackground text-center">
-          <q-icon size="sm" name="mdi-transfer" />
+        <div class="col-1 text-center q-pt-sm q-pb-sm">
+          <q-icon class="square-background" size="sm" name="mdi-transfer" />
         </div>
         <div class="col-5 q-pl-sm">
           <div>
@@ -30,7 +30,7 @@
             </div>
           </div>
         </div>
-        <div class="col-2 gas-used">
+        <div class="col-2 gas-used q-pt-sm">
           <q-chip class="q-chip-bg" icon="img:camino-coin-logo.png">
             <long-string class="text-right" :value="getDisplayValue(item.value)" :max-length="12">
             </long-string>
