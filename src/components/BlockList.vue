@@ -1,25 +1,26 @@
 <template>
-  <list-card :title="title || 'Latest Blocks'" :items="blocks" :details-link="detailsLink"
+  <list-card :title="title || 'Latest Blocks'" :items="blocks" :show-all-link="showAllLink"
     @refresh="() => $emit('refresh')">
     <template v-slot="{ item }">
       <div @click="() => $emit('row-clicked', item)" class="row">
-        <div class="col-1">
-          <q-icon class="icon-background" size="sm" name="mdi-cube-outline" />
+        <div class="col-1 square icon-background text-center">
+          <q-icon size="sm" name="mdi-cube-outline" />
         </div>
-        <div class="col-6">
+        <div class="col-3 q-pl-sm">
           <div>
             {{ item.height }}</div>
-          <div>
+          <div class="grey-color">
             {{ getRelativeTime(item.timestamp) + " ago" }}
           </div>
         </div>
-        <div class="col-3">
-          {{ item.transactions.length }}<br>
-          <long-string :value="item.hash" :max-length="15"></long-string>
+        <div class="col-6">
+          {{ item.transactions.length + " txns" }}<br>
+          <long-string class="grey-color" :value="item.hash" :max-length="45"></long-string>
         </div>
         <div class="col-2 burn-icon">
-          {{ getDisplayValue(item.gasUsed) }}
-          <q-icon class="q-ml-sm" size="sm" name="img:camino-coin-logo.png" />
+          <q-chip class="q-chip-bg text-right justify-end" icon-right="img:camino-coin-logo.png">
+            {{ getDisplayValue(item.gasUsed) }}
+          </q-chip>
         </div>
       </div>
     </template>
@@ -40,7 +41,7 @@ export default defineComponent({
   props: {
     title: { type: String, required: false },
     blocks: { type: Array as PropType<Block[]>, required: true },
-    detailsLink: { type: String, required: false }
+    showAllLink: { type: String, required: false }
   },
   setup() {
     return {
@@ -50,3 +51,20 @@ export default defineComponent({
   components: { ListCard, LongString }
 })
 </script>
+<style lang="sass" scoped>
+.q-chip-bg
+  background: rgba(255, 255, 255, 0.15)
+  color: white
+  border-radius: 99px
+  min-width: 120px
+  text-align: end
+.grey-color
+  opacity: 60%
+.icon-background
+  background: #2E3234
+  padding: 10px
+.square:before
+  display: block
+  padding-top: 100%
+  background: #2E3234
+</style>

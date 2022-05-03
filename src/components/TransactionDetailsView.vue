@@ -13,12 +13,12 @@
             {{ camelCaseToRegular(key) }}
           </q-item-section>
           <q-item-section class="col-7">
-            <LongString v-if="fieldIncurrencyFields(key)" :value="getDisplayValue(value)">
+            <long-string v-if="fieldIncurrencyFields(key)" :value="getDisplayValue(value)">
               <q-icon class="q-ml-sm" size="sm" name="img:camino-coin-logo.png" />
-            </LongString>
-            <LongString v-else-if="isString(value)" :value="value" :max-length="85">
-            </LongString>
-            <LongString v-else-if="value" :value="JSON.stringify(value)" :max-length="85"></LongString>
+            </long-string>
+            <long-string v-else-if="isString(value)" :value="value" :max-length="85">
+            </long-string>
+            <long-string v-else-if="value" :value="JSON.stringify(value)" :max-length="85"></long-string>
             <div v-else>{{ "" }}</div>
           </q-item-section>
           <q-item-section v-if="keyHasLink(key)" class="col-1">
@@ -117,7 +117,7 @@ export default defineComponent({
 
 <style scoped lang="sass">
 *
-  background: #27324C
+  background: $background-card
   color: white
 // .hover-effect:hover
 //   background-color: yellow

@@ -1,10 +1,14 @@
 <template>
-  <q-page class="flex">
-    <search-banner @search="search"></search-banner>
-    <div class="row full-width q-mr-xl">
+  <q-page>
+    <div class="row q-pa-md">
+      <div class="col">
+        <search-banner @search="search"></search-banner>
+      </div>
+    </div>
+    <div class="row full-width q-pt-md q-pr-xl justify-center">
       <!-- Latest Transactions-->
-      <div class="offset-1 col-10 q-ml-xl">
-        <x-transaction-list :transactions="transactions" :details-link="getAllTransactionsPath(chainType)"
+      <div class="col-11">
+        <x-transaction-list :transactions="transactions" :show-all-link="getAllTransactionsPath(chainType)"
           @refresh="refreshTransactions" @row-clicked="openTransactionDetail">
         </x-transaction-list>
       </div>
@@ -17,7 +21,7 @@ import { defineComponent, ref } from 'vue'
 import XTransactionList from 'src/components/XTransactionList.vue';
 import SearchBanner from 'src/components/SearchBanner.vue';
 import { useRouter } from 'vue-router';
-import {  getTransactionDetailsPath, getAllTransactionsPath, getAllBlocksPath } from 'src/utils/route-utils';
+import { getTransactionDetailsPath, getAllTransactionsPath, getAllBlocksPath } from 'src/utils/route-utils';
 import { ChainType } from 'src/types/chain-type';
 import { useXIndexStore } from 'src/stores/x-index-store'
 import { XTransaction } from 'src/types/transaction';

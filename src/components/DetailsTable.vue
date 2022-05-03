@@ -1,10 +1,18 @@
 <template>
   <div class="q-pa-md">
-    <q-table class="my-sticky-dynamic" :title="title" :rows="data" :columns="columns" :loading="loading" row-key="index"
+    <q-table  dark class="my-sticky-dynamic" :title="title" :rows="data" :columns="columns" :loading="loading" row-key="index"
       virtual-scroll :virtual-scroll-item-size="48" :virtual-scroll-sticky-size-start="48" :rows-per-page-options="[0]"
       @virtual-scroll="onScroll" @row-click="(event, item) => $emit('row-clicked', item)">
+       <template v-slot:body-cell="props">
+            <q-td :props="props">
+              <long-string :value="props.value" :max-length="50"></long-string>
+            </q-td>
+          </template>
       <template v-slot:top-right>
         <q-btn color="primary" icon="mdi-refresh" @click="() => refresh()" />
+      </template>
+      <template v-slot:bottom>
+        <q-btn v-if="backAddr" color="primary" icon="mdi-arrow-left" @click="() => $router.push(backAddr)" />
       </template>
     </q-table>
   </div>
@@ -12,84 +20,67 @@
 
 <script lang="ts">
 import { defineComponent, PropType, Ref, ref } from 'vue';
-import { BlockTableData, Block } from 'src/types/block';
+import { BlockTableData } from 'src/types/block';
 import { ChainViewLoader } from 'src/types/chain-view-loader';
+import LongString from './ui/LongString.vue';
 
-const pageSize = 10;
+const pageSize = 20;
 
-
-function mapToTableData(block: Block): BlockTableData {
-  return {
-    id: block.id,
-    height: block.height,
-    gasLimit: block.gasLimit,
-    gasUsed: block.gasUsed,
-    hash: block.hash,
-    numberOfTransactions: block.transactions ? block.transactions.length : 0,
-    timestamp: block.timestamp
-  }
-}
 export default defineComponent({
-  name: 'DetailsTable',
-  props: {
-    store: { type: Object as PropType<ChainViewLoader>, required: true },
-    title: { type: String, required: true },
-    columns: { type: Array, required: true }
-  },
-  emits: ['row-clicked'],
-  async setup(props) {
-    const loading = ref(false)
-    const data: Ref<BlockTableData[]> = ref([])
-    const currentOffset = ref(0)
-    let knownHashes: string[] = [];
-    return {
-      data: data,
-      loading,
-      pagination: { rowsPerPage: 0 },
-      async refresh() {
-
-        loading.value = true;
-        currentOffset.value = 0;
-        const apiData = await props.store.loadLatestBlocks(true, currentOffset.value, pageSize);
-        const newData: BlockTableData[] = []
-        knownHashes = [];
-        apiData.map(mapToTableData).forEach(newBlock => {
-          if (!knownHashes.includes(newBlock.hash)) {
-            knownHashes.push(newBlock.hash);
-            newData.push(newBlock);
-          }
-        })
-        data.value = newData
-        loading.value = false
-      },
-      async onScroll({ to }: { to: number }) {
-        const lastIndex = data.value.length - 1;
-
-
-        if (loading.value !== true && to === lastIndex && (data.value.length === 0 || data.value.every(e => e.height > 1))) {
-          loading.value = true;
-          const apiData = await props.store.loadLatestBlocks(true, currentOffset.value, pageSize);
-          currentOffset.value += apiData.length;
-          apiData.map(mapToTableData).forEach(newBlock => {
-            if (!knownHashes.includes(newBlock.hash)) {
-              data.value.push(newBlock);
-              knownHashes.push(newBlock.hash);
+    name: 'DetailsTable',
+    props: {
+        store: { type: Object as PropType<ChainViewLoader>, required: true },
+        title: { type: String, required: true },
+        columns: { type: Array, required: true },
+        loadData: { type: Function, required: true },
+        requireLoadMore: { type: Function, required: true },
+        backAddr: { type: String, requried: false }
+    },
+    emits: ['row-clicked'],
+    async setup(props) {
+        const loading = ref(false);
+        const data: Ref<BlockTableData[]> = ref([]);
+        const currentOffset = ref(0);
+        let knownHashes: string[] = [];
+        return {
+            data: data,
+            loading,
+            pagination: { rowsPerPage: 0 },
+            async refresh() {
+                loading.value = true;
+                currentOffset.value = 0;
+                knownHashes = [];
+                data.value = await props.loadData(props.store, knownHashes, currentOffset.value, pageSize);
+                currentOffset.value += data.value.length;
+                loading.value = false;
+            },
+            async onScroll({ to }: {
+                to: number;
+            }) {
+                console.log('lastKnown', knownHashes);
+                console.log('currentOffset', currentOffset.value);
+                console.log('loading.value', loading.value);
+                const lastIndex = data.value.length - 1;
+                if (loading.value !== true && to === lastIndex && props.requireLoadMore(data.value)) {
+                    console.log('Loading');
+                    loading.value = true;
+                    const apiData = await props.loadData(props.store, knownHashes, currentOffset.value, pageSize);
+                    console.log('apiData', apiData);
+                    currentOffset.value += apiData.length || 1;
+                    data.value.push(...apiData);
+                    console.log('done');
+                    loading.value = false;
+                }
             }
-          })
-          loading.value = false;
-        }
-
-
-      }
-
-    }
-  }
+        };
+    },
+    components: { LongString }
 })
 </script>
 
 <style scoped lang="sass">
 *
-  background: #27324C
+  background: $background-card
   color: white
 .my-sticky-dynamic
   /* height or max-height is important */
@@ -108,4 +99,5 @@ export default defineComponent({
     top: 48px
   thead tr:first-child th
     top: 0
+
 </style>

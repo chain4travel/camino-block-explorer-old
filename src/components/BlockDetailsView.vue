@@ -1,5 +1,5 @@
 <template>
-  <q-card>
+  <q-card dark>
     <q-card-section v-if="title">
       <div class="row">
         <div class="text-subtitle1 col-11">{{ title }}</div>
@@ -7,18 +7,17 @@
     </q-card-section>
     <q-card-section class="container">
       <q-list bordered separator>
-        <q-item :key="key" v-for="[key, value] in linesToRender" v-ripple clickable
-          @click="copyToClipBoard(value)">
+        <q-item :key="key" v-for="[key, value] in linesToRender" v-ripple clickable @click="copyToClipBoard(value)">
           <q-item-section class="col-4">
             {{ camelCaseToRegular(key) }}
           </q-item-section>
           <q-item-section class="col-7">
-            <LongString v-if="fieldIncurrencyFields(key)" :value="getDisplayValue(value)">
+            <long-string v-if="fieldIncurrencyFields(key)" :value="getDisplayValue(value)">
               <q-icon class="q-ml-sm" size="sm" name="img:camino-coin-logo.png" />
-            </LongString>
-            <LongString v-else-if="isString(value)" :value="value" :max-length="85">
-            </LongString>
-            <LongString v-else-if="value" :value="JSON.stringify(value)" :max-length="85"></LongString>
+            </long-string>
+            <long-string v-else-if="isString(value)" :value="value" :max-length="85">
+            </long-string>
+            <long-string v-else-if="value" :value="JSON.stringify(value)" :max-length="85"></long-string>
             <div v-else>{{ "" }}</div>
           </q-item-section>
           <q-item-section v-if="keyHasLink(key)" class="col-1">
@@ -76,7 +75,7 @@ export default defineComponent({
       showAdditionaldetails,
       linesToRender: computed(() => {
         const dataToShow = Object.entries(props.content);
-        if(showAdditionaldetails.value && props.content.additionalInformation) {
+        if (showAdditionaldetails.value && props.content.additionalInformation) {
           dataToShow.push(...Object.entries(props.content.additionalInformation));
         }
         return dataToShow.filter(([key]) => !keysTohide.includes(key));
@@ -115,9 +114,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="sass">
-*
-  background: #27324C
-  color: white
+
 // .hover-effect:hover
 //   background-color: yellow
 

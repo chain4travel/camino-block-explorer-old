@@ -15,6 +15,8 @@ export interface XTransaction {
   from: Fund[];
   to: Fund[];
   fee: number;
+  inputTotals: Record<string, string>
+  outputTotals: Record<string, string>
 }
 
 export interface Fund {
@@ -32,4 +34,14 @@ export interface TransactionTableData {
   status: string;
   value: string;
   timestamp: Date;
+}
+
+export interface XTransactionTableData {
+  from: string;
+  to: string;
+  hash: string;
+  type: string;
+  value: number;
+  fee: number;
+  timestamp?: Date;
 }
