@@ -13,82 +13,37 @@
         <DetailField field="Timestamp" :value="content.timestamp" type="timestamp" />
         <DetailField field="Fee" :value="content.fee" type="gwei" />
         <DetailField field="Memo" :value="content.memo" type="string" />
-        <!-- <q-item>
-          <q-item-section class="col-2">
-            Fee
-          </q-item-section>
-          <q-item-section class="col-10">
-            {{ getDisplayValue(content.fee) }}
-          </q-item-section>
-        </q-item> -->
-        <!-- <q-item>
-          <q-item-section class="col-2">
-            Memo
-          </q-item-section>
-          <q-item-section class="col-10">
-            <OptionalString :value="content.memo" />
-          </q-item-section>
-        </q-item> -->
         <q-item>
           <div class="col-6 q-pa-sm">
-            <!-- m :key="key" v-for="[key, value] in linesToRender" -->
-              <q-card>
-                <q-card-section v-if="title">
+              <q-card class="q-ma-sm" :key="fund.address" v-for="fund in content.from">
+                <q-card-section>
                   <div class="row">
                     <div class="text-subtitle1 col-12">Input</div>
                   </div>
                 </q-card-section>
-                <q-card-section :key="fund.address" v-for="fund in content.from">
-                  <div class="row">
-                    <div class="col-9">
-                      <div class="row col-9">
-                        <div class="col-3">
-                          Address
-                        </div>
-                        <div class="col-9">{{ fund.address }}</div>
-                      </div>
-                      <div v-if="fund.signature" class="row col-9">
-                        <div class="col-3">
-                          Signature
-                        </div>
-                        <LongString class="col-9" :value="fund.signature" />
-                      </div>
-                    </div>
-                    <div class="col-3 text-right">
-                      {{ getDisplayValue(fund.value) }}
-                    </div>
-                  </div>
+                <q-card-section >
+
+                <q-list>
+                  <DetailField field="From" :value="fund.address" type="string" />
+                  <DetailField field="Signature" :value="fund.signature" type="string" />
+                  <DetailField field="Value" :value="fund.value" type="gwei" />
+                </q-list>
                 </q-card-section>
               </q-card>
           </div>
           <div class="col-6 q-pa-sm">
-            <!-- m :key="key" v-for="[key, value] in linesToRender" -->
-              <q-card>
-                <q-card-section v-if="title">
+              <q-card class="q-ma-sm" :key="fund.address" v-for="fund in content.to">
+                <q-card-section>
                   <div class="row">
                     <div class="text-subtitle1 col-12">Output</div>
                   </div>
                 </q-card-section>
-                <q-card-section :key="fund.address" v-for="fund in content.to">
-                  <div class="row">
-                    <div class="col-9">
-                      <div class="row col-9">
-                        <div class="col-3">
-                          Address
-                        </div>
-                        <div class="col-9">{{ fund.address }}</div>
-                      </div>
-                      <div v-if="fund.signature" class="row col-9">
-                        <div class="col-3">
-                          Signature
-                        </div>
-                        <LongString class="col-9" :value="fund.signature" />
-                      </div>
-                    </div>
-                    <div class="col-3 text-right">
-                      {{ getDisplayValue(fund.value) }}
-                    </div>
-                  </div>
+                <q-card-section >
+
+                <q-list>
+                  <DetailField field="To" :value="fund.address" type="string" />
+                  <DetailField field="Value" :value="fund.value" type="gwei" />
+                </q-list>
                 </q-card-section>
               </q-card>
           </div>
@@ -108,7 +63,6 @@ import { getDisplayValue, currencyFields } from 'src/utils/currency-utils'
 import { camelCaseToRegular } from 'src/utils/display-utils'
 import { ChainType } from 'src/types/chain-type'
 import { XTransaction } from 'src/types/transaction'
-import LongString from './ui/LongString.vue'
 import DetailField from './DetailField.vue'
 
 export default defineComponent({
@@ -142,7 +96,7 @@ export default defineComponent({
             },
         };
     },
-    components: { LongString, DetailField }
+    components: { DetailField }
 })
 </script>
 
