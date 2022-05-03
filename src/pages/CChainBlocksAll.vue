@@ -17,7 +17,7 @@ import { useCIndexStore } from 'src/stores/c-index-store';
 import { getRelativeTime } from 'src/utils/display-utils';
 import { Block, BlockTableData } from 'src/types/block';
 import { useRouter } from 'vue-router'
-import { getAllBlocksPath, getBlockDetailsPath, getAllBlocksPath, getBasePath } from 'src/utils/route-utils';
+import { getAllBlocksPath, getBlockDetailsPath, getBasePath } from 'src/utils/route-utils';
 import { ChainType } from 'src/types/chain-type';
 import { ChainViewLoader } from 'src/types/chain-view-loader';
 

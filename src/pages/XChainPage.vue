@@ -5,9 +5,9 @@
         <search-banner @search="search"></search-banner>
       </div>
     </div>
-    <div class="row full-width q-pt-md q-pr-xl justify-center">
+    <div class="row full-width justify-center">
       <!-- Latest Transactions-->
-      <div class="col-11">
+      <div class="col-12 q-pr-md q-pl-md">
         <x-transaction-list :transactions="transactions" :show-all-link="getAllTransactionsPath(chainType)"
           @refresh="refreshTransactions" @row-clicked="openTransactionDetail">
         </x-transaction-list>
