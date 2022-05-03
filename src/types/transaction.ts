@@ -15,8 +15,9 @@ export interface XTransaction {
   from: Fund[];
   to: Fund[];
   fee: number;
-  inputTotals: Record<string, string>
-  outputTotals: Record<string, string>
+  inputTotals: Record<string, string>;
+  outputTotals: Record<string, string>;
+  memo?: string;
 }
 
 export interface Fund {

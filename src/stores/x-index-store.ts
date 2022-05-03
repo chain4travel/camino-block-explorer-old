@@ -54,6 +54,7 @@ export function createTransaction(magellanTransaction: MagellanTransaction): XTr
     inputTotals: magellanTransaction.inputTotals,
     outputTotals: magellanTransaction.outputTotals,
     status: 'accepted' //TODO: set dynamically when magellan delivers this information
+
   }
 }
 
