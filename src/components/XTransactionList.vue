@@ -29,7 +29,7 @@
                 </div>
                 <div class="col-5 text-right">
                   <q-chip>
-                    <long-string :value="getDisplayValue(ad.value * 1000000000)" :max-length="50" />
+                    <long-string :value="getDisplayValueForGewi(ad.value)" :max-length="50" />
                     <q-icon class="q-ml-sm" size="sm" name="img:camino-coin-logo.png" />
                   </q-chip>
                 </div>
@@ -47,7 +47,7 @@
                 </div>
                 <div class="col-5 text-right">
                   <q-chip>
-                    <long-string :value="getDisplayValue(ad.value * 1000000000)" :max-length="50" />
+                    <long-string :value="getDisplayValueForGewi(ad.value)" :max-length="50" />
                     <q-icon class="q-ml-sm" size="sm" name="img:camino-coin-logo.png" />
                   </q-chip>
                 </div>
@@ -57,7 +57,7 @@
         </div>
         <div class="col-2 text-right gas-used">
           <q-chip class="q-chip-burn-bg">
-            <long-string :value="getDisplayValue(item.fee * 1000000000)" :max-length="20" />
+            <long-string :value="getDisplayValueForGewi(item.fee)" :max-length="20" />
             <q-icon class="text-red q-ml-sm" size="sm" name="mdi-fire" />
           </q-chip>
         </div>
@@ -69,7 +69,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import { getRelativeTime, displayLongString } from 'src/utils/display-utils'
-import { getDisplayValue } from 'src/utils/currency-utils'
+import { getDisplayValueForGewi } from 'src/utils/currency-utils'
 
 import ListCard from './ListCard.vue'
 import { XTransaction } from 'src/types/transaction'
@@ -85,7 +85,7 @@ export default defineComponent({
     showType: { type: Boolean, default: false }
   },
   setup() {
-    return { getRelativeTime, displayLongString, getDisplayValue };
+    return { getRelativeTime, displayLongString, getDisplayValueForGewi };
   },
   components: { ListCard, LongString }
 })
