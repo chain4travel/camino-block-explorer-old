@@ -15,7 +15,7 @@
         <DetailField field="Memo" :value="content.memo" type="string" />
         <q-item>
           <div class="col-6 q-pa-sm">
-              <q-card class="q-ma-sm" :key="fund.address" v-for="fund in content.from">
+              <q-card class="q-ma-sm light-card" :key="fund.address" v-for="fund in content.from">
                 <q-card-section>
                   <div class="row">
                     <div class="text-subtitle1 col-12">Input</div>
@@ -32,7 +32,7 @@
               </q-card>
           </div>
           <div class="col-6 q-pa-sm">
-              <q-card class="q-ma-sm" :key="fund.address" v-for="fund in content.to">
+              <q-card class="q-ma-sm light-card" :key="fund.address" v-for="fund in content.to">
                 <q-card-section>
                   <div class="row">
                     <div class="text-subtitle1 col-12">Output</div>
@@ -101,12 +101,6 @@ export default defineComponent({
 </script>
 
 <style scoped lang="sass">
-*
-  background: $background-card
-  color: white
-// .hover-effect:hover
-//   background-color: yellow
-
-.foreground
-  z-index: 1000
+.light-card
+  background: $background-card-light
 </style>
