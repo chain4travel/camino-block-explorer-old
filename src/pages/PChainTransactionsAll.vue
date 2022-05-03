@@ -4,7 +4,7 @@
     <div class="row q-mt-xl">
       <div class="col-12">
         <details-table :back-addr="backAddr" :load-data="loadTransactions" :require-load-more="requireLoadMore" :columns="columns"
-          title="X-Transactions" :store="store" @row-clicked="(item) => rowEvent(item)">
+          title="P-Transactions" :store="store" @row-clicked="(item) => rowEvent(item)">
         </details-table>
       </div>
     </div>
@@ -21,7 +21,7 @@ import { getRelativeTime } from 'src/utils/display-utils';
 import { getDisplayValue } from 'src/utils/currency-utils';
 import { ChainViewLoader } from 'src/types/chain-view-loader';
 import DetailsTable from '../components/DetailsTable.vue';
-import {  useXIndexStore } from 'src/stores/x-index-store';
+import {  usePIndexStore } from 'src/stores/p-index-store';
 
 const columns = [
   {
@@ -69,15 +69,12 @@ const columns = [
 ]
 
 function getValue(outputTotal?: object, inputTotal?: object): number {
-  console.log('outputs', outputTotal);
-  console.log('inputTotal', inputTotal);
   const output = outputTotal ? Object.entries(outputTotal).map(([key, value]) => parseInt(value)).reduce((pv, cv) => pv + cv, 0) : 0;
   const input = inputTotal ? Object.entries(inputTotal).map(([key, value]) => parseInt(value)).reduce((pv, cv) => pv + cv, 0) : 0;
   return output - input;
 }
 
 function mapToTableData(transaction: XTransaction): XTransactionTableData {
-  console.log('transaction', transaction)
   return {
     from: transaction.from.map(e => e.address).join(' '),
     hash: transaction.id,
@@ -95,11 +92,11 @@ export default defineComponent({
     const router = useRouter();
     let moreToLoad = true;
     return {
-      store: useXIndexStore(),
+      store: usePIndexStore(),
       columns,
-      backAddr: getBasePath(ChainType.X_CHAIN),
+      backAddr: getBasePath(ChainType.P_CHAIN),
       rowEvent(item: XTransactionTableData) {
-        router.push({ path: getTransactionDetailsPath(ChainType.X_CHAIN, item.hash), query: { back: getAllTransactionsPath(ChainType.X_CHAIN) } });
+        router.push({ path: getTransactionDetailsPath(ChainType.P_CHAIN, item.hash), query: { back: getAllTransactionsPath(ChainType.P_CHAIN) } });
       },
       requireLoadMore(): boolean {
         return moreToLoad;
