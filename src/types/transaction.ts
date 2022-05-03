@@ -22,6 +22,7 @@ export interface XTransaction {
 export interface Fund {
   address: string;
   value?: number;
+  signature?: string;
 }
 
 

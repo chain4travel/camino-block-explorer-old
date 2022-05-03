@@ -3,7 +3,7 @@
     <q-card-section v-if="title">
       <div class="row">
         <div class="text-h6 col-11">{{ title }}</div>
-        <div class="col-1">
+        <div class="col-1 text-right">
           <q-btn color="primary" icon="mdi-refresh" @click="() => $emit('refresh')" />
         </div>
       </div>

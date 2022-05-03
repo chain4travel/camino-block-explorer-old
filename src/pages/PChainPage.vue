@@ -5,9 +5,9 @@
         <search-banner @search="search"></search-banner>
       </div>
     </div>
-    <div class="row full-width q-mr-xl justify-center">
+    <div class="row full-width">
       <!-- Latest Transactions-->
-      <div class=" col-11">
+      <div class=" col-12 q-pr-md q-pl-md">
         <!-- Rename that component-->
         <x-transaction-list :show-type="true" :transactions="transactions"
           @refresh="refreshTransactions"
