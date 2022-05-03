@@ -10,7 +10,9 @@ export interface BlockDetails {
   hash: string;
   parentHash: string;
   childHash?: string;
-  additionalInformation: AdditionalInformation
+  additionalInformation: AdditionalInformation,
+  parentBlockNumber?: number;
+ childBlockNumber?: number;
 }
 
 interface AdditionalInformation {

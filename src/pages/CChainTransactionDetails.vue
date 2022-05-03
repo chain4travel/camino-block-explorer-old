@@ -21,6 +21,7 @@ import { ChainType } from 'src/types/chain-type';
 import { useCIndexStore } from 'src/stores/c-index-store';
 import { getStringOrFirstElement } from 'src/utils/display-utils';
 
+const useMagellan = false;
 
 export default defineComponent({
   name: 'CChainTransactionDetails',
@@ -31,7 +32,7 @@ export default defineComponent({
     return {
       transactionId: route.params.transactionId,
       backroute: route.query.back ? route.query.back :getBasePath(ChainType.C_CHAIN),
-      loadedTransaction: await cChain.loadTransactionById(getStringOrFirstElement(route.params.transactionId)),
+      loadedTransaction: useMagellan ? await cChain.loadMagellanTransactionbyHash(getStringOrFirstElement(route.params.transactionId)) : await cChain.loadTransactionById(getStringOrFirstElement(route.params.transactionId)),
       type: ChainType.C_CHAIN
     }
   }

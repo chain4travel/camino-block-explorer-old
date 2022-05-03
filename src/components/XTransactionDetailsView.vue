@@ -52,7 +52,7 @@
             Memo
           </q-item-section>
           <q-item-section class="col-10">
-            
+
           </q-item-section>
         </q-item>
         <q-item>
@@ -216,7 +216,7 @@ export default defineComponent({
 
 <style scoped lang="sass">
 *
-  background: #27324C
+  background: $background-card
   color: white
 // .hover-effect:hover
 //   background-color: yellow

@@ -6,7 +6,7 @@
       </div>
     </q-card-section>
     <q-card-section class="container">
-      <q-list bordered separator>
+      <q-list bordered separator v-if="!magellan">
         <q-item :key="key" v-for="[key, value] in linesToRender" v-ripple clickable
           @click="copyToClipBoard(value)">
           <q-item-section class="col-4">
@@ -59,13 +59,13 @@ export default defineComponent({
     title: { type: String as PropType<string>, required: false },
     type: { type: String as PropType<ChainType>, required: true },
     backRoute: { type: String as PropType<string>, required: false },
-    content: { type: Object as PropType<BlockDetails>, required: true }
+    content: { type: Object as PropType<BlockDetails>, required: true },
+    magellan: { type: Boolean, default: false}
   },
   setup(props) {
 
     const keyWithRoutes = {
-      'blockHash': (value: string) => getBlockDetailsPath(props.type, value),
-      'childHash': (value: string) => getBlockDetailsPath(props.type, value)
+      'blockNumber': (value: string) => getBlockDetailsPath(props.type, value),
     }
 
     const keysTohide = ['additionalInformation']
@@ -102,7 +102,7 @@ export default defineComponent({
         return !!keyWithRoutes[key]
       },
       handleLinkClick(key: string, value: string) {
-        if (keyWithRoutes[key] && value) {
+        if (keyWithRoutes[key] && value !== undefined) {
           const route = keyWithRoutes[key](value)
           router.push(route);
           //router.go(0)

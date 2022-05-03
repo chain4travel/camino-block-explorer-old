@@ -89,7 +89,7 @@ export default defineComponent({
       store: useCIndexStore(),
       columns,
       rowEvent(item: BlockTableData) {
-        router.push({ path: getBlockDetailsPath(ChainType.C_CHAIN, item.hash), query: { back: getAllBlocksPath(ChainType.C_CHAIN) } })
+        router.push({ path: getBlockDetailsPath(ChainType.C_CHAIN, item.number || 0), query: { back: getAllBlocksPath(ChainType.C_CHAIN) } })
       },
       loadBlocks,
       requireLoadMore,

@@ -19,6 +19,7 @@ import { ChainType } from 'src/types/chain-type';
 import { useCIndexStore } from 'src/stores/c-index-store';
 import { getStringOrFirstElement } from 'src/utils/display-utils';
 
+const useMagellan = false;
 
 export default defineComponent({
   name: 'CChainBlockdetails',
@@ -29,7 +30,7 @@ export default defineComponent({
     return {
       blockId: route.params.blockId,
       backroute: route.query.back ? route.query.back : getBasePath(ChainType.C_CHAIN),
-      loadedBlock: await cChain.loadByBlockId(getStringOrFirstElement(route.params.blockId)),
+      loadedBlock: useMagellan ? await cChain.loadMagellanBlockByNumber(parseInt(getStringOrFirstElement(route.params.blockId))) : await cChain.loadByBlockId(getStringOrFirstElement(route.params.blockId)),
       type: ChainType.C_CHAIN
     }
   }

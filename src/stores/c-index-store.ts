@@ -5,8 +5,8 @@ import { BlockDetails } from 'src/types/block-detail';
 import { TranscationDetails } from 'src/types/transaction-detail';
 import {  getMagellanBaseUrl, getWeb3Client } from 'src/utils/client-utils';
 import axios from 'axios';
-import { cBlocksApi } from 'src/utils/magellan-api-utils';
-import { MagellanCBlocksResponse } from 'src/types/magellan';
+import { cBlocksApi, cTransactionApi, cBlocksDetailsApi } from 'src/utils/magellan-api-utils';
+import { MagellanCBlocksResponse, CTransactionResponse, MagellanBlockDetail } from 'src/types/magellan-types';
 
 
 async function loadBlocksAndTransactions(blockOffset = 0, blockCount = 10, transactionOffset = 0, transactionCount = 10): Promise<MagellanCBlocksResponse> {
@@ -67,9 +67,9 @@ export const useCIndexStore = defineStore('cindex', {
       const receipt = await web3.eth.getTransactionReceipt(transactionId);
       return { ...transaction, ...receipt }
     },
-    async loadByBlockId(blockId: string): Promise<BlockDetails> {
+    async loadByBlockId(blockNumber: number): Promise<BlockDetails> {
       const web3 = getWeb3Client();
-      const eth3_block = await web3.eth.getBlock(blockId);
+      const eth3_block = await web3.eth.getBlock(blockNumber);
       let nextBlock = undefined
       try {
         nextBlock = await web3.eth.getBlock(eth3_block.number + 1);
@@ -88,8 +88,10 @@ export const useCIndexStore = defineStore('cindex', {
         },
         blockNumber: eth3_block.number,
         childHash: nextBlock ? nextBlock.hash : undefined,
+        childBlockNumber: nextBlock ? nextBlock?.number : undefined,
         hash: eth3_block.hash,
         parentHash: eth3_block.parentHash,
+        parentBlockNumber: eth3_block.number ? eth3_block.number -1 : undefined,
         fees: eth3_block.gasUsed,
         baseGaseFee: eth3_block.baseFeePerGas,
         transactionCount: eth3_block.transactions ? eth3_block.transactions.length : 0,
@@ -99,5 +101,13 @@ export const useCIndexStore = defineStore('cindex', {
         timestamp: new Date(eth3_block.timestamp * 1000)
       };
     },
+    async loadMagellanTransactionbyHash(transactionHash: string): Promise<CTransactionResponse> {
+      //&toAddress=${transactionCount}&fromAddress=${blockOffset}&address=${transactionOffset}&blockStart=0&blockEnd=1`)
+      return await (await axios.get(`${getMagellanBaseUrl()}${cTransactionApi}?hash=${transactionHash}`)).data;
+    },
+    async loadMagellanBlockByNumber(blockNumber: number): Promise<MagellanBlockDetail> {
+      //&toAddress=${transactionCount}&fromAddress=${blockOffset}&address=${transactionOffset}&blockStart=0&blockEnd=1`)
+      return await (await axios.get(`${getMagellanBaseUrl()}${cBlocksDetailsApi}/${blockNumber}`)).data;
+    }
   },
 });

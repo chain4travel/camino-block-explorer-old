@@ -17,7 +17,7 @@
             </long-string>
             <long-string v-else-if="isString(value)" :value="value" :max-length="85">
             </long-string>
-            <long-string v-else-if="value" :value="JSON.stringify(value)" :max-length="85"></long-string>
+            <long-string v-else-if="value !== undefined" :value="JSON.stringify(value)" :max-length="85"></long-string>
             <div v-else>{{ "" }}</div>
           </q-item-section>
           <q-item-section v-if="keyHasLink(key)" class="col-1">
@@ -62,8 +62,8 @@ export default defineComponent({
   },
   setup(props) {
     const keyWithRoutes = {
-      'parentHash': (value: string) => getBlockDetailsPath(props.type, value),
-      'childHash': (value: string) => getBlockDetailsPath(props.type, value)
+      'parentBlockNumber': (value: number) => getBlockDetailsPath(props.type, value),
+      'childBlockNumber': (value: number) => getBlockDetailsPath(props.type, value)
     }
 
     const keysTohide = ['additionalInformation']
@@ -100,7 +100,8 @@ export default defineComponent({
         return !!keyWithRoutes[key]
       },
       handleLinkClick(key: string, value: string) {
-        if (keyWithRoutes[key] && value) {
+        console.log('Link clicked ',key,value)
+        if (keyWithRoutes[key] && value !== undefined) {
           const route = keyWithRoutes[key](value)
           router.push(route);
           //router.go(0)
