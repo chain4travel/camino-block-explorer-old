@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <span>
     {{ value && value.length > maxLength ? displayLongString(value, maxLength - 3) : value }}
     <slot></slot>
     <q-tooltip v-if="value && value.length > maxLength">
       {{ value }}
     </q-tooltip>
-  </div>
+  </span>
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'

@@ -3,7 +3,7 @@
     @refresh="() => $emit('refresh')">
     <template v-slot="{ item }">
       <div @click="() => $emit('row-clicked', item)" class="row">
-        <div class="col-1 square icon-background text-center">
+        <div class="col-1 squareBackground text-center">
           <q-icon size="sm" name="mdi-transfer" />
         </div>
         <div class="col-5 q-pl-sm">
@@ -66,17 +66,5 @@ export default defineComponent({
 </script>
 <style lang="sass" scoped>
 .q-chip-bg
-  background: rgba(255, 255, 255, 0.15)
-  color: white
-  border-radius: 99px
-  min-width: 110px
-.grey-color
-  opacity: 60%
-.icon-background
-  background: #2E3234
-  padding: 10px
-.square:before
-  display: block
-  padding-top: 100%
-  background: #2E3234
+  min-width: 120px
 </style>
