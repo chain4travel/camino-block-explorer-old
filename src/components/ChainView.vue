@@ -13,7 +13,7 @@
         </block-list>
       </div>
       <!-- Latest Transactions-->
-      <div class="col-xs-12 col-md-6 col-6 q-pl-md q-pr-md">
+      <div class="col-xs-12 col-md-6 q-pl-md q-pr-md">
         <transaction-list :transactions="transactions" :show-all-link="getAllTransactionsPath(type)"
           @refresh="refreshTransactions" @row-clicked="openTransactionDetail">
         </transaction-list>

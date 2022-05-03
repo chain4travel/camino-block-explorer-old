@@ -2,7 +2,7 @@
   <q-page padding>
     <!-- content -->
     <div class="row q-mt-xl">
-      <div class="offset-1 col-10">
+      <div class="col-12">
         <details-table :back-addr="backAddr" :load-data="loadTransactions" :require-load-more="requireLoadMore"
           :columns="columns" title="C-Blocks" :store="store" @row-clicked="(item) => rowEvent(item)">
         </details-table>
