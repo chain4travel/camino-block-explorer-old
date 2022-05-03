@@ -31,6 +31,13 @@ export interface MagellanOutput {
 
 export interface MagellanInput {
   output: MagellanOutput,
+  credentials: MagellanCredentials
+}
+
+export interface MagellanCredentials {
+  address: string,
+  public_key: string,
+  signature: string
 }
 
 export function createTransaction(magellanTransaction: MagellanTransaction): XTransaction {
@@ -42,6 +49,7 @@ export function createTransaction(magellanTransaction: MagellanTransaction): XTr
     from: getInputFunds(magellanTransaction),
     to: getOutputFunds(magellanTransaction),
     fee: magellanTransaction.txFee,
+    status: 'accepted' //TODO: set dynamically when magellan delivers this information
   }
 }
 
@@ -57,7 +65,9 @@ export function getInputFunds(magellanTransaction: MagellanTransaction): Fund[] 
   const inputfunds: Fund[] = [];
   if (magellanTransaction.inputs) {
     for (const input of magellanTransaction.inputs) {
-      inputfunds.push(createFundFromOutput(input.output));
+      const inputFund = createFundFromOutput(input.output);
+      inputFund.signature = input.credentials[0].signature;
+      inputfunds.push(inputFund);
     }
   }
   return inputfunds;
