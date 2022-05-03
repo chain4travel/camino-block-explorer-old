@@ -3,7 +3,7 @@
     @refresh="() => $emit('refresh')">
     <template v-slot="{ item }">
       <div @click="() => $emit('row-clicked', item)" class="row">
-        <div class="col-1  text-center">
+        <div class="col-1 text-center">
           <q-icon class="squareBackground" size="sm" name="mdi-cube-outline" />
         </div>
         <div class="col-3 q-pl-sm">

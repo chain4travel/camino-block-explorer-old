@@ -4,12 +4,17 @@
     <template v-slot="{ item }">
       <div @click="() => $emit('row-clicked', item)" class="row">
         <div class="col-1">
-          <q-icon class="icon-background" size="sm" name="mdi-transfer" />
+          <q-icon class="squareBackground" size="sm" name="mdi-transfer" />
         </div>
         <div class="col-3">
-          <long-string :value="item.id" :max-length="32">
-            <q-chip size="sm">{{ item.type }}</q-chip>
-          </long-string>
+          <div class="row">
+            <div class="col-8">
+              <long-string :value="item.id" />
+            </div>
+            <div class="col-4">
+              <q-chip size="sm">{{ item.type }}</q-chip>
+            </div>
+          </div>
           <div class="q-mt-xs">
             {{ getRelativeTime(item.timestamp) + " ago" }}
           </div>

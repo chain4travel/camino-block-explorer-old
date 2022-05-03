@@ -1,11 +1,12 @@
 <template>
-  <span>
-    {{ value && value.length > maxLength ? displayLongString(value, maxLength - 3) : value }}
-    <slot></slot>
-    <q-tooltip v-if="value && value.length > maxLength">
+    <span class="overflow-handle">
       {{ value }}
-    </q-tooltip>
-  </span>
+      <q-tooltip v-if="value">
+        {{ value }}
+      </q-tooltip>
+      <slot></slot>
+    </span>
+
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
@@ -14,7 +15,6 @@ export default defineComponent({
   name: 'LongString',
   props: {
     value: { type: String, required: false },
-    maxLength: { type: Number, default: 32 }
   },
   setup() {
     return {
@@ -23,3 +23,12 @@ export default defineComponent({
   }
 })
 </script>
+<style lang="sass" scoped>
+.overflow-handle
+  display: inline-block
+  white-space: nowrap
+  width: 100%
+  overflow: hidden
+  -o-text-overflow: ellipsis
+  text-overflow: ellipsis
+</style>
