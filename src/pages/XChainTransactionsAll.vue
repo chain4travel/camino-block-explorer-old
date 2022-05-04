@@ -22,6 +22,7 @@ import { getDisplayValue } from 'src/utils/currency-utils';
 import { ChainViewLoader } from 'src/types/chain-view-loader';
 import DetailsTable from '../components/DetailsTable.vue';
 import {  useXIndexStore } from 'src/stores/x-index-store';
+import { getDisplayAddress } from 'src/utils/display-utils'
 
 const columns = [
   {
@@ -55,12 +56,6 @@ const columns = [
     align: 'left'
   },
   {
-    value: 'value',
-    label: 'Value',
-    field: (row: XPTransactionTableData) => getDisplayValue(row.value),
-    align: 'left'
-  },
-  {
     value: 'fee',
     label: 'Fee',
     field: (row: XPTransactionTableData) => getDisplayValue(row.fee),
@@ -79,11 +74,12 @@ function getValue(outputTotal?: object, inputTotal?: object): number {
 function mapToTableData(transaction: XPTransaction): XPTransactionTableData {
   console.log('transaction', transaction)
   return {
-    from: transaction.from.map(e => e.address).join(' '),
+    from: getDisplayAddress(transaction.from),
     hash: transaction.id,
     type: transaction.type,
     timestamp: transaction.timestamp,
-    to: transaction.to.map(e => e.address).join(' '),
+    to: getDisplayAddress(transaction.to),
+    // Currently not shown, need to discuss what to show here
     value: getValue(transaction.outputTotals, transaction.inputTotals),
     fee: transaction.fee
   }

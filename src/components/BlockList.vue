@@ -18,7 +18,7 @@
           <long-string class="grey-color" :value="item.hash" :max-length="45"></long-string>
         </div>
         <div class="col-2 burn-icon q-pt-sm">
-          <q-chip class="q-chip-bg justify-end">
+          <q-chip class="q-chip-bg q-chip-burn-bg justify-end">
             <q-icon size="sm" name="mdi-fire" class="text-red"></q-icon>
             {{ getDisplayValue(item.gasUsed) }}
           </q-chip>

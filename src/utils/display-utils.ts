@@ -1,4 +1,5 @@
 import { Duration } from 'luxon';
+import { Fund } from 'src/types/transaction';
 
 export function getRelativeTime(timestamp: Date | number | string): string {
   const time = getTime(timestamp)
@@ -47,4 +48,16 @@ export function camelCaseToRegular(val: string) {
   return val.replace(/([A-Z])/g, ' $1')
   // uppercase the first character
   .replace(/^./, function(str){ return str.toUpperCase(); })
+}
+
+
+export function getDisplayAddress(funds: Fund[]): string {
+  if (!funds || funds.length === 0) {
+    return '';
+  }
+  if (funds.length > 1) {
+    return funds[0].address + ` (+ ${funds.length - 1} more)`
+  }
+  return funds[0].address;
+
 }

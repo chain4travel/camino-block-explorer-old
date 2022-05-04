@@ -3,8 +3,8 @@
     <!-- content -->
     <div class="row q-mt-xl">
       <div class="col-12">
-        <details-table :back-addr="backAddr" :load-data="loadTransactions" :require-load-more="requireLoadMore" :columns="columns"
-          title="P-Transactions" :store="store" @row-clicked="(item) => rowEvent(item)">
+        <details-table :back-addr="backAddr" :load-data="loadTransactions" :require-load-more="requireLoadMore"
+          :columns="columns" title="P-Transactions" :store="store" @row-clicked="(item) => rowEvent(item)">
         </details-table>
       </div>
     </div>
@@ -16,12 +16,13 @@ import { ChainType } from 'src/types/chain-type';
 import { getAllTransactionsPath, getBasePath, getTransactionDetailsPath } from 'src/utils/route-utils';
 import { defineComponent } from 'vue'
 import { useRouter } from 'vue-router';
-import { XPTransaction, XPTransactionTableData } from 'src/types/transaction'
+import {  XPTransaction, XPTransactionTableData } from 'src/types/transaction'
 import { getRelativeTime } from 'src/utils/display-utils';
 import { getDisplayValue } from 'src/utils/currency-utils';
 import { ChainViewLoader } from 'src/types/chain-view-loader';
 import DetailsTable from '../components/DetailsTable.vue';
-import {  usePIndexStore } from 'src/stores/p-index-store';
+import { usePIndexStore } from 'src/stores/p-index-store';
+import { getDisplayAddress } from 'src/utils/display-utils'
 
 const columns = [
   {
@@ -55,12 +56,6 @@ const columns = [
     align: 'left'
   },
   {
-    value: 'value',
-    label: 'Value',
-    field: (row: XPTransactionTableData) => getDisplayValue(row.value),
-    align: 'left'
-  },
-  {
     value: 'fee',
     label: 'Fee',
     field: (row: XPTransactionTableData) => getDisplayValue(row.fee),
@@ -74,13 +69,16 @@ function getValue(outputTotal?: object, inputTotal?: object): number {
   return output - input;
 }
 
+
+
 function mapToTableData(transaction: XPTransaction): XPTransactionTableData {
   return {
-    from: transaction.from.map(e => e.address).join(' '),
+    from: getDisplayAddress(transaction.from),
     hash: transaction.id,
     type: transaction.type,
     timestamp: transaction.timestamp,
-    to: transaction.to.map(e => e.address).join(' '),
+    to: getDisplayAddress(transaction.to),
+    // CUrrently not shown, discuss what to do here!
     value: getValue(transaction.outputTotals, transaction.inputTotals),
     fee: transaction.fee
   }

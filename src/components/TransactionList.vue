@@ -7,8 +7,10 @@
           <q-icon class="square-background" size="sm" name="mdi-transfer" />
         </div>
         <div class="col-5 q-pl-sm">
+
           <div>
-            {{ displayLongString(item.hash, 30) }}</div>
+            <long-string :value="item.hash"></long-string>
+          </div>
           <q-tooltip>
             {{ item.hash }}
           </q-tooltip>

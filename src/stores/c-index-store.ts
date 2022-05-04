@@ -66,7 +66,7 @@ export const useCIndexStore = defineStore('cindex', {
       return {
         block: mglDetails.block,
         contractAddress: mglDetails.receipt ? mglDetails.receipt.contractAddress : undefined,
-        createdAt: mglDetails.createdAt,
+        createdAt: new Date(mglDetails.createdAt),
         fromAddr: mglDetails.fromAddr,
         gasLimit: mglDetails.gasLimit,
         gasPrice: mglDetails.gasPrice,

@@ -6,7 +6,7 @@
       </div>
     </q-card-section>
     <q-card-section class="container">
-      <q-list separator>
+      <q-list>
         <detail-field field="Hash" :value="content.hash" type="string" />
         <detail-field field="Number" :value="content.blockNumber" type="string" />
         <detail-field field="Base Gas Fee" :value="content.baseGaseFee" type="wei" />
@@ -28,13 +28,13 @@
         </div>
 
         <q-item v-if="content.additionalInformation">
-          <q-btn outline class="offset-5" color="primary" @click="() => showAdditionaldetails = !showAdditionaldetails">
+          <q-btn rounded outline class="offset-5" color="primary" @click="() => showAdditionaldetails = !showAdditionaldetails">
             {{ showAdditionaldetails ? "Show Less" : "Show More" }}</q-btn>
         </q-item>
       </q-list>
     </q-card-section>
     <q-card-actions v-if="backRoute">
-      <q-btn outline color="primary" icon="mdi-chevron-left" :to="backRoute"></q-btn>
+      <q-btn rounded outline color="primary" icon="mdi-chevron-left" :to="backRoute"></q-btn>
     </q-card-actions>
   </q-card>
 </template>

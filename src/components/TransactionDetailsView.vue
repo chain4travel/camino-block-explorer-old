@@ -6,16 +6,16 @@ TranscationDetail<template>
       </div>
     </q-card-section>
     <q-card-section class="container">
-      <q-list separator>
+      <q-list>
         <detail-field field="Hash" :value="content.hash" type="string" />
         <detail-field field="Type" :value="content.type" type="ctxtype" />
         <detail-field field="Block" :value="content.block" type="string" />
         <detail-field field="Date" :value="content.createdAt" type="timestamp" />
         <detail-field field="Nonce" :value="content.nonce" type="string" />
-        <detail-field field="Gas Price" :value="content.gasPrice" type="string" />
-        <detail-field field="Max fee per gas" :value="content.maxFeePerGas" type="string" />
-        <detail-field field="Max Priority fee per gas" :value="content.maxPriorityFeePerGas" type="string" />
-        <detail-field field="Gas Limit" :value="content.gasLimit" type="string" />
+        <detail-field field="Gas Price" :value="content.gasPrice" type="wei" />
+        <detail-field field="Max fee per gas" :value="content.maxFeePerGas" type="wei" />
+        <detail-field field="Max Priority fee per gas" :value="content.maxPriorityFeePerGas" type="wei" />
+        <detail-field field="Gas Limit" :value="content.gasLimit" type="wei" />
         <detail-field field="Value" :value="content.value" type="wei" />
         <detail-field field="From" :value="content.fromAddr" type="string" />
         <detail-field field="To" :value="content.toAddr" type="string" />
@@ -27,7 +27,7 @@ TranscationDetail<template>
       </q-list>
     </q-card-section>
     <q-card-actions v-if="backRoute">
-      <q-btn outline color="primary" :to="backRoute" icon="mdi-chevron-left"/>
+      <q-btn rounded outline color="primary" :to="backRoute" icon="mdi-chevron-left"/>
     </q-card-actions>
   </q-card>
 </template>
