@@ -1,5 +1,5 @@
 <template>
-  <q-dialog @before-show="initForm" class="dialog-sizing" v-model="show">
+  <q-dialog @before-hide="onClose" @before-show="initForm" class="dialog-sizing" v-model="show">
     <q-card class="pwpl-md-size">
       <q-card-section>
         <q-form @submit="onSubmit" class="q-gutter-md">
@@ -13,8 +13,8 @@
             :rules="[val => val && val > 0 || 'Please type something']" />
           <q-input filled v-model="form.magellanAddress" label="Magellan Address" />
           <q-card-actions>
-            <q-btn icon-right="cancel" label="Cancel" @click="onClose" color="grey" text-color="black" />
-            <q-btn icon-right="save" label="Create" type="submit" color="primary" />
+            <q-btn outline rounded class="btn-size" icon="cancel" label="Cancel" @click="onClose" color="primary"  />
+            <q-btn rounded class="btn-size" icon="save" label="Save" type="submit" color="primary" />
           </q-card-actions>
         </q-form>
       </q-card-section>
@@ -91,5 +91,7 @@ export default defineComponent({
 </script>
 <style scoped lang="sass">
 .dialog-sizing
-  width: 350px
+  min-width: 350px
+.btn-size
+  min-width: 130px
 </style>
