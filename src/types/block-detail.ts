@@ -3,21 +3,21 @@ export interface BlockDetails {
   timestamp: Date;
   transactionCount: number; //
   fees: number;
-  size: number;
   gasUsed: number;
   gasLimit: number;
   baseGaseFee?: number;
   hash: string;
   parentHash: string;
   childHash?: string;
-  additionalInformation: AdditionalInformation
+  additionalInformation: AdditionalInformation,
+  parentBlockNumber?: number;
+ childBlockNumber?: number;
 }
 
 interface AdditionalInformation {
-  nonce: string;
-  difficulty: number;
-  totalDifficulty: number;
-  extraData: string;
-  uncles: string[];
-  logsBloom: string;
+  nonce?: number;
+  difficulty?: number;
+  extraData?: string;
+  uncles?: string;
+  logsBloom?: string;
 }

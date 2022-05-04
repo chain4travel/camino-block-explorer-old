@@ -63,7 +63,7 @@ import { getDisplayValue, currencyFields } from 'src/utils/currency-utils'
 import { camelCaseToRegular } from 'src/utils/display-utils'
 import { ChainType } from 'src/types/chain-type'
 import { XTransaction } from 'src/types/transaction'
-import DetailField from './DetailField.vue'
+import DetailField from 'src/components/ui/DetailField.vue'
 
 export default defineComponent({
     name: 'XPTransactionDetailsView',

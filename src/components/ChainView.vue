@@ -23,12 +23,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from 'vue'
+import { defineComponent, PropType, ref, Ref } from 'vue'
 import BlockList from 'src/components/BlockList.vue';
 import TransactionList from 'src/components/TransactionList.vue';
 import SearchBanner from 'src/components/SearchBanner.vue';
 import { ChainViewLoader } from 'src/types/chain-view-loader';
-import { Block } from 'src/types/block';
+import { BlockTableData } from 'src/types/block';
 import { CTransaction } from 'src/types/transaction';
 import { useRouter } from 'vue-router';
 import { getBlockDetailsPath, getTransactionDetailsPath, getAllTransactionsPath, getAllBlocksPath } from 'src/utils/route-utils';
@@ -46,7 +46,7 @@ export default defineComponent({
   },
   async setup(props, { emit }) {
     const router = useRouter();
-    const blocks = ref(await props.store?.loadLatestBlocks(0, props.pageSize))
+    const blocks: Ref<BlockTableData[]> = ref(await props.store?.loadLatestBlocks(0, props.pageSize))
     const transactions = ref(await props.store?.loadLatestTransactions(0, props.pageSize))
     const blockPage = ref(1);
     const transactionsPage = ref(1);
@@ -56,7 +56,7 @@ export default defineComponent({
       transactions,
       blockPage,
       transactionsPage,
-      blockHasNextPage: computed(() => !(blocks.value.some(item => item.height === 0))),
+      blockHasNextPage: computed(() => !(blocks.value.some(item => item.number === 0))),
       search(value: string) {
         emit('search', value);
       },
@@ -66,8 +66,8 @@ export default defineComponent({
       async refreshTransactions() {
         transactions.value = (await props.store?.loadLatestTransactions((transactionsPage.value - 1) * props.pageSize, props.pageSize))
       },
-      openBlockDetail(item: Block) {
-        router.push(getBlockDetailsPath(props.type, item.hash))
+      openBlockDetail(item: BlockTableData) {
+        router.push(getBlockDetailsPath(props.type, item.number))
       },
       openTransactionDetail(item: CTransaction) {
         if (!item.hash) {

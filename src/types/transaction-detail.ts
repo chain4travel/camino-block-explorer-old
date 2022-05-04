@@ -1,10 +1,19 @@
-import { TransactionReceipt, Transaction } from 'web3-eth';
-
-// change once more clear what we want to show here
-export interface TranscationDetails {
-  blockHash: string,
-  blockNumber: number,
-  from: string,
-  to: string
-
+export interface TranscationDetail {
+  hash: string;
+  type: number;
+  block: number;
+  createdAt: Date;
+  nonce: number;
+  gasPrice: number;
+  maxFeePerGas: number;
+  maxPriorityFeePerGas: number;
+  gasLimit: number;
+  value: number;
+  fromAddr: string;
+  toAddr: string;
+  v: string;
+  r: string;
+  s: string;
+  gasUsed?: number;
+  contractAddress?: string;
 }

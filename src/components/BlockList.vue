@@ -8,13 +8,13 @@
         </div>
         <div class="col-3 q-pl-sm">
           <div>
-            {{ item.height }}</div>
+            {{ item.number }}</div>
           <div class="grey-color">
             {{ getRelativeTime(item.timestamp) + " ago" }}
           </div>
         </div>
         <div class="col-6">
-          {{ item.transactions.length + " txns" }}<br>
+          {{ item.numberOfTransactions + " txns" }}<br>
           <long-string class="grey-color" :value="item.hash" :max-length="45"></long-string>
         </div>
         <div class="col-2 burn-icon q-pt-sm">
@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts">
-import { Block } from 'src/types/block'
+import { BlockTableData } from 'src/types/block'
 import { defineComponent, PropType } from 'vue'
 import { getRelativeTime, displayLongString } from 'src/utils/display-utils'
 import { getDisplayValue } from 'src/utils/currency-utils'
@@ -41,7 +41,7 @@ export default defineComponent({
   emits: ['refresh', 'row-clicked'],
   props: {
     title: { type: String, required: false },
-    blocks: { type: Array as PropType<Block[]>, required: true },
+    blocks: { type: Array as PropType<BlockTableData[]>, required: true },
     showAllLink: { type: String, required: false }
   },
   setup() {
