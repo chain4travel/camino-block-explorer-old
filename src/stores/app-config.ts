@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { Network } from 'src/types/network'
 import { useStorage } from '@vueuse/core'
+import { Dark } from 'quasar'
 
 export const useAppConfig = defineStore({
   id: 'appConfig',
@@ -18,7 +19,8 @@ export const useAppConfig = defineStore({
         predefined: true
       },
     ] as Network[],
-    customNetworks: useStorage('cam-explorer-custom-networks', [] as Network[])
+    customNetworks: useStorage('cam-explorer-custom-networks', [] as Network[]),
+    darkMode: useStorage('cam-explorer-dark-mode', Dark.isActive as boolean),
   }),
   getters: {
     getAllNetworks(): Network[] {

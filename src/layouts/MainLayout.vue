@@ -4,7 +4,9 @@
       <q-toolbar color="toolbar">
         <q-toolbar-title>
           <div class="logo-container">
-            <q-img :src="companyLogo" height="32px" width="120px">
+            <q-img class="dark-logo" src="src/assets/camino-company-logo-dark.png" height="32px" width="120px">
+            </q-img>
+              <q-img class="light-logo" src="src/assets/camino-company-logo-light.png" height="32px" width="120px">
             </q-img>
             <router-link class="text-primary q-ml-xs q-mt-xs fixed-color navigation-link" :to="{
               name: 'C-Chain'
@@ -22,8 +24,7 @@
           <network-select />
         </div>
         <div>
-          <q-btn class="q-ml-sm"  rounded icon="mdi-weather-sunny navigation-link" @click="toggleDarkMode"></q-btn>
-
+          <q-btn class="q-ml-sm navigation-link" rounded :icon="$q.dark.isActive ? 'mdi-weather-sunny ' : 'mdi-weather-night '" @click="toggleDarkMode"></q-btn>
         </div>
       </q-toolbar>
     </q-header>
@@ -74,6 +75,7 @@ import type { ExternalMenuLink } from 'src/types/external-menu-link';
 
 import NetworkSelect from 'src/components/NetworkSelect.vue'
 import { useQuasar } from 'quasar';
+import { useAppConfig } from 'src/stores/app-config';
 
 const leftDrawerOpen = ref(false)
 
@@ -85,7 +87,7 @@ function addAllChildRoutes(gathered: Array<RouteRecordRaw>, route: RouteRecordRa
 }
 
 function getCompanyLogoUrl(isDark: boolean) {
-  return `src/assets/camino-company-logo-${isDark ? 'dark' : 'light'}.png`
+  return `/camino-company-logo-${isDark ? 'dark' : 'light'}.png`
 }
 
 export default defineComponent({
@@ -94,10 +96,13 @@ export default defineComponent({
     const $q = useQuasar()
     const { t } = useI18n();
     const router = useRouter();
+    const appConfig = useAppConfig();
     const startupErrorCaptured = ref(false);
     const companyLogo = ref(getCompanyLogoUrl($q.dark.isActive))
+    $q.dark.set(appConfig.darkMode);
     watch(() => $q.dark.isActive, val => {
       companyLogo.value = getCompanyLogoUrl(val);
+      appConfig.darkMode = val;
     })
 
     onErrorCaptured(() => {
@@ -138,4 +143,5 @@ export default defineComponent({
 .logo-container
   display: flex
   align-items: center
+
 </style>

@@ -1,7 +1,7 @@
 // app global css in SCSS form
 body.body--dark {
   background: $background;
-  color: white;
+  color: $background-light;
   font-family: 'PlusJakartaSans';
 
   .q-header {
@@ -11,15 +11,49 @@ body.body--dark {
     color: $primary !important;
   }
   .navigation-link {
-    color: white;
+    color: $background-light;
     text-decoration: none;
   }
   .q-card {
     background: $background-card;
     color: $background-light;
   }
+
   .light-card {
-    background: $dark-level-1;
+    background: $dark-level-2;
+  }
+
+  .q-chip {
+    background: #454749;
+    border-radius: 99px;
+  }
+
+  .q-chip-burn-bg {
+    background: $burn-background;
+    color: $background-light;
+  }
+
+  .square-background {
+    background: $dark-level-2;
+    padding: 10px;
+  }
+
+  .light-logo {
+    display: none;
+  }
+
+  .text-search-banner-icon {
+    color: $background-light !important;
+  }
+  .bg-search-banner-icon {
+    background: $background !important;
+  }
+
+  .text-search-banner-input {
+    color: $background-light !important;
+  }
+  .bg-search-banner-input {
+    background: $dark-level-1 !important;
   }
 }
 
@@ -42,8 +76,42 @@ body.body--light {
     color: $background;
   }
   .light-card {
-    background: $light-level-1;
+    background: $light-level-2;
   }
+  .q-chip {
+    background: $light-level-2;
+    border-radius: 99px;
+  }
+
+  .q-chip-burn-bg {
+    background: $burn-background;
+    color: $background-card;
+  }
+  .square-background {
+    background: $light-level-2;
+    padding: 10px;
+  }
+  .dark-logo {
+    display: none;
+  }
+
+
+  .text-search-banner-icon {
+    color: $dark-level-2 !important;
+  }
+  .bg-search-banner-icon {
+    background: $light-level-1 !important;
+  }
+
+  .text-search-banner-input {
+    color: $dark-level-2 !important;
+  }
+  .bg-search-banner-input {
+    background: $background-light !important;
+  }
+}
+.network-active-color {
+  color: #30e8bf;
 }
 .primary-clickable {
   background-color: $primary;
@@ -51,21 +119,7 @@ body.body--light {
 .large-chip {
   min-width: 120px;
 }
-.square-background {
-  background: #2e3234;
-  padding: 10px;
-}
 
 .grey-color {
   opacity: 60%;
-}
-.q-chip {
-  background: rgba(255, 255, 255, 0.15);
-  color: white;
-  border-radius: 99px;
-}
-
-.q-chip-burn-bg {
-  background: $burn-background;
-  color: white;
 }

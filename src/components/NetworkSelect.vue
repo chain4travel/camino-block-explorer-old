@@ -3,7 +3,7 @@
     <q-select dense rounded outlined v-model="selectedNetwork" :options="networkOptions"
       @update:model-value="networkSelectionChanged">
       <template v-slot:prepend>
-        <q-icon class="navigation-link" size="xs" name="mdi-web" />
+        <q-icon class="network-active-color" size="xs" name="mdi-circle-medium" />
       </template>
       <template v-slot:option="scope">
         <q-item v-bind="scope.itemProps" :class="scope.opt.value === undefined ? 'primary-clickable' : ''">

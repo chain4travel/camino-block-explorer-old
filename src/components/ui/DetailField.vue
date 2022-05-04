@@ -33,14 +33,16 @@
     </q-item-section>
     <q-item-section v-else-if="type == 'gwei'" class="col-10">
       <div class="row">
-        <q-icon class="q-ml-sm q-pr-sm" size="sm" name="img:camino-coin-logo.png" />
-        {{ getDisplayValueForGewi(value) }}
+        <q-chip size="md" icon="img:camino-coin-logo.png">
+          {{ getDisplayValueForGewi(value) }}
+        </q-chip>
       </div>
     </q-item-section>
     <q-item-section v-else-if="type == 'wei'" class="col-10">
       <div class="row">
-        <q-icon class="q-ml-sm q-pr-sm" size="sm" name="img:camino-coin-logo.png" />
-        {{ getDisplayValue(value) }}
+        <q-chip icon="img:camino-coin-logo.png">
+          {{ getDisplayValue(value) }}
+        </q-chip>
       </div>
     </q-item-section>
     <q-item-section v-else-if="type == 'ctxtype'" class="col-10">
