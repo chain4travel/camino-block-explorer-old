@@ -58,11 +58,6 @@ const routes: RouteRecordRaw[] = [
         component: () => import('src/pages/XChainTransactionDetails.vue'),
       },
       {
-        name: getBlockDetailsPathName(ChainType.X_CHAIN),
-        path: getBlockDetailsPath(ChainType.X_CHAIN, ':blockId'),
-        component: () => import('src/pages/XChainBlockDetails.vue'),
-      },
-      {
         name: getAllTransactionsPathName(ChainType.X_CHAIN),
         path: getAllTransactionsPath(ChainType.X_CHAIN),
         component: () => import('src/pages/XChainTransactionsAll.vue'),
@@ -72,11 +67,6 @@ const routes: RouteRecordRaw[] = [
         name: getTransactionsPathName(ChainType.P_CHAIN),
         path: getTransactionDetailsPath(ChainType.P_CHAIN, ':transactionId'),
         component: () => import('src/pages/PChainTransactionDetails.vue'),
-      },
-      {
-        name: getBlockDetailsPathName(ChainType.P_CHAIN),
-        path: getBlockDetailsPath(ChainType.P_CHAIN, ':blockId'),
-        component: () => import('src/pages/PChainBlockDetails.vue'),
       },
       {
         name: getAllTransactionsPathName(ChainType.P_CHAIN),
