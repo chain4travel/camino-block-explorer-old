@@ -3,7 +3,7 @@
     <q-item-section class="col-2">
       {{ field }}
     </q-item-section>
-    <q-item-section v-if="value === undefined" class="col-10">
+    <q-item-section v-if="value === undefined || value === ''" class="col-10">
       <q-icon class="q-ml-sm text-grey" size="xs" name="mdi-circle-off-outline" />
     </q-item-section>
     <q-item-section v-else-if="type == 'string'" class="col-10">
@@ -58,7 +58,6 @@ function getStatusClass(status: string) {
 
 export default defineComponent({
   name: 'DetailField',
-  // emits: ['refresh'],
   props: {
     field: { type: String, required: true },
     value: { type: [String, Number, Object], required: true },
@@ -75,11 +74,3 @@ export default defineComponent({
   components: { LongString }
 })
 </script>
-
-<!-- <style scoped lang="sass">
-*
-  background: $background-card
-  color: white
-.limit-height
-  min-height: 70px
-</style> -->

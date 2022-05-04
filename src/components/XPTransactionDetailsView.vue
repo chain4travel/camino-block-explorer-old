@@ -51,7 +51,7 @@
       </q-list>
     </q-card-section>
     <q-card-actions v-if="backRoute">
-      <q-btn color="primary" :to="backRoute">Back</q-btn>
+      <q-btn rounded outline icon="mdi-chevron-left" color="primary" :to="backRoute"></q-btn>
     </q-card-actions>
   </q-card>
 </template>
@@ -66,7 +66,7 @@ import { XTransaction } from 'src/types/transaction'
 import DetailField from './DetailField.vue'
 
 export default defineComponent({
-    name: 'XTransactionDetailsView',
+    name: 'XPTransactionDetailsView',
     props: {
         title: { type: String as PropType<string>, required: false },
         type: { type: String as PropType<ChainType>, required: true },

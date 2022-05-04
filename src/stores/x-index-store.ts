@@ -22,7 +22,8 @@ export interface MagellanTransaction {
   type: string;
   chainID: string;
   inputTotals: object,
-  outputTotals: object
+  outputTotals: object,
+  memo: string
 }
 
 export interface MagellanOutput {
@@ -53,8 +54,8 @@ export function createTransaction(magellanTransaction: MagellanTransaction): XTr
     fee: magellanTransaction.txFee,
     inputTotals: magellanTransaction.inputTotals,
     outputTotals: magellanTransaction.outputTotals,
-    status: 'accepted' //TODO: set dynamically when magellan delivers this information
-
+    status: 'accepted', //TODO: set dynamically when magellan delivers this information
+    memo: magellanTransaction.memo,
   }
 }
 
