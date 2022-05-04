@@ -2,4 +2,29 @@
 body {
   background: $background;
   color: white;
+  font-family: 'PlusJakartaSans';
+}
+
+.q-card {
+  background: $background-card;
+  color: white;
+}
+
+.square-background {
+  background: #2E3234;
+  padding: 10px;
+}
+
+.grey-color{
+  opacity: 60%;
+}
+.q-chip {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border-radius: 99px;
+}
+
+.q-chip-burn-bg {
+  background: $burn-background;
+  color: white;
 }

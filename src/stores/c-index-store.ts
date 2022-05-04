@@ -34,10 +34,7 @@ export const useCIndexStore = defineStore('cindex', {
   getters: {
   },
   actions: {
-    async loadLatestBlocks(forceReload = false, offset = 0, count = 10): Promise<Block[]> {
-      if (!forceReload && this.blocks && this.blocks.length > 0) {
-        return this.blocks;
-      }
+    async loadLatestBlocks(offset = 0, count = 10): Promise<Block[]> {
       const web3 = getWeb3Client();
       const avalancheClient = getAvalancheClient();
       const indexAPI = avalancheClient.Index();
@@ -71,22 +68,28 @@ export const useCIndexStore = defineStore('cindex', {
         return [];
       }
     },
-    async loadLatestTransactions(forceReload = false, offset = 0, count = 10): Promise<CTransaction[]> {
+    async loadLatestTransactions(offset = 0, count = 10): Promise<CTransaction[]> {
       return this.loadTransactionsMagellan(offset, count);
     },
-    async loadTransactionsMagellan(offset = 0, count= 10): Promise<CTransaction[]> {
+    async loadTransactionsMagellan(offset = 0, count = 10): Promise<CTransaction[]> {
       // currently offset is not available "natively", so we add offset and count and skip the offset elements in processing
       // this does not work for more than 5k elements at once.. will need to adjust for that to work
-      const cTransactions : CTransactionResponse = await (await axios.get(`${getMagellanBaseUrl()}${cTransactionApi}?limit=${count+offset}`)).data;
-      return cTransactions.Transactions.splice(offset, count).map(element => (<CTransaction>{
-        block: element.block,
-        from: element.fromAddr,
-        hash: element.hash,
-        status: 'Not available',
-        timestamp: element.createdAt,
-        to: element.toAddr,
-        value: element.value
-      }));
+      try {
+
+
+        const cTransactions: CTransactionResponse = await (await axios.get(`${getMagellanBaseUrl()}${cTransactionApi}?limit=${count + offset}`)).data;
+        return cTransactions.Transactions.splice(offset, count).map(element => (<CTransaction>{
+          block: element.block,
+          from: element.fromAddr,
+          hash: element.hash,
+          status: 'Not available',
+          timestamp: element.createdAt,
+          to: element.toAddr,
+          value: element.value
+        }));
+      } catch (e) {
+        return []
+      }
     },
     async loadTransactionById(transactionId: string): Promise<TranscationDetails> {
       const web3 = getWeb3Client();

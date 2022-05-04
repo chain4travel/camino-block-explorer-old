@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-select dense dark rounded outlined v-model="selectedNetwork" :options="networkOptions"
+    <q-select dense rounded outlined v-model="selectedNetwork" :options="networkOptions"
       @update:model-value="networkSelectionChanged">
       <template v-slot:prepend>
         <q-icon class="text-white" size="xs" name="mdi-web" />
@@ -19,7 +19,7 @@
         </q-item>
       </template>
     </q-select>
-    <AddNetworkDialog v-model="showNewNetworkDialog" @new-network="createNewNetwork" />
+    <AddNetworkDialog v-model="showNewNetworkDialog" @new-network="createNewNetwork" @cancel="dialogCancelled" />
   </div>
 </template>
 
@@ -77,6 +77,9 @@ export default defineComponent({
       },
       canBeDeleted(value: Network, selected: boolean) {
         return value !== undefined && !value.predefined && !selected
+      },
+      dialogCancelled(){
+        selectedNetwork.value = networkOptions.value.find(e => e.value === appConfig.getActive) || networkOptions.value[0]
       }
     }
   },

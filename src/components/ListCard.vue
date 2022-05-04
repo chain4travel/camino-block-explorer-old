@@ -2,15 +2,15 @@
   <q-card>
     <q-card-section v-if="title">
       <div class="row">
-        <div class="text-subtitle1 col-11">{{ title }}</div>
-        <div class="col-1">
-          <q-btn color="primary" icon="mdi-refresh" @click="() => $emit('refresh')" />
+        <div class="text-h6 col-11">{{ title }}</div>
+        <div class="col-1 text-right">
+          <q-btn outline rounded color="primary" icon="mdi-refresh" @click="() => $emit('refresh')" />
         </div>
       </div>
     </q-card-section>
-    <q-card-section v-if="items.length > 0" class="container">
-      <q-list dense bordered separator>
-        <q-item v-for="item, index in items" :key="index" clickable v-ripple>
+    <q-card-section v-if="items.length > 0">
+      <q-list dense separator>
+        <q-item class="limit-height" v-for="item, index in items" :key="index" clickable v-ripple>
           <q-item-section>
             <slot :item="item"></slot>
           </q-item-section>
@@ -20,8 +20,8 @@
     <q-card-section v-else class="container">
       <div class="text-body1">No Elements found</div>
     </q-card-section>
-    <q-card-actions v-if="detailsLink">
-      <q-btn :to="detailsLink" color="primary" class="row full-width justify-center">
+    <q-card-actions v-if="showAllLink" class="justify-center">
+      <q-btn outline rounded :to="showAllLink" color="primary" class="col-6">
         Show All
       </q-btn>
     </q-card-actions>
@@ -37,13 +37,15 @@ export default defineComponent({
   props: {
     title: { type: String, required: false },
     items: { type: Array, required: true },
-    detailsLink: { type: String, required: false },
+    showAllLink: { type: String, required: false },
   }
 })
 </script>
 
 <style scoped lang="sass">
 *
-  background: #27324C
+  background: $background-card
   color: white
+.limit-height
+  min-height: 70px
 </style>

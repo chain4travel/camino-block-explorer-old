@@ -62,6 +62,11 @@ const routes: RouteRecordRaw[] = [
         path: getBlockDetailsPath(ChainType.X_CHAIN, ':blockId'),
         component: () => import('src/pages/XChainBlockDetails.vue'),
       },
+      {
+        name: getAllTransactionsPathName(ChainType.X_CHAIN),
+        path: getAllTransactionsPath(ChainType.X_CHAIN),
+        component: () => import('src/pages/XChainTransactionsAll.vue'),
+      },
       //P-Chain details
       {
         name: getTransactionsPathName(ChainType.P_CHAIN),
@@ -72,6 +77,18 @@ const routes: RouteRecordRaw[] = [
         name: getBlockDetailsPathName(ChainType.P_CHAIN),
         path: getBlockDetailsPath(ChainType.P_CHAIN, ':blockId'),
         component: () => import('src/pages/PChainBlockDetails.vue'),
+      },
+      {
+        name: getAllTransactionsPathName(ChainType.P_CHAIN),
+        path: getAllTransactionsPath(ChainType.P_CHAIN),
+        component: () => import('src/pages/PChainTransactionsAll.vue'),
+      },
+      // The wallet sends this with a magellan tx id. Reroute to correct detail view.
+      // Cannot inline here as we need to make asynchronous calls to find out correct redirect route
+      {
+        name: 'walletTransactionsRedirect',
+        path: '/tx/:txId',
+        component: () => import('src/pages/TxRedirectPage.vue'),
       },
       // Always leave this as last one,
       // but you can also remove it

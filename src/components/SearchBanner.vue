@@ -1,10 +1,13 @@
 <template>
-  <q-card class="headline-card text-white text-center">
-    <q-img src="src/assets/banner-bg.png" height="100%">
-      <div class="absolute-center img-caption">
-        <div class="text-h2 q-mt-xl ">Explore the true potential of travel.</div>
-        <q-card-section class="container q-mt-xl">
-          <q-input label="Search by Address / Hash /Block / Token" dark outlined v-model="searchInput" clearable>
+  <q-card class="justify-center own-bg">
+    <q-card-section class="min-height container q-pt-xl q-pb-xl text-center">
+      <div class="row">
+        <div class="col-12 justify.center text-center text-h2 text-bold">Explore the true potential of travel.</div>
+      </div>
+      <div class="row">
+        <div class="offset-4 q-mt-xl col-4">
+          <q-input rounded label="Search by Address / Hash /Block / Token" outlined v-model="searchInput"
+            clearable>
             <template v-slot:prepend>
               <q-avatar size="lg" color="dark" text-color="white" icon="search">
               </q-avatar>
@@ -14,9 +17,9 @@
               </q-btn>
             </template>
           </q-input>
-        </q-card-section>
+        </div>
       </div>
-    </q-img>
+    </q-card-section>
   </q-card>
 </template>
 
@@ -38,22 +41,9 @@ export default defineComponent({
 })
 </script>
 <style scoped lang="sass">
-.search-icon
-  background: #141A18
-  border-radius: 30px
-  display: flex
-  align-items: center
-  align-content: flex-start
-  justify-content: center
-  justify-items: center
-.append-icon
+.own-bg
+  background: $background-card
   color: white
-  background-color: $primary
-.headline-card
-  width: 100%
-  max-height: 22em
-  background: black
-  align-items: center
-.img-caption
-  background: none
+.min-height
+  min-height: 200px
 </style>
