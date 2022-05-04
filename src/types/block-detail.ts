@@ -3,7 +3,6 @@ export interface BlockDetails {
   timestamp: Date;
   transactionCount: number; //
   fees: number;
-  size: number;
   gasUsed: number;
   gasLimit: number;
   baseGaseFee?: number;
@@ -16,10 +15,9 @@ export interface BlockDetails {
 }
 
 interface AdditionalInformation {
-  nonce: string;
-  difficulty: number;
-  totalDifficulty: number;
-  extraData: string;
-  uncles: string[];
-  logsBloom: string;
+  nonce?: number;
+  difficulty?: number;
+  extraData?: string;
+  uncles?: string;
+  logsBloom?: string;
 }

@@ -6,50 +6,43 @@
       </div>
     </q-card-section>
     <q-card-section class="container">
-      <q-list bordered separator v-if="!magellan">
-        <q-item :key="key" v-for="[key, value] in linesToRender" v-ripple clickable
-          @click="copyToClipBoard(value)">
-          <q-item-section class="col-4">
-            {{ camelCaseToRegular(key) }}
-          </q-item-section>
-          <q-item-section class="col-7">
-            <long-string v-if="fieldIncurrencyFields(key)" :value="getDisplayValue(value)">
-              <q-icon class="q-ml-sm" size="sm" name="img:camino-coin-logo.png" />
-            </long-string>
-            <long-string v-else-if="isString(value)" :value="value" :max-length="85">
-            </long-string>
-            <long-string v-else-if="value" :value="JSON.stringify(value)" :max-length="85"></long-string>
-            <div v-else>{{ "" }}</div>
-          </q-item-section>
-          <q-item-section v-if="keyHasLink(key)" class="col-1">
-            <q-btn class="foreground" size="sm" icon="mdi-magnify" color="primary"
-              @click.stop="() => handleLinkClick(key, value)">
-            </q-btn>
-          </q-item-section>
-        </q-item>
-        <q-item v-if="content.additionalInformation">
-          <q-btn class="offset-5" color="primary" @click="() => showAdditionaldetails = !showAdditionaldetails">
-            {{ showAdditionaldetails ? "Show Less" : "Show More" }}</q-btn>
-        </q-item>
+      <q-list separator>
+        <detail-field field="Hash" :value="content.hash" type="string" />
+        <detail-field field="Type" :value="content.type" type="ctxtype" />
+        <detail-field field="Block" :value="content.block" type="string" />
+        <detail-field field="Date" :value="content.createdAt" type="timestamp" />
+        <detail-field field="Nonce" :value="content.nonce" type="string" />
+        <detail-field field="Gas Price" :value="content.gasPrice" type="string" />
+        <detail-field field="Max fee per gas" :value="content.maxFeePerGas" type="string" />
+        <detail-field field="Max Priority fee per gas" :value="content.maxPriorityFeePerGas" type="string" />
+        <detail-field field="Gas Limit" :value="content.gasLimit" type="string" />
+        <detail-field field="Value" :value="content.value" type="wei" />
+        <detail-field field="From" :value="content.fromAddr" type="string" />
+        <detail-field field="To" :value="content.toAddr" type="string" />
+        <detail-field field="v" :value="content.v" type="string" />
+        <detail-field field="r" :value="content.r" type="string" />
+        <detail-field field="s" :value="content.s" type="string" />
+        <detail-field field="Gas Used" :value="parseInt(content.receipt.gasUsed)" type="wei" />
+        <detail-field field="Contract Address" :value="content.receipt.contractAddress" type="hexdata"></detail-field>
       </q-list>
     </q-card-section>
     <q-card-actions v-if="backRoute">
-      <q-btn color="primary" :to="backRoute">Back</q-btn>
+      <q-btn outline color="primary" :to="backRoute" icon="mdi-chevron-left"/>
     </q-card-actions>
   </q-card>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType, ref } from 'vue'
-import LongString from './ui/LongString.vue'
 import { useQuasar } from 'quasar'
 import { getDisplayValue, currencyFields } from 'src/utils/currency-utils'
 import { camelCaseToRegular } from 'src/utils/display-utils'
-import { BlockDetails } from 'src/types/block-detail'
 import { getBlockDetailsPath } from 'src/utils/route-utils'
 import { ChainType } from 'src/types/chain-type'
 import { useRouter } from 'vue-router'
 import { computed } from '@vue/reactivity'
+import DetailField from 'src/components/ui/DetailField.vue'
+import { MagellanTransactionDetail } from 'src/types/magellan-types'
 
 
 
@@ -59,8 +52,8 @@ export default defineComponent({
     title: { type: String as PropType<string>, required: false },
     type: { type: String as PropType<ChainType>, required: true },
     backRoute: { type: String as PropType<string>, required: false },
-    content: { type: Object as PropType<BlockDetails>, required: true },
-    magellan: { type: Boolean, default: false}
+    content: { type: Object as PropType<MagellanTransactionDetail>, required: true },
+    magellan: { type: Boolean, default: false }
   },
   setup(props) {
 
@@ -77,7 +70,7 @@ export default defineComponent({
       showAdditionaldetails,
       linesToRender: computed(() => {
         const dataToShow = Object.entries(props.content);
-        if(showAdditionaldetails.value && props.content.additionalInformation) {
+        if (showAdditionaldetails.value && props.content.additionalInformation) {
           dataToShow.push(...Object.entries(props.content.additionalInformation));
         }
         return dataToShow.filter(([key]) => !keysTohide.includes(key));
@@ -111,7 +104,7 @@ export default defineComponent({
       },
     };
   },
-  components: { LongString }
+  components: { DetailField }
 })
 </script>
 

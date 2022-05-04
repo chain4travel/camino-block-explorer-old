@@ -2,11 +2,10 @@ import { defineStore } from 'pinia';
 import { BlockTableData } from 'src/types/block'
 import { CTransaction } from 'src/types/transaction';
 import { BlockDetails } from 'src/types/block-detail';
-import { TranscationDetails } from 'src/types/transaction-detail';
-import {  getMagellanBaseUrl, getWeb3Client } from 'src/utils/client-utils';
+import {  getMagellanBaseUrl } from 'src/utils/client-utils';
 import axios from 'axios';
 import { cBlocksApi, cTransactionApi, cBlocksDetailsApi } from 'src/utils/magellan-api-utils';
-import { MagellanCBlocksResponse, CTransactionResponse, MagellanBlockDetail } from 'src/types/magellan-types';
+import { MagellanCBlocksResponse, CTransactionResponse, MagellanBlockDetail, MagellanTransactionDetail } from 'src/types/magellan-types';
 
 
 async function loadBlocksAndTransactions(blockOffset = 0, blockCount = 10, transactionOffset = 0, transactionCount = 10): Promise<MagellanCBlocksResponse> {
@@ -61,44 +60,41 @@ export const useCIndexStore = defineStore('cindex', {
         return []
       }
     },
-    async loadTransactionById(transactionId: string): Promise<TranscationDetails> {
-      const web3 = getWeb3Client();
-      const transaction = await web3.eth.getTransaction(transactionId);
-      const receipt = await web3.eth.getTransactionReceipt(transactionId);
-      return { ...transaction, ...receipt }
+    async loadTransactionById(transactionId: string): Promise<MagellanTransactionDetail> {
+      // const web3 = getWeb3Client();
+      // const transaction = await web3.eth.getTransaction(transactionId);
+      // const receipt = await web3.eth.getTransactionReceipt(transactionId);
+      // return { ...transaction, ...receipt }
+      return (await this.loadMagellanTransactionbyHash(transactionId)).Transactions[0]
     },
     async loadByBlockId(blockNumber: number): Promise<BlockDetails> {
-      const web3 = getWeb3Client();
-      const eth3_block = await web3.eth.getBlock(blockNumber);
-      let nextBlock = undefined
+      const block = await this.loadMagellanBlockByNumber(blockNumber);
+      let nextBlock: MagellanBlockDetail|undefined = undefined
       try {
-        nextBlock = await web3.eth.getBlock(eth3_block.number + 1);
+         nextBlock = await this.loadMagellanBlockByNumber(blockNumber+1)
       } catch (e) {
-        // there was no next block
-        console.log('no child block found')
+        // no next block found, probably this is the newest block
       }
       return {
         additionalInformation: {
-          difficulty: eth3_block.difficulty,
-          extraData: eth3_block.extraData,
-          logsBloom: eth3_block.logsBloom,
-          nonce: eth3_block.nonce,
-          totalDifficulty: eth3_block.totalDifficulty,
-          uncles: eth3_block.uncles
+          difficulty: parseInt(block.header.difficulty),
+          extraData: block.header.extraData,
+          logsBloom: block.header.logsBloom,
+          nonce: parseInt(block.header.nonce),
+          uncles: block.header.sha3Uncles
         },
-        blockNumber: eth3_block.number,
-        childHash: nextBlock ? nextBlock.hash : undefined,
-        childBlockNumber: nextBlock ? nextBlock?.number : undefined,
-        hash: eth3_block.hash,
-        parentHash: eth3_block.parentHash,
-        parentBlockNumber: eth3_block.number ? eth3_block.number -1 : undefined,
-        fees: eth3_block.gasUsed,
-        baseGaseFee: eth3_block.baseFeePerGas,
-        transactionCount: eth3_block.transactions ? eth3_block.transactions.length : 0,
-        gasLimit: eth3_block.gasLimit,
-        gasUsed: eth3_block.gasUsed,
-        size: eth3_block.size,
-        timestamp: new Date(eth3_block.timestamp * 1000)
+        blockNumber: parseInt(block.header.number),
+        childHash: nextBlock ? nextBlock.header.hash : undefined,
+        childBlockNumber: nextBlock ? parseInt(nextBlock.header.number) : undefined,
+        hash: block.header.hash,
+        parentHash: block.header.parentHash,
+        parentBlockNumber: parseInt(block.header.number) ? parseInt(block.header.number) -1 : undefined,
+        fees: parseInt(block.header.gasUsed),
+        baseGaseFee: parseInt(block.header.baseFeePerGas),
+        transactionCount: block.transactions ? block.transactions.length : 0,
+        gasLimit: parseInt(block.header.gasLimit),
+        gasUsed: parseInt(block.header.gasUsed),
+        timestamp: new Date(block.header.timestamp * 1000)
       };
     },
     async loadMagellanTransactionbyHash(transactionHash: string): Promise<CTransactionResponse> {
