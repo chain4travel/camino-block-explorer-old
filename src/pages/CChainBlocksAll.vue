@@ -3,7 +3,8 @@
     <!-- content -->
     <div class="row q-mt-xl">
       <div class="offset-1 col-10">
-        <details-table :back-addr="backAddr" :load-data="loadBlocks" :require-load-more="requireLoadMore" :columns="columns" title="C-Blocks" :store="store" @row-clicked="(item) => rowEvent(item)">
+        <details-table :back-addr="backAddr" :load-data="loadBlocks" :require-load-more="requireLoadMore"
+          :columns="columns" title="C-Blocks" :store="store" @row-clicked="(item) => rowEvent(item)">
         </details-table>
       </div>
     </div>
@@ -60,30 +61,12 @@ const columns = [
   }
 ]
 
-async function loadBlocks(store: ChainViewLoader, knownHashes: string[], offset: number, limit: number): Promise<BlockTableData[]> {
-  console.log('loading data', knownHashes, offset,limit)
-  const apiData : BlockTableData[] = await store.loadLatestBlocks(offset, limit);
-  const newData: BlockTableData[] = []
-  apiData.forEach(newBlock => {
-    if (!knownHashes.includes(newBlock.hash)) {
-      knownHashes.push(newBlock.hash);
-      newData.push(newBlock);
-    }
-  })
-  return newData;
-}
-
-
-function requireLoadMore(data: BlockTableData[]): boolean {
-  console.log('Require more', data.length === 0 || data.every(e => e.number > 1))
-  return data.length === 0 || data.every(e => e.number > 1)
-}
-
 export default defineComponent({
   name: 'CChainBlocksAll',
   components: { DetailsTable },
   async setup() {
     const router = useRouter();
+    let moreToLoad = true;
 
     return {
       store: useCIndexStore(),
@@ -91,8 +74,22 @@ export default defineComponent({
       rowEvent(item: BlockTableData) {
         router.push({ path: getBlockDetailsPath(ChainType.C_CHAIN, item.number || 0), query: { back: getAllBlocksPath(ChainType.C_CHAIN) } })
       },
-      loadBlocks,
-      requireLoadMore,
+      async loadBlocks(store: ChainViewLoader, knownHashes: string[], offset: number, limit: number): Promise<BlockTableData[]> {
+        const apiData: BlockTableData[] = await store.loadLatestBlocks(offset, limit);
+        const newData: BlockTableData[] = []
+        moreToLoad = false;
+        apiData.forEach(newBlock => {
+          if (!knownHashes.includes(newBlock.hash)) {
+            knownHashes.push(newBlock.hash);
+            newData.push(newBlock);
+            moreToLoad = true;
+          }
+        })
+        return newData;
+      },
+      requireLoadMore(): boolean {
+        return moreToLoad;
+      },
       backAddr: getBasePath(ChainType.C_CHAIN)
     }
   }

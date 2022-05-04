@@ -52,10 +52,10 @@ export const useCIndexStore = defineStore('cindex', {
           block: parseInt(element.block),
           from: element.from,
           hash: element.hash,
-          status: parseInt(element.status),
-          timestamp: new Date(element.timestamp * 1000),
+          status: parseInt(element.status) === 1 ? 'Success' : `Failed-${parseInt(element.status)}`,
+          timestamp: new Date(parseInt(element.timestamp) * 1000),
           to: element.to,
-          value: element.value + ''
+          value: parseInt(element.value)
         }));
       } catch (e) {
         return []
@@ -80,7 +80,7 @@ export const useCIndexStore = defineStore('cindex', {
         v: mglDetails.v,
         toAddr: mglDetails.toAddr,
         type: mglDetails.type,
-        value: mglDetails.value
+        value: mglDetails.value,
       }
     },
     async loadByBlockId(blockNumber: number): Promise<BlockDetails> {

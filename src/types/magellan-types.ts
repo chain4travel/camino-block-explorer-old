@@ -25,19 +25,19 @@ export interface MagellanBlock {
 
 
 export interface MagellanTransaction {
-  type: number;
-  block: number;
-  index: number;
+  type: string;
+  block: string;
+  index: string;
   hash: string;
-  nonce: number;
-  gasPrice: number;
-  gas: number;
-  value: number;
+  nonce: string;
+  gasPrice: string;
+  gas: string;
+  value: string;
   from: string;
   to: string;
-  timestamp: number;
-  status: number;
-  gasUsed: number;
+  timestamp: string;
+  status: string;
+  gasUsed: string;
 }
 
 export interface MagellanTransactionDetail {
@@ -97,18 +97,18 @@ export interface MagellanBlockDetail {
     transactionsRoot: string;
     receiptsRoot: string;
     logsBloom: string;
-    difficulty: number;
-    number: number;
-    gasLimit: number;
-    gasUsed: number;
-    timestamp: number;
+    difficulty: string;
+    number: string;
+    gasLimit: string;
+    gasUsed: string;
+    timestamp: string;
     extraData: string;
     mixHash: string;
-    nonce: number;
+    nonce: string;
     extDataHash: string;
-    baseFeePerGas: number;
-    extDataGasUsed: number;
-    blockGasCost: number;
+    baseFeePerGas: string;
+    extDataGasUsed: string;
+    blockGasCost: string;
     hash: string;
   },
   transactions: MagellanTransactionDetail[];

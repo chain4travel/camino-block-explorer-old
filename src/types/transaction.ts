@@ -5,7 +5,7 @@ export interface CTransaction {
   timestamp: Date;
   from: string;
   to: string;
-  value: string;
+  value: number;
 }
 
 export interface XPTransaction {
@@ -32,8 +32,8 @@ export interface TransactionTableData {
   from: string;
   to: string;
   hash: string;
-  status: number;
-  value: string;
+  status: string;
+  value: number;
   timestamp: Date;
 }
 

@@ -57,7 +57,7 @@ const columns = [
   {
     name: 'status',
     label: 'Status',
-    field: (row: TransactionTableData) => row.status===1 ? 'Success' : 'Fail',
+    field: 'status',
     align: 'left'
   },
   {
@@ -96,7 +96,6 @@ export default defineComponent({
         return moreToLoad;
       },
       async loadTransactions(store: ChainViewLoader, knownHashes: string[], offset: number, limit: number) {
-        console.log('on scroll');
         const apiData = await store.loadLatestTransactions(offset, limit);
         const newData: TransactionTableData[] = [];
         moreToLoad = false;
