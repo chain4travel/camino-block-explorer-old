@@ -1,4 +1,4 @@
-<template>
+TranscationDetail<template>
   <q-card>
     <q-card-section v-if="title">
       <div class="row">
@@ -22,8 +22,8 @@
         <detail-field field="v" :value="content.v" type="string" />
         <detail-field field="r" :value="content.r" type="string" />
         <detail-field field="s" :value="content.s" type="string" />
-        <detail-field field="Gas Used" :value="parseInt(content.receipt.gasUsed)" type="wei" />
-        <detail-field field="Contract Address" :value="content.receipt.contractAddress" type="hexdata"></detail-field>
+        <detail-field field="Gas Used" :value="parseInt(content.gasUsed)" type="wei" />
+        <detail-field field="Contract Address" :value="content.contractAddress" type="hexdata"></detail-field>
       </q-list>
     </q-card-section>
     <q-card-actions v-if="backRoute">
@@ -42,7 +42,7 @@ import { ChainType } from 'src/types/chain-type'
 import { useRouter } from 'vue-router'
 import { computed } from '@vue/reactivity'
 import DetailField from 'src/components/ui/DetailField.vue'
-import { MagellanTransactionDetail } from 'src/types/magellan-types'
+import { TranscationDetail } from 'src/types/transaction-detail'
 
 
 
@@ -52,7 +52,7 @@ export default defineComponent({
     title: { type: String as PropType<string>, required: false },
     type: { type: String as PropType<ChainType>, required: true },
     backRoute: { type: String as PropType<string>, required: false },
-    content: { type: Object as PropType<MagellanTransactionDetail>, required: true },
+    content: { type: Object as PropType<TranscationDetail>, required: true },
     magellan: { type: Boolean, default: false }
   },
   setup(props) {

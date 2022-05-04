@@ -2,10 +2,11 @@ import { defineStore } from 'pinia';
 import { BlockTableData } from 'src/types/block'
 import { CTransaction } from 'src/types/transaction';
 import { BlockDetails } from 'src/types/block-detail';
-import {  getMagellanBaseUrl } from 'src/utils/client-utils';
+import { getMagellanBaseUrl } from 'src/utils/client-utils';
 import axios from 'axios';
 import { cBlocksApi, cTransactionApi, cBlocksDetailsApi } from 'src/utils/magellan-api-utils';
 import { MagellanCBlocksResponse, CTransactionResponse, MagellanBlockDetail, MagellanTransactionDetail } from 'src/types/magellan-types';
+import { TranscationDetail } from 'src/types/transaction-detail';
 
 
 async function loadBlocksAndTransactions(blockOffset = 0, blockCount = 10, transactionOffset = 0, transactionCount = 10): Promise<MagellanCBlocksResponse> {
@@ -21,9 +22,9 @@ export const useCIndexStore = defineStore('cindex', {
   actions: {
     async loadLatestBlocks(offset = 0, count = 10): Promise<BlockTableData[]> {
       try {
-        const cBlockresponse = await loadBlocksAndTransactions(offset, count, 0,0);
-        if(!cBlockresponse.blocks) {
-          return[];
+        const cBlockresponse = await loadBlocksAndTransactions(offset, count, 0, 0);
+        if (!cBlockresponse.blocks) {
+          return [];
         }
         return cBlockresponse.blocks.map(block => <BlockTableData>{
           hash: block.hash,
@@ -44,15 +45,15 @@ export const useCIndexStore = defineStore('cindex', {
       // this does not work for more than 5k elements at once.. will need to adjust for that to work
       try {
         const cBlockresponse = await loadBlocksAndTransactions(0, 0, offset, count);
-        if(!cBlockresponse.transactions) {
+        if (!cBlockresponse.transactions) {
           return [];
         }
         return cBlockresponse.transactions.map(element => (<CTransaction>{
           block: element.block,
           from: element.from,
           hash: element.hash,
-          status: element.status +'',
-          timestamp: new Date(element.timestamp*1000),
+          status: element.status + '',
+          timestamp: new Date(element.timestamp * 1000),
           to: element.to,
           value: element.value + ''
         }));
@@ -60,18 +61,33 @@ export const useCIndexStore = defineStore('cindex', {
         return []
       }
     },
-    async loadTransactionById(transactionId: string): Promise<MagellanTransactionDetail> {
-      // const web3 = getWeb3Client();
-      // const transaction = await web3.eth.getTransaction(transactionId);
-      // const receipt = await web3.eth.getTransactionReceipt(transactionId);
-      // return { ...transaction, ...receipt }
-      return (await this.loadMagellanTransactionbyHash(transactionId)).Transactions[0]
+    async loadTransactionById(transactionId: string): Promise<TranscationDetail> {
+      const mglDetails: MagellanTransactionDetail = (await this.loadMagellanTransactionbyHash(transactionId)).Transactions[0]
+      return {
+        block: mglDetails.block,
+        contractAddress: mglDetails.receipt ? mglDetails.receipt.contractAddress : undefined,
+        createdAt: mglDetails.createdAt,
+        fromAddr: mglDetails.fromAddr,
+        gasLimit: mglDetails.gasLimit,
+        gasPrice: mglDetails.gasPrice,
+        gasUsed: mglDetails.receipt ? parseInt(mglDetails.receipt.gasUsed) : undefined,
+        hash: mglDetails.hash,
+        maxFeePerGas: mglDetails.maxFeePerGas,
+        maxPriorityFeePerGas: mglDetails.maxPriorityFeePerGas,
+        nonce: mglDetails.nonce,
+        r: mglDetails.r,
+        s: mglDetails.s,
+        v: mglDetails.v,
+        toAddr: mglDetails.toAddr,
+        type: mglDetails.type,
+        value: mglDetails.value
+      }
     },
     async loadByBlockId(blockNumber: number): Promise<BlockDetails> {
       const block = await this.loadMagellanBlockByNumber(blockNumber);
-      let nextBlock: MagellanBlockDetail|undefined = undefined
+      let nextBlock: MagellanBlockDetail | undefined = undefined
       try {
-         nextBlock = await this.loadMagellanBlockByNumber(blockNumber+1)
+        nextBlock = await this.loadMagellanBlockByNumber(blockNumber + 1)
       } catch (e) {
         // no next block found, probably this is the newest block
       }
@@ -88,7 +104,7 @@ export const useCIndexStore = defineStore('cindex', {
         childBlockNumber: nextBlock ? parseInt(nextBlock.header.number) : undefined,
         hash: block.header.hash,
         parentHash: block.header.parentHash,
-        parentBlockNumber: parseInt(block.header.number) ? parseInt(block.header.number) -1 : undefined,
+        parentBlockNumber: parseInt(block.header.number) ? parseInt(block.header.number) - 1 : undefined,
         fees: parseInt(block.header.gasUsed),
         baseGaseFee: parseInt(block.header.baseFeePerGas),
         transactionCount: block.transactions ? block.transactions.length : 0,
@@ -98,11 +114,9 @@ export const useCIndexStore = defineStore('cindex', {
       };
     },
     async loadMagellanTransactionbyHash(transactionHash: string): Promise<CTransactionResponse> {
-      //&toAddress=${transactionCount}&fromAddress=${blockOffset}&address=${transactionOffset}&blockStart=0&blockEnd=1`)
       return await (await axios.get(`${getMagellanBaseUrl()}${cTransactionApi}?hash=${transactionHash}`)).data;
     },
     async loadMagellanBlockByNumber(blockNumber: number): Promise<MagellanBlockDetail> {
-      //&toAddress=${transactionCount}&fromAddress=${blockOffset}&address=${transactionOffset}&blockStart=0&blockEnd=1`)
       return await (await axios.get(`${getMagellanBaseUrl()}${cBlocksDetailsApi}/${blockNumber}`)).data;
     }
   },
