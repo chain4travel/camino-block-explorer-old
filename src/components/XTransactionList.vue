@@ -72,7 +72,7 @@ import { getRelativeTime, displayLongString } from 'src/utils/display-utils'
 import { getDisplayValueForGewi } from 'src/utils/currency-utils'
 
 import ListCard from './ListCard.vue'
-import { XTransaction } from 'src/types/transaction'
+import { XPTransaction } from 'src/types/transaction'
 import LongString from './ui/LongString.vue'
 
 export default defineComponent({
@@ -80,7 +80,7 @@ export default defineComponent({
   emits: ['refresh', 'row-clicked'],
   props: {
     title: { type: String, required: false },
-    transactions: { type: Array as PropType<XTransaction[]>, required: true },
+    transactions: { type: Array as PropType<XPTransaction[]>, required: true },
     showAllLink: { type: String, required: false },
     showType: { type: Boolean, default: false }
   },

@@ -16,7 +16,7 @@ import { ChainType } from 'src/types/chain-type';
 import { getAllTransactionsPath, getBasePath, getTransactionDetailsPath } from 'src/utils/route-utils';
 import { defineComponent } from 'vue'
 import { useRouter } from 'vue-router';
-import { XTransaction, XTransactionTableData } from 'src/types/transaction'
+import { XPTransaction, XPTransactionTableData } from 'src/types/transaction'
 import { getRelativeTime } from 'src/utils/display-utils';
 import { getDisplayValue } from 'src/utils/currency-utils';
 import { ChainViewLoader } from 'src/types/chain-view-loader';
@@ -45,7 +45,7 @@ const columns = [
   {
     name: 'timestamp',
     label: 'Timestamp',
-    field: (row: XTransactionTableData) => getRelativeTime(row.timestamp) + ' ago',
+    field: (row: XPTransactionTableData) => getRelativeTime(row.timestamp) + ' ago',
     align: 'left'
   },
   {
@@ -57,13 +57,13 @@ const columns = [
   {
     value: 'value',
     label: 'Value',
-    field: (row: XTransactionTableData) => getDisplayValue(row.value),
+    field: (row: XPTransactionTableData) => getDisplayValue(row.value),
     align: 'left'
   },
   {
     value: 'fee',
     label: 'Fee',
-    field: (row: XTransactionTableData) => getDisplayValue(row.fee),
+    field: (row: XPTransactionTableData) => getDisplayValue(row.fee),
     align: 'left'
   }
 ]
@@ -74,7 +74,7 @@ function getValue(outputTotal?: object, inputTotal?: object): number {
   return output - input;
 }
 
-function mapToTableData(transaction: XTransaction): XTransactionTableData {
+function mapToTableData(transaction: XPTransaction): XPTransactionTableData {
   return {
     from: transaction.from.map(e => e.address).join(' '),
     hash: transaction.id,
@@ -95,16 +95,16 @@ export default defineComponent({
       store: usePIndexStore(),
       columns,
       backAddr: getBasePath(ChainType.P_CHAIN),
-      rowEvent(item: XTransactionTableData) {
+      rowEvent(item: XPTransactionTableData) {
         router.push({ path: getTransactionDetailsPath(ChainType.P_CHAIN, item.hash), query: { back: getAllTransactionsPath(ChainType.P_CHAIN) } });
       },
       requireLoadMore(): boolean {
         return moreToLoad;
       },
       async loadTransactions(store: ChainViewLoader, knownHashes: string[], offset: number, limit: number) {
-        const apiData: XTransaction[] = await store.loadLatestTransactions(offset, limit);
+        const apiData: XPTransaction[] = await store.loadLatestTransactions(offset, limit);
         console.log('api', apiData)
-        const newData: XTransactionTableData[] = [];
+        const newData: XPTransactionTableData[] = [];
         console.log('From api ', apiData)
         moreToLoad = false;
         apiData.map(mapToTableData).forEach(newTransaction => {

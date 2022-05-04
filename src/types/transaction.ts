@@ -8,7 +8,7 @@ export interface CTransaction {
   value: string;
 }
 
-export interface XTransaction {
+export interface XPTransaction {
   id: string;
   type: string;
   timestamp?: Date;
@@ -37,7 +37,7 @@ export interface TransactionTableData {
   timestamp: Date;
 }
 
-export interface XTransactionTableData {
+export interface XPTransactionTableData {
   from: string;
   to: string;
   hash: string;

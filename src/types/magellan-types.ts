@@ -113,3 +113,39 @@ export interface MagellanBlockDetail {
   },
   transactions: MagellanTransactionDetail[];
 }
+
+export interface MagellanXPTransactionResponse {
+  transactions: MagellanXPTransaction[];
+  startTime: string;
+  endTime: string;
+}
+
+export interface MagellanXPTransaction {
+  id: string;
+  timestamp: string;
+  inputs: MagellanXPInput[];
+  outputs: MagellanXPOutput[];
+  txFee: number;
+  type: string;
+  chainID: string;
+  inputTotals: object,
+  outputTotals: object,
+  memo: string
+}
+
+export interface MagellanXPOutput {
+  id: string,
+  amount: number,
+  addresses: string[]
+}
+
+export interface MagellanXPInput {
+  output: MagellanXPOutput,
+  credentials: MagellanXPCredentials[]
+}
+
+export interface MagellanXPCredentials {
+  address: string,
+  public_key: string,
+  signature: string
+}

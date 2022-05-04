@@ -29,7 +29,7 @@ import { useRouter } from 'vue-router';
 import { getBlockDetailsPath, getTransactionDetailsPath, getAllTransactionsPath, getAllBlocksPath } from 'src/utils/route-utils';
 import { ChainType } from 'src/types/chain-type';
 import { usePIndexStore } from 'src/stores/p-index-store'
-import { XTransaction } from 'src/types/transaction';
+import { XPTransaction } from 'src/types/transaction';
 
 export default defineComponent({
   name: 'PChainPage',
@@ -55,7 +55,7 @@ export default defineComponent({
       openBlockDetail(item: Block) {
         router.push(getBlockDetailsPath(chainType, item.hash))
       },
-      openTransactionDetail(item: XTransaction) {
+      openTransactionDetail(item: XPTransaction) {
         if (!item.id) {
           return;
         }
