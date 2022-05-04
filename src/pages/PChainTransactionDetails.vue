@@ -30,7 +30,7 @@ export default defineComponent({
     const pChain = usePIndexStore();
     return {
       transactionId: route.params.transactionId,
-      backroute: getBasePath(ChainType.P_CHAIN),
+      backroute: route.query.back || getBasePath(ChainType.P_CHAIN),
       loadedTransaction: await pChain.loadTransactionById(getStringOrFirstElement(route.params.transactionId))
     }
   }

@@ -30,7 +30,7 @@ export default defineComponent({
     const xChain = useXIndexStore();
     return {
       transactionId: route.params.transactionId,
-      backroute: getBasePath(ChainType.X_CHAIN),
+      backroute: route.query.back || getBasePath(ChainType.X_CHAIN),
       loadedTransaction: await xChain.loadTransactionById(getStringOrFirstElement(route.params.transactionId))
     }
   }
