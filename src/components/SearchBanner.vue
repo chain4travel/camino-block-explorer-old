@@ -6,7 +6,7 @@
       </div>
       <div class="row">
         <div class="offset-4 q-mt-xl col-4">
-          <q-input rounded label="Search by Address / Hash /Block / Token" dark outlined v-model="searchInput"
+          <q-input rounded label="Search by Address / Hash /Block / Token" outlined v-model="searchInput"
             clearable>
             <template v-slot:prepend>
               <q-avatar size="lg" color="dark" text-color="white" icon="search">

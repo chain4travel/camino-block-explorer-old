@@ -3,7 +3,7 @@
     <!-- content -->
     <div class="row">
       <div class="offset-2 col-8">
-        <x-transaction-details-view :title="'X-Chain Transaction ' + transactionId" :back-route="backroute"
+        <x-transaction-details-view title="X-Chain Transaction " :back-route="backroute"
           :content="loadedTransaction">
         </x-transaction-details-view>
       </div>

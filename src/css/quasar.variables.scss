@@ -15,17 +15,19 @@
 $primary: #149eed;
 $secondary: #b440fc;
 $accent: #35e9ad;
-$accent2: #ff8235;
 
 $dark: #1d1d1d;
 $background: #1A1B1E;
-$background-card: #242729;
 $toolbar: #0f172f;
 
 $positive: #21ba45;
 $negative: #c10015;
 $info: #31ccec;
 $warning: #f2c037;
+
+$burn-background: #FF353526;
+$background-card: #242729;
+$background-card-light: lighten($background-card, 3%);
 
 
 @font-face {

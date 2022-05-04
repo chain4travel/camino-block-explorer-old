@@ -6,14 +6,14 @@
       </div>
     </div>
     <div class="row ">
-      <div class="col-6 q-pr-s q-pl-md">
+      <div class="col-xs-12 col-md-6 q-pr-s q-pl-md">
         <!-- Latest Blocks-->
         <block-list :has-next-page="blockHasNextPage" :blocks="blocks" :show-all-link="getAllBlocksPath(type)"
           @refresh="refreshBlocks" @row-clicked="openBlockDetail">
         </block-list>
       </div>
       <!-- Latest Transactions-->
-      <div class="col-6 q-pl-md q-pr-md">
+      <div class="col-xs-12 col-md-6 q-pl-md q-pr-md">
         <transaction-list :transactions="transactions" :show-all-link="getAllTransactionsPath(type)"
           @refresh="refreshTransactions" @row-clicked="openTransactionDetail">
         </transaction-list>

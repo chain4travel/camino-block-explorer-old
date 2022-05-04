@@ -3,8 +3,8 @@
     @refresh="() => $emit('refresh')">
     <template v-slot="{ item }">
       <div @click="() => $emit('row-clicked', item)" class="row">
-        <div class="col-1 square icon-background text-center">
-          <q-icon size="sm" name="mdi-cube-outline" />
+        <div class="col-1 text-center q-pt-sm q-pb-sm">
+          <q-icon class="square-background" size="sm" name="mdi-cube-outline" />
         </div>
         <div class="col-3 q-pl-sm">
           <div>
@@ -17,8 +17,9 @@
           {{ item.numberOfTransactions + " txns" }}<br>
           <long-string class="grey-color" :value="item.hash" :max-length="45"></long-string>
         </div>
-        <div class="col-2 burn-icon">
-          <q-chip class="q-chip-bg text-right justify-end" icon-right="img:camino-coin-logo.png">
+        <div class="col-2 burn-icon q-pt-sm">
+          <q-chip class="q-chip-bg justify-end">
+            <q-icon size="sm" name="mdi-fire" class="text-red"></q-icon>
             {{ getDisplayValue(item.gasUsed) }}
           </q-chip>
         </div>
@@ -53,18 +54,5 @@ export default defineComponent({
 </script>
 <style lang="sass" scoped>
 .q-chip-bg
-  background: rgba(255, 255, 255, 0.15)
-  color: white
-  border-radius: 99px
   min-width: 120px
-  text-align: end
-.grey-color
-  opacity: 60%
-.icon-background
-  background: #2E3234
-  padding: 10px
-.square:before
-  display: block
-  padding-top: 100%
-  background: #2E3234
 </style>
