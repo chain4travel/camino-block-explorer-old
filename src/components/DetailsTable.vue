@@ -13,7 +13,8 @@
         <q-btn outline rounded color="primary" icon="mdi-refresh" @click="() => refresh()" />
       </template>
       <template v-slot:bottom>
-        <q-btn outline v-if="backAddr" rounded color="primary" size="md" icon="mdi-chevron-left" @click="() => $router.push(backAddr)" />
+        <q-btn outline v-if="backAddr" rounded color="primary" size="md" icon="mdi-chevron-left"
+          @click="() => $router.push(backAddr)" />
       </template>
     </q-table>
   </div>
@@ -90,9 +91,6 @@ export default defineComponent({
 </script>
 
 <style scoped lang="sass">
-*
-  background: $background-card
-  color: white
 .my-sticky-dynamic
   /* height or max-height is important */
   height: 80vh

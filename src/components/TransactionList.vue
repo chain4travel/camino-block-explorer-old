@@ -33,7 +33,7 @@
           </div>
         </div>
         <div class="col-2 gas-used q-pt-sm">
-          <q-chip class="q-chip-bg" icon="img:camino-coin-logo.png">
+          <q-chip class="large-chip" icon="img:camino-coin-logo.png">
             <long-string class="text-right" :value="getDisplayValue(item.value)" :max-length="12">
             </long-string>
           </q-chip>
@@ -66,7 +66,3 @@ export default defineComponent({
   components: { ListCard, LongString }
 })
 </script>
-<style lang="sass" scoped>
-.q-chip-bg
-  min-width: 120px
-</style>

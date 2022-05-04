@@ -28,7 +28,8 @@
         </div>
 
         <q-item v-if="content.additionalInformation">
-          <q-btn rounded outline class="offset-5" color="primary" @click="() => showAdditionaldetails = !showAdditionaldetails">
+          <q-btn rounded outline class="offset-5" color="primary"
+            @click="() => showAdditionaldetails = !showAdditionaldetails">
             {{ showAdditionaldetails ? "Show Less" : "Show More" }}</q-btn>
         </q-item>
       </q-list>
@@ -114,12 +115,3 @@ export default defineComponent({
   components: { DetailField }
 })
 </script>
-
-<style scoped lang="sass">
-
-// .hover-effect:hover
-//   background-color: yellow
-
-.foreground
-  z-index: 1000
-</style>

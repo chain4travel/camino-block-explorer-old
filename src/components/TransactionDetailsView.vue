@@ -107,14 +107,3 @@ export default defineComponent({
   components: { DetailField }
 })
 </script>
-
-<style scoped lang="sass">
-*
-  background: $background-card
-  color: white
-// .hover-effect:hover
-//   background-color: yellow
-
-.foreground
-  z-index: 1000
-</style>

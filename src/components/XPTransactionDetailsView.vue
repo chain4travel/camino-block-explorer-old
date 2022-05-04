@@ -99,8 +99,3 @@ export default defineComponent({
     components: { DetailField }
 })
 </script>
-
-<style scoped lang="sass">
-.light-card
-  background: $background-card-light
-</style>

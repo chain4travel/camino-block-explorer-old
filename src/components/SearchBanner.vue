@@ -1,5 +1,5 @@
 <template>
-  <q-card class="justify-center own-bg">
+  <q-card class="justify-center">
     <q-card-section class="min-height container q-pt-xl q-pb-xl text-center">
       <div class="row">
         <div class="col-12 justify.center text-center text-h2 text-bold">Explore the true potential of travel.</div>
@@ -41,9 +41,6 @@ export default defineComponent({
 })
 </script>
 <style scoped lang="sass">
-.own-bg
-  background: $background-card
-  color: white
 .min-height
   min-height: 200px
 </style>

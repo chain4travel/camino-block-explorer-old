@@ -1,12 +1,12 @@
 <template>
   <q-layout view="hHh lpR fFf">
-    <q-header elevated class="bg-dark text-white">
+    <q-header elevated>
       <q-toolbar color="toolbar">
         <q-toolbar-title>
           <div class="logo-container">
-            <q-img src="src/assets/camino-company-logo.png" height="32px" width="120px">
+            <q-img :src="companyLogo" height="32px" width="120px">
             </q-img>
-            <router-link class="text-primary q-ml-xs q-mt-xs fixed-color" :to="{
+            <router-link class="text-primary q-ml-xs q-mt-xs fixed-color navigation-link" :to="{
               name: 'C-Chain'
             }">{{ "Explorer" }}</router-link>
             <div class="text-primary text-caption q-ml-xs q-mt-xs">Alpha</div>
@@ -14,15 +14,21 @@
         </q-toolbar-title>
 
         <div class="logo-container">
-          <router-link class="text-white q-mr-md no-underscore" v-for="route in menuRoutes" :key="route?.name"
+          <router-link class="q-mr-md navigation-link" v-for="route in menuRoutes" :key="route?.name"
             :to="{ name: route?.name }">
             {{ route?.name }} </router-link>
-          <a class="text-white q-mr-md no-underscore" v-for="link in additionalMenuItems" :key="link.name"
-            :href="link.href" target="_blank">{{ link.name }}</a>
+          <a class="q-mr-md navigation-link" v-for="link in additionalMenuItems" :key="link.name" :href="link.href"
+            target="_blank">{{ link.name }}</a>
           <network-select />
+        </div>
+        <div>
+          <q-btn class="q-ml-sm"  rounded icon="mdi-weather-sunny navigation-link" @click="toggleDarkMode"></q-btn>
+
         </div>
       </q-toolbar>
     </q-header>
+
+
     <!-- mobile??? -->
     <q-drawer class="bg-dark" v-model="leftDrawerOpen" side="left" bordered>
       <q-scroll-area class="fit">
@@ -42,7 +48,7 @@
     </q-drawer>
 
     <body>
-      <q-page-container class="bg-color">
+      <q-page-container>
         <Suspense>
           <template #default>
             <router-view :key="$route.fullPath" />
@@ -61,12 +67,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onErrorCaptured, ref } from 'vue'
+import { defineComponent, onErrorCaptured, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n';
 import { RouteRecordRaw, useRouter } from 'vue-router';
 import type { ExternalMenuLink } from 'src/types/external-menu-link';
 
 import NetworkSelect from 'src/components/NetworkSelect.vue'
+import { useQuasar } from 'quasar';
 
 const leftDrawerOpen = ref(false)
 
@@ -77,12 +84,22 @@ function addAllChildRoutes(gathered: Array<RouteRecordRaw>, route: RouteRecordRa
   }
 }
 
+function getCompanyLogoUrl(isDark: boolean) {
+  return `src/assets/camino-company-logo-${isDark ? 'dark' : 'light'}.png`
+}
+
 export default defineComponent({
   name: 'MainLayout',
   setup() {
+    const $q = useQuasar()
     const { t } = useI18n();
     const router = useRouter();
     const startupErrorCaptured = ref(false);
+    const companyLogo = ref(getCompanyLogoUrl($q.dark.isActive))
+    watch(() => $q.dark.isActive, val => {
+      companyLogo.value = getCompanyLogoUrl(val);
+    })
+
     onErrorCaptured(() => {
       startupErrorCaptured.value = true;
     })
@@ -106,22 +123,19 @@ export default defineComponent({
       t,
       menuRoutes,
       additionalMenuItems,
-      startupErrorCaptured
+      startupErrorCaptured,
+      toggleDarkMode() {
+        $q.dark.toggle();
+      },
+      companyLogo,
     };
   },
   components: { NetworkSelect }
 })
 </script>
 <style scoped lang="sass">
-.bg-toolbar
-  background: $toolbar !important
-a
-  text-decoration: none
+
 .logo-container
   display: flex
   align-items: center
-.router-link-exact-active:not(.fixed-color)
-  color: $primary !important
-.bg-color
-  background: $background
 </style>

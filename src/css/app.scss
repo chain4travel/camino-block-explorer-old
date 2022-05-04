@@ -1,21 +1,62 @@
 // app global css in SCSS form
-body {
+body.body--dark {
   background: $background;
   color: white;
   font-family: 'PlusJakartaSans';
+
+  .q-header {
+    background: $background;
+  }
+  .router-link-exact-active:not(.fixed-color) {
+    color: $primary !important;
+  }
+  .navigation-link {
+    color: white;
+    text-decoration: none;
+  }
+  .q-card {
+    background: $background-card;
+    color: $background-light;
+  }
+  .light-card {
+    background: $dark-level-1;
+  }
 }
 
-.q-card {
-  background: $background-card;
-  color: white;
+body.body--light {
+  background: $background-light;
+  color: $background;
+  font-family: 'PlusJakartaSans';
+  .q-header {
+    background: $background-light;
+  }
+  .router-link-exact-active:not(.fixed-color) {
+    color: $primary !important;
+  }
+  .navigation-link {
+    color: $background;
+    text-decoration: none;
+  }
+  .q-card {
+    background: $light-level-1;
+    color: $background;
+  }
+  .light-card {
+    background: $light-level-1;
+  }
 }
-
+.primary-clickable {
+  background-color: $primary;
+}
+.large-chip {
+  min-width: 120px;
+}
 .square-background {
-  background: #2E3234;
+  background: #2e3234;
   padding: 10px;
 }
 
-.grey-color{
+.grey-color {
   opacity: 60%;
 }
 .q-chip {

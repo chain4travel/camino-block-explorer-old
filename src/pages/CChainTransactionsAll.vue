@@ -114,11 +114,7 @@ export default defineComponent({
   components: { DetailsTable }
 })
 </script>
-
 <style scoped lang="sass">
-*
-  background: $background-card
-  color: white
 .my-sticky-dynamic
   /* height or max-height is important */
   height: 80vh

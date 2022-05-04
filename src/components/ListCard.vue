@@ -43,9 +43,6 @@ export default defineComponent({
 </script>
 
 <style scoped lang="sass">
-*
-  background: $background-card
-  color: white
 .limit-height
   min-height: 70px
 </style>

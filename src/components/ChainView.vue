@@ -90,7 +90,3 @@ export default defineComponent({
 })
 </script>
 
-<style scoped lang="sass">
-*
-  background: #1A1B1E
-</style>
