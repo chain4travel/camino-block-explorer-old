@@ -3,8 +3,8 @@
     :show-all-link="showAllLink">
     <template v-slot="{ item }">
       <div @click="() => $emit('row-clicked', item)" class="row">
-        <div class="col-1">
-          <q-icon class="squareBackground" size="sm" name="mdi-transfer" />
+        <div class="col-1 q-pt-lg">
+          <q-icon class="square-background " size="sm" name="mdi-transfer" />
         </div>
         <div class="col-3">
           <div class="row">
@@ -55,7 +55,7 @@
             </div>
           </div>
         </div>
-        <div class="col-2 text-right gas-used">
+        <div class="col-2 text-right gas-used q-pt-md">
           <q-chip class="q-chip-burn-bg">
             <long-string :value="getDisplayValueForGewi(item.fee)" :max-length="20" />
             <q-icon class="text-red q-ml-sm" size="sm" name="mdi-fire" />
