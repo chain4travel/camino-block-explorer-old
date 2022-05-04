@@ -62,7 +62,7 @@ import { defineComponent, PropType, ref } from 'vue'
 import { getDisplayValue, currencyFields } from 'src/utils/currency-utils'
 import { camelCaseToRegular } from 'src/utils/display-utils'
 import { ChainType } from 'src/types/chain-type'
-import { XTransaction } from 'src/types/transaction'
+import { XPTransaction } from 'src/types/transaction'
 import DetailField from './DetailField.vue'
 
 export default defineComponent({
@@ -71,7 +71,7 @@ export default defineComponent({
         title: { type: String as PropType<string>, required: false },
         type: { type: String as PropType<ChainType>, required: true },
         backRoute: { type: String as PropType<string>, required: false },
-        content: { type: Object as PropType<XTransaction>, required: true }
+        content: { type: Object as PropType<XPTransaction>, required: true }
     },
     setup(props) {
       return {

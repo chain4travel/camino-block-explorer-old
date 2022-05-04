@@ -24,7 +24,7 @@ import { useRouter } from 'vue-router';
 import { getTransactionDetailsPath, getAllTransactionsPath, getAllBlocksPath } from 'src/utils/route-utils';
 import { ChainType } from 'src/types/chain-type';
 import { useXIndexStore } from 'src/stores/x-index-store'
-import { XTransaction } from 'src/types/transaction';
+import { XPTransaction } from 'src/types/transaction';
 
 export default defineComponent({
   name: 'XChainPage',
@@ -47,7 +47,7 @@ export default defineComponent({
       async refreshTransactions() {
         transactions.value = await store?.loadLatestTransactions(0, pageSize)
       },
-      openTransactionDetail(item: XTransaction) {
+      openTransactionDetail(item: XPTransaction) {
         if (!item.id) {
           return;
         }
