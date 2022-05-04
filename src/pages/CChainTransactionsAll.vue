@@ -57,7 +57,7 @@ const columns = [
   {
     name: 'status',
     label: 'Status',
-    field: 'status',
+    field: (row: TransactionTableData) => row.status===1 ? 'Success' : 'Fail',
     align: 'left'
   },
   {

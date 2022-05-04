@@ -10,10 +10,10 @@
         </q-td>
       </template>
       <template v-slot:top-right>
-        <q-btn rounded color="primary" icon="mdi-refresh" @click="() => refresh()" />
+        <q-btn outline rounded color="primary" icon="mdi-refresh" @click="() => refresh()" />
       </template>
       <template v-slot:bottom>
-        <q-btn v-if="backAddr" rounded color="primary" size="md" icon="mdi-chevron-left" @click="() => $router.push(backAddr)" />
+        <q-btn outline v-if="backAddr" rounded color="primary" size="md" icon="mdi-chevron-left" @click="() => $router.push(backAddr)" />
       </template>
     </q-table>
   </div>

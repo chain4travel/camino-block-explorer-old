@@ -49,10 +49,10 @@ export const useCIndexStore = defineStore('cindex', {
           return [];
         }
         return cBlockresponse.transactions.map(element => (<CTransaction>{
-          block: element.block,
+          block: parseInt(element.block),
           from: element.from,
           hash: element.hash,
-          status: element.status + '',
+          status: parseInt(element.status),
           timestamp: new Date(element.timestamp * 1000),
           to: element.to,
           value: element.value + ''

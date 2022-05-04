@@ -32,7 +32,7 @@ export interface TransactionTableData {
   from: string;
   to: string;
   hash: string;
-  status: string;
+  status: number;
   value: string;
   timestamp: Date;
 }
