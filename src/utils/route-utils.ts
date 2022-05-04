@@ -14,9 +14,9 @@ export function getTransactionDetailsPath(chaintype: ChainType, transactionId: s
   return basePath;
 }
 
-export function getBlockDetailsPath(chaintype: ChainType, blockId: string): string {
+export function getBlockDetailsPath(chaintype: ChainType, blockId: string|number): string {
   const basePath = getBasePath(chaintype) + BLOCK_DETAILS_BASEPATH;
-  if (blockId) {
+  if (blockId !== undefined) {
     return basePath + blockId;
   }
   return basePath;
