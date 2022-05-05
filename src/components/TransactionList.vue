@@ -11,9 +11,6 @@
           <div>
             <long-string :value="item.hash"></long-string>
           </div>
-          <q-tooltip>
-            {{ item.hash }}
-          </q-tooltip>
           <div class="grey-color">
             {{ getRelativeTime(item.timestamp) + " ago" }}
           </div>
