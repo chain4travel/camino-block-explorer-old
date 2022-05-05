@@ -7,6 +7,11 @@ import {  transactionApi } from 'src/utils/magellan-api-utils';
 
 import { getChainId, getMagellanBaseUrl } from 'src/utils/client-utils';
 
+
+function sortByAddress(a : Fund,b: Fund) : number {
+  return a.address.localeCompare(b.address);
+}
+
 export function createTransaction(magellanTransaction: MagellanXPTransaction): XPTransaction {
   console.log(magellanTransaction);
   return <XPTransaction> {
@@ -28,7 +33,7 @@ export function getOutputFunds(magellanTransaction: MagellanXPTransaction): Fund
   for (const output of magellanTransaction.outputs || []) {
     outputfunds.push(createFundFromOutput(output));
   }
-  return outputfunds;
+  return outputfunds.sort(sortByAddress);
 }
 
 export function getInputFunds(magellanTransaction: MagellanXPTransaction): Fund[] {
@@ -40,7 +45,7 @@ export function getInputFunds(magellanTransaction: MagellanXPTransaction): Fund[
       inputfunds.push(inputFund);
     }
   }
-  return inputfunds;
+  return inputfunds.sort(sortByAddress);
 }
 
 function createFundFromOutput(magellanOutput: MagellanXPOutput): Fund {
