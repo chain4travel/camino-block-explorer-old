@@ -12,6 +12,7 @@ jobs:
       - run: npm run build
 
   docker-build:
+    steps:
       - uses: actions/checkout@v3
       - name: Build image and push to Docker Hub and GitHub Container Registry
         uses: docker/build-push-action@v2
