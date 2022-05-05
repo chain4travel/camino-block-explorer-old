@@ -14,10 +14,13 @@ jobs:
           fetch-depth: 0                # fetch the whole repo history
 
       - name: Git Version
+        id: setversion
         uses: codacy/git-version@2.4.0
         with:
           release-branch: main
           dev-branch: develop
       - name: debug output
+        env:
+          VERSION: ${{ steps.setversion.outputs.version }}
         run: |
           echo $VERSION
