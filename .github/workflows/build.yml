@@ -20,5 +20,5 @@ jobs:
         with:
           context: ./
           tags: |
-            c4tplatform/camino-block-explorer:${{github.ref}}-${{github.run_id}}
+            c4tplatform/camino-block-explorer:${{github.ref_name}}-${{github.run_id}}
           push: false
