@@ -10,3 +10,13 @@ jobs:
           node-version: '17'
       - run: npm i
       - run: npm run build
+
+  docker-build:
+      - uses: actions/checkout@v3
+      - name: Build image and push to Docker Hub and GitHub Container Registry
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          tags: |
+            c4tplatform/camino-block-explorer:${{github.ref}}-${{github.run_id}}
+          push: false
