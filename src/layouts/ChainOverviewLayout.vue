@@ -17,7 +17,6 @@
       </template>
     </Suspense>
   </q-page-container>
-
 </template>
 
 <script lang="ts">
@@ -26,7 +25,7 @@ import SearchBanner from 'src/components/SearchBanner.vue'
 
 export default defineComponent({
   name: 'ChainOverviewLayout',
-  components: {SearchBanner},
+  components: { SearchBanner },
   setup() {
     const startupErrorCaptured = ref(false);
     return {

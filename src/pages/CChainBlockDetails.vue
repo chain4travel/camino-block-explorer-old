@@ -1,13 +1,11 @@
 <template>
-  <q-page padding>
-    <!-- content -->
-    <div class="row">
-      <div class="offset-2 col-8">
-        <block-details-view :type="type" :title="'C-Chain Block '" :back-route="backroute" :content="loadedBlock">
-        </block-details-view>
-      </div>
+  <!-- content -->
+  <div class="row">
+    <div class="offset-2 col-8">
+      <block-details-view :type="type" :title="'C-Chain Block '" :back-route="backroute" :content="loadedBlock">
+      </block-details-view>
     </div>
-  </q-page>
+  </div>
 </template>
 
 <script lang="ts">

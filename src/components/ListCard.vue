@@ -9,8 +9,8 @@
       </div>
     </q-card-section>
     <q-card-section v-if="items.length > 0">
-      <q-list dense separator>
-        <q-item class="limit-height" v-for="item, index in items" :key="index" clickable v-ripple>
+      <q-list dense separator class="limit-height">
+        <q-item v-for="item, index in items" :key="index" clickable v-ripple>
           <q-item-section>
             <slot :item="item"></slot>
           </q-item-section>
@@ -44,5 +44,7 @@ export default defineComponent({
 
 <style scoped lang="sass">
 .limit-height
-  min-height: 70px
+  max-height: 54vh
+  overflow: auto
+
 </style>

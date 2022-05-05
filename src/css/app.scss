@@ -7,6 +7,10 @@ body.body--dark {
   .q-header {
     background: $background;
   }
+  .q-footer {
+    background: $background;
+    color: $background-light;
+  }
   .router-link-exact-active:not(.fixed-color) {
     color: $primary !important;
   }
@@ -64,6 +68,10 @@ body.body--light {
   .q-header {
     background: $background-light;
   }
+  .q-footer {
+    background: $background-light;
+    color: $background;
+  }
   .router-link-exact-active:not(.fixed-color) {
     color: $primary !important;
   }
@@ -95,7 +103,6 @@ body.body--light {
     display: none;
   }
 
-
   .text-search-banner-icon {
     color: $dark-level-2 !important;
   }
@@ -106,27 +113,24 @@ body.body--light {
   .text-search-banner-input {
     color: $dark-level-2 !important;
   }
+
   .bg-search-banner-input {
     background: $background-light !important;
   }
 }
+
 .network-active-color {
   color: #30e8bf;
 }
+
 .primary-clickable {
   background-color: $primary;
 }
+
 .large-chip {
   min-width: 120px;
 }
 
 .grey-color {
   opacity: 60%;
-}
-
-::-webkit-scrollbar {
-  width: 0px!important;
-}
-* {
-  scrollbar-width: none;
 }

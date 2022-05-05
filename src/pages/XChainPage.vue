@@ -1,14 +1,12 @@
 <template>
-  <q-page>
-    <div class="row full-width justify-center">
-      <!-- Latest Transactions-->
-      <div class="col-12 q-pr-md q-pl-md">
-        <x-transaction-list :transactions="transactions" :show-all-link="getAllTransactionsPath(chainType)"
-          @refresh="refreshTransactions" @row-clicked="openTransactionDetail">
-        </x-transaction-list>
-      </div>
+  <div class="row full-width justify-center">
+    <!-- Latest Transactions-->
+    <div class="col-12 q-pr-md q-pl-md">
+      <x-transaction-list :transactions="transactions" :show-all-link="getAllTransactionsPath(chainType)"
+        @refresh="refreshTransactions" @row-clicked="openTransactionDetail">
+      </x-transaction-list>
     </div>
-  </q-page>
+  </div>
 </template>
 
 <script lang="ts">

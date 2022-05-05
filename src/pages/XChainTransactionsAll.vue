@@ -1,14 +1,12 @@
 <template>
-  <q-page padding>
-    <!-- content -->
-    <div class="row q-mt-xl">
-      <div class="col-12">
-        <details-table :back-addr="backAddr" :load-data="loadTransactions" :require-load-more="requireLoadMore" :columns="columns"
-          title="X-Transactions" :store="store" @row-clicked="(item) => rowEvent(item)">
-        </details-table>
-      </div>
+  <!-- content -->
+  <div class="row q-mt-xl">
+    <div class="col-12">
+      <details-table :back-addr="backAddr" :load-data="loadTransactions" :require-load-more="requireLoadMore"
+        :columns="columns" title="X-Transactions" :store="store" @row-clicked="(item) => rowEvent(item)">
+      </details-table>
     </div>
-  </q-page>
+  </div>
 </template>
 
 <script lang="ts">
@@ -21,7 +19,7 @@ import { getRelativeTime } from 'src/utils/display-utils';
 import { getDisplayValue } from 'src/utils/currency-utils';
 import { ChainViewLoader } from 'src/types/chain-view-loader';
 import DetailsTable from '../components/DetailsTable.vue';
-import {  useXIndexStore } from 'src/stores/x-index-store';
+import { useXIndexStore } from 'src/stores/x-index-store';
 import { getDisplayAddress } from 'src/utils/display-utils'
 
 const columns = [

@@ -1,14 +1,12 @@
 <template>
-  <q-page padding>
-    <!-- content -->
-    <div class="row q-mt-xl">
-      <div class="col-12">
-        <details-table :back-addr="backAddr" :load-data="loadTransactions" :require-load-more="requireLoadMore"
-          :columns="columns" title="P-Transactions" :store="store" @row-clicked="(item) => rowEvent(item)">
-        </details-table>
-      </div>
+  <!-- content -->
+  <div class="row q-mt-xl">
+    <div class="col-12">
+      <details-table :back-addr="backAddr" :load-data="loadTransactions" :require-load-more="requireLoadMore"
+        :columns="columns" title="P-Transactions" :store="store" @row-clicked="(item) => rowEvent(item)">
+      </details-table>
     </div>
-  </q-page>
+  </div>
 </template>
 
 <script lang="ts">
@@ -16,7 +14,7 @@ import { ChainType } from 'src/types/chain-type';
 import { getAllTransactionsPath, getOverviewPath, getTransactionDetailsPath } from 'src/utils/route-utils';
 import { defineComponent } from 'vue'
 import { useRouter } from 'vue-router';
-import {  XPTransaction, XPTransactionTableData } from 'src/types/transaction'
+import { XPTransaction, XPTransactionTableData } from 'src/types/transaction'
 import { getRelativeTime } from 'src/utils/display-utils';
 import { getDisplayValue } from 'src/utils/currency-utils';
 import { ChainViewLoader } from 'src/types/chain-view-loader';

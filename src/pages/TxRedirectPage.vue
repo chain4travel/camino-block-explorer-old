@@ -1,10 +1,8 @@
 <template>
-  <q-page padding>
-    <!-- content -->
-    <div class="row">
-      Loading...
-    </div>
-  </q-page>
+  <!-- content -->
+  <div class="row">
+    Loading...
+  </div>
 </template>
 
 <script lang="ts">

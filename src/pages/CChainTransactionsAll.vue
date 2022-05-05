@@ -1,14 +1,12 @@
 <template>
-  <q-page padding>
-    <!-- content -->
-    <div class="row q-mt-xl">
-      <div class="col-12">
-        <details-table :back-addr="backAddr" :load-data="loadTransactions" :require-load-more="requireLoadMore"
-          :columns="columns" title="C-Blocks" :store="store" @row-clicked="(item) => rowEvent(item)">
-        </details-table>
-      </div>
+  <!-- content -->
+  <div class="row q-mt-xl">
+    <div class="col-12">
+      <details-table :back-addr="backAddr" :load-data="loadTransactions" :require-load-more="requireLoadMore"
+        :columns="columns" title="C-Blocks" :store="store" @row-clicked="(item) => rowEvent(item)">
+      </details-table>
     </div>
-  </q-page>
+  </div>
 </template>
 
 <script lang="ts">

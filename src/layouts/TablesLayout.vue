@@ -12,7 +12,6 @@
       </template>
     </Suspense>
   </q-page-container>
-
 </template>
 
 <script lang="ts">

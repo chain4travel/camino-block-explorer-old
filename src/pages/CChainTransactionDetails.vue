@@ -1,15 +1,12 @@
 <template>
-  <q-page padding>
-    <!-- content -->
-    <div class="row">
-      <div class="offset-2 col-8">
-        <transaction-details-view :type="type" title="C-Chain Transaction" :back-route="backroute"
-          :content="loadedTransaction">
-        </transaction-details-view>
-      </div>
+  <!-- content -->
+  <div class="row">
+    <div class="offset-2 col-8">
+      <transaction-details-view :type="type" title="C-Chain Transaction" :back-route="backroute"
+        :content="loadedTransaction">
+      </transaction-details-view>
     </div>
-
-  </q-page>
+  </div>
 </template>
 
 <script lang="ts">
@@ -30,7 +27,7 @@ export default defineComponent({
     const cChain = useCIndexStore();
     return {
       transactionId: route.params.transactionId,
-      backroute: route.query.back ? route.query.back :getOverviewPath(ChainType.C_CHAIN),
+      backroute: route.query.back ? route.query.back : getOverviewPath(ChainType.C_CHAIN),
       loadedTransaction: await cChain.loadTransactionById(getStringOrFirstElement(route.params.transactionId)),
       type: ChainType.C_CHAIN
     }

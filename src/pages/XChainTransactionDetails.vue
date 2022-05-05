@@ -1,15 +1,11 @@
 <template>
-  <q-page padding>
-    <!-- content -->
-    <div class="row">
-      <div class="offset-2 col-8">
-        <x-p-transaction-details-view title="X-Chain Transaction " :back-route="backroute"
-          :content="loadedTransaction">
-        </x-p-transaction-details-view>
-      </div>
+  <!-- content -->
+  <div class="row">
+    <div class="offset-2 col-8">
+      <x-p-transaction-details-view title="X-Chain Transaction " :back-route="backroute" :content="loadedTransaction">
+      </x-p-transaction-details-view>
     </div>
-
-  </q-page>
+  </div>
 </template>
 
 <script lang="ts">

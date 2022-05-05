@@ -50,21 +50,20 @@
     </q-drawer>
 
     <body>
-      <q-page-container>
-        <Suspense>
-          <template #default>
-            <router-view />
-          </template>
-          <template #fallback>
-            <div class="row">
-              <h5 class="col text-center" v-if="startupErrorCaptured">{{ "Error Initialising" }}</h5>
-              <q-spinner class="justify-center col" v-else color="primary" size="5em" />
-            </div>
-          </template>
+      <Suspense>
+        <template #default>
+          <router-view />
+        </template>
+        <template #fallback>
+          <div class="row">
+            <h5 class="col text-center" v-if="startupErrorCaptured">{{ "Error Initialising" }}</h5>
+            <q-spinner class="justify-center col" v-else color="primary" size="5em" />
+          </div>
+        </template>
 
-        </Suspense>
-      </q-page-container>
+      </Suspense>
     </body>
+
   </q-layout>
 </template>
 
@@ -136,7 +135,13 @@ export default defineComponent({
         $q.dark.toggle();
       },
       companyLogo,
-      homePath: getOverviewPath(ChainType.C_CHAIN)
+      homePath: getOverviewPath(ChainType.C_CHAIN),
+      footerLinks: [
+        { name: 'Discord', href: 'https://discord.gg/K5THjAweFB' },
+        { name: 'Twitter', href: 'https://twitter.com/CaminoFndtn' },
+        { name: 'Telegram', href: 'https://t.me/caminochain' },
+        { name: 'Medium', href: 'https://medium.com/@caminofoundation' }
+      ]
     };
   },
   components: { NetworkSelect }

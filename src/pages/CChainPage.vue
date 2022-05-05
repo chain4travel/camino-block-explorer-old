@@ -1,7 +1,5 @@
 <template>
-  <q-page>
-    <chain-view @search="search" :store="cStore" :type="chainType" />
-  </q-page>
+  <chain-view @search="search" :store="cStore" :type="chainType" />
 </template>
 
 <script lang="ts">

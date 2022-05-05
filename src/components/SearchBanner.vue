@@ -43,4 +43,5 @@ export default defineComponent({
 <style scoped lang="sass">
 .min-height
   min-height: 200px
+  max-height: 30vh
 </style>
