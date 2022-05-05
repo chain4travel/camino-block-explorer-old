@@ -4,7 +4,7 @@
       {{ field }}
     </q-item-section>
     <q-item-section v-if="value === undefined || value === ''" class="col-10">
-      <q-icon class="q-ml-sm text-grey" size="xs" name="mdi-circle-off-outline" />
+      <q-icon class="text-grey" size="xs" name="mdi-circle-off-outline" />
     </q-item-section>
     <q-item-section v-else-if="type == 'string'" class="col-10">
       <long-string :value="value" :max-length="16"></long-string>
@@ -24,7 +24,7 @@
     <q-item-section v-else-if="type == 'timestamp'" class="col-10">
       <div class="row">
         <div class="q-pr-md">
-          <q-icon class="q-ml-sm q-pr-sm" size="xs" name="mdi-clock-outline" />{{ getRelativeTime(value) }} ago
+          <q-icon class="q-pr-sm" size="xs" name="mdi-clock-outline" />{{ getRelativeTime(value) }} ago
         </div>
         <div>
           <long-string :value="value" :max-length="16" />
@@ -100,3 +100,13 @@ export default defineComponent({
   components: { LongString }
 })
 </script>
+<style scoped lang="scss" >
+.q-chip {
+  margin-left: 0px;
+
+}
+.q-icon {
+  margin-left: 0px;
+
+}
+</style>

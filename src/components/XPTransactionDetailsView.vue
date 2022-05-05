@@ -15,37 +15,37 @@
         <DetailField field="Memo" :value="content.memo" type="string" />
         <q-item>
           <div class="col-6 q-pa-sm">
-              <q-card class="q-ma-sm light-card" :key="fund.address" v-for="fund in content.from">
-                <q-card-section>
-                  <div class="row">
-                    <div class="text-subtitle1 col-12">Input</div>
-                  </div>
-                </q-card-section>
-                <q-card-section >
+            <q-card class="q-ma-sm light-card" :key="fund.address" v-for="fund in content.from">
+              <q-card-section>
+                <div class="row">
+                  <div class="text-subtitle1 col-12">Input</div>
+                </div>
+              </q-card-section>
+              <q-card-section>
 
                 <q-list>
                   <DetailField field="From" :value="fund.address" type="string" />
                   <DetailField field="Signature" :value="fund.signature" type="string" />
                   <DetailField field="Value" :value="fund.value" type="gwei" />
                 </q-list>
-                </q-card-section>
-              </q-card>
+              </q-card-section>
+            </q-card>
           </div>
           <div class="col-6 q-pa-sm">
-              <q-card class="q-ma-sm light-card" :key="fund.address" v-for="fund in content.to">
-                <q-card-section>
-                  <div class="row">
-                    <div class="text-subtitle1 col-12">Output</div>
-                  </div>
-                </q-card-section>
-                <q-card-section >
+            <q-card class="q-ma-sm light-card" :key="fund.address" v-for="fund in content.to">
+              <q-card-section>
+                <div class="row">
+                  <div class="text-subtitle1 col-12">Output</div>
+                </div>
+              </q-card-section>
+              <q-card-section>
 
                 <q-list>
                   <DetailField field="To" :value="fund.address" type="string" />
                   <DetailField field="Value" :value="fund.value" type="gwei" />
                 </q-list>
-                </q-card-section>
-              </q-card>
+              </q-card-section>
+            </q-card>
           </div>
         </q-item>
       </q-list>
@@ -57,45 +57,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from 'vue'
-// import LongString from './ui/LongString.vue'
-import { getDisplayValue, currencyFields } from 'src/utils/currency-utils'
-import { camelCaseToRegular } from 'src/utils/display-utils'
+import { defineComponent, PropType } from 'vue'
 import { ChainType } from 'src/types/chain-type'
 import { XPTransaction } from 'src/types/transaction'
 import DetailField from 'src/components/ui/DetailField.vue'
 
 export default defineComponent({
-    name: 'XPTransactionDetailsView',
-    props: {
-        title: { type: String as PropType<string>, required: false },
-        type: { type: String as PropType<ChainType>, required: true },
-        backRoute: { type: String as PropType<string>, required: false },
-        content: { type: Object as PropType<XPTransaction>, required: true }
-    },
-    setup(props) {
-      return {
-            getDisplayValue,
-            fieldIncurrencyFields(key: string) {
-                return currencyFields.includes(key);
-            },
-            isString(val: any) {
-                return typeof val === 'string' || val instanceof String;
-            },
-            camelCaseToRegular,
-            keyHasLink(key: string) {
-                return !!keyWithRoutes[key];
-            },
-            handleLinkClick(key: string, value: string) {
-                if (keyWithRoutes[key] && value) {
-                    const route = keyWithRoutes[key](value);
-                    router.push(route);
-                    //router.go(0)
-                    return;
-                }
-            },
-        };
-    },
-    components: { DetailField }
+  name: 'XPTransactionDetailsView',
+  props: {
+    title: { type: String as PropType<string>, required: false },
+    type: { type: String as PropType<ChainType>, required: true },
+    backRoute: { type: String as PropType<string>, required: false },
+    content: { type: Object as PropType<XPTransaction>, required: true }
+  },
+  components: { DetailField }
 })
 </script>
