@@ -4,7 +4,7 @@ name: Git Version
 on: [push]
 
 jobs:
-  lint:
+  version:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -14,7 +14,10 @@ jobs:
           fetch-depth: 0                # fetch the whole repo history
 
       - name: Git Version
-        uses: codacy/git-version@2.2.0
+        uses: codacy/git-version@2.4.0
         with:
           release-branch: main
           dev-branch: develop
+      - name: debug output
+        run: |
+          echo $VERSION
