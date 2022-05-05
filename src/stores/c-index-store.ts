@@ -83,7 +83,8 @@ export const useCIndexStore = defineStore('cindex', {
         value: mglDetails.value,
       }
     },
-    async loadByBlockId(blockNumber: number): Promise<BlockDetails> {
+    async loadByBlockId(blockNumberParam: string): Promise<BlockDetails> {
+      const blockNumber = parseInt(blockNumberParam);
       const block = await this.loadMagellanBlockByNumber(blockNumber);
       let nextBlock: MagellanBlockDetail | undefined = undefined
       try {
