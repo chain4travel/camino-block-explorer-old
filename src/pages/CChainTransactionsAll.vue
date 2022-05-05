@@ -14,7 +14,7 @@
 <script lang="ts">
 import { useCIndexStore } from 'src/stores/c-index-store';
 import { ChainType } from 'src/types/chain-type';
-import { getAllTransactionsPath, getBasePath, getTransactionDetailsPath } from 'src/utils/route-utils';
+import { getAllTransactionsPath, getOverviewPath, getTransactionDetailsPath } from 'src/utils/route-utils';
 import { defineComponent } from 'vue'
 import { useRouter } from 'vue-router';
 import { CTransaction, TransactionTableData } from 'src/types/transaction'
@@ -88,7 +88,7 @@ export default defineComponent({
     return {
       store: useCIndexStore(),
       columns,
-      backAddr: getBasePath(ChainType.C_CHAIN),
+      backAddr: getOverviewPath(ChainType.C_CHAIN),
       rowEvent(item: TransactionTableData) {
         router.push({ path: getTransactionDetailsPath(ChainType.C_CHAIN, item.hash), query: { back: getAllTransactionsPath(ChainType.C_CHAIN) } });
       },

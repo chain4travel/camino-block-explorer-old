@@ -16,7 +16,7 @@
 import { defineComponent } from 'vue'
 import XPTransactionDetailsView from 'src/components/XPTransactionDetailsView.vue'
 import { useRoute } from 'vue-router'
-import { getBasePath } from 'src/utils/route-utils';
+import { getOverviewPath } from 'src/utils/route-utils';
 import { ChainType } from 'src/types/chain-type';
 import { getStringOrFirstElement } from 'src/utils/display-utils';
 import { usePIndexStore } from 'src/stores/p-index-store';
@@ -30,7 +30,7 @@ export default defineComponent({
     const pChain = usePIndexStore();
     return {
       transactionId: route.params.transactionId,
-      backroute: route.query.back || getBasePath(ChainType.P_CHAIN),
+      backroute: route.query.back || getOverviewPath(ChainType.P_CHAIN),
       loadedTransaction: await pChain.loadTransactionById(getStringOrFirstElement(route.params.transactionId))
     }
   }

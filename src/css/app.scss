@@ -123,3 +123,10 @@ body.body--light {
 .grey-color {
   opacity: 60%;
 }
+
+::-webkit-scrollbar {
+  width: 0px!important;
+}
+* {
+  scrollbar-width: none;
+}

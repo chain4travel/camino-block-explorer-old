@@ -16,7 +16,7 @@
 import { defineComponent } from 'vue'
 import TransactionDetailsView from 'src/components/TransactionDetailsView.vue'
 import { useRoute } from 'vue-router'
-import { getBasePath } from 'src/utils/route-utils';
+import { getOverviewPath } from 'src/utils/route-utils';
 import { ChainType } from 'src/types/chain-type';
 import { useCIndexStore } from 'src/stores/c-index-store';
 import { getStringOrFirstElement } from 'src/utils/display-utils';
@@ -30,7 +30,7 @@ export default defineComponent({
     const cChain = useCIndexStore();
     return {
       transactionId: route.params.transactionId,
-      backroute: route.query.back ? route.query.back :getBasePath(ChainType.C_CHAIN),
+      backroute: route.query.back ? route.query.back :getOverviewPath(ChainType.C_CHAIN),
       loadedTransaction: await cChain.loadTransactionById(getStringOrFirstElement(route.params.transactionId)),
       type: ChainType.C_CHAIN
     }

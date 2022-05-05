@@ -6,11 +6,10 @@
           <div class="logo-container">
             <q-img class="dark-logo" src="src/assets/camino-company-logo-dark.png" height="32px" width="120px">
             </q-img>
-              <q-img class="light-logo" src="src/assets/camino-company-logo-light.png" height="32px" width="120px">
+            <q-img class="light-logo" src="src/assets/camino-company-logo-light.png" height="32px" width="120px">
             </q-img>
-            <router-link class="text-primary q-ml-xs q-mt-xs fixed-color navigation-link" :to="{
-              name: 'C-Chain'
-            }">{{ "Explorer" }}</router-link>
+            <router-link class="text-primary q-ml-xs q-mt-xs fixed-color navigation-link" :to="homePath">{{ "Explorer"
+            }}</router-link>
             <div class="text-primary text-caption q-ml-xs q-mt-xs">Alpha</div>
           </div>
         </q-toolbar-title>
@@ -18,13 +17,15 @@
         <div class="logo-container">
           <router-link class="q-mr-md navigation-link" v-for="route in menuRoutes" :key="route?.name"
             :to="{ name: route?.name }">
-            {{ route?.name }} </router-link>
+            {{ route && route.meta && route.meta.label ? route.meta.label : route?.name }}
+          </router-link>
           <a class="q-mr-md navigation-link" v-for="link in additionalMenuItems" :key="link.name" :href="link.href"
             target="_blank">{{ link.name }}</a>
           <network-select />
         </div>
         <div>
-          <q-btn class="q-ml-sm navigation-link" rounded :icon="$q.dark.isActive ? 'mdi-weather-sunny ' : 'mdi-weather-night '" @click="toggleDarkMode"></q-btn>
+          <q-btn class="q-ml-sm navigation-link" rounded
+            :icon="$q.dark.isActive ? 'mdi-weather-sunny ' : 'mdi-weather-night '" @click="toggleDarkMode"></q-btn>
         </div>
       </q-toolbar>
     </q-header>
@@ -52,7 +53,7 @@
       <q-page-container>
         <Suspense>
           <template #default>
-            <router-view :key="$route.fullPath" />
+            <router-view />
           </template>
           <template #fallback>
             <div class="row">
@@ -76,6 +77,8 @@ import type { ExternalMenuLink } from 'src/types/external-menu-link';
 import NetworkSelect from 'src/components/NetworkSelect.vue'
 import { useQuasar } from 'quasar';
 import { useAppConfig } from 'src/stores/app-config';
+import { getOverviewPath } from 'src/utils/route-utils';
+import { ChainType } from 'src/types/chain-type';
 
 const leftDrawerOpen = ref(false)
 
@@ -133,6 +136,7 @@ export default defineComponent({
         $q.dark.toggle();
       },
       companyLogo,
+      homePath: getOverviewPath(ChainType.C_CHAIN)
     };
   },
   components: { NetworkSelect }

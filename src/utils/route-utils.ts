@@ -1,63 +1,60 @@
 import { ChainType } from 'src/types/chain-type';
 
-export const TRANSACTION_DETAILS_BASEPATH = '/transactions/';
-const BLOCK_DETAILS_BASEPATH = '/blocks/';
-const TRANSACTIONS_PATH_NAME = '-Transactions';
-const BLOCKS_PATH_NAME = '-Blocks';
-const ALL_PATH_NAME = '-All'
+export const CHAIN_OVERVIEW = 'chain-overview';
+export const DETAILS = 'details';
+export const TABLES = 'all';
+
+const transactions = 'transactions';
+const blocks = 'blocks';
+
+export function getPathElement(type: ChainType): string {
+  return type.toLowerCase();
+}
 
 export function getTransactionDetailsPath(chaintype: ChainType, transactionId: string): string {
-  const basePath = getBasePath(chaintype) + TRANSACTION_DETAILS_BASEPATH;
+  const basePath = `/${DETAILS}/${transactions}/${getPathElement(chaintype)}/`;
   if (transactionId) {
     return basePath + transactionId;
   }
   return basePath;
 }
 
-export function getBlockDetailsPath(chaintype: ChainType, blockId: string|number): string {
-  const basePath = getBasePath(chaintype) + BLOCK_DETAILS_BASEPATH;
+export function getBlockDetailsPath(chaintype: ChainType, blockId: string | number): string {
+  const basePath = `/${DETAILS}/${blocks}/${getPathElement(chaintype)}/`;
   if (blockId !== undefined) {
     return basePath + blockId;
   }
   return basePath;
 }
 
-export function getPathName(chaintype: ChainType) {
-  switch (chaintype) {
-    case ChainType.C_CHAIN:
-      return 'C-Chain';
-    case ChainType.X_CHAIN:
-      return 'X-Chain';
-    case ChainType.P_CHAIN:
-      return 'P-Chain';
-  }
-}
-
-export function getTransactionsPathName(chaintype: ChainType) {
-  return getPathName(chaintype) + TRANSACTIONS_PATH_NAME;
-}
-
-export function getBlockDetailsPathName(chaintype: ChainType) {
-  return getPathName(chaintype) + BLOCKS_PATH_NAME;
+export function getOverviewPath(chaintype: ChainType) {
+  return `/${CHAIN_OVERVIEW}/${getPathElement(chaintype)}`;
 }
 
 export function getAllBlocksPath(chaintype: ChainType) {
-  return getBasePath(chaintype) + '/all' + BLOCK_DETAILS_BASEPATH;
-}
-
-export function getAllBlocksPathName(chaintype: ChainType) {
-  return getPathName(chaintype) + BLOCKS_PATH_NAME + ALL_PATH_NAME;
+  return `/${TABLES}/${getPathElement(chaintype)}/${blocks}`;
 }
 
 export function getAllTransactionsPath(chaintype: ChainType) {
-  return getBasePath(chaintype) + '/all' + TRANSACTION_DETAILS_BASEPATH;
+  return `/${TABLES}/${getPathElement(chaintype)}/${transactions}`;
+}
+
+export function getOverviewPathName(chaintype: ChainType) {
+  return `${chaintype}-${CHAIN_OVERVIEW}`;
+}
+
+export function getTransactionsPathName(chaintype: ChainType) {
+  return `${chaintype}-${transactions}-${DETAILS}`;
+}
+
+export function getBlockDetailsPathName(chaintype: ChainType) {
+  return `${chaintype}-${blocks}-${DETAILS}`;
+}
+
+export function getAllBlocksPathName(chaintype: ChainType) {
+  return `${chaintype}-${blocks}-${TABLES}`;
 }
 
 export function getAllTransactionsPathName(chaintype: ChainType) {
-  return getPathName(chaintype) + TRANSACTIONS_PATH_NAME + ALL_PATH_NAME;
-}
-
-
-export function getBasePath(chaintype: ChainType): string {
-  return '/' + chaintype.toLowerCase();
+  return `${chaintype}-${transactions}-${TABLES}`;
 }

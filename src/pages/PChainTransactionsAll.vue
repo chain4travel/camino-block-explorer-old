@@ -13,7 +13,7 @@
 
 <script lang="ts">
 import { ChainType } from 'src/types/chain-type';
-import { getAllTransactionsPath, getBasePath, getTransactionDetailsPath } from 'src/utils/route-utils';
+import { getAllTransactionsPath, getOverviewPath, getTransactionDetailsPath } from 'src/utils/route-utils';
 import { defineComponent } from 'vue'
 import { useRouter } from 'vue-router';
 import {  XPTransaction, XPTransactionTableData } from 'src/types/transaction'
@@ -92,7 +92,7 @@ export default defineComponent({
     return {
       store: usePIndexStore(),
       columns,
-      backAddr: getBasePath(ChainType.P_CHAIN),
+      backAddr: getOverviewPath(ChainType.P_CHAIN),
       rowEvent(item: XPTransactionTableData) {
         router.push({ path: getTransactionDetailsPath(ChainType.P_CHAIN, item.hash), query: { back: getAllTransactionsPath(ChainType.P_CHAIN) } });
       },

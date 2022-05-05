@@ -5,6 +5,7 @@ declare module 'vue-router' {
   interface RouteMeta {
     // is optional
     showInMenu?: boolean
+    label?: string,
     icon?: string
   }
 }

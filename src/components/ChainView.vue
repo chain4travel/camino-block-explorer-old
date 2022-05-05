@@ -1,10 +1,5 @@
 <template>
   <q-page>
-    <div class="row q-pa-md">
-      <div class="col">
-        <search-banner @search="search"></search-banner>
-      </div>
-    </div>
     <div class="row ">
       <div class="col-xs-12 col-md-6 q-pr-s q-pl-md">
         <!-- Latest Blocks-->
@@ -26,7 +21,6 @@
 import { defineComponent, PropType, ref, Ref } from 'vue'
 import BlockList from 'src/components/BlockList.vue';
 import TransactionList from 'src/components/TransactionList.vue';
-import SearchBanner from 'src/components/SearchBanner.vue';
 import { ChainViewLoader } from 'src/types/chain-view-loader';
 import { BlockTableData } from 'src/types/block';
 import { CTransaction } from 'src/types/transaction';
@@ -37,7 +31,7 @@ import { computed } from '@vue/reactivity';
 
 export default defineComponent({
   name: 'ChainView',
-  components: { BlockList, TransactionList, SearchBanner },
+  components: { BlockList, TransactionList },
   emits: ['search', 'refresh-blocks', 'refresh-transactions'],
   props: {
     type: { type: String as PropType<ChainType>, required: true },
