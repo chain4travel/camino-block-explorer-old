@@ -8,7 +8,7 @@
       </div>
     </q-card-section>
     <q-card-section>
-      <q-list bordered seperator>
+      <q-list bordered separator>
         <detail-field class="highlighted q-pt-md" icon="mdi-transfer" field="Transaction" :value="content.hash"
           type="string" />
       </q-list>

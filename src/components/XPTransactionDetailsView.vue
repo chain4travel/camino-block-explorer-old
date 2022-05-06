@@ -13,8 +13,7 @@
       </q-list>
     </q-card-section>
     <q-card-section>
-      <q-list class="mobile-width">
-
+      <q-list bordered separator class="mobile-width">
         <DetailField icon="mdi-help-circle-outline" field="Status" :value="content.status" type="txstatus" />
         <DetailField icon="mdi-help-circle-outline" field="Type" :value="content.type" type="txtype" />
         <DetailField icon="mdi-help-circle-outline" field="Timestamp" :value="content.timestamp" type="timestamp" />
