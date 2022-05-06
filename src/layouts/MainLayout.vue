@@ -10,7 +10,7 @@
             </q-img>
             <router-link class="text-primary q-ml-xs q-mt-xs fixed-color navigation-link" :to="homePath">{{ "Explorer"
             }}</router-link>
-            <div class="text-primary text-caption q-ml-xs q-mt-xs">Alpha</div>
+            <div class="text-primary text-caption q-ml-xs q-mt-xs">Alpha2</div>
           </div>
         </q-toolbar-title>
 
