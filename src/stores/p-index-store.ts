@@ -15,7 +15,6 @@ export const usePIndexStore = defineStore('pindex', {
     },
 
     async loadLatestTransactions(offset = 0, count = 10): Promise<XPTransaction[]> {
-      console.log('loading P Transaction', offset, count)
       return await this.store.loadLatestTransactions('p', offset, count);
     },
 

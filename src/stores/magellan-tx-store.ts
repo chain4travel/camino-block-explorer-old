@@ -13,7 +13,6 @@ function sortByAddress(a : Fund,b: Fund) : number {
 }
 
 export function createTransaction(magellanTransaction: MagellanXPTransaction): XPTransaction {
-  console.log(magellanTransaction);
   return <XPTransaction> {
     id: magellanTransaction.id,
     timestamp: new Date(Date.parse(magellanTransaction.timestamp)),

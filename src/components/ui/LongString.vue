@@ -14,7 +14,7 @@ import { displayLongString } from 'src/utils/display-utils'
 export default defineComponent({
   name: 'LongString',
   props: {
-    value: { type: String, required: false },
+    value: { type: [String, Number], required: false },
   },
   setup() {
     return {

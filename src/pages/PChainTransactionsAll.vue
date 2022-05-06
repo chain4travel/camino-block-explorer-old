@@ -99,9 +99,7 @@ export default defineComponent({
       },
       async loadTransactions(store: ChainViewLoader, knownHashes: string[], offset: number, limit: number) {
         const apiData: XPTransaction[] = await store.loadLatestTransactions(offset, limit);
-        console.log('api', apiData)
         const newData: XPTransactionTableData[] = [];
-        console.log('From api ', apiData)
         moreToLoad = false;
         apiData.map(mapToTableData).forEach(newTransaction => {
           if (!knownHashes.includes(newTransaction.hash)) {
@@ -110,7 +108,6 @@ export default defineComponent({
             moreToLoad = true;
           }
         });
-        console.log('mapped ', newData)
         return newData;
       }
     };

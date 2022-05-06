@@ -36,6 +36,11 @@
               </q-list>
             </div>
           </q-card>
+          <div class="q-pt-lg text-right" v-if="props.rowIndex === data.length - 1 && requireLoadMore(data)">
+            <q-btn :loading="loading" :disable="loading" @click="() => onScroll({ to: props.rowIndex })"
+              class="square-background" size="sm" outline color="primary" rounded icon="mdi-chevron-down">Load More
+            </q-btn>
+          </div>
         </div>
       </template>
     </q-table>
@@ -72,9 +77,11 @@ export default defineComponent({
       })
     })
     const loading = ref(false);
-    const currentOffset = ref(0);
+
     let knownHashes: string[] = [];
-    const data: Ref<BlockTableData[]> = ref(await props.loadData(props.store, knownHashes, currentOffset.value, pageSize));
+    const initData: BlockTableData[] = await props.loadData(props.store, knownHashes, 0, pageSize);
+    const data: Ref<BlockTableData[]> = ref(initData);
+    const currentOffset = ref(initData.length);
 
     return {
       computedColumns,
@@ -94,13 +101,10 @@ export default defineComponent({
       }) {
         const lastIndex = data.value.length - 1;
         if (loading.value !== true && to === lastIndex && props.requireLoadMore(data.value)) {
-          console.log('Loading');
           loading.value = true;
           const apiData = await props.loadData(props.store, knownHashes, currentOffset.value, pageSize);
-          console.log('apiData', apiData);
           currentOffset.value += apiData.length || 1;
           data.value.push(...apiData);
-          console.log('done');
           loading.value = false;
         }
       }

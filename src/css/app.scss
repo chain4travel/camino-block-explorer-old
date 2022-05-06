@@ -23,12 +23,16 @@ body.body--dark {
     color: $background-light;
   }
 
+  .highlighted {
+    background: $highlight-dark;
+  }
+
   .light-card {
     background: $dark-level-2;
   }
 
   .q-chip {
-    background: #454749;
+    background: $highlight-dark;
     border-radius: 99px;
   }
 
@@ -95,12 +99,18 @@ body.body--light {
     background: $burn-background;
     color: $background-card;
   }
+
   .square-background {
     background: $light-level-2;
     padding: 10px;
   }
+
   .dark-logo {
     display: none;
+  }
+
+  .highlighted {
+    background: $highlight-light;
   }
 
   .text-search-banner-icon {
