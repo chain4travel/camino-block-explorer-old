@@ -26,19 +26,19 @@ const routes: RouteRecordRaw[] = [
             name: getOverviewPathName(ChainType.C_CHAIN),
             path: getOverviewPath(ChainType.C_CHAIN),
             component: () => import('src/pages/CChainPage.vue'),
-            meta: { showInMenu: true, label: 'C-Chain' },
+            meta: { showInMenu: true, label: 'C-Chain', icon: 'mdi-text-box-multiple-outline ' },
           },
           {
             name: getOverviewPathName(ChainType.X_CHAIN),
             path: getOverviewPath(ChainType.X_CHAIN),
             component: () => import('src/pages/XChainPage.vue'),
-            meta: { showInMenu: true, label: 'X-Chain' }
+            meta: { showInMenu: true, label: 'X-Chain', icon: 'mdi-hand-coin' }
           },
           {
             name: getOverviewPathName(ChainType.P_CHAIN),
             path: getOverviewPath(ChainType.P_CHAIN),
             component: () => import('src/pages/PChainPage.vue'),
-            meta: { showInMenu: true, label: 'P-Chain' }
+            meta: { showInMenu: true, label: 'P-Chain', icon: 'mdi-database' }
           },
         ]
       },

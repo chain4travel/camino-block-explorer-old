@@ -2,19 +2,19 @@
   <q-card>
     <q-card-section v-if="title">
       <div class="row">
-        <div class="text-subtitle1 col-11">{{ title }}</div>
+        <div class="text-subtitle1 col-12">{{ title }}</div>
       </div>
     </q-card-section>
-    <q-card-section class="container">
-      <q-list>
+    <q-card-section>
+      <q-list class="mobile-width">
         <DetailField field="Id" :value="content.id" type="string" />
         <DetailField field="Status" :value="content.status" type="txstatus" />
         <DetailField field="Type" :value="content.type" type="txtype" />
         <DetailField field="Timestamp" :value="content.timestamp" type="timestamp" />
         <DetailField field="Fee" :value="content.fee" type="gwei" />
         <DetailField field="Memo" :value="content.memo" type="string" />
-        <q-item>
-          <div class="col-6 q-pa-sm">
+        <div class="row">
+          <div class="col-md-6 col-12 q-pa-sm">
             <q-card class="q-ma-sm light-card" :key="fund.address" v-for="fund in content.from">
               <q-card-section>
                 <div class="row">
@@ -22,8 +22,7 @@
                 </div>
               </q-card-section>
               <q-card-section>
-
-                <q-list>
+                <q-list dense>
                   <DetailField field="From" :value="fund.address" type="string" />
                   <DetailField field="Signature" :value="fund.signature" type="string" />
                   <DetailField field="Value" :value="fund.value" type="gwei" />
@@ -31,7 +30,7 @@
               </q-card-section>
             </q-card>
           </div>
-          <div class="col-6 q-pa-sm">
+          <div class="col-md-6 col-12 q-pa-sm">
             <q-card class="q-ma-sm light-card" :key="fund.address" v-for="fund in content.to">
               <q-card-section>
                 <div class="row">
@@ -39,15 +38,14 @@
                 </div>
               </q-card-section>
               <q-card-section>
-
-                <q-list>
+                <q-list dense>
                   <DetailField field="To" :value="fund.address" type="string" />
                   <DetailField field="Value" :value="fund.value" type="gwei" />
                 </q-list>
               </q-card-section>
             </q-card>
           </div>
-        </q-item>
+        </div>
       </q-list>
     </q-card-section>
     <q-card-actions v-if="backRoute">
@@ -73,3 +71,11 @@ export default defineComponent({
   components: { DetailField }
 })
 </script>
+<style lang="sass" scoped>
+.row
+  @media (max-width: $breakpoint-sm-max)
+    width: 100%
+.mobile-width
+  @media (max-width: $breakpoint-sm-max)
+    width: 100%
+</style>

@@ -1,6 +1,6 @@
 <template>
-  <div class="q-pa-md">
-    <q-table :grid="$q.screen.xs" class="my-sticky-dynamic" :title="title" :rows="data" :columns="computedColumns"
+  <div :class="$q.screen.lt.md ? '' : 'q-pa-md'">
+    <q-table :grid="$q.screen.lt.sm" class="my-sticky-dynamic" :title="title" :rows="data" :columns="computedColumns"
       :loading="loading" row-key="index" virtual-scroll :virtual-scroll-item-size="48"
       :virtual-scroll-sticky-size-start="48" :rows-per-page-options="[0]" @virtual-scroll="onScroll"
       @row-click="(event, item) => $emit('row-clicked', item)">
@@ -15,6 +15,28 @@
       <template v-slot:bottom>
         <q-btn outline v-if="backAddr" rounded color="primary" size="md" icon="mdi-chevron-left"
           @click="() => $router.push(backAddr)" />
+      </template>
+      <template v-slot:item="props">
+        <div class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition">
+          <q-card>
+            <div class="q-py-sm">
+              <q-list dense>
+                <q-item v-for="col in props.cols" :key="col.name">
+                  <div class="q-table__grid-item-row">
+                    <div class="q-table__grid-item-title">{{ col.label }}</div>
+                    <div class="q-table__grid-item-value">
+                      <long-string :value="col.value"></long-string>
+                    </div>
+                  </div>
+                </q-item>
+                <q-item class="justify-end text-right">
+                  <q-btn @click="() => $emit('row-clicked', props.row)" class="square-background" size="sm" outline
+                    color="primary" rounded icon="search"></q-btn>
+                </q-item>
+              </q-list>
+            </div>
+          </q-card>
+        </div>
       </template>
     </q-table>
   </div>
@@ -41,21 +63,19 @@ export default defineComponent({
   },
   emits: ['row-clicked'],
   async setup(props) {
-    console.log(props.columns)
     const computedColumns = computed(() => {
       return props.columns.map((e: { style?: string }) => {
         if (!e.style) {
-          console.log('calculating width', screen.width, props.columns.length)
           e.style = 'max-width:' + (screen.availWidth / props.columns.length) + 'px;';
-          console.log('result ', e.style)
         }
         return e;
       })
     })
     const loading = ref(false);
-    const data: Ref<BlockTableData[]> = ref([]);
     const currentOffset = ref(0);
     let knownHashes: string[] = [];
+    const data: Ref<BlockTableData[]> = ref(await props.loadData(props.store, knownHashes, currentOffset.value, pageSize));
+
     return {
       computedColumns,
       data: data,
@@ -108,5 +128,6 @@ export default defineComponent({
     top: 48px
   thead tr:first-child th
     top: 0
-
+.q-table__grid-item-row
+  width: 100%
 </style>

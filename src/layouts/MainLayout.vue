@@ -2,27 +2,35 @@
   <q-layout view="hHh lpR fFf">
     <q-header elevated>
       <q-toolbar color="toolbar">
+        <q-btn class="lt-md navigation-link" dense flat round icon="menu" @click="toggleLeftDrawer" />
         <q-toolbar-title>
-          <div class="logo-container">
-            <q-img class="dark-logo" src="src/assets/camino-company-logo-dark.png" height="32px" width="120px">
-            </q-img>
-            <q-img class="light-logo" src="src/assets/camino-company-logo-light.png" height="32px" width="120px">
-            </q-img>
-            <router-link class="text-primary q-ml-xs q-mt-xs fixed-color navigation-link" :to="homePath">{{ "Explorer"
-            }}</router-link>
-            <div class="text-primary text-caption q-ml-xs q-mt-xs">Alpha</div>
+          <div class="gt-sm logo-container">
+            <router-link class="" :to="homePath">
+              <q-img class="dark-logo" src="src/assets/camino-company-logo-dark.png" height="32px" width="244px">
+              </q-img>
+              <q-img class="light-logo" src="src/assets/camino-company-logo-light.png" height="32px" width="244px">
+              </q-img>
+            </router-link>
+            <div class="text-primary text-caption q-ml-sm q-mb-md">Alpha</div>
+          </div>
+          <div class="lt-md logo-container">
+            <router-link :to="homePath">
+              <q-img src="src/assets/camino-company-logo-mobile.png" height="32px" width="32px">
+              </q-img>
+            </router-link>
+
           </div>
         </q-toolbar-title>
 
-        <div class="logo-container">
+        <div class="logo-container gt-sm">
           <router-link class="q-mr-md navigation-link" v-for="route in menuRoutes" :key="route?.name"
             :to="{ name: route?.name }">
             {{ route && route.meta && route.meta.label ? route.meta.label : route?.name }}
           </router-link>
           <a class="q-mr-md navigation-link" v-for="link in additionalMenuItems" :key="link.name" :href="link.href"
             target="_blank">{{ link.name }}</a>
-          <network-select />
         </div>
+        <network-select />
         <div>
           <q-btn class="q-ml-sm navigation-link" rounded
             :icon="$q.dark.isActive ? 'mdi-weather-sunny ' : 'mdi-weather-night '" @click="toggleDarkMode"></q-btn>
@@ -32,16 +40,28 @@
 
 
     <!-- mobile??? -->
-    <q-drawer class="bg-dark" v-model="leftDrawerOpen" side="left" bordered>
+    <q-drawer v-model="leftDrawerOpen" side="left" bordered>
       <q-scroll-area class="fit">
-        <q-list dense>
-          <template v-for="(menuItem, index) in menuRoutes" :key="index">
-            <q-item :to="{ name: menuItem.name }" clickable :active="menuItem.name === $route.name" v-ripple>
+        <q-list>
+          <template v-for="route in menuRoutes" :key="route?.name">
+            <q-item class="navigation-link" :to="{ name: route.name }" clickable :active="route.name === $route.name"
+              v-ripple>
               <q-item-section avatar>
-                <q-icon v-if="menuItem.meta?.icon" :name="menuItem.meta.icon" />
+                <q-icon v-if="route.meta?.icon" :name="route.meta.icon" />
               </q-item-section>
               <q-item-section>
-                {{ menuItem.name }}
+                {{ route && route.meta && route.meta.label ? route.meta.label : route?.name }}
+              </q-item-section>
+            </q-item>
+          </template>
+          <q-separator />
+          <template v-for="extRoute in additionalMenuItems" :key="extRoute.name">
+            <q-item class="navigation-link" :href="extRoute.href" clickable v-ripple>
+              <q-item-section avatar>
+                <q-icon v-if="extRoute.icon" :name="extRoute.icon" />
+              </q-item-section>
+              <q-item-section>
+                {{ extRoute.name }}
               </q-item-section>
             </q-item>
           </template>
@@ -119,8 +139,8 @@ export default defineComponent({
     });
     const menuRoutes = allRoutes.filter(e => e?.meta?.showInMenu);
     const additionalMenuItems = [
-      { name: 'Documentation', href: 'https://docs.camino.foundation' },
-      { name: 'Wallet', href: 'https://wallet.camino.foundation' }
+      { name: 'Documentation', href: 'https://docs.camino.foundation', icon: 'mdi-school-outline' },
+      { name: 'Wallet', href: 'https://wallet.camino.foundation', icon: 'mdi-wallet-travel' }
     ] as ExternalMenuLink[];
     return {
       leftDrawerOpen,
@@ -136,12 +156,12 @@ export default defineComponent({
       },
       companyLogo,
       homePath: getOverviewPath(ChainType.C_CHAIN),
-      footerLinks: [
-        { name: 'Discord', href: 'https://discord.gg/K5THjAweFB' },
-        { name: 'Twitter', href: 'https://twitter.com/CaminoFndtn' },
-        { name: 'Telegram', href: 'https://t.me/caminochain' },
-        { name: 'Medium', href: 'https://medium.com/@caminofoundation' }
-      ]
+      // footerLinks: [
+      //   { name: 'Discord', href: 'https://discord.gg/K5THjAweFB' },
+      //   { name: 'Twitter', href: 'https://twitter.com/CaminoFndtn' },
+      //   { name: 'Telegram', href: 'https://t.me/caminochain' },
+      //   { name: 'Medium', href: 'https://medium.com/@caminofoundation' }
+      // ]
     };
   },
   components: { NetworkSelect }

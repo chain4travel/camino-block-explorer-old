@@ -1,7 +1,7 @@
 <template>
   <!-- content -->
   <div class="row">
-    <div class="offset-2 col-8">
+    <div class="offset-md-2 col-md-8 col-12">
       <x-p-transaction-details-view title="P-Chain Transaction " :back-route="backroute" :content="loadedTransaction">
       </x-p-transaction-details-view>
     </div>

@@ -1,60 +1,61 @@
 <template>
   <q-item>
-    <q-item-section class="col-2">
-      {{ field }}
-    </q-item-section>
-    <q-item-section v-if="value === undefined || value === ''" class="col-10">
-      <q-icon class="text-grey" size="xs" name="mdi-circle-off-outline" />
-    </q-item-section>
-    <q-item-section v-else-if="type == 'string'" class="col-10">
-      <long-string :value="value" :max-length="16"></long-string>
-    </q-item-section>
-    <q-item-section v-else-if="type == 'txstatus'" class="col-10">
-      <q-icon :class="getStatusClass(value)" size="xs" :name="getStatusIcon(value)">
-        <q-tooltip>
-          {{ value }}
-        </q-tooltip>
-      </q-icon>
-    </q-item-section>
-    <q-item-section v-else-if="type == 'txtype'" class="col-10">
-      <div>
-        <q-chip size="sm">{{ value }}</q-chip>
-      </div>
-    </q-item-section>
-    <q-item-section v-else-if="type == 'timestamp'" class="col-10">
-      <div class="row">
-        <div class="q-pr-md">
-          <q-icon class="q-pr-sm" size="xs" name="mdi-clock-outline" />{{ getRelativeTime(value) }} ago
+    <div class="row">
+      <div class="col-md-2 col-12 text-bold">{{ field }}</div>
+      <div class="col-auto">
+        <div v-if="value === undefined || value === ''">
+          <q-icon class="text-grey" size="xs" name="mdi-circle-off-outline" />
         </div>
-        <div>
-          <long-string :value="value" :max-length="16" />
+        <div v-else-if="type == 'string'">
+          <long-string :value="value" :max-length="16"></long-string>
+        </div>
+        <div v-else-if="type == 'txstatus'">
+          <q-icon :class="getStatusClass(value)" size="xs" :name="getStatusIcon(value)">
+            <q-tooltip>
+              {{ value }}
+            </q-tooltip>
+          </q-icon>
+        </div>
+        <div v-else-if="type == 'txtype'" >
+          <div>
+            <q-chip size="md">{{ value }}</q-chip>
+          </div>
+        </div>
+        <div v-else-if="type == 'timestamp'">
+          <div class="row">
+            <div class="q-pr-md col-auto">
+              <q-icon class="q-pr-sm" size="xs" name="mdi-clock-outline" />{{ getRelativeTime(value) }} ago
+            </div>
+            <div class="col-auto">
+              <long-string :value="value" :max-length="16" />
+            </div>
+          </div>
+        </div>
+        <div v-else-if="type == 'gwei'">
+          <div class="row">
+            <q-chip class="q-chip-camino" size="md" icon="img:camino-coin-logo.png">
+              {{ getDisplayValueForGewi(value) }}
+            </q-chip>
+          </div>
+        </div>
+        <div v-else-if="type == 'wei'">
+          <div class="row">
+            <q-chip class="q-chip-camino" icon="img:camino-coin-logo.png">
+              {{ getDisplayValue(value) }}
+            </q-chip>
+          </div>
+        </div>
+        <div v-else-if="type == 'ctxtype'">
+          <div>
+            <q-chip size="md">{{ value == 0 ? 'Legacy' : 'EIP1155' }}</q-chip>
+          </div>
+        </div>
+        <div v-else-if="type == 'hexdata'">
+          <q-icon v-if="parseInt(value) === 0" class="q-ml-sm text-grey" size="xs" name="mdi-circle-off-outline" />
+          <long-string v-else :value="value" />
         </div>
       </div>
-    </q-item-section>
-    <q-item-section v-else-if="type == 'gwei'" class="col-10">
-      <div class="row">
-        <q-chip size="md" icon="img:camino-coin-logo.png">
-          {{ getDisplayValueForGewi(value) }}
-        </q-chip>
-      </div>
-    </q-item-section>
-    <q-item-section v-else-if="type == 'wei'" class="col-10">
-      <div class="row">
-        <q-chip icon="img:camino-coin-logo.png">
-          {{ getDisplayValue(value) }}
-        </q-chip>
-      </div>
-    </q-item-section>
-    <q-item-section v-else-if="type == 'ctxtype'" class="col-10">
-      <div>
-        <q-chip size="sm">{{ value == 0 ? 'Legacy' : 'EIP1155' }}</q-chip>
-      </div>
-    </q-item-section>
-    <q-item-section v-else-if="type == 'hexdata'" class="col-10">
-      <q-icon v-if="parseInt(value) === 0" class="q-ml-sm text-grey" size="xs" name="mdi-circle-off-outline" />
-      <long-string v-else :value="value" />
-    </q-item-section>
-
+    </div>
   </q-item>
 </template>
 <script lang="ts">
@@ -100,13 +101,13 @@ export default defineComponent({
   components: { LongString }
 })
 </script>
-<style scoped lang="scss" >
-.q-chip {
-  margin-left: 0px;
+<style scoped lang="sass" >
+.row
+  width: 100%
 
-}
-.q-icon {
-  margin-left: 0px;
+.q-chip
+  margin-left: 0px
 
-}
+.q-icon
+  margin-left: 0px
 </style>
