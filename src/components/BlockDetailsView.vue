@@ -2,31 +2,43 @@
   <q-card>
     <q-card-section v-if="title">
       <div class="row">
-        <div class="text-subtitle1 col-11">{{ title }}</div>
+        <q-btn icon="mdi-chevron-left" class="col-auto" size="sm" rounded outline color="primary" :to="backRoute">
+        </q-btn>
+        <div class="text-subtitle1 q-pl-md col-11">{{ title }}</div>
       </div>
     </q-card-section>
+    <q-card-section v-if="title">
+      <q-list bordered seperator>
+        <detail-field class="highlighted q-pt-md" icon="mdi-cube-outline" field="Block" :value="content.hash"
+          type="string" />
+      </q-list>
+    </q-card-section>
     <q-card-section class="container">
-      <q-list>
-        <detail-field field="Hash" :value="content.hash" type="string" />
-        <detail-field field="Number" :value="content.blockNumber" type="string" />
-        <detail-field field="Base Gas Fee" :value="content.baseGaseFee" type="wei" />
-        <detail-field field="Child hash" :value="content.childHash" type="string" />
-        <detail-field field="Child block number" :value="content.childBlockNumber" type="string" />
-        <detail-field field="Fees" :value="content.fees" type="wei" />
-        <detail-field field="Gas Limit" :value="content.gasLimit" type="wei" />
-        <detail-field field="Gas Used" :value="content.gasUsed" type="wei" />
-        <detail-field field="Parent Hash" :value="content.parentHash" type="string" />
-        <detail-field field="Parent Number" :value="content.parentBlockNumber" type="string" />
-        <detail-field field="Timestamp" :value="content.timestamp" type="timestamp" />
-        <detail-field field="Transaction Count" :value="content.transactionCount" type="string" />
-        <div v-if="showAdditionaldetails">
-          <detail-field field="Difficulty" :value="content.additionalInformation.difficulty" type="string" />
-          <detail-field field="Extra Data" :value="content.additionalInformation.extraData" type="hexdata" />
-          <detail-field field="Logs Bloom" :value="content.additionalInformation.logsBloom" type="hexdata" />
-          <detail-field field="Uncles" :value="content.additionalInformation.uncles" type="string" />
-          <detail-field field="Nonce" :value="content.additionalInformation.nonce" type="string" />
-        </div>
+      <q-list bordered separator>
+        <detail-field icon="mdi-help-circle-outline" field="Number" :value="content.blockNumber" type="string" />
+        <detail-field icon="mdi-help-circle-outline" field="Base Gas Fee" :value="content.baseGaseFee" type="wei" />
+        <detail-field icon="mdi-help-circle-outline" field="Child hash" :value="content.childHash" type="string" :details-link="content.childBlockNumber ? getBlockDetailsPath(type, content.childBlockNumber): undefined"  />
 
+        <detail-field icon="mdi-help-circle-outline" field="Fees" :value="content.fees" type="wei" />
+        <detail-field icon="mdi-help-circle-outline" field="Gas Limit" :value="content.gasLimit" type="wei" />
+        <detail-field icon="mdi-help-circle-outline" field="Gas Used" :value="content.gasUsed" type="wei" />
+        <detail-field icon="mdi-help-circle-outline" field="Parent Hash" :value="content.parentHash" type="string" :details-link="content.parentBlockNumber ? getBlockDetailsPath(type, content.parentBlockNumber): undefined" />
+
+        <detail-field icon="mdi-help-circle-outline" field="Timestamp" :value="content.timestamp" type="timestamp" />
+        <detail-field icon="mdi-help-circle-outline" field="Transaction Count" :value="content.transactionCount"
+          type="string" />
+        <div v-if="showAdditionaldetails">
+          <detail-field icon="mdi-help-circle-outline" field="Difficulty"
+            :value="content.additionalInformation.difficulty" type="string" />
+          <detail-field icon="mdi-help-circle-outline" field="Extra Data"
+            :value="content.additionalInformation.extraData" type="hexdata" />
+          <detail-field icon="mdi-help-circle-outline" field="Logs Bloom"
+            :value="content.additionalInformation.logsBloom" type="hexdata" />
+          <detail-field icon="mdi-help-circle-outline" field="Uncles" :value="content.additionalInformation.uncles"
+            type="string" />
+          <detail-field icon="mdi-help-circle-outline" field="Nonce" :value="content.additionalInformation.nonce"
+            type="string" />
+        </div>
         <q-item v-if="content.additionalInformation">
           <q-btn rounded outline class="offset-5" color="primary"
             @click="() => showAdditionaldetails = !showAdditionaldetails">
@@ -35,7 +47,8 @@
       </q-list>
     </q-card-section>
     <q-card-actions v-if="backRoute">
-      <q-btn rounded outline color="primary" icon="mdi-chevron-left" :to="backRoute"></q-btn>
+      <q-btn class="full-width" rounded outline color="primary" :to="backRoute">Back</q-btn>
+
     </q-card-actions>
   </q-card>
 </template>
@@ -63,11 +76,6 @@ export default defineComponent({
     content: { type: Object as PropType<BlockDetails>, required: true }
   },
   setup(props) {
-    const keyWithRoutes = {
-      'parentBlockNumber': (value: number) => getBlockDetailsPath(props.type, value),
-      'childBlockNumber': (value: number) => getBlockDetailsPath(props.type, value)
-    }
-
     const keysTohide = ['additionalInformation']
 
     const $q = useQuasar()
@@ -110,6 +118,7 @@ export default defineComponent({
           return;
         }
       },
+      getBlockDetailsPath
     };
   },
   components: { DetailField }

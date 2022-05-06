@@ -1,33 +1,43 @@
-TranscationDetail<template>
+<template>
   <q-card>
     <q-card-section v-if="title">
       <div class="row">
-        <div class="text-subtitle1 col-11">{{ title }}</div>
+        <q-btn icon="mdi-chevron-left" class="col-auto" size="sm" rounded outline color="primary" :to="backRoute">
+        </q-btn>
+        <div class="text-subtitle1 q-pl-md col-11">{{ title }}</div>
       </div>
     </q-card-section>
+    <q-card-section>
+      <q-list bordered seperator>
+        <detail-field class="highlighted q-pt-md" icon="mdi-transfer" field="Transaction" :value="content.hash"
+          type="string" />
+      </q-list>
+    </q-card-section>
     <q-card-section class="container">
-      <q-list>
-        <detail-field field="Hash" :value="content.hash" type="string" />
-        <detail-field field="Type" :value="content.type" type="ctxtype" />
-        <detail-field field="Block" :value="content.block" type="string" />
-        <detail-field field="Date" :value="content.createdAt" type="timestamp" />
-        <detail-field field="Nonce" :value="content.nonce" type="string" />
-        <detail-field field="Gas Price" :value="content.gasPrice" type="wei" />
-        <detail-field field="Max fee per gas" :value="content.maxFeePerGas" type="wei" />
-        <detail-field field="Max Priority fee per gas" :value="content.maxPriorityFeePerGas" type="wei" />
-        <detail-field field="Gas Limit" :value="content.gasLimit" type="wei" />
-        <detail-field field="Value" :value="content.value" type="wei" />
-        <detail-field field="From" :value="content.fromAddr" type="string" />
-        <detail-field field="To" :value="content.toAddr" type="string" />
-        <detail-field field="v" :value="content.v" type="string" />
-        <detail-field field="r" :value="content.r" type="string" />
-        <detail-field field="s" :value="content.s" type="string" />
-        <detail-field field="Gas Used" :value="parseInt(content.gasUsed)" type="wei" />
-        <detail-field field="Contract Address" :value="content.contractAddress" type="hexdata"></detail-field>
+      <q-list bordered separator>
+        <detail-field icon="mdi-help-circle-outline" field="Type" :value="content.type" type="ctxtype" />
+        <detail-field icon="mdi-help-circle-outline" field="Block" :value="content.block" type="string"
+          :details-link="getBlockDetailsPath(type, content.block)" />
+        <detail-field icon="mdi-help-circle-outline" field="Date" :value="content.createdAt" type="timestamp" />
+        <detail-field icon="mdi-help-circle-outline" field="Nonce" :value="content.nonce" type="string" />
+        <detail-field icon="mdi-help-circle-outline" field="Gas Price" :value="content.gasPrice" type="wei" />
+        <detail-field icon="mdi-help-circle-outline" field="Max fee per gas" :value="content.maxFeePerGas" type="wei" />
+        <detail-field icon="mdi-help-circle-outline" field="Max Priority fee per gas"
+          :value="content.maxPriorityFeePerGas" type="wei" />
+        <detail-field icon="mdi-help-circle-outline" field="Gas Limit" :value="content.gasLimit" type="wei" />
+        <detail-field icon="mdi-help-circle-outline" field="Value" :value="content.value" type="wei" />
+        <detail-field icon="mdi-help-circle-outline" field="From" :value="content.fromAddr" type="string" />
+        <detail-field icon="mdi-help-circle-outline" field="To" :value="content.toAddr" type="string" />
+        <detail-field icon="mdi-help-circle-outline" field="v" :value="content.v" type="string" />
+        <detail-field icon="mdi-help-circle-outline" field="r" :value="content.r" type="string" />
+        <detail-field icon="mdi-help-circle-outline" field="s" :value="content.s" type="string" />
+        <detail-field icon="mdi-help-circle-outline" field="Gas Used" :value="parseInt(content.gasUsed)" type="wei" />
+        <detail-field icon="mdi-help-circle-outline" field="Contract Address" :value="content.contractAddress"
+          type="hexdata"></detail-field>
       </q-list>
     </q-card-section>
     <q-card-actions v-if="backRoute">
-      <q-btn rounded outline color="primary" :to="backRoute" icon="mdi-chevron-left"/>
+      <q-btn class="full-width" rounded outline color="primary" :to="backRoute">Back</q-btn>
     </q-card-actions>
   </q-card>
 </template>
@@ -44,8 +54,6 @@ import { computed } from '@vue/reactivity'
 import DetailField from 'src/components/ui/DetailField.vue'
 import { TranscationDetail } from 'src/types/transaction-detail'
 
-
-
 export default defineComponent({
   name: 'DetailsView',
   props: {
@@ -56,11 +64,6 @@ export default defineComponent({
     magellan: { type: Boolean, default: false }
   },
   setup(props) {
-
-    const keyWithRoutes = {
-      'blockNumber': (value: string) => getBlockDetailsPath(props.type, value),
-    }
-
     const keysTohide = ['additionalInformation']
 
     const $q = useQuasar()
@@ -102,6 +105,7 @@ export default defineComponent({
           return;
         }
       },
+      getBlockDetailsPath
     };
   },
   components: { DetailField }
