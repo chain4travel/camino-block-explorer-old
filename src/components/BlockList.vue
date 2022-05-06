@@ -3,21 +3,23 @@
     @refresh="() => $emit('refresh')">
     <template v-slot="{ item }">
       <div @click="() => $emit('row-clicked', item)" class="row">
-        <div class="col-1 text-center q-pt-sm q-pb-sm">
+        <div class="gt-sm col-1 text-center q-pt-sm q-pb-sm">
           <q-icon class="square-background" size="sm" name="mdi-cube-outline" />
         </div>
-        <div class="col-3 q-pl-sm">
+        <div class="col-md-2 col-12">
           <div>
             {{ item.number }}</div>
           <div class="grey-color">
             {{ getRelativeTime(item.timestamp) + " ago" }}
           </div>
         </div>
-        <div class="col-6">
-          {{ item.numberOfTransactions + " txns" }}<br>
+        <div :class="'col-md-7 col-12' + ($q.screen.lt.md ? ' q-pt-md' : '')">
+          <div>
+            {{ item.numberOfTransactions + " txns" }}
+          </div>
           <long-string class="grey-color" :value="item.hash" :max-length="45"></long-string>
         </div>
-        <div class="col-2 burn-icon q-pt-sm">
+        <div class="col-md-2 col-auto burn-icon q-pt-sm">
           <q-chip class="large-chip q-chip-burn-bg justify-end">
             <q-icon size="sm" name="mdi-fire" class="text-red"></q-icon>
             {{ getDisplayValue(item.gasUsed) }}
@@ -25,6 +27,7 @@
         </div>
       </div>
     </template>
+
   </list-card>
 </template>
 
@@ -52,3 +55,13 @@ export default defineComponent({
   components: { ListCard, LongString }
 })
 </script>
+<style lang="sass" scoped>
+.large-chip
+  @media (max-width: $breakpoint-sm-max)
+    min-width: 50px
+.row
+  @media (max-width: $breakpoint-sm-max)
+    width: 100%
+
+
+</style>

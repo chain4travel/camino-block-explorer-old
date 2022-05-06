@@ -2,8 +2,8 @@
   <q-card>
     <q-card-section v-if="title">
       <div class="row">
-        <div class="text-h6 col-11">{{ title }}</div>
-        <div class="col-1 text-right">
+        <div class="text-h6 col-md-11 col-10">{{ title }}</div>
+        <div class="col-md-1 col-2 text-right">
           <q-btn outline rounded color="primary" icon="mdi-refresh" @click="() => $emit('refresh')" />
         </div>
       </div>
@@ -44,7 +44,9 @@ export default defineComponent({
 
 <style scoped lang="sass">
 .limit-height
-  max-height: 54vh
-  overflow: auto
+  @media (min-width: $breakpoint-sm-max)
+    max-height: 54vh
+    overflow: auto
+
 
 </style>

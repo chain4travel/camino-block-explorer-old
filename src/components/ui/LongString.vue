@@ -31,4 +31,6 @@ export default defineComponent({
   overflow: hidden
   -o-text-overflow: ellipsis
   text-overflow: ellipsis
+  @media (max-width: $breakpoint-sm-max)
+    width: 100%
 </style>

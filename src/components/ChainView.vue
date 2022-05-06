@@ -1,13 +1,15 @@
 <template>
   <div class="row ">
-    <div class="col-xs-12 col-md-6 q-pr-s q-pl-md">
-      <!-- Latest Blocks-->
-      <block-list :has-next-page="blockHasNextPage" :blocks="blocks" :show-all-link="getAllBlocksPath(type)"
-        @refresh="refreshBlocks" @row-clicked="openBlockDetail">
-      </block-list>
+    <div :class="$q.screen.lt.md ? 'col-12 q-pa-md' : 'col-md-6 q-pr-sm q-pl-md'">
+      <div>
+        <!-- Latest Blocks-->
+        <block-list :has-next-page="blockHasNextPage" :blocks="blocks" :show-all-link="getAllBlocksPath(type)"
+          @refresh="refreshBlocks" @row-clicked="openBlockDetail">
+        </block-list>
+      </div>
     </div>
     <!-- Latest Transactions-->
-    <div class="col-xs-12 col-md-6 q-pl-md q-pr-md">
+    <div :class="$q.screen.lt.md ? 'col-12 q-pa-md' : 'col-md-6 q-pl-sm q-pr-md'">
       <transaction-list :transactions="transactions" :show-all-link="getAllTransactionsPath(type)"
         @refresh="refreshTransactions" @row-clicked="openTransactionDetail">
       </transaction-list>
@@ -39,7 +41,7 @@ export default defineComponent({
   async setup(props, { emit }) {
     const router = useRouter();
     const blocks: Ref<BlockTableData[]> = ref(await props.store?.loadLatestBlocks(0, props.pageSize))
-    const transactions = ref(await props.store?.loadLatestTransactions(0, props.pageSize))
+    const transactions: Ref<CTransaction[]> = ref(await props.store?.loadLatestTransactions(0, props.pageSize))
     const blockPage = ref(1);
     const transactionsPage = ref(1);
 

@@ -1,8 +1,8 @@
 <template>
   <!-- content -->
   <div class="row">
-    <div class="offset-2 col-8">
-      <block-details-view :type="type" :title="'C-Chain Block '" :back-route="backroute" :content="loadedBlock">
+    <div class="offset-md-2 col-md-8 col-12">
+      <block-details-view :type="type" title="C-Chain Block" :back-route="backroute" :content="loadedBlock">
       </block-details-view>
     </div>
   </div>
