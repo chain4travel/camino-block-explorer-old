@@ -14,7 +14,7 @@ jobs:
   bump-version:
     runs-on: ubuntu-latest
     outputs:
-      version: ${{ steps.step1.outputs.test }}
+      version: ${{ steps.output.outputs.test }}
     steps:
       - uses: actions/checkout@v3
         with:
