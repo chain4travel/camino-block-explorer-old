@@ -37,8 +37,9 @@
             </div>
           </q-card>
           <div class="q-pt-lg text-right" v-if="props.rowIndex === data.length - 1 && requireLoadMore(data)">
-            <q-btn :loading="loading" :disable="loading" @click="() => onScroll({to: props.rowIndex})" class="square-background" size="sm" outline
-              color="primary" rounded icon="mdi-chevron-down">Load More</q-btn>
+            <q-btn :loading="loading" :disable="loading" @click="() => onScroll({ to: props.rowIndex })"
+              class="square-background" size="sm" outline color="primary" rounded icon="mdi-chevron-down">Load More
+            </q-btn>
           </div>
         </div>
       </template>
