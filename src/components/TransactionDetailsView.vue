@@ -4,7 +4,7 @@
       <div class="row">
         <q-btn icon="mdi-chevron-left" class="col-auto" size="sm" rounded outline color="primary" :to="backRoute">
         </q-btn>
-        <div class="text-subtitle1 q-pl-md col-11">{{ title }}</div>
+        <div class="text-subtitle1 q-pl-md col-10">{{ title }}</div>
       </div>
     </q-card-section>
     <q-card-section>
@@ -43,14 +43,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from 'vue'
-import { useQuasar } from 'quasar'
-import { getDisplayValue, currencyFields } from 'src/utils/currency-utils'
-import { camelCaseToRegular } from 'src/utils/display-utils'
+import { defineComponent, PropType } from 'vue'
 import { getBlockDetailsPath } from 'src/utils/route-utils'
 import { ChainType } from 'src/types/chain-type'
-import { useRouter } from 'vue-router'
-import { computed } from '@vue/reactivity'
 import DetailField from 'src/components/ui/DetailField.vue'
 import { TranscationDetail } from 'src/types/transaction-detail'
 
@@ -64,47 +59,7 @@ export default defineComponent({
     magellan: { type: Boolean, default: false }
   },
   setup(props) {
-    const keysTohide = ['additionalInformation']
-
-    const $q = useQuasar()
-    const router = useRouter();
-    const showAdditionaldetails = ref(false);
     return {
-      showAdditionaldetails,
-      linesToRender: computed(() => {
-        const dataToShow = Object.entries(props.content);
-        if (showAdditionaldetails.value && props.content.additionalInformation) {
-          dataToShow.push(...Object.entries(props.content.additionalInformation));
-        }
-        return dataToShow.filter(([key]) => !keysTohide.includes(key));
-      }),
-      copyToClipBoard: async (value: string) => {
-        await navigator.clipboard.writeText(value);
-        $q.notify({
-          message: 'Value copied to Clipboard',
-          closeBtn: true,
-          timeout: 500
-        })
-      },
-      getDisplayValue,
-      fieldIncurrencyFields(key: string) {
-        return currencyFields.includes(key);
-      },
-      isString(val: any) {
-        return typeof val === 'string' || val instanceof String
-      },
-      camelCaseToRegular,
-      keyHasLink(key: string) {
-        return !!keyWithRoutes[key]
-      },
-      handleLinkClick(key: string, value: string) {
-        if (keyWithRoutes[key] && value !== undefined) {
-          const route = keyWithRoutes[key](value)
-          router.push(route);
-          //router.go(0)
-          return;
-        }
-      },
       getBlockDetailsPath
     };
   },

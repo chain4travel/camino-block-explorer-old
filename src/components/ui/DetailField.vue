@@ -74,7 +74,7 @@
           <long-string v-else :value="value" />
         </div>
       </div>
-      <div v-if="detailsLink" class="col-md col-12 text-right">
+      <div v-if="detailsLink" :class="$q.screen.gt.md ? 'col text-right' : 'col-12 '">
         <q-btn size="sm" color="primary" outline rounded icon="search" :to="detailsLink">Details</q-btn>
       </div>
     </div>
