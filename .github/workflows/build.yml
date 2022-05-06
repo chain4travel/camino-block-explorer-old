@@ -42,7 +42,7 @@ jobs:
             github.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: "refs/tags/:${{ needs.bump-version.outputs.version }}",
+              ref: "refs/tags/${{ needs.bump-version.outputs.version }}",
               sha: context.sha
             })
   docker-build:
