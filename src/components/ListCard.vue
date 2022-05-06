@@ -45,7 +45,7 @@ export default defineComponent({
 <style scoped lang="sass">
 .limit-height
   @media (min-width: $breakpoint-sm-max)
-    max-height: 54vh
+    max-height: 52vh
     overflow: auto
 
 

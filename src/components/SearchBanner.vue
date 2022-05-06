@@ -1,8 +1,8 @@
 <template>
   <q-card class="justify-center">
-    <q-card-section class="min-height container q-pt-xl q-pb-xl text-center">
+    <q-card-section class="min-height container q-pt-lg q-pb-xl text-center">
       <div class="row">
-        <div :class="'col-12 justify.center text-center text-bold ' + ($q.screen.lt.md ? 'text-h6' : 'text-h2')">
+        <div :class="'col-12 justify.center text-center text-bold ' + ($q.screen.lt.md ? 'text-h6' : 'text-h3')">
           Explore the true potential of travel.
         </div>
       </div>
@@ -44,6 +44,6 @@ export default defineComponent({
 </script>
 <style scoped lang="sass">
 .min-height
-  min-height: 200px
-  max-height: 30vh
+  min-height: 170px
+  max-height: 23vh
 </style>
