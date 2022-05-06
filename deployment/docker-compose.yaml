@@ -1,0 +1,23 @@
+version: "3"
+services:
+  block-explorer:
+    image: c4tplatform/camino-block-explorer:stable
+    ports:
+      - "8081:80"
+    labels:
+      com.centurylinklabs.watchtower.enable: "true"
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+  watchtower:
+    image: containrrr/watchtower
+    environment:
+      WATCHTOWER_LABEL_ENABLE: "true"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 30
+    deploy:
+      resources:
+        limits:
+          memory: 128M
