@@ -85,7 +85,6 @@ export default defineComponent({
         return newData;
       },
       requireLoadMore(): boolean {
-        console.log('more to load ', moreToLoad)
         return moreToLoad;
       },
       backAddr: getOverviewPath(ChainType.C_CHAIN)

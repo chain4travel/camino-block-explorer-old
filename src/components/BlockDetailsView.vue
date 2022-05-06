@@ -110,7 +110,6 @@ export default defineComponent({
         return !!keyWithRoutes[key]
       },
       handleLinkClick(key: string, value: string) {
-        console.log('Link clicked ', key, value)
         if (keyWithRoutes[key] && value !== undefined) {
           const route = keyWithRoutes[key](value)
           router.push(route);

@@ -62,15 +62,13 @@ const columns = [
 ]
 
 function getValue(outputTotal?: object, inputTotal?: object): number {
-  console.log('outputs', outputTotal);
-  console.log('inputTotal', inputTotal);
+
   const output = outputTotal ? Object.entries(outputTotal).map(([key, value]) => parseInt(value)).reduce((pv, cv) => pv + cv, 0) : 0;
   const input = inputTotal ? Object.entries(inputTotal).map(([key, value]) => parseInt(value)).reduce((pv, cv) => pv + cv, 0) : 0;
   return output - input;
 }
 
 function mapToTableData(transaction: XPTransaction): XPTransactionTableData {
-  console.log('transaction', transaction)
   return {
     from: getDisplayAddress(transaction.from),
     hash: transaction.id,
@@ -100,9 +98,7 @@ export default defineComponent({
       },
       async loadTransactions(store: ChainViewLoader, knownHashes: string[], offset: number, limit: number) {
         const apiData: XPTransaction[] = await store.loadLatestTransactions(offset, limit);
-        console.log('api', apiData)
         const newData: XPTransactionTableData[] = [];
-        console.log('From api ', apiData)
         moreToLoad = false;
         apiData.map(mapToTableData).forEach(newTransaction => {
           if (!knownHashes.includes(newTransaction.hash)) {
@@ -111,7 +107,6 @@ export default defineComponent({
             moreToLoad = true;
           }
         });
-        console.log('mapped ', newData)
         return newData;
       }
     };

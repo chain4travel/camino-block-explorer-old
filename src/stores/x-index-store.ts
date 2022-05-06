@@ -15,7 +15,6 @@ export const useXIndexStore = defineStore('xindex', {
     },
 
     async loadLatestTransactions(offset = 0, count = 10): Promise<XPTransaction[]> {
-      console.log('loading X Transaction', offset, count)
       return await this.store.loadLatestTransactions('x', offset, count);
     },
 
