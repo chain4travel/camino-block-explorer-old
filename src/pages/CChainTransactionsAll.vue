@@ -91,17 +91,20 @@ export default defineComponent({
         router.push({ path: getTransactionDetailsPath(ChainType.C_CHAIN, item.hash), query: { back: getAllTransactionsPath(ChainType.C_CHAIN) } });
       },
       requireLoadMore(): boolean {
+        console.log('more to load ', moreToLoad)
         return moreToLoad;
       },
       async loadTransactions(store: ChainViewLoader, knownHashes: string[], offset: number, limit: number) {
-        const apiData = await store.loadLatestTransactions(offset, limit);
+        const apiData : CTransaction[] = await store.loadLatestTransactions(offset, limit);
         const newData: TransactionTableData[] = [];
+        console.log('loading transactions')
         moreToLoad = false;
         apiData.map(mapToTableData).forEach(newTransaction => {
           if (!knownHashes.includes(newTransaction.hash)) {
             newData.push(newTransaction);
             knownHashes.push(newTransaction.hash);
             moreToLoad = true;
+            console.log('moreToLoad = true')
           }
         });
         return newData;
