@@ -1,22 +1,24 @@
 <template>
   <q-item>
-    <div class="row">
-      <div class="col-md-3 col-12 text-bold">
-        <q-icon class="gt-sm grey-color" v-if="icon" size="sm" :name="icon">
-          <q-tooltip v-if="tooltip">
-            {{ tooltip }}
-          </q-tooltip>
-        </q-icon>
-        <span :class="$q.screen.gt.sm ? 'q-pl-md' : ''">
-          {{ field }}
-        </span>
+    <div class="row q-gutter-sm">
+      <div class="col-md-4 col-12 text-bold">
+        <div class="row">
+          <q-icon class="col-2 gt-sm grey-color" v-if="icon" size="xs" :name="icon">
+            <q-tooltip v-if="tooltip">
+              {{ tooltip }}
+            </q-tooltip>
+          </q-icon>
+          <span  :class="'col overflow-handle ' + ($q.screen.lt.md ? '' : 'q-pl-md')">
+            {{ field }}
+          </span>
+        </div>
       </div>
       <div class="col-md col-auto">
         <div v-if="value === undefined || value === ''">
           <q-icon class="text-grey" size="xs" name="mdi-circle-off-outline" />
         </div>
         <div v-else-if="type == 'string'">
-          <long-string :value="value" :max-length="16"></long-string>
+          <long-string :value="value"></long-string>
         </div>
         <div v-else-if="type == 'txstatus'">
           <q-icon :class="getStatusClass(value)" size="xs" :name="getStatusIcon(value)">
@@ -40,7 +42,7 @@
               <q-icon class="q-pr-sm" size="xs" name="mdi-clock-outline" />{{ getRelativeTime(value) }} ago
             </div>
             <div class="col-auto">
-              <long-string :value="value" :max-length="16" />
+              <long-string :value="value" />
             </div>
           </div>
         </div>
