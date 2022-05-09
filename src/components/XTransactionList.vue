@@ -36,6 +36,7 @@
               </div>
             </div>
           </div>
+          <q-separator />
           <div :class="'row' + ($q.screen.lt.md ? ' q-pt-md' : '')">
             <div :class="'col-2' + ($q.screen.lt.md ? ' text-bold' : '')">To </div>
             <div :class="$q.screen.lt.md ? ' col-auto ' : 'col-md-9'">
