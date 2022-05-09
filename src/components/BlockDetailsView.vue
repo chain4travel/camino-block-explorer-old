@@ -10,14 +10,14 @@
     <q-card-section v-if="title">
       <q-list bordered seperator>
         <detail-field class="highlighted q-pt-md" icon="mdi-cube-outline" field="Block" :value="content.hash"
-          type="string" />
+          type="string" :allow-copy="true" />
       </q-list>
     </q-card-section>
     <q-card-section class="container">
       <q-list bordered separator>
         <detail-field icon="mdi-help-circle-outline" field="Number" :value="content.blockNumber" type="string" />
          <detail-field icon="mdi-help-circle-outline" field="Parent Hash" :value="content.parentHash" type="string"
-          :details-link="content.parentBlockNumber ? getBlockDetailsPath(type, content.parentBlockNumber) : undefined" />
+          :details-link="content.parentBlockNumber ? getBlockDetailsPath(type, content.parentBlockNumber) : undefined" :allow-copy="true" />
                   <detail-field icon="mdi-help-circle-outline" field="Child hash" :value="content.childHash" type="string"
           :details-link="content.childBlockNumber ? getBlockDetailsPath(type, content.childBlockNumber) : undefined" />
         <detail-field icon="mdi-help-circle-outline" field="Base Gas Fee" :value="content.baseGaseFee" type="wei" />

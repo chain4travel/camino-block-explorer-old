@@ -9,12 +9,12 @@
     </q-card-section>
     <q-card-section>
       <q-list bordered seperator>
-        <DetailField d class="highlighted q-pt-md" icon="mdi-transfer" field="Id" :value="content.id" type="string" />
+        <DetailField d class="highlighted q-pt-md" icon="mdi-transfer" field="Id" :value="content.id" type="string" :allow-copy="true" />
       </q-list>
     </q-card-section>
     <q-card-section>
       <q-list bordered separator class="mobile-width">
-        <DetailField icon="mdi-help-circle-outline" field="Status" :value="content.status" type="txstatus" />
+        <DetailField icon="mdi-help-circle-outline" field="Status" :value="content.status" type="txstatus"  />
         <DetailField icon="mdi-help-circle-outline" field="Type" :value="content.type" type="txtype" />
         <DetailField icon="mdi-help-circle-outline" field="Timestamp" :value="content.timestamp" type="timestamp" />
         <DetailField icon="mdi-help-circle-outline" field="Fee" :value="content.fee" type="gwei" />
@@ -29,7 +29,7 @@
               </q-card-section>
               <q-card-section>
                 <q-list dense>
-                  <DetailField icon="mdi-help-circle-outline" field="From" :value="fund.address" type="string" />
+                  <DetailField icon="mdi-help-circle-outline" field="From" :value="fund.address" type="string" :allow-copy="true"  />
                   <DetailField icon="mdi-help-circle-outline" field="Signature" :value="fund.signature" type="string" />
                   <DetailField icon="mdi-help-circle-outline" field="Value" :value="fund.value" type="gwei" />
                 </q-list>
@@ -45,7 +45,7 @@
               </q-card-section>
               <q-card-section>
                 <q-list dense>
-                  <DetailField field="To" :value="fund.address" type="string" />
+                  <DetailField field="To" :value="fund.address" type="string" :allow-copy="true"  />
                   <DetailField field="Value" :value="fund.value" type="gwei" />
                 </q-list>
               </q-card-section>

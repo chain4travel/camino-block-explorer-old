@@ -127,7 +127,6 @@ body.body--light {
   .bg-search-banner-input {
     background: $background-light !important;
   }
-
 }
 
 .network-active-color {
@@ -146,3 +145,12 @@ body.body--light {
   opacity: 60%;
 }
 
+.overflow-handle {
+  display: inline-block;
+  white-space: nowrap;
+  width: 100%;
+  overflow: hidden;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+
+}

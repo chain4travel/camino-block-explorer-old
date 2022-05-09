@@ -36,6 +36,7 @@
               </div>
             </div>
           </div>
+          <q-separator class="separator-lines" />
           <div :class="'row' + ($q.screen.lt.md ? ' q-pt-md' : '')">
             <div :class="'col-2' + ($q.screen.lt.md ? ' text-bold' : '')">To </div>
             <div :class="$q.screen.lt.md ? ' col-auto ' : 'col-md-9'">
@@ -94,4 +95,6 @@ export default defineComponent({
 .row
   @media (max-width: $breakpoint-sm-max)
     width: 100%
+.separator-lines
+  opacity: 50%
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <span class="overflow-handle">
+    <span class="overflow-handle sm-overflow-handle">
       {{ value }}
       <q-tooltip v-if="value">
         {{ value }}
@@ -24,13 +24,7 @@ export default defineComponent({
 })
 </script>
 <style lang="sass" scoped>
-.overflow-handle
-  display: inline-block
-  white-space: nowrap
-  width: 100%
-  overflow: hidden
-  -o-text-overflow: ellipsis
-  text-overflow: ellipsis
-  @media (max-width: $breakpoint-sm-max)
-    width: 100%
+.sm-overflow-handle
+    @media (max-width: $breakpoint-sm-max)
+      width: 100%
 </style>
