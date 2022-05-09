@@ -1,6 +1,6 @@
 <template>
   <div class="row q-mt-xl">
-    <div class="offset-1 col-10">
+    <div class="col-12">
       <details-table :back-addr="backAddr" :load-data="loadBlocks" :require-load-more="requireLoadMore"
         :columns="columns" title="C-Blocks" :store="store" @row-clicked="(item) => rowEvent(item)">
       </details-table>
@@ -24,19 +24,22 @@ const columns = [
     name: 'block',
     label: 'Block',
     field: 'number',
-    align: 'left'
+    align: 'left',
+    width: '65'
   },
   {
     name: 'age',
     label: 'Age',
     field: (row: BlockTableData) => getRelativeTime(row.timestamp),
-    align: 'left'
+    align: 'left',
+    width: '150'
   },
   {
     name: 'transactions',
     label: '# of tx',
     field: 'numberOfTransactions',
-    align: 'left'
+    align: 'left',
+    width: '150'
   },
   {
     name: 'hash',
@@ -48,13 +51,15 @@ const columns = [
     name: 'gasUsed',
     label: 'Gas Used',
     field: 'gasUsed',
-    align: 'left'
+    align: 'left',
+    width: '200'
   },
   {
     name: 'gasLimit',
     label: 'Gas Limit',
     field: 'gasLimit',
-    align: 'left'
+    align: 'left',
+    width: '200'
   }
 ]
 

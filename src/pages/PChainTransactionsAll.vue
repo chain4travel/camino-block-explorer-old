@@ -45,19 +45,22 @@ const columns = [
     name: 'timestamp',
     label: 'Timestamp',
     field: (row: XPTransactionTableData) => getRelativeTime(row.timestamp) + ' ago',
-    align: 'left'
+    align: 'left',
+    width: '120'
   },
   {
     name: 'type',
     label: 'Type',
     field: 'type',
-    align: 'left'
+    align: 'left',
+    width: '120'
   },
   {
     value: 'fee',
     label: 'Fee',
     field: (row: XPTransactionTableData) => getDisplayValue(row.fee),
-    align: 'left'
+    align: 'left',
+    width: '150'
   }
 ]
 
