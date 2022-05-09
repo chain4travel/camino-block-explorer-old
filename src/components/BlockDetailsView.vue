@@ -19,7 +19,7 @@
          <detail-field icon="mdi-help-circle-outline" field="Parent Hash" :value="content.parentHash" type="string"
           :details-link="content.parentBlockNumber ? getBlockDetailsPath(type, content.parentBlockNumber) : undefined" :allow-copy="true" />
                   <detail-field icon="mdi-help-circle-outline" field="Child hash" :value="content.childHash" type="string"
-          :details-link="content.childBlockNumber ? getBlockDetailsPath(type, content.childBlockNumber) : undefined" />
+          :details-link="content.childBlockNumber ? getBlockDetailsPath(type, content.childBlockNumber) : undefined" :allow-copy="true"  />
         <detail-field icon="mdi-help-circle-outline" field="Base Gas Fee" :value="content.baseGaseFee" type="wei" />
         <detail-field icon="mdi-help-circle-outline" field="Fees" :value="content.fees" type="wei" />
         <detail-field icon="mdi-help-circle-outline" field="Gas Limit" :value="content.gasLimit" type="wei" />
