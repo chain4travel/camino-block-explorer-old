@@ -8,7 +8,7 @@
               {{ tooltip }}
             </q-tooltip>
           </q-icon>
-          <span  :class="'col overflow-handle ' + ($q.screen.lt.md ? '' : 'q-pl-md')">
+          <span :class="'col overflow-handle ' + ($q.screen.lt.md ? '' : 'q-pl-md')">
             {{ field }}
           </span>
         </div>
@@ -76,8 +76,12 @@
           <long-string v-else :value="value" />
         </div>
       </div>
-      <div v-if="detailsLink" :class="$q.screen.gt.md ? 'col text-right' : 'col-12 '">
-        <q-btn size="sm" color="primary" outline rounded icon="search" :to="detailsLink">Details</q-btn>
+      <div v-if="(detailsLink || allowCopy) && (value !== undefined &&  value !== '' && parseInt(value) !== 0)"
+        :class="$q.screen.gt.sm ? detailsLink ? 'col-md-2 text-right' : 'col-md-1 text-right' : 'col-12 '">
+        <q-btn v-if="detailsLink" size="sm" color="primary" outline rounded icon="search" :to="detailsLink">Details
+        </q-btn>
+        <q-btn class="q-ml-xs" v-if="allowCopy" @click="() => copyToClipBoard(value?.toString())" size="sm" outline
+          rounded icon="mdi-content-copy"></q-btn>
       </div>
     </div>
   </q-item>
@@ -87,6 +91,7 @@ import { defineComponent } from 'vue'
 import { getRelativeTime } from 'src/utils/display-utils'
 import { getDisplayValueForGewi, getDisplayValue } from 'src/utils/currency-utils'
 import LongString from 'src/components/ui/LongString.vue'
+import { copyToClipBoard } from 'src/utils/copy-utils';
 
 function getStatusIcon(status: string) {
   if (status === 'accepted') {
@@ -115,6 +120,7 @@ export default defineComponent({
     icon: { type: String, required: false },
     tooltip: { type: String, required: false },
     detailsLink: { type: String, required: false },
+    allowCopy: { type: Boolean, default: false }
   },
   setup(props) {
     return {
@@ -122,7 +128,8 @@ export default defineComponent({
       getStatusClass,
       getRelativeTime,
       getDisplayValueForGewi,
-      getDisplayValue
+      getDisplayValue,
+      copyToClipBoard
     }
   },
   components: { LongString }

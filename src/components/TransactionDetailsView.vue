@@ -10,7 +10,7 @@
     <q-card-section>
       <q-list bordered separator>
         <detail-field class="highlighted q-pt-md" icon="mdi-transfer" field="Transaction" :value="content.hash"
-          type="string" />
+          type="string" :allow-copy="true" />
       </q-list>
     </q-card-section>
     <q-card-section class="container">
@@ -26,14 +26,14 @@
           :value="content.maxPriorityFeePerGas" type="wei" />
         <detail-field icon="mdi-help-circle-outline" field="Gas Limit" :value="content.gasLimit" type="wei" />
         <detail-field icon="mdi-help-circle-outline" field="Value" :value="content.value" type="wei" />
-        <detail-field icon="mdi-help-circle-outline" field="From" :value="content.fromAddr" type="string" />
-        <detail-field icon="mdi-help-circle-outline" field="To" :value="content.toAddr" type="string" />
+        <detail-field icon="mdi-help-circle-outline" field="From" :value="content.fromAddr" type="string" :allow-copy="true"/>
+        <detail-field icon="mdi-help-circle-outline" field="To" :value="content.toAddr" type="string" :allow-copy="true"/>
         <detail-field icon="mdi-help-circle-outline" field="v" :value="content.v" type="string" />
         <detail-field icon="mdi-help-circle-outline" field="r" :value="content.r" type="string" />
         <detail-field icon="mdi-help-circle-outline" field="s" :value="content.s" type="string" />
         <detail-field icon="mdi-help-circle-outline" field="Gas Used" :value="parseInt(content.gasUsed)" type="wei" />
         <detail-field icon="mdi-help-circle-outline" field="Contract Address" :value="content.contractAddress"
-          type="hexdata"></detail-field>
+          type="hexdata" :allow-copy="true"></detail-field>
       </q-list>
     </q-card-section>
     <q-card-actions v-if="backRoute">
