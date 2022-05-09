@@ -3,7 +3,7 @@
   <div class="row q-mt-xl">
     <div class="col-12">
       <details-table :back-addr="backAddr" :load-data="loadTransactions" :require-load-more="requireLoadMore"
-        :columns="columns" title="C-Blocks" :store="store" @row-clicked="(item) => rowEvent(item)">
+        :columns="columns" title="C-Transaction" :store="store" @row-clicked="(item) => rowEvent(item)">
       </details-table>
     </div>
   </div>
