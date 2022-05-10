@@ -30,7 +30,7 @@
                 <div class="col-md-5 col-auto text-right">
                   <q-chip>
                     <long-string :value="getDisplayValueForGewi(ad.value)" />
-                    <q-icon class="q-ml-sm" size="sm" name="img:camino-coin-logo.png" />
+                    <q-icon class="q-ml-sm" size="sm" name="img:images/camino-coin-logo.png" />
                   </q-chip>
                 </div>
               </div>
@@ -49,7 +49,7 @@
                 <div class="col-md-5 col-auto text-right">
                   <q-chip>
                     <long-string :value="getDisplayValueForGewi(ad.value)" />
-                    <q-icon class="q-ml-sm" size="sm" name="img:camino-coin-logo.png" />
+                    <q-icon class="q-ml-sm" size="sm" name="img:images/camino-coin-logo.png" />
                   </q-chip>
                 </div>
               </div>

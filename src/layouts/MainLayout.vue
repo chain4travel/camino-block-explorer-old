@@ -32,14 +32,12 @@
         </div>
         <network-select />
         <div>
-          <q-btn class="q-ml-sm navigation-link" rounded
-            :icon="$q.dark.isActive ? 'mdi-weather-sunny ' : 'mdi-weather-night '" @click="toggleDarkMode"></q-btn>
+          <q-btn size="sm" class="q-ml-sm navigation-link q-pt-sm" rounded
+            :icon="$q.dark.isActive ? 'img:images/night.svg' : 'img:images/day.svg'" @click="toggleDarkMode"></q-btn>
         </div>
       </q-toolbar>
     </q-header>
 
-
-    <!-- mobile??? -->
     <q-drawer v-model="leftDrawerOpen" side="left" bordered>
       <q-scroll-area class="fit">
         <q-list>
