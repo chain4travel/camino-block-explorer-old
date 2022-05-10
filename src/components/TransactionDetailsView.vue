@@ -58,7 +58,7 @@ export default defineComponent({
     content: { type: Object as PropType<TranscationDetail>, required: true },
     magellan: { type: Boolean, default: false }
   },
-  setup(props) {
+  setup() {
     return {
       getBlockDetailsPath
     };
