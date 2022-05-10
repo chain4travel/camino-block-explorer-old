@@ -1,24 +1,22 @@
 <template>
   <div>
-    <q-input dense class="search-input" bg-color="search-banner-input" rounded label="Search by Address / Hash / Block"
-      outlined v-model="searchInput" clearable @update:model-value="search">
+    <q-input id="input" dense class="search-input" bg-color="search-banner-input" rounded
+      label="Search by Address / Hash / Block" outlined v-model="searchInput" clearable @update:model-value="search">
       <template v-slot:append>
         <q-avatar color="search-banner-icon" size="lg" icon="search">
         </q-avatar>
       </template>
     </q-input>
-    <q-menu v-model="showMenu" fit anchor="bottom left" self="top left" no-focus>
+    <q-menu class="input-width" v-model="showMenu" fit anchor="bottom left" self="top left" no-focus>
       <q-item clickable :key="menuItem.label" v-for="menuItem in menuItems" :to="menuItem.link">
-        <q-item-section>
-          <div class="row">
-            <div class="col-1">
-              <q-avatar size="sm" :color="menuItem.avatarColor">{{ menuItem.avatar }}</q-avatar>
-            </div>
-            <div class="col-11">
-              <long-string>{{ menuItem.label }}</long-string>
-            </div>
+        <div class="row">
+          <div class="col-1">
+            <q-avatar size="sm" :color="menuItem.avatarColor">{{ menuItem.avatar }}</q-avatar>
           </div>
-        </q-item-section>
+          <div class="col-11">
+            <long-string>{{ menuItem.label }}</long-string>
+          </div>
+        </div>
       </q-item>
     </q-menu>
   </div>
@@ -137,3 +135,7 @@ export default defineComponent({
 });
 </script>
 
+<style lang="sass">
+.input-width
+  max-width: 75%
+</style>
