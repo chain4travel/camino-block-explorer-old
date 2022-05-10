@@ -18,8 +18,6 @@
         <detail-field icon="mdi-help-circle-outline" field="Number" :value="content.blockNumber" type="string" />
          <detail-field icon="mdi-help-circle-outline" field="Parent Hash" :value="content.parentHash" type="string"
           :details-link="content.parentBlockNumber ? getBlockDetailsPath(type, content.parentBlockNumber) : undefined" :allow-copy="true" />
-                  <detail-field icon="mdi-help-circle-outline" field="Child hash" :value="content.childHash" type="string"
-          :details-link="content.childBlockNumber ? getBlockDetailsPath(type, content.childBlockNumber) : undefined" :allow-copy="true"  />
         <detail-field icon="mdi-help-circle-outline" field="Base Gas Fee" :value="content.baseGaseFee" type="wei" />
         <detail-field icon="mdi-help-circle-outline" field="Fees" :value="content.fees" type="wei" />
         <detail-field icon="mdi-help-circle-outline" field="Gas Limit" :value="content.gasLimit" type="wei" />
@@ -27,16 +25,8 @@
         <detail-field icon="mdi-help-circle-outline" field="Timestamp" :value="content.timestamp" type="timestamp" />
         <detail-field icon="mdi-help-circle-outline" field="Transaction Count" :value="content.transactionCount"
           type="string" />
-        <detail-field icon="mdi-help-circle-outline" field="Difficulty"
-          :value="content.additionalInformation.difficulty" type="string" />
         <detail-field icon="mdi-help-circle-outline" field="Extra Data" :value="content.additionalInformation.extraData"
           type="hexdata" />
-        <detail-field icon="mdi-help-circle-outline" field="Logs Bloom" :value="content.additionalInformation.logsBloom"
-          type="hexdata" />
-        <detail-field icon="mdi-help-circle-outline" field="Uncles" :value="content.additionalInformation.uncles"
-          type="string" />
-        <detail-field icon="mdi-help-circle-outline" field="Nonce" :value="content.additionalInformation.nonce"
-          type="string" />
       </q-list>
     </q-card-section>
     <q-card-actions v-if="backRoute">

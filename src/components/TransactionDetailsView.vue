@@ -28,11 +28,8 @@
         <detail-field icon="mdi-help-circle-outline" field="Value" :value="content.value" type="wei" />
         <detail-field icon="mdi-help-circle-outline" field="From" :value="content.fromAddr" type="string" :allow-copy="true"/>
         <detail-field icon="mdi-help-circle-outline" field="To" :value="content.toAddr" type="string" :allow-copy="true"/>
-        <detail-field icon="mdi-help-circle-outline" field="v" :value="content.v" type="string" />
-        <detail-field icon="mdi-help-circle-outline" field="r" :value="content.r" type="string" />
-        <detail-field icon="mdi-help-circle-outline" field="s" :value="content.s" type="string" />
         <detail-field icon="mdi-help-circle-outline" field="Gas Used" :value="parseInt(content.gasUsed)" type="wei" />
-        <detail-field icon="mdi-help-circle-outline" field="Contract Address" :value="content.contractAddress"
+        <detail-field v-if="content.contractAddress" icon="mdi-help-circle-outline" field="Contract Address" :value="content.contractAddress"
           type="hexdata" :allow-copy="true"></detail-field>
       </q-list>
     </q-card-section>
