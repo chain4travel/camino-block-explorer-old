@@ -1,10 +1,5 @@
 <template>
   <q-page-container>
-    <div class="row q-pa-md">
-      <div class="col">
-        <search-banner @search="search"></search-banner>
-      </div>
-    </div>
     <Suspense>
       <template #default>
         <router-view />
@@ -21,16 +16,10 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import SearchBanner from 'src/components/SearchBanner.vue'
-import axios from 'axios';
-import { getMagellanBaseUrl } from 'src/utils/client-utils';
-import { search } from 'src/utils/magellan-api-utils';
-
-
 
 export default defineComponent({
   name: 'ChainOverviewLayout',
-  components: { SearchBanner },
+  components: { },
   setup() {
     const startupErrorCaptured = ref(false);
     return {
