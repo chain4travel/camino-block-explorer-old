@@ -46,7 +46,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import { BlockDetails } from 'src/types/block-detail'
 import { getBlockDetailsPath } from 'src/utils/route-utils'
 import { ChainType } from 'src/types/chain-type'
@@ -60,7 +60,7 @@ export default defineComponent({
     backRoute: { type: String as PropType<string>, required: false },
     content: { type: Object as PropType<BlockDetails>, required: true }
   },
-  setup(props) {
+  setup() {
     return {
       getBlockDetailsPath
     };
