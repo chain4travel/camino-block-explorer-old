@@ -19,9 +19,9 @@
           </div>
           <long-string class="grey-color" :value="item.hash" :max-length="45"></long-string>
         </div>
-        <div class="col-md-2 col-auto burn-icon q-pt-sm">
-          <q-chip class="large-chip q-chip-burn-bg justify-end">
-            <q-icon size="sm" name="mdi-fire" class="text-red"></q-icon>
+        <div class="col-md-2 col-auto q-pt-sm">
+          <q-chip class="large-chip justify-end">
+            <q-icon class="q-pr-sm" size="sm" name="img:images/camino-coin-logo.png"></q-icon>
             {{ getDisplayValue(item.gasUsed) }}
           </q-chip>
         </div>
