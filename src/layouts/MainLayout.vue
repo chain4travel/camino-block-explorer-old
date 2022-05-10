@@ -1,9 +1,9 @@
 <template>
   <q-layout view="hHh lpR fFf">
-    <q-header elevated >
+    <q-header elevated>
       <q-toolbar color="toolbar">
         <q-btn class="lt-md navigation-link" dense flat round icon="menu" @click="toggleLeftDrawer" />
-        <q-toolbar-title >
+        <q-toolbar-title>
           <div class="gt-sm logo-container">
             <router-link class="" :to="homePath">
               <q-img class="dark-logo" src="src/assets/camino-company-logo-dark.png" height="32px" width="244px">

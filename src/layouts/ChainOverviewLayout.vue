@@ -19,7 +19,7 @@ import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
   name: 'ChainOverviewLayout',
-  components: { },
+  components: {},
   setup() {
     const startupErrorCaptured = ref(false);
     return {
