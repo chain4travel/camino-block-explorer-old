@@ -22,6 +22,11 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import SearchBanner from 'src/components/SearchBanner.vue'
+import axios from 'axios';
+import { getMagellanBaseUrl } from 'src/utils/client-utils';
+import { search } from 'src/utils/magellan-api-utils';
+
+
 
 export default defineComponent({
   name: 'ChainOverviewLayout',
@@ -29,9 +34,7 @@ export default defineComponent({
   setup() {
     const startupErrorCaptured = ref(false);
     return {
-      search() {
-        console.log('Search!')
-      },
+
       startupErrorCaptured
 
     };
