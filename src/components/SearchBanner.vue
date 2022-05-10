@@ -8,7 +8,7 @@
       </div>
       <div class="row">
         <div :class="'offset-md-4 col-md-4 col-12' + ($q.screen.lt.md ? '' : ' q-mt-xl')">
-          <q-input bg-color="search-banner-input" rounded label="Search by Address / Hash / Block / Token" outlined
+          <q-input bg-color="search-banner-input" rounded label="Search by Address / Hash / Block" outlined
             v-model="searchInput" clearable @update:model-value="search">
             <template v-slot:prepend>
               <q-avatar color="search-banner-icon" size="lg" icon="search">
