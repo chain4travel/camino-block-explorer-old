@@ -27,9 +27,9 @@ export function getDisplayValue(weiVal: number): string {
     return formatAmount(weiToCam(weiVal), 'CAM');
   }
   if (weiVal >= WEI_GWEI_CONVERSION_THRESHHOLD) {
-    return formatAmount(weiToGwei(weiVal), 'GWEI');
+    return formatAmount(weiToGwei(weiVal), 'nCAM');
   }
-  return formatAmount(weiVal, 'WEI');
+  return formatAmount(weiVal, 'aCAM');
 }
 
 export function formatAmount(value: number, currency: string): string {
