@@ -6,7 +6,7 @@
       @row-click="(event, item) => $emit('row-clicked', item)">
       <template v-slot:body-cell="props">
         <q-td :props="props">
-          <long-string :value="props.value" :max-length="50"></long-string>
+          <long-string :value="props.value" />
         </q-td>
       </template>
       <template v-slot:top-right>
@@ -25,7 +25,7 @@
                   <div class="q-table__grid-item-row">
                     <div class="q-table__grid-item-title">{{ col.label }}</div>
                     <div class="q-table__grid-item-value">
-                      <long-string :value="col.value"></long-string>
+                      <long-string :value="col.value" />
                     </div>
                   </div>
                 </q-item>
@@ -56,22 +56,47 @@ import { computed } from '@vue/reactivity';
 
 const pageSize = 20;
 
+function calculateWidthPerColumn(columns: Array<{ width?: number }>) {
+  let widthToDivide = screen.availWidth - 120;
+  let columnsWithEqualWidth = columns.length;
+  columns.forEach((e: { width?: number }) => {
+    if (e.width) {
+      widthToDivide -= e.width;
+      columnsWithEqualWidth--;
+    }
+  })
+  return widthToDivide / columnsWithEqualWidth;
+}
+
+function createFixedWidthParams(width: number) {
+  return 'max-width:' + width + 'px;' +
+    ' min-width:' + width + 'px;';
+}
+
 export default defineComponent({
   name: 'DetailsTable',
   props: {
     store: { type: Object as PropType<ChainViewLoader>, required: true },
     title: { type: String, required: true },
-    columns: { type: Array, required: true },
+    columns: { type: Array as PropType<Array<{ style?: string, width?: number }>>, required: true },
     loadData: { type: Function, required: true },
     requireLoadMore: { type: Function, required: true },
     backAddr: { type: String, requried: false }
   },
   emits: ['row-clicked'],
   async setup(props) {
+    const widthPerColumn = calculateWidthPerColumn(props.columns);
     const computedColumns = computed(() => {
-      return props.columns.map((e: { style?: string }) => {
+      console.log('Recomputing')
+      return props.columns.map((e: { style?: string, width?: number }) => {
+        console.log('e', e);
+        console.log('width', e.width);
         if (!e.style) {
-          e.style = 'max-width:' + (screen.availWidth / props.columns.length) + 'px;';
+          if (e.width) {
+            e.style = createFixedWidthParams(e.width);
+          } else {
+            e.style = createFixedWidthParams(widthPerColumn)
+          }
         }
         return e;
       })

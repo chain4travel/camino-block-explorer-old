@@ -45,25 +45,28 @@ const columns = [
     name: 'timestamp',
     label: 'Timestamp',
     field: (row: XPTransactionTableData) => getRelativeTime(row.timestamp) + ' ago',
-    align: 'left'
+    align: 'left',
+    width: '120'
   },
   {
     name: 'type',
     label: 'Type',
     field: 'type',
-    align: 'left'
+    align: 'left',
+    width: '120'
   },
   {
     value: 'fee',
     label: 'Fee',
     field: (row: XPTransactionTableData) => getDisplayValue(row.fee),
-    align: 'left'
+    align: 'left',
+    width: '150'
   }
 ]
 
 function getValue(outputTotal?: object, inputTotal?: object): number {
-  const output = outputTotal ? Object.entries(outputTotal).map(([key, value]) => parseInt(value)).reduce((pv, cv) => pv + cv, 0) : 0;
-  const input = inputTotal ? Object.entries(inputTotal).map(([key, value]) => parseInt(value)).reduce((pv, cv) => pv + cv, 0) : 0;
+  const output = outputTotal ? Object.entries(outputTotal).map(([, value]) => parseInt(value)).reduce((pv, cv) => pv + cv, 0) : 0;
+  const input = inputTotal ? Object.entries(inputTotal).map(([, value]) => parseInt(value)).reduce((pv, cv) => pv + cv, 0) : 0;
   return output - input;
 }
 

@@ -26,7 +26,8 @@ const columns = [
     name: 'blockNumber',
     label: 'Block',
     field: 'blockNumber',
-    align: 'left'
+    align: 'left',
+    width: '65'
   },
   {
     name: 'from',
@@ -50,19 +51,22 @@ const columns = [
     name: 'timestamp',
     label: 'Timestamp',
     field: (row: TransactionTableData) => getRelativeTime(row.timestamp),
-    align: 'left'
+    align: 'left',
+    width: '90'
   },
   {
     name: 'status',
     label: 'Status',
     field: 'status',
-    align: 'left'
+    align: 'left',
+    width: '90'
   },
   {
     value: 'value',
     label: 'Value',
     field: (row: TransactionTableData) => getDisplayValue(row.value),
-    align: 'left'
+    align: 'left',
+    width: '90'
   }
 ]
 

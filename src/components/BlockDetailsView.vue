@@ -19,7 +19,7 @@
          <detail-field icon="mdi-help-circle-outline" field="Parent Hash" :value="content.parentHash" type="string"
           :details-link="content.parentBlockNumber ? getBlockDetailsPath(type, content.parentBlockNumber) : undefined" :allow-copy="true" />
                   <detail-field icon="mdi-help-circle-outline" field="Child hash" :value="content.childHash" type="string"
-          :details-link="content.childBlockNumber ? getBlockDetailsPath(type, content.childBlockNumber) : undefined" />
+          :details-link="content.childBlockNumber ? getBlockDetailsPath(type, content.childBlockNumber) : undefined" :allow-copy="true"  />
         <detail-field icon="mdi-help-circle-outline" field="Base Gas Fee" :value="content.baseGaseFee" type="wei" />
         <detail-field icon="mdi-help-circle-outline" field="Fees" :value="content.fees" type="wei" />
         <detail-field icon="mdi-help-circle-outline" field="Gas Limit" :value="content.gasLimit" type="wei" />
@@ -46,7 +46,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import { BlockDetails } from 'src/types/block-detail'
 import { getBlockDetailsPath } from 'src/utils/route-utils'
 import { ChainType } from 'src/types/chain-type'
@@ -60,7 +60,7 @@ export default defineComponent({
     backRoute: { type: String as PropType<string>, required: false },
     content: { type: Object as PropType<BlockDetails>, required: true }
   },
-  setup(props) {
+  setup() {
     return {
       getBlockDetailsPath
     };

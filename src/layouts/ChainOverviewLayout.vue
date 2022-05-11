@@ -1,10 +1,5 @@
 <template>
   <q-page-container>
-    <div class="row q-pa-md">
-      <div class="col">
-        <search-banner @search="search"></search-banner>
-      </div>
-    </div>
     <Suspense>
       <template #default>
         <router-view />
@@ -21,17 +16,14 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import SearchBanner from 'src/components/SearchBanner.vue'
 
 export default defineComponent({
   name: 'ChainOverviewLayout',
-  components: { SearchBanner },
+  components: {},
   setup() {
     const startupErrorCaptured = ref(false);
     return {
-      search() {
-        console.log('Search!')
-      },
+
       startupErrorCaptured
 
     };

@@ -3,8 +3,8 @@ export interface CTransactionResponse {
 }
 
 export interface MagellanCBlocksResponse {
-  blockCount:number;
-  transactionCount:number;
+  blockCount: number;
+  transactionCount: number;
   blocks?: MagellanBlock[];
   transactions?: MagellanTransaction[];
 }
@@ -66,7 +66,7 @@ export interface MagellanTransactionReceipt {
   status: number;
   cumulativeGasUsed: number;
   logsBloom: string;
-  logs: MagellanTransactionDetailLog [],
+  logs: MagellanTransactionDetailLog[],
   transactionHash: string;
   contractAddress: string;
   gasUsed: number;
@@ -148,4 +148,71 @@ export interface MagellanXPCredentials {
   address: string,
   public_key: string,
   signature: string
+}
+
+
+export interface MagellanSearchResponse {
+  count: number;
+  results: MagellanSearchResultElement[]
+}
+
+export interface MagellanSearchResultElement {
+  type: MagellanSearchResultElementType,
+  data: XPTransactionSearchResult | CTransactionSearchResult | CBlockSearchResult | AddressSearchResult
+}
+
+export interface AddressSearchResult {
+  //currently unknown!
+  hash: string;
+}
+
+export interface CBlockSearchResult {
+  Block: string; // block number
+  Hash: string;
+  ChainID: string;
+  EvmTx: number; // number of txs
+  AtomicTx: number;
+  CreatedAt: Date;
+}
+
+
+export interface CTransactionSearchResult {
+  type: number; //0 -> legacy, 2 EIP115
+  block: string; // block number
+  hash: string;
+  createdAt: Date;
+  nonce: number;
+  gasLimit: number;
+  fromAddr: string;
+  toAddr: string;
+}
+
+export interface XPTransactionSearchResult {
+  id: string;
+  chainID: string;
+  type: string;
+  inputs?: MagellanXPInput[];
+  outputs?: MagellanXPOutput[];
+  memo?: string;
+  inputTotals?: object;
+  outputTotals?: object;
+  reusedAddressTotals?: object; //no idea of datatype
+  timestamp: Date;
+  txFee: number;
+  genesis: boolean;
+  rewarded: boolean;
+  rewardedTime?: object, //no idea of datatype
+  epoch: number;
+  vertexId: string;
+  validatorNodeID: string;
+  validatorStart: number;
+  validatorEnd: number;
+  txBlockId: string;
+}
+
+export enum MagellanSearchResultElementType {
+  XP_TRANSACTION = 'transaction',
+  ADDRESS = 'address',
+  C_TRANSACTION = 'ctransaction',
+  C_BLOCK = 'cblock'
 }

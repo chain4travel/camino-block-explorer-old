@@ -50,7 +50,7 @@ import DetailField from 'src/components/ui/DetailField.vue'
 import { TranscationDetail } from 'src/types/transaction-detail'
 
 export default defineComponent({
-  name: 'DetailsView',
+  name: 'TransactionDetailsView',
   props: {
     title: { type: String as PropType<string>, required: false },
     type: { type: String as PropType<ChainType>, required: true },
@@ -58,7 +58,7 @@ export default defineComponent({
     content: { type: Object as PropType<TranscationDetail>, required: true },
     magellan: { type: Boolean, default: false }
   },
-  setup(props) {
+  setup() {
     return {
       getBlockDetailsPath
     };
