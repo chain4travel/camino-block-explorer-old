@@ -6,6 +6,7 @@ export interface CTransaction {
   from: string;
   to: string;
   value: number;
+  transactionCost: number;
 }
 
 export interface XPTransaction {
@@ -35,6 +36,7 @@ export interface TransactionTableData {
   status: string;
   value: number;
   timestamp: Date;
+  transactionCost: number;
 }
 
 export interface XPTransactionTableData {
