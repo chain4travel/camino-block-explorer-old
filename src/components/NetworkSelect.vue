@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="network-select">
     <q-select dense rounded outlined v-model="selectedNetwork" :options="networkOptions"
       @update:model-value="networkSelectionChanged">
       <template v-slot:prepend>
@@ -86,3 +86,8 @@ export default defineComponent({
   components: { AddNetworkDialog }
 })
 </script>
+<style lang="sass" scoped>
+.network-select
+  @media (max-width: $breakpoint-sm-max)
+    max-width: 40%
+</style>

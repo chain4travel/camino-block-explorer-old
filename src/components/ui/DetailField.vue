@@ -13,7 +13,7 @@
           </span>
         </div>
       </div>
-      <div class="col-md col-auto">
+      <div class="col-md col">
         <div v-if="value === undefined || value === ''">
           <q-icon class="text-grey" size="xs" name="mdi-circle-off-outline" />
         </div>
@@ -77,7 +77,7 @@
         </div>
       </div>
       <div v-if="(detailsLink || allowCopy) && (value !== undefined &&  value !== '' && parseInt(value) !== 0)"
-        :class="$q.screen.gt.sm ? detailsLink ? 'col-md-2 text-right' : 'col-md-1 text-right' : 'col-12 '">
+        :class="$q.screen.gt.sm ? detailsLink ? 'col-md-2 text-right' : 'col-md-1 text-right' : 'col-2'">
         <q-btn v-if="detailsLink" size="sm" color="primary" outline rounded icon="mdi-open-in-new" :to="detailsLink">&nbsp;Open</q-btn>
         <q-btn class="q-ml-xs" v-if="allowCopy" @click="() => copyToClipBoard(value?.toString())" size="sm" outline
           rounded icon="mdi-content-copy"></q-btn>
@@ -121,7 +121,7 @@ export default defineComponent({
     detailsLink: { type: String, required: false },
     allowCopy: { type: Boolean, default: false }
   },
-  setup(props) {
+  setup() {
     return {
       getStatusIcon,
       getStatusClass,

@@ -18,11 +18,17 @@
               <q-img src="src/assets/camino-company-logo-mobile.png" height="32px" width="32px">
               </q-img>
             </router-link>
-
           </div>
         </q-toolbar-title>
-
-        <div class="logo-container gt-sm">
+        <search-banner />
+        <network-select />
+        <div>
+          <q-btn size="sm" class="q-ml-sm navigation-link q-pt-sm" rounded
+            :icon="$q.dark.isActive ? 'img:images/night.svg' : 'img:images/day.svg'" @click="toggleDarkMode"></q-btn>
+        </div>
+      </q-toolbar>
+      <q-toolbar class="gt-sm" color="toolbar">
+        <div class="logo-container">
           <router-link class="q-mr-md navigation-link" v-for="route in menuRoutes" :key="route?.name"
             :to="{ name: route?.name }">
             {{ route && route.meta && route.meta.label ? route.meta.label : route?.name }}
@@ -30,11 +36,7 @@
           <a class="q-mr-md navigation-link" v-for="link in additionalMenuItems" :key="link.name" :href="link.href"
             target="_blank">{{ link.name }}</a>
         </div>
-        <network-select />
-        <div>
-          <q-btn size="sm" class="q-ml-sm navigation-link q-pt-sm" rounded
-            :icon="$q.dark.isActive ? 'img:images/night.svg' : 'img:images/day.svg'" @click="toggleDarkMode"></q-btn>
-        </div>
+
       </q-toolbar>
     </q-header>
 
@@ -96,6 +98,7 @@ import { useQuasar } from 'quasar';
 import { useAppConfig } from 'src/stores/app-config';
 import { getOverviewPath } from 'src/utils/route-utils';
 import { ChainType } from 'src/types/chain-type';
+import SearchBanner from 'src/components/SearchBanner.vue';
 
 const leftDrawerOpen = ref(false)
 
@@ -162,7 +165,7 @@ export default defineComponent({
       // ]
     };
   },
-  components: { NetworkSelect }
+  components: { NetworkSelect, SearchBanner }
 })
 </script>
 <style scoped lang="sass">
@@ -170,5 +173,4 @@ export default defineComponent({
 .logo-container
   display: flex
   align-items: center
-
 </style>

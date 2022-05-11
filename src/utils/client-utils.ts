@@ -21,7 +21,7 @@ export const getWeb3Client = () => {
 export const getChainId = async (alias: string) => {
   const response = await axios.get(getMagellanBaseUrl() + baseEndpoint)
   const data = await response.data;
-  const value = Object.entries(data.chains).filter(([key, value]) => {
+  const value = Object.entries(data.chains).filter(([, value]) => {
     return value.chainAlias === alias;
   });
   return value[0][0];

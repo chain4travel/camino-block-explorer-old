@@ -1,4 +1,4 @@
-import { CHAIN_OVERVIEW, DETAILS, getAllBlocksPath, getAllBlocksPathName, getAllTransactionsPath, getAllTransactionsPathName, getBlockDetailsPath, getBlockDetailsPathName, getOverviewPath, getOverviewPathName, getPathElement, getTransactionDetailsPath, getTransactionsPathName, TABLES } from 'src/utils/route-utils';
+import { CHAIN_OVERVIEW, DETAILS, getAllBlocksPath, getAllBlocksPathName, getAllTransactionsPath, getAllTransactionsPathName, getBlockDetailsPath, getBlockDetailsPathName, getOverviewPath, getOverviewPathName, getTransactionDetailsPath, getTransactionsPathName, TABLES } from 'src/utils/route-utils';
 import { ChainType } from 'src/types/chain-type';
 import { RouteRecordRaw } from 'vue-router';
 
