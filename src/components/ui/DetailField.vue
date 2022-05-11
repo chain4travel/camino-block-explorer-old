@@ -121,7 +121,7 @@ export default defineComponent({
     detailsLink: { type: String, required: false },
     allowCopy: { type: Boolean, default: false }
   },
-  setup(props) {
+  setup() {
     return {
       getStatusIcon,
       getStatusClass,
