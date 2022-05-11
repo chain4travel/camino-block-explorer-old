@@ -18,14 +18,13 @@
               <q-img src="src/assets/camino-company-logo-mobile.png" height="32px" width="32px">
               </q-img>
             </router-link>
-
           </div>
         </q-toolbar-title>
         <search-banner />
         <network-select />
         <div>
-          <q-btn class="q-ml-sm navigation-link" rounded
-            :icon="$q.dark.isActive ? 'mdi-weather-sunny ' : 'mdi-weather-night '" @click="toggleDarkMode"></q-btn>
+          <q-btn size="sm" class="q-ml-sm navigation-link q-pt-sm" rounded
+            :icon="$q.dark.isActive ? 'img:images/night.svg' : 'img:images/day.svg'" @click="toggleDarkMode"></q-btn>
         </div>
       </q-toolbar>
       <q-toolbar class="gt-sm" color="toolbar">
@@ -37,11 +36,10 @@
           <a class="q-mr-md navigation-link" v-for="link in additionalMenuItems" :key="link.name" :href="link.href"
             target="_blank">{{ link.name }}</a>
         </div>
+
       </q-toolbar>
     </q-header>
 
-
-    <!-- mobile??? -->
     <q-drawer v-model="leftDrawerOpen" side="left" bordered>
       <q-scroll-area class="fit">
         <q-list>

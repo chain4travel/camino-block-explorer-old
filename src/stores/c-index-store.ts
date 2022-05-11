@@ -55,7 +55,8 @@ export const useCIndexStore = defineStore('cindex', {
           status: parseInt(element.status) === 1 ? 'Success' : `Failed-${parseInt(element.status)}`,
           timestamp: new Date(parseInt(element.timestamp) * 1000),
           to: element.to,
-          value: parseInt(element.value)
+          value: parseInt(element.value),
+          transactionCost: (parseInt(element.gasUsed) * (parseInt(element.gasPrice)||0)),
         }));
       } catch (e) {
         return []
@@ -86,12 +87,6 @@ export const useCIndexStore = defineStore('cindex', {
     async loadByBlockId(blockNumberParam: string): Promise<BlockDetails> {
       const blockNumber = parseInt(blockNumberParam);
       const block = await this.loadMagellanBlockByNumber(blockNumber);
-      let nextBlock: MagellanBlockDetail | undefined = undefined
-      try {
-        nextBlock = await this.loadMagellanBlockByNumber(blockNumber + 1)
-      } catch (e) {
-        // no next block found, probably this is the newest block
-      }
       return {
         additionalInformation: {
           difficulty: parseInt(block.header.difficulty),
@@ -101,8 +96,6 @@ export const useCIndexStore = defineStore('cindex', {
           uncles: block.header.sha3Uncles
         },
         blockNumber: parseInt(block.header.number),
-        childHash: nextBlock ? nextBlock.header.hash : undefined,
-        childBlockNumber: nextBlock ? parseInt(nextBlock.header.number) : undefined,
         hash: block.header.hash,
         parentHash: block.header.parentHash,
         parentBlockNumber: parseInt(block.header.number) ? parseInt(block.header.number) - 1 : undefined,

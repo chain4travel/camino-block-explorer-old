@@ -30,7 +30,7 @@
                 <div class="col-md-5 col-auto text-right">
                   <q-chip>
                     <long-string :value="getDisplayValueForGewi(ad.value)" />
-                    <q-icon class="q-ml-sm" size="sm" name="img:camino-coin-logo.png" />
+                    <q-icon class="q-ml-sm" size="sm" name="img:images/camino-coin-logo.png" />
                   </q-chip>
                 </div>
               </div>
@@ -49,7 +49,7 @@
                 <div class="col-md-5 col-auto text-right">
                   <q-chip>
                     <long-string :value="getDisplayValueForGewi(ad.value)" />
-                    <q-icon class="q-ml-sm" size="sm" name="img:camino-coin-logo.png" />
+                    <q-icon class="q-ml-sm" size="sm" name="img:images/camino-coin-logo.png" />
                   </q-chip>
                 </div>
               </div>
@@ -57,9 +57,9 @@
           </div>
         </div>
         <div :class="'col-md-2 col-auto text-right gas-used' + ($q.screen.lt.md ? ' q-pt-md' : ' q-pt-md')">
-          <q-chip class="q-chip-burn-bg">
+          <q-chip>
             <long-string :value="getDisplayValueForGewi(item.fee)" :max-length="2" />
-            <q-icon class="text-red q-ml-sm" size="sm" name="mdi-fire" />
+            <q-icon class="text-red q-ml-sm" size="sm" name="img:images/camino-coin-logo.png" />
           </q-chip>
         </div>
       </div>

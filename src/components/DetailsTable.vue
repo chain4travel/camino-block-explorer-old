@@ -1,6 +1,6 @@
 <template>
   <div :class="$q.screen.lt.md ? '' : 'q-pa-md'">
-    <q-table :grid="$q.screen.lt.sm" class="my-sticky-dynamic" :title="title" :rows="data" :columns="computedColumns"
+    <q-table :grid="$q.screen.lt.sm" class="sticky-headers" :title="title" :rows="data" :columns="computedColumns"
       :loading="loading" row-key="index" virtual-scroll :virtual-scroll-item-size="48"
       :virtual-scroll-sticky-size-start="48" :rows-per-page-options="[0]" @virtual-scroll="onScroll"
       @row-click="(event, item) => $emit('row-clicked', item)">
@@ -139,24 +139,7 @@ export default defineComponent({
 })
 </script>
 
-<style scoped lang="sass">
-.my-sticky-dynamic
-  /* height or max-height is important */
-  height: 80vh
-
-  .q-table__top,
-  .q-table__bottom,
-  thead tr:first-child th
-    background-color: #ffffff
-    position: sticky
-    z-index: 1
-
-  /* this will be the loading indicator */
-  thead tr:last-child th
-    /* height of all previous header rows */
-    top: 48px
-  thead tr:first-child th
-    top: 0
+<style lang="sass">
 .q-table__grid-item-row
   width: 100%
 </style>
