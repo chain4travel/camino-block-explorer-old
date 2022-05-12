@@ -129,6 +129,10 @@ body.body--light {
   }
 }
 
+.monospace {
+  font-family: 'Hack';
+}
+
 .network-active-color {
   color: #30e8bf;
 }
@@ -138,7 +142,12 @@ body.body--light {
 }
 
 .large-chip {
-  min-width: 120px;
+  // min-width: 120px;
+
+  width: 95%;
+
+  overflow: clip;
+  white-space: nowrap;
 }
 
 .grey-color {
