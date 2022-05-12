@@ -2,11 +2,11 @@
   <list-card :title="title || 'Latest Blocks'" :items="blocks" :show-all-link="showAllLink"
     @refresh="() => $emit('refresh')">
     <template v-slot="{ item }">
-      <div @click="() => $emit('row-clicked', item)" class="row">
-        <div class="gt-sm col-auto text-center q-py-sm m q-pr-md">
+      <div @click="() => $emit('row-clicked', item)" class="row q-py-sm">
+        <div class="gt-sm col-auto text-center m q-pr-md">
           <q-icon class="square-background" size="sm" name="mdi-cube-outline" />
         </div>
-        <div class="col-md-auto q-pr-lg col-12">
+        <div class="col-lg-2 col-md-3 q-pr-lg col-12">
           <div>
             {{ item.number }}
           </div>
@@ -18,23 +18,13 @@
           <div>
             {{ item.numberOfTransactions + " txns" }}
           </div>
-          <long-string class="grey-color monospace" :value="item.hash" :length="($q.screen.gt.lg ? '64': ($q.screen.gt.md ? '36':'16'))"></long-string>
+          <long-string class="grey-color monospace" :value="item.hash" :xl-length="58" :lg-length="32" :md-length="9" :sm-length="10"></long-string>
         </div>
-        <!-- <div class="col-auto burn-icon q-pt-sm justify-end">
-          <q-chip class="large-chip q-chip-burn-bg">
-            <q-icon size="sm" name="mdi-fire" class="text-red"></q-icon>
+        <div class="col-auto q-px-sm justify-end">
+          <q-chip >
+            <q-icon :left="true" size="sm" name="img:camino-coin-logo.png"></q-icon>
             {{ getDisplayValue(item.gasUsed) }}
-            {{ getDisplayValue(1) }}
-          </q-chip>
-        </div> -->
-
-        <div class="col-auto q-pt-sm justify-end">
-          <q-chip class="large-chip" icon="img:camino-coin-logo.png" >
-            <!-- {{ getDisplayValue(item.value) }} -->
-            {{ getDisplayValue(1000000000000000000000000) }}
-
-            <!-- <long-string class="" :value="getDisplayValue(item.value)">
-            </long-string> -->
+            <!-- {{ getDisplayValue(10000000000000000000000000) }} -->
           </q-chip>
         </div>
       </div>

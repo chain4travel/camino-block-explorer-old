@@ -2,8 +2,8 @@
   <list-card title="Latest Transactions" :items="transactions" :show-all-link="showAllLink"
     @refresh="() => $emit('refresh')">
     <template v-slot="{ item }">
-      <div @click="() => $emit('row-clicked', item)" class="row">
-        <div class="gt-sm col-auto text-center q-py-sm  q-pr-md">
+      <div @click="() => $emit('row-clicked', item)" class="row q-py-sm">
+        <div class="gt-sm col-auto text-center q-pr-md">
           <q-icon class="square-background" size="sm" name="mdi-transfer" />
         </div>
         <div class="col-md-grow col-12 ">
@@ -18,23 +18,21 @@
           <div class="row q-gutter-sm">
             <div class="col-md-3">From</div>
             <div class="col">
-              <long-string class="grey-color monospace" :value="item.from"  :xl-length="26" :lg-length="16"  :md-length="8" :sm-length="10"></long-string>
+              <long-string class="grey-color monospace" :value="item.from"  :xl-length="26" :lg-length="15"  :md-length="7" :sm-length="10"></long-string>
             </div>
           </div>
           <div class="row q-gutter-sm">
             <div class="col-md-3 col-2">To </div>
             <div class="col">
-              <long-string class="grey-color monospace" :value="item.to"  :xl-length="26" :lg-length="16"  :md-length="8" :sm-length="10"></long-string>            </div>
+              <long-string class="grey-color monospace" :value="item.to"  :xl-length="26" :lg-length="15"  :md-length="7" :sm-length="10"></long-string>
+            </div>
           </div>
         </div>
-        <div class="col-auto q-pt-sm justify-end">
+        <div class="col-auto q-px-sm justify-end">
           <q-chip>
-            <q-icon size="sm" name="img:camino-coin-logo.png"></q-icon>
-            <!-- {{ getDisplayValue(item.value) }} -->
-            {{ getDisplayValue(1000000000000000000000000) }}
-
-            <!-- <long-string class="" :value="getDisplayValue(item.value)">
-            </long-string> -->
+            <q-icon size="sm" :left="true" clas="q-mr-sm" name="img:camino-coin-logo.png"></q-icon>
+            {{ getDisplayValue(item.value) }}
+            <!-- {{ getDisplayValue(10000000000000000000000000) }} -->
           </q-chip>
         </div>
       </div>
