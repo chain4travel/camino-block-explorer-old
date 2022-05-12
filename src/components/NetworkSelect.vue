@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="network-select">
     <q-select dense rounded outlined v-model="selectedNetwork" :options="networkOptions"
       @update:model-value="networkSelectionChanged">
       <template v-slot:prepend>
@@ -55,6 +55,7 @@ export default defineComponent({
         } else {
           //TODO handle sucess/not success!
           appConfig.setActive(selectedOption.value.id)
+          document.location.reload();
         }
       },
       createNewNetwork(value: Network) {
@@ -66,6 +67,7 @@ export default defineComponent({
         selectedNetwork.value = { label: value.displayName, value: value }
         networkOptions.value.splice(networkOptions.value.length - 1, 0, { label: value.displayName, value: value })
         showNewNetworkDialog.value = false;
+        document.location.reload();
       },
       removeNetworkOption(index: number) {
         const network = networkOptions.value[index];
@@ -86,3 +88,8 @@ export default defineComponent({
   components: { AddNetworkDialog }
 })
 </script>
+<style lang="sass" scoped>
+.network-select
+  @media (max-width: $breakpoint-sm-max)
+    max-width: 40%
+</style>

@@ -67,6 +67,13 @@ const columns = [
     field: (row: TransactionTableData) => getDisplayValue(row.value),
     align: 'left',
     width: '90'
+  },
+  {
+    value: 'transactionCost',
+    label: 'Transaction Cost',
+    field: (row: TransactionTableData) => getDisplayValue(row.transactionCost),
+    align: 'left',
+    width: '90'
   }
 ]
 
@@ -78,7 +85,8 @@ function mapToTableData(transaction: CTransaction): TransactionTableData {
     status: transaction.status,
     timestamp: transaction.timestamp,
     to: transaction.to,
-    value: transaction.value
+    value: transaction.value,
+    transactionCost: transaction.transactionCost
   }
 }
 
