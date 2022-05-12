@@ -42,9 +42,7 @@ export function displayLongString(val: string, maxLength = 12): string {
   } else {
     return val;
   }
-
 }
-
 
 export function displayFirstPartLongString(val: string, maxLength = 12): string {
   if (!val) {
