@@ -3,10 +3,10 @@
     @refresh="() => $emit('refresh')">
     <template v-slot="{ item }">
       <div @click="() => $emit('row-clicked', item)" class="row q-py-sm">
-        <div class="gt-sm col-auto text-center m q-pr-md">
+        <div class="gt-xs col-auto text-center m q-pr-md">
           <q-icon class="square-background" size="sm" name="mdi-cube-outline" />
         </div>
-        <div class="col-lg-2 col-md-3 q-pr-lg col-12">
+        <div class="col-lg-2 col-sm-3 q-pr-lg col-12">
           <div>
             {{ item.number }}
           </div>
@@ -14,15 +14,15 @@
             {{ getRelativeTime(item.timestamp) + " ago" }}
           </div>
         </div>
-        <div :class="'col-md-grow col-12'">
+        <div :class="'col-sm-grow col-12'+ ($q.screen.xs ? ' q-pt-md':'')">
           <div>
             {{ item.numberOfTransactions + " txns" }}
           </div>
-          <long-string class="grey-color monospace" :value="item.hash" :xl-length="58" :lg-length="32" :md-length="9" :sm-length="10"></long-string>
+          <long-string class="grey-color monospace" :value="item.hash" :xl-length="58" :lg-length="32" :md-length="9" :sm-length="16" :xs-length="28"></long-string>
         </div>
-        <div class="col-auto q-px-sm justify-end">
+        <div :class="'col-auto justify-end'+ ($q.screen.gt.xs ? ' q-px-sm ':'')">
           <q-chip >
-            <q-icon :left="true" size="sm" name="img:camino-coin-logo.png"></q-icon>
+            <q-icon :left="true" size="sm" name="img:images/camino-coin-logo.png"></q-icon>
             {{ getDisplayValue(item.gasUsed) }}
             <!-- {{ getDisplayValue(10000000000000000000000000) }} -->
           </q-chip>
