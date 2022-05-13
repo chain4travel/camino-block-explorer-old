@@ -19,15 +19,15 @@
               {{ getRelativeTime(item.timestamp) + " ago" }}
             </div>
           </div>
-          <div :class="'col-sm-grow col-12'">
+          <div :class="'col-sm-grow col-12'  + ($q.screen.xs ? ' q-py-md' : '')">
             <div class="row items-center">
               <div :class="'col-2'">From </div>
               <div :class="'col'">
                 <div class="row items-center" :key="ad.id" v-for="ad in item.from">
-                  <div class="col">
+                  <div :class="'col self-center' + ($q.screen.xs ? ' col-xs-12' : '')">
                     <long-string class="monospace" :value="ad.address" :xl-length="46" :lg-length="32" :md-length="14" :sm-length="10" :xs-length="28"></long-string>
                   </div>
-                  <div class="col-auto text-right">
+                  <div :class="'col-auto text-right'">
                     <q-chip >
                       <q-icon :left="true" size="sm" name="img:images/camino-coin-logo.png"></q-icon>
                       {{ getDisplayValueForGewi(ad.value)}}
@@ -44,22 +44,22 @@
                 <div
                   v-bind:class="{ 'text-grey-8': item.from && item.from[0] && ad.address == item.from[0].address, 'row': true }"
                   :key="ad.id" v-for="ad in item.to">
-                  <div class="col self-center">
+                  <div :class="'col self-center' + ($q.screen.xs ? ' col-xs-12' : '')">
                     <long-string class="monospace" :value="ad.address" :xl-length="46" :lg-length="32" :md-length="14" :sm-length="10" :xs-length="28"></long-string>
                   </div>
                   <div class="col-auto text-right">
                     <q-chip>
                       <q-icon :left="true" size="sm" name="img:images/camino-coin-logo.png"></q-icon>
-                      <!-- {{ getDisplayValueForGewi(ad.value)}} -->
-                      {{ getDisplayValueForGewi(10000000000000000) }}
+                      {{ getDisplayValueForGewi(ad.value)}}
+                      <!-- {{ getDisplayValueForGewi(10000000000000000) }} -->
                     </q-chip>
                   </div>
                 </div>
               </div>
             </div>
-            <q-separator class=" sm" />
-            <div :class="'row sm'">
-              <div :class="'col q-pt-sm'">Fee </div>
+            <q-separator :class="'lt-md' + ($q.screen.xs ? ' q-my-sm' : '')" />
+            <div :class="'row lt-md'">
+              <div :class="'q-pt-sm'  + ($q.screen.xs ? ' col-xs-2' : ' col')">Fee </div>
               <div :class="'col-auto'">
                     <q-chip >
                       <q-icon :left="true" size="sm" name="img:images/camino-coin-logo.png"></q-icon>
