@@ -29,7 +29,7 @@
           </div>
         </div>
         <div class="col-auto q-pt-sm">
-          <q-chip class="large-chip justify-end" icon="img:images/camino-coin-logo.png">
+          <q-chip class="large-chip justify-end" icon="img:/images/camino-coin-logo.png">
             <long-string class="" :value="getDisplayValue(item.value)">
             </long-string>
           </q-chip>
