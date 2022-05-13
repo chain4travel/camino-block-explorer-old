@@ -6,6 +6,7 @@ export const TABLES = 'all';
 
 const transactions = 'transactions';
 const blocks = 'blocks';
+const address = 'address';
 
 export function getPathElement(type: ChainType): string {
   return type.toLowerCase();
@@ -17,6 +18,10 @@ export function getTransactionDetailsPath(chaintype: ChainType, transactionId: s
     return basePath + transactionId;
   }
   return basePath;
+}
+
+export function getAddressDetailsPath(addressId: string): string {
+  return `/${DETAILS}/${address}/${addressId}`
 }
 
 export function getBlockDetailsPath(chaintype: ChainType, blockId: string | number): string {
