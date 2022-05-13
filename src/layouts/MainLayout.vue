@@ -6,16 +6,16 @@
         <q-toolbar-title>
           <div class="gt-sm logo-container">
             <router-link class="" :to="homePath">
-              <q-img class="dark-logo" src="src/assets/camino-company-logo-dark.png" height="32px" width="244px">
+              <q-img class="dark-logo" src="/src/assets/camino-company-logo-dark.png" height="32px" width="244px">
               </q-img>
-              <q-img class="light-logo" src="src/assets/camino-company-logo-light.png" height="32px" width="244px">
+              <q-img class="light-logo" src="/src/assets/camino-company-logo-light.png" height="32px" width="244px">
               </q-img>
             </router-link>
             <div class="text-primary text-caption q-ml-sm q-mb-md">Alpha</div>
           </div>
           <div class="lt-md logo-container">
             <router-link :to="homePath">
-              <q-img src="src/assets/camino-company-logo-mobile.png" height="32px" width="32px">
+              <q-img src="/src/assets/camino-company-logo-mobile.png" height="32px" width="32px">
               </q-img>
             </router-link>
           </div>
@@ -24,7 +24,7 @@
         <network-select />
         <div>
           <q-btn size="sm" class="q-ml-sm navigation-link q-pt-sm" rounded
-            :icon="$q.dark.isActive ? 'img:images/night.svg' : 'img:images/day.svg'" @click="toggleDarkMode"></q-btn>
+            :icon="$q.dark.isActive ? 'img:/images/night.svg' : 'img:/images/day.svg'" @click="toggleDarkMode"></q-btn>
         </div>
       </q-toolbar>
       <q-toolbar class="gt-sm" color="toolbar">

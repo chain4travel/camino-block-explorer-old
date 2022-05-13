@@ -49,7 +49,7 @@
         <div v-else-if="type == 'gwei'">
           <div class="row">
             <div class="col-auto">
-              <q-chip class="q-chip-camino" size="md" icon="img:images/camino-coin-logo.png">
+              <q-chip class="q-chip-camino" size="md" icon="img:/images/camino-coin-logo.png">
                 {{ getDisplayValueForGewi(value) }}
               </q-chip>
             </div>
@@ -58,7 +58,7 @@
         <div v-else-if="type == 'wei'">
           <div class="row">
             <div class="col-auto">
-              <q-chip class="q-chip-camino" icon="img:images/camino-coin-logo.png">
+              <q-chip class="q-chip-camino" icon="img:/images/camino-coin-logo.png">
                 {{ getDisplayValue(value) }}
               </q-chip>
             </div>
