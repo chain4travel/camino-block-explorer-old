@@ -8,10 +8,10 @@
           </div>
           <div class="col-lg-4 col-sm-3 col-12 q-pt-sm">
             <div class="row">
-              <div class="col-md-8 col-12">
-                <long-string class="monospace" :value="item.id" :xl-length="46" :lg-length="32" :md-length="16" :sm-length="14" :xs-length="28"></long-string>
+              <div class="col-md-7 col-12">
+                <long-string class="monospace" :value="item.id" :xl-length="42" :lg-length="28" :md-length="14" :sm-length="14" :xs-length="28"></long-string>
               </div>
-              <div class="col-auto">
+              <div class="col-md-5">
                 <q-chip :size="$q.screen.lt.sm ? 'md' :'sm'">{{ item.type }}</q-chip>
               </div>
             </div>
@@ -50,8 +50,8 @@
                   <div class="col-auto text-right">
                     <q-chip>
                       <q-icon :left="true" size="sm" name="img:images/camino-coin-logo.png"></q-icon>
-                      {{ getDisplayValueForGewi(ad.value)}}
-                      <!-- {{ getDisplayValueForGewi(10000000000000000) }} -->
+                      <!-- {{ getDisplayValueForGewi(ad.value)}} -->
+                      {{ getDisplayValueForGewi(10000000000000000) }}
                     </q-chip>
                   </div>
                 </div>
@@ -63,16 +63,16 @@
               <div :class="'col-auto'">
                     <q-chip >
                       <q-icon :left="true" size="sm" name="img:images/camino-coin-logo.png"></q-icon>
-                      {{ getDisplayValueForGewi(item.fee)}}
-                      <!-- {{ getDisplayValueForGewi(10000000000000000) }} -->
+                      <!-- {{ getDisplayValueForGewi(item.fee)}} -->
+                      {{ getDisplayValueForGewi(10000000000000000) }}
                     </q-chip></div>
               </div>
           </div>
-          <div :class="'col-auto text-right gas-used q-pl-xl gt-sm'">
+          <div :class="'col-lg-2 col-md-3 text-right gas-used q-pl-xl gt-sm'">
             <q-chip >
               <q-icon :left="true" size="sm" name="img:images/camino-coin-logo.png"></q-icon>
-              {{ getDisplayValueForGewi(item.fee)}}
-              <!-- {{ getDisplayValueForGewi(10000000000000000) }} -->
+              <!-- {{ getDisplayValueForGewi(item.fee)}} -->
+              {{ getDisplayValueForGewi(10000000000000000) }}
             </q-chip>
           </div>
         </div>
