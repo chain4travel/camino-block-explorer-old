@@ -50,8 +50,8 @@
                   <div class="col-auto text-right">
                     <q-chip>
                       <q-icon :left="true" size="sm" name="img:images/camino-coin-logo.png"></q-icon>
-                      <!-- {{ getDisplayValueForGewi(ad.value)}} -->
-                      {{ getDisplayValueForGewi(10000000000000000) }}
+                      {{ getDisplayValueForGewi(ad.value)}}
+                      <!-- {{ getDisplayValueForGewi(10000000000000000) }} -->
                     </q-chip>
                   </div>
                 </div>
@@ -63,16 +63,16 @@
               <div :class="'col-auto'">
                     <q-chip >
                       <q-icon :left="true" size="sm" name="img:images/camino-coin-logo.png"></q-icon>
-                      <!-- {{ getDisplayValueForGewi(item.fee)}} -->
-                      {{ getDisplayValueForGewi(10000000000000000) }}
+                      {{ getDisplayValueForGewi(item.fee)}}
+                      <!-- {{ getDisplayValueForGewi(10000000000000000) }} -->
                     </q-chip></div>
               </div>
           </div>
           <div :class="'col-lg-2 col-md-3 text-right gas-used q-pl-xl gt-sm'">
             <q-chip >
               <q-icon :left="true" size="sm" name="img:images/camino-coin-logo.png"></q-icon>
-              <!-- {{ getDisplayValueForGewi(item.fee)}} -->
-              {{ getDisplayValueForGewi(10000000000000000) }}
+              {{ getDisplayValueForGewi(item.fee)}}
+              <!-- {{ getDisplayValueForGewi(10000000000000000) }} -->
             </q-chip>
           </div>
         </div>
