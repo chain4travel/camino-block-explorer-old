@@ -7,7 +7,8 @@
       <q-btn class="col-auto q-ml-xs" @click="() => copyToClipBoard($route.params.addressId)" size="sm" rounded
         icon="mdi-content-copy"></q-btn>
     </div>
-    <div class="row q-gutter-md">
+    <!-- TODO Add once overview data available in magellan-->
+    <!-- <div class="row q-gutter-md">
       <div class="col">
         <q-card>
           <q-card-section>
@@ -22,8 +23,7 @@
           </q-card-section>
         </q-card>
       </div>
-
-    </div>
+    </div> -->
     <div class="row q-pt-md justify-center">
       <q-card class="col">
         <q-card-section>
@@ -38,7 +38,8 @@
           </div>
           <q-tab-panels v-model="tab" animated>
             <q-tab-panel name="transactions">
-              <details-table :columns="columns" :load-data="loadData" :require-load-more="requireLoadMore">
+              <details-table @row-clicked="(item) => handleRowEvent(item)" :columns="columns" :load-data="loadData"
+                :require-load-more="requireLoadMore">
               </details-table>
             </q-tab-panel>
           </q-tab-panels>
@@ -57,13 +58,15 @@
 import { defineComponent, ref, Ref } from 'vue'
 import { copyToClipBoard } from 'src/utils/copy-utils';
 import DetailsTable from './DetailsTable.vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import ErrorNotFoundPage from 'src/pages/ErrorNotFoundPage.vue';
 import { useAddressStore } from 'src/stores/address-store';
 import { getStringOrFirstElement } from 'src/utils/display-utils';
 import { CAddressTransactionTableData } from 'src/types/transaction'
 import { getDisplayValue } from 'src/utils/currency-utils'
 import { MagellanTransactionDetail } from 'src/types/magellan-types';
+import { getTransactionDetailsPath } from 'src/utils/route-utils';
+import { ChainType } from 'src/types/chain-type';
 
 const tabs =
   [{
@@ -77,7 +80,7 @@ const columns = [
     label: '',
     field: '',
     align: 'left',
-    // width: '65' // check!!
+    width: '65' // check!!
   },
   {
     name: 'txnHash',
@@ -145,6 +148,7 @@ function getFee(element: MagellanTransactionDetail): string {
 export default defineComponent({
   name: 'AddressDetails',
   async setup() {
+    const router = useRouter();
     const route = useRoute();
     const addressStore = useAddressStore();
 
@@ -158,11 +162,15 @@ export default defineComponent({
       return '';
     }
 
+
     return {
       copyToClipBoard,
       tab: ref('transactions'),
       tabs,
       columns: columns,
+      handleRowEvent(item: CAddressTransactionTableData) {
+        router.push({ path: getTransactionDetailsPath(ChainType.C_CHAIN, item.txnHash), query: { back: route.fullPath } });
+      },
       async loadData() {
         const data = await addressStore.loadAllCTxsForAddress(getStringOrFirstElement(route.params.addressId), 0, 100);
         console.log('Loaded data: ', data);

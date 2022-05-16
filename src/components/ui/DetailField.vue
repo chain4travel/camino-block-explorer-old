@@ -20,6 +20,9 @@
         <div v-else-if="type == 'string'">
           <long-string :value="value" :xl-length="xlLength" :lg-length="lgLength" :md-length="mdLength" :sm-length="smLength" :xs-length="xsLength"></long-string>
         </div>
+        <div v-else-if="type == 'monospace'">
+          <long-string class="monospace" :value="value" :xl-length="xlLength" :lg-length="lgLength" :md-length="mdLength" :sm-length="smLength" :xs-length="xsLength"></long-string>
+        </div>
         <div v-else-if="type == 'txstatus'">
           <q-icon :class="getStatusClass(value)" size="xs" :name="getStatusIcon(value)">
             <q-tooltip>
@@ -80,7 +83,7 @@
         :class="$q.screen.gt.sm ? detailsLink ? 'col-md-2 text-right' : 'col-md-1 text-right' : 'col-2'">
         <q-btn v-if="detailsLink" size="sm" color="primary" outline rounded icon="mdi-open-in-new" :to="detailsLink">
           &nbsp;Open</q-btn>
-        <q-btn class="q-ml-xs" v-if="allowCopy" @click="() => copyToClipBoard(value?.toString())" size="sm" outline
+        <q-btn class="q-ml-xs" v-if="allowCopy && value" @click="() => copyToClipBoard(value.toString())" size="sm" outline
           rounded icon="mdi-content-copy"></q-btn>
       </div>
     </div>
