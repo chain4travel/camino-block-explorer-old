@@ -18,7 +18,7 @@
           <q-icon class="text-grey" size="xs" name="mdi-circle-off-outline" />
         </div>
         <div v-else-if="type == 'string'">
-          <long-string :value="value"></long-string>
+          <long-string :value="value" :xl-length="xlLength || 55" :lg-length="lgLength || 55" :md-length="mdLength || 40" :sm-length="smLength || 50" :xs-length="xsLength || 20"></long-string>
         </div>
         <div v-else-if="type == 'txstatus'">
           <q-icon :class="getStatusClass(value)" size="xs" :name="getStatusIcon(value)">
@@ -42,7 +42,7 @@
               <q-icon class="q-pr-sm" size="xs" name="mdi-clock-outline" />{{ getRelativeTime(value) }} ago
             </div>
             <div class="col-auto">
-              <long-string :value="value" />
+              <long-string :value="value" :xl-length="xlLength || 55" :lg-length="lgLength || 55" :md-length="mdLength || 40" :sm-length="smLength || 50" :xs-length="xsLength || 20" />
             </div>
           </div>
         </div>
@@ -73,7 +73,7 @@
         </div>
         <div v-else-if="type == 'hexdata'">
           <q-icon v-if="parseInt(value) === 0" class="q-ml-sm text-grey" size="xs" name="mdi-circle-off-outline" />
-          <long-string v-else :value="value" />
+          <long-string v-else :value="value" :xl-length="xlLength || 55" :lg-length="lgLength || 55" :md-length="mdLength || 40" :sm-length="smLength || 50" :xs-length="xsLength || 20" />
         </div>
       </div>
       <div v-if="(detailsLink || allowCopy) && (value !== undefined && value !== '' && parseInt(value) !== 0)"
@@ -149,7 +149,12 @@ export default defineComponent({
     icon: { type: String, required: false },
     tooltip: { type: String, required: false },
     detailsLink: { type: String, required: false },
-    allowCopy: { type: Boolean, default: false }
+    allowCopy: { type: Boolean, default: false },
+    xsLength: {type: Number, required: false},
+    smLength: {type: Number, required: false},
+    mdLength: {type: Number, required: false},
+    lgLength: {type: Number, required: false},
+    xlLength: {type: Number, required: false}
   },
   setup() {
     return {
@@ -179,4 +184,5 @@ export default defineComponent({
 
 .q-icon
   margin-left: 0px
+
 </style>

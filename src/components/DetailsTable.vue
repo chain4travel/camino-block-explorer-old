@@ -6,7 +6,7 @@
       @row-click="(event, item) => $emit('row-clicked', item)">
       <template v-slot:body-cell="props">
         <q-td :props="props">
-          <long-string :value="props.value" />
+          {{ props.value }}
         </q-td>
       </template>
       <template v-slot:top-right>
@@ -25,7 +25,7 @@
                   <div class="q-table__grid-item-row">
                     <div class="q-table__grid-item-title">{{ col.label }}</div>
                     <div class="q-table__grid-item-value">
-                      <long-string :value="col.value" />
+                      {{ col.value }}
                     </div>
                   </div>
                 </q-item>
@@ -135,7 +135,7 @@ export default defineComponent({
       }
     };
   },
-  components: { LongString }
+  components: {  }
 })
 </script>
 
