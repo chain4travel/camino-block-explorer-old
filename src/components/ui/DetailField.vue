@@ -67,6 +67,15 @@
             </div>
           </div>
         </div>
+        <div v-else-if="type == 'currency'">
+          <div class="row">
+            <div class="col-auto">
+              <q-chip class="q-chip-camino" size="md">
+                {{ formatAmount(parseInt(value.value), value.currency) }}
+              </q-chip>
+            </div>
+          </div>
+        </div>
         <div v-else-if="type == 'ctxtype'">
           <div class="row">
             <div class="col-auto">
@@ -92,7 +101,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { getRelativeTime } from 'src/utils/display-utils'
-import { getDisplayValueForGewi, getDisplayValue } from 'src/utils/currency-utils'
+import { getDisplayValueForGewi, getDisplayValue, formatAmount } from 'src/utils/currency-utils'
 import LongString from 'src/components/ui/LongString.vue'
 import { copyToClipBoard } from 'src/utils/copy-utils';
 
@@ -167,6 +176,7 @@ export default defineComponent({
       getDisplayValueForGewi,
       getDisplayValue,
       copyToClipBoard,
+      formatAmount,
       getTooltip: (field: string): string | undefined => {
         if (Object.keys(tooltips).includes(field)) {
           return tooltips[field];

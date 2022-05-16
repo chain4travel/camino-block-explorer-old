@@ -1,4 +1,4 @@
-loadAllCTxsForAddressloadAddresses<template>
+<template>
   <div v-if="address">
     <div class="row q-pa-md">
       <q-icon class="col-auto grey-color q-pt-xs" size="sm" name="mdi-file-document"></q-icon>
@@ -11,7 +11,14 @@ loadAllCTxsForAddressloadAddresses<template>
       <div class="col">
         <q-card>
           <q-card-section>
-            <detail-field type="gwei" field="Balance" :value="balance"></detail-field>
+            <q-card-section class="text-bold">
+              Balances
+            </q-card-section>
+            <div v-for="balance in balances" :key="balance.id">
+              <detail-field v-if="balance.symbol === 'CAM'" type="gwei" field="Balance" :value="balance.balance">
+              </detail-field>
+              <detail-field v-else type="currency" :field="balance.symbol" :value="{value: balance.balance, currency: balance.symbol}"></detail-field>
+            </div>
           </q-card-section>
         </q-card>
       </div>
@@ -42,8 +49,8 @@ loadAllCTxsForAddressloadAddresses<template>
               <div v-for="tx in txData" :key="tx.id">
                 <div class="row items-center">
                   <div class="col-md-2 col-12">
-                    <AddressLink class="monospace" :to="getTransactionDetailsPath(chainType, tx.id)" :value="tx.id"
-                      :xsLength="40" :smLength="64" :mdLength="15" :lgLength="20" :xlLength="30"></AddressLink>
+                    <AddressLink class="monospace" :to="getDetailsRoute(tx.id)" :value="tx.id" :xsLength="40"
+                      :smLength="64" :mdLength="15" :lgLength="20" :xlLength="30"></AddressLink>
                     <p v-if="tx.timestamp">{{ getRelativeTime(tx.timestamp) + " ago" }}</p>
                   </div>
                   <div class="col-md-1 col-12">
@@ -114,7 +121,7 @@ export default defineComponent({
     const addressStore = useAddressStore();
     const address = ref(getStringOrFirstElement(route.params.addressId));
     const allTxData: Ref<XPTransaction[]> = ref(await addressStore.loadXpTransactions(address.value, getAlias(props.chainType), 0, 100))
-    const balance = ref(await addressStore.loadCaminoBalance(address.value))
+    const balances = ref(await addressStore.loadBalances(address.value))
     return {
       getRelativeTime,
       getTransactionDetailsPath,
@@ -125,9 +132,12 @@ export default defineComponent({
       requireLoadMore() {
         return false;
       },
+      getDetailsRoute(txnHash: string) {
+        return `${getTransactionDetailsPath(props.chainType, txnHash)}?back=${route.fullPath}`;
+      },
       txData: allTxData,
       avatar: getAlias(props.chainType),
-      balance
+      balances
     };
   },
   components: { ErrorNotFoundPage, DetailField, FundCard, AddressLink }

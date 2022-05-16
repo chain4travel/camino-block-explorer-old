@@ -7,12 +7,13 @@ import { cTransactionApi } from 'src/utils/magellan-api-utils';
 import { useMagellanTxStore } from './magellan-tx-store';
 import { assets, addresses } from 'src/utils/magellan-api-utils'
 import { MagellanAssetsResponse, MagellanAddressResponse } from 'src/types/magellan-types'
+import { AddressBalance } from 'src/types/address';
 
 
 export const useAddressStore = defineStore('address', {
   state: () => ({
     magellanStore: useMagellanTxStore(),
-    caminoAssetId: undefined as string | undefined
+    assetIdsToSymbol: undefined as Map<string, string> | undefined
   }),
   getters: {
   },
@@ -37,29 +38,31 @@ export const useAddressStore = defineStore('address', {
     async loadXpTransactions(address: string, chain: string, offset: number, limit: number): Promise<XPTransaction[]> {
       return this.magellanStore.loadTransactions(chain, address, offset, limit);
     },
-    async loadCaminoAssetId(): Promise<string | undefined> {
-      if (this.caminoAssetId) {
-        return this.caminoAssetId;
+    async loadAssetIdToSymbol(): Promise<Map<string, string>> {
+      if (this.assetIdsToSymbol) {
+        return this.assetIdsToSymbol;
       }
       const loadedAssets: MagellanAssetsResponse = await (await axios.get(`${getMagellanBaseUrl()}${assets}`)).data
+      const newElements = new Map();
       if (loadedAssets.assets) {
-        const element = loadedAssets.assets.find(e => e.alias === 'CAM');
-        if (element) {
-          this.caminoAssetId = element.id;
-        }
+        loadedAssets.assets.forEach(element => {
+          newElements.set(element.id, element.symbol);
+        });
       }
-      return this.caminoAssetId;
+      this.assetIdsToSymbol = newElements;
+      return this.assetIdsToSymbol;
     },
-    async loadCaminoBalance(address: string): Promise<string> {
-      const caminoId = await this.loadCaminoAssetId();
-      if (!caminoId) {
-        return 'UNKNOWN';
-      }
+    async loadBalances(address: string): Promise<AddressBalance[]> {
+      const symbols = await this.loadAssetIdToSymbol();
       const addressInfo: MagellanAddressResponse = await (await axios.get(`${getMagellanBaseUrl()}${addresses}/${address}`)).data
-      if (addressInfo && addressInfo.assets[caminoId]) {
-        return addressInfo.assets[caminoId].balance;
+      const addressBalances: AddressBalance[] = []
+      if (addressInfo && addressInfo.assets) {
+        Object.entries(addressInfo.assets).forEach(([key, value]) => {
+          addressBalances.push({id: key, balance: value.balance, symbol: symbols.get(key) || 'UNKNOWN'})
+        })
+        return addressBalances;
       }
-      return 'UNKNOWN';
+      return [];
     }
   },
 });
