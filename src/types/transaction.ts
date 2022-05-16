@@ -50,7 +50,7 @@ export interface XPTransactionTableData {
 }
 
 
-export interface AddressTransactionTableData {
+export interface CAddressTransactionTableData {
   type: number;
   txnHash: string;
   method: string;

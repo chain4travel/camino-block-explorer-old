@@ -63,6 +63,13 @@ body.body--dark {
   .bg-search-banner-input {
     background: $dark-level-1 !important;
   }
+
+  .text-link {
+    color: $accent !important;
+  }
+  .bg-link {
+    background: $background !important;
+  }
 }
 
 body.body--light {
@@ -125,6 +132,13 @@ body.body--light {
   }
 
   .bg-search-banner-input {
+    background: $background-light !important;
+  }
+
+  .text-link {
+    color: darken($accent, 20%) !important;
+  }
+  .bg-link {
     background: $background-light !important;
   }
 }

@@ -1,4 +1,4 @@
-loadAllCTxsForAddressloadAddresses<template>
+<template>
   <div v-if="$route.params.addressId">
     <div class="row q-pa-md">
       <q-icon class="col-auto grey-color q-pt-xs" size="sm" name="mdi-file-document"></q-icon>
@@ -54,18 +54,16 @@ loadAllCTxsForAddressloadAddresses<template>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref, ComputedRef } from 'vue'
+import { defineComponent, ref, Ref } from 'vue'
 import { copyToClipBoard } from 'src/utils/copy-utils';
 import DetailsTable from './DetailsTable.vue';
-import { computed } from '@vue/reactivity';
 import { useRoute } from 'vue-router';
 import ErrorNotFoundPage from 'src/pages/ErrorNotFoundPage.vue';
 import { useAddressStore } from 'src/stores/address-store';
 import { getStringOrFirstElement } from 'src/utils/display-utils';
-import { AddressTransactionTableData } from 'src/types/transaction'
+import { CAddressTransactionTableData } from 'src/types/transaction'
 import { getDisplayValue } from 'src/utils/currency-utils'
 import { MagellanTransactionDetail } from 'src/types/magellan-types';
-import { ChainType } from 'src/types/chain-type';
 
 const tabs =
   [{
@@ -150,7 +148,7 @@ export default defineComponent({
     const route = useRoute();
     const addressStore = useAddressStore();
 
-    const allTxData: Ref<AddressTransactionTableData[]> = ref([])
+    const allTxData: Ref<CAddressTransactionTableData[]> = ref([])
     const hasMore = true;
 
     const getMethod = async (element: MagellanTransactionDetail): Promise<string> => {
@@ -164,23 +162,14 @@ export default defineComponent({
       copyToClipBoard,
       tab: ref('transactions'),
       tabs,
-      chainType: computed(() => {
-        if (getStringOrFirstElement(route.params.addressId).startsWith('X-')) {
-          return ChainType.X_CHAIN;
-        } else if (getStringOrFirstElement(route.params.addressId).startsWith('P-')) {
-          return ChainType.P_CHAIN;
-        } else if (getStringOrFirstElement(route.params.addressId).startsWith('0x')) {
-          return ChainType.C_CHAIN;
-        }
-        return false;
-      }) as ComputedRef<ChainType | false>,
-      columns,
+      columns: columns,
       async loadData() {
         const data = await addressStore.loadAllCTxsForAddress(getStringOrFirstElement(route.params.addressId), 0, 100);
         console.log('Loaded data: ', data);
-        const newData: AddressTransactionTableData[] = [];
+        const newData: CAddressTransactionTableData[] = [];
         for (const element of data) {
           newData.push({
+            type: element.type,
             age: element.createdAt,
             block: element.block,
             from: element.fromAddr,

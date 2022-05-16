@@ -3,7 +3,7 @@
     <!-- Latest Transactions-->
     <div class=" col-12 q-pr-md q-pl-md">
       <!-- Rename that component-->
-      <x-transaction-list :show-type="true" :transactions="transactions"
+      <x-transaction-list type="p" :transactions="transactions"
         :show-all-link="getAllTransactionsPath(chainType)" @refresh="refreshTransactions"
         @row-clicked="openTransactionDetail">
       </x-transaction-list>
