@@ -29,8 +29,8 @@
               </q-card-section>
               <q-card-section>
                 <q-list dense>
-                  <DetailField icon="mdi-help-circle-outline" field="From" :value="fund.address" type="string" :allow-copy="true" :xl-length="35" :lg-length="25" :md-length="13" :sm-length="50" :xs-length="16"  />
-                  <DetailField icon="mdi-help-circle-outline" field="Signature" :value="fund.signature" type="string" :xl-length="35" :lg-length="25" :md-length="13" :sm-length="50" :xs-length="16"  />
+                  <DetailField class="monospace" icon="mdi-help-circle-outline" field="From" :value="fund.address" type="string" :allow-copy="true" :xl-length="30" :lg-length="20" :md-length="13" :sm-length="42" :xs-length="16"  />
+                  <DetailField class="monospace" icon="mdi-help-circle-outline" field="Signature" :value="fund.signature" type="string" :xl-length="35" :lg-length="25" :md-length="13" :sm-length="50" :xs-length="16"  />
                   <DetailField icon="mdi-help-circle-outline" field="Value" :value="fund.value" type="gwei" />
                 </q-list>
               </q-card-section>
@@ -45,7 +45,7 @@
               </q-card-section>
               <q-card-section>
                 <q-list dense>
-                  <DetailField field="To" :value="fund.address" type="string" :allow-copy="true"  :xl-length="35" :lg-length="25" :md-length="13" :sm-length="50" :xs-length="16" />
+                  <DetailField class="monospace"  field="To" :value="fund.address" type="string" :allow-copy="true"  :xl-length="30" :lg-length="20" :md-length="13" :sm-length="42" :xs-length="16" />
                   <DetailField field="Value" :value="fund.value" type="gwei" />
                 </q-list>
               </q-card-section>
