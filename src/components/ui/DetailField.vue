@@ -154,7 +154,7 @@ export default defineComponent({
     smLength: {type: Number, required: false, default: 50},
     mdLength: {type: Number, required: false, default: 40},
     lgLength: {type: Number, required: false, default: 55},
-    xlLength: {type: Number, required: false, default: 55}
+    xlLength: {type: Number, required: false, default: 75}
   },
   setup() {
     return {

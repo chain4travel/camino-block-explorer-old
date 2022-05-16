@@ -1,7 +1,7 @@
 <template>
     <span v-if="value && getTargetSize($q.screen.name, xlLength, lgLength, mdLength, smLength, xsLength) < value.length">
       {{ displayFirstPartLongString(value, getTargetSize($q.screen.name, xlLength, lgLength, mdLength, smLength, xsLength)) }}&hellip;{{ displaySecondPartLongString(value, getTargetSize($q.screen.name, xlLength, lgLength, mdLength, smLength, xsLength)) }}
-      <q-tooltip :v-if="'value'">
+      <q-tooltip v-if="value && showTooltip">
         {{ value }}
       </q-tooltip>
       <slot></slot>
@@ -35,7 +35,8 @@ export default defineComponent({
     smLength: {type: Number, required: true},
     mdLength: {type: Number, required: true},
     lgLength: {type: Number, required: true},
-    xlLength: {type: Number, required: true}
+    xlLength: {type: Number, required: true},
+    showTooltip: {type: Boolean, required: false, default: true}
   },
   setup() {
     return {
