@@ -1,10 +1,13 @@
 <template>
-    <span>
-      {{ displayFirstPartLongString(value, $q.screen.gt.lg ? xlLength: ($q.screen.gt.md ? lgLength:  ($q.screen.gt.sm ? mdLength:  ($q.screen.gt.xs ? smLength: xsLength)))) }}&hellip;{{ displaySecondPartLongString(value, $q.screen.gt.lg ? xlLength: ($q.screen.gt.md ? lgLength:  ($q.screen.gt.sm ? mdLength: ($q.screen.gt.xs ? smLength: xsLength)))) }}
-      <!-- {{ displayLongString(value, length) }} -->
-      <q-tooltip v-if="value">
+    <span v-if="value && getTargetSize($q.screen.name, xlLength, lgLength, mdLength, smLength, xsLength) < value.length">
+      {{ displayFirstPartLongString(value, getTargetSize($q.screen.name, xlLength, lgLength, mdLength, smLength, xsLength)) }}&hellip;{{ displaySecondPartLongString(value, getTargetSize($q.screen.name, xlLength, lgLength, mdLength, smLength, xsLength)) }}
+      <q-tooltip :v-if="'value'">
         {{ value }}
       </q-tooltip>
+      <slot></slot>
+    </span>
+    <span v-else>
+      {{ value }}
       <slot></slot>
     </span>
 
@@ -12,6 +15,18 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { displayLongString, displayFirstPartLongString, displaySecondPartLongString } from 'src/utils/display-utils'
+
+function getTargetSize(screen: string, xlLength: number, lgLength: number, mdLength: number, smLength: number, xsLength: number) {
+  switch(screen) {
+    case 'xs': return xsLength;
+    case 'sm': return smLength;
+    case 'md': return mdLength;
+    case 'lg': return lgLength;
+    case 'xl': return xlLength;
+    default: return smLength;
+  }
+}
+
 export default defineComponent({
   name: 'LongString',
   props: {
@@ -24,7 +39,7 @@ export default defineComponent({
   },
   setup() {
     return {
-      displayLongString, displayFirstPartLongString, displaySecondPartLongString
+      displayLongString, getTargetSize, displayFirstPartLongString, displaySecondPartLongString
     }
   }
 })

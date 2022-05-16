@@ -2,13 +2,13 @@
   <list-card title="Latest Transactions" :items="transactions" :show-all-link="showAllLink"
     @refresh="() => $emit('refresh')">
     <template v-slot="{ item }">
-      <div @click="() => $emit('row-clicked', item)" class="row q-py-sm">
+      <div class="row q-py-sm">
         <div class="gt-xs col-auto text-center q-pr-md">
           <q-icon class="square-background" size="sm" name="mdi-transfer" />
         </div>
         <div class="col-sm-grow col-12">
           <div>
-            <long-string class="monospace" :value="item.hash" :xl-length="32" :lg-length="20"  :md-length="9" :sm-length="12" :xs-length="26"></long-string>
+            <AddressLink class="monospace" :value="item.hash" :to="detailsLinkFunction(item.hash)" :xl-length="32" :lg-length="20"  :md-length="9" :sm-length="12" :xs-length="26"></AddressLink>
           </div>
           <div class="grey-color">
             {{ getRelativeTime(item.timestamp) + " ago"}}
@@ -48,6 +48,7 @@ import { getDisplayValue } from 'src/utils/currency-utils'
 import ListCard from './ListCard.vue'
 import { CTransaction } from 'src/types/transaction'
 import LongString from './ui/LongString.vue'
+import AddressLink from './ui/AddressLink.vue'
 
 export default defineComponent({
   name: 'TransactionList',
@@ -55,12 +56,13 @@ export default defineComponent({
   props: {
     title: { type: String, required: false },
     transactions: { type: Array as PropType<CTransaction[]>, required: true },
-    showAllLink: { type: String, required: false }
+    showAllLink: { type: String, required: false },
+    detailsLinkFunction: {type: Function, required: true}
   },
   setup() {
     return { getRelativeTime, displayLongString, getDisplayValue };
   },
-  components: { ListCard, LongString }
+  components: { ListCard, LongString, AddressLink }
 })
 </script>
 <style lang="sass" scoped>
