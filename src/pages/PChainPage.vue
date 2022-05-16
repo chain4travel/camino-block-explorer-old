@@ -14,17 +14,14 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import XTransactionList from 'src/components/XTransactionList.vue';
-import { useRouter } from 'vue-router';
 import { getTransactionDetailsPath, getAllTransactionsPath, getAllBlocksPath } from 'src/utils/route-utils';
 import { ChainType } from 'src/types/chain-type';
 import { usePIndexStore } from 'src/stores/p-index-store'
-import { XPTransaction } from 'src/types/transaction';
 
 export default defineComponent({
   name: 'PChainPage',
   components: { XTransactionList },
   async setup() {
-    const router = useRouter();
     const pageSize = 10;
     const chainType = ChainType.P_CHAIN;
     const store = usePIndexStore();

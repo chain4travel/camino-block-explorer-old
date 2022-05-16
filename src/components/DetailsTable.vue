@@ -51,7 +51,6 @@
 import { defineComponent, PropType, Ref, ref } from 'vue';
 import { BlockTableData } from 'src/types/block';
 import { ChainViewLoader } from 'src/types/chain-view-loader';
-import LongString from './ui/LongString.vue';
 import { computed } from '@vue/reactivity';
 
 const pageSize = 20;
