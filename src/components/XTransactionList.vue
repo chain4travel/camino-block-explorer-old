@@ -26,12 +26,12 @@
             <div :class="'col'">
               <div class="row items-center" :key="ad.id" v-for="ad in item.from">
                 <div :class="'col self-center' + ($q.screen.xs ? ' col-xs-12' : '')">
-                  <long-string class="monospace" :value="ad.address" :xl-length="50" :lg-length="32" :md-length="14"
-                    :sm-length="10" :xs-length="28"></long-string>
+                  <address-link class="monospace" :value="ad.address" :xl-length="50" :lg-length="32" :md-length="14"
+                    :sm-length="10" :xs-length="28"></address-link>
                 </div>
                 <div :class="'col-auto text-right'">
                   <q-chip>
-                    <q-icon :left="true" size="sm" name="img:images/camino-coin-logo.png"></q-icon>
+                    <q-icon :left="true" size="sm" name="img:/images/camino-coin-logo.png"></q-icon>
                     {{ getDisplayValueForGewi(ad.value) }}
                   </q-chip>
                 </div>
@@ -46,12 +46,12 @@
                 v-bind:class="{ 'text-grey-8': item.from && item.from[0] && ad.address == item.from[0].address, 'row': true }"
                 :key="ad.id" v-for="ad in item.to">
                 <div :class="'col self-center' + ($q.screen.xs ? ' col-xs-12' : '')">
-                  <long-string class="monospace" :value="ad.address" :xl-length="50" :lg-length="32" :md-length="14"
-                    :sm-length="10" :xs-length="28"></long-string>
+                  <address-link class="monospace" :value="ad.address" :xl-length="50" :lg-length="32" :md-length="14"
+                    :sm-length="10" :xs-length="28"></address-link>
                 </div>
                 <div class="col-auto text-right">
                   <q-chip>
-                    <q-icon :left="true" size="sm" name="img:images/camino-coin-logo.png"></q-icon>
+                    <q-icon :left="true" size="sm" name="img:/images/camino-coin-logo.png"></q-icon>
                     {{ getDisplayValueForGewi(ad.value) }}
                   </q-chip>
                 </div>
@@ -61,7 +61,7 @@
         </div>
         <div :class="'col-lg-2 col-md-3 text-right gas-used q-pl-xl gt-sm'">
           <q-chip>
-            <q-icon :left="true" size="sm" name="img:images/camino-coin-logo.png"></q-icon>
+            <q-icon :left="true" size="sm" name="img:/images/camino-coin-logo.png"></q-icon>
             {{ getDisplayValueForGewi(item.fee) }}
           </q-chip>
         </div>
