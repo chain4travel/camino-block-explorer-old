@@ -6,7 +6,9 @@
       @row-click="(event, item) => $emit('row-clicked', item)">
       <template v-slot:body-cell="props">
         <q-td :props="props">
-          {{ props.value }}
+          <div class="overflow-handle">
+            {{ props.value }}
+          </div>
         </q-td>
       </template>
       <template v-slot:top-right>
@@ -140,5 +142,7 @@ export default defineComponent({
 
 <style lang="sass">
 .q-table__grid-item-row
+  width: 100%
+.q-td
   width: 100%
 </style>
