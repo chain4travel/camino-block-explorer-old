@@ -61,7 +61,7 @@ import DetailsTable from './DetailsTable.vue';
 import { useRoute, useRouter } from 'vue-router';
 import ErrorNotFoundPage from 'src/pages/ErrorNotFoundPage.vue';
 import { useAddressStore } from 'src/stores/address-store';
-import { getStringOrFirstElement } from 'src/utils/display-utils';
+import { getRelativeTime, getStringOrFirstElement } from 'src/utils/display-utils';
 import { CAddressTransactionTableData } from 'src/types/transaction'
 import { getDisplayValue } from 'src/utils/currency-utils'
 import { MagellanTransactionDetail } from 'src/types/magellan-types';
@@ -106,7 +106,7 @@ const columns = [
   {
     name: 'age',
     label: 'Age',
-    field: 'age',
+    field: (row: CAddressTransactionTableData) => getRelativeTime(row.age) + ' ago',
     align: 'left',
     // width: '65' // check!!
   },
