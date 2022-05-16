@@ -58,7 +58,7 @@ export function getInputFunds(magellanTransaction: MagellanXPTransaction): Fund[
 
 function createFundFromOutput(magellanOutput: MagellanXPOutput): Fund {
   return <Fund>{
-    address: magellanOutput && magellanOutput.addresses ? magellanOutput.addresses[0]: null,
+    address: magellanOutput && magellanOutput.addresses ? magellanOutput.addresses[0] : null,
     value: magellanOutput.amount
   }
 }
@@ -93,7 +93,7 @@ export const useMagellanTxStore = defineStore('magellan-tx-store', {
         url += `&address=${address}`
       }
       const rawTransactions: MagellanXPTransactionResponse = await (await axios.get(url)).data;
-      return rawTransactions.transactions.splice(offset, limit).map(createTransaction);
+      return rawTransactions.transactions ? rawTransactions.transactions.map(createTransaction) : [];
     }
   },
 });

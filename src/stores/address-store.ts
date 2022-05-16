@@ -5,11 +5,14 @@ import { XPTransaction } from 'src/types/transaction';
 import { getMagellanBaseUrl } from 'src/utils/client-utils';
 import { cTransactionApi } from 'src/utils/magellan-api-utils';
 import { useMagellanTxStore } from './magellan-tx-store';
+import { assets, addresses } from 'src/utils/magellan-api-utils'
+import { MagellanAssetsResponse, MagellanAddressResponse } from 'src/types/magellan-types'
 
 
 export const useAddressStore = defineStore('address', {
   state: () => ({
-    magellanStore: useMagellanTxStore()
+    magellanStore: useMagellanTxStore(),
+    caminoAssetId: undefined as string | undefined
   }),
   getters: {
   },
@@ -33,6 +36,30 @@ export const useAddressStore = defineStore('address', {
     },
     async loadXpTransactions(address: string, chain: string, offset: number, limit: number): Promise<XPTransaction[]> {
       return this.magellanStore.loadTransactions(chain, address, offset, limit);
+    },
+    async loadCaminoAssetId(): Promise<string | undefined> {
+      if (this.caminoAssetId) {
+        return this.caminoAssetId;
+      }
+      const loadedAssets: MagellanAssetsResponse = await (await axios.get(`${getMagellanBaseUrl()}${assets}`)).data
+      if (loadedAssets.assets) {
+        const element = loadedAssets.assets.find(e => e.alias === 'CAM');
+        if (element) {
+          this.caminoAssetId = element.id;
+        }
+      }
+      return this.caminoAssetId;
+    },
+    async loadCaminoBalance(address: string): Promise<string> {
+      const caminoId = await this.loadCaminoAssetId();
+      if (!caminoId) {
+        return 'UNKNOWN';
+      }
+      const addressInfo: MagellanAddressResponse = await (await axios.get(`${getMagellanBaseUrl()}${addresses}/${address}`)).data
+      if (addressInfo && addressInfo.assets[caminoId]) {
+        return addressInfo.assets[caminoId].balance;
+      }
+      return 'UNKNOWN';
     }
   },
 });

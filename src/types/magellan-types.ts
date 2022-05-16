@@ -218,3 +218,34 @@ export enum MagellanSearchResultElementType {
   C_BLOCK = 'cblock',
   CVM_ADDRESS = 'cvmAddress'
 }
+export interface MagellanAssetsResponse {
+  assets: Asset[];
+}
+
+export interface Asset {
+  id: string;
+  chainID: string;
+  name: string;
+  symbol: string;
+  alias: string;
+  currentSupply: string;
+  timestamp: string;
+  denomination: number;
+  variableCap: number;
+  nft: number;
+}
+export interface MagellanAddressResponse {
+  chainID: string;
+  address: string;
+  publicKey: string;
+  assets: Record<string, AddressResponseAsset>;
+}
+
+export interface AddressResponseAsset {
+  id: string;
+  transactionCount: number;
+  utxoCount: number;
+  balance: string;
+  totalReceived: string;
+  totalSent: string;
+}

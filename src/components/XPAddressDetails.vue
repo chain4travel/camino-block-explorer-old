@@ -11,7 +11,7 @@ loadAllCTxsForAddressloadAddresses<template>
       <div class="col">
         <q-card>
           <q-card-section>
-            <detail-field type="string" field="Balance" value="100000"></detail-field>
+            <detail-field type="gwei" field="Balance" :value="balance"></detail-field>
           </q-card-section>
         </q-card>
       </div>
@@ -42,23 +42,26 @@ loadAllCTxsForAddressloadAddresses<template>
               <div v-for="tx in txData" :key="tx.id">
                 <div class="row items-center">
                   <div class="col-md-2 col-12">
-                    <AddressLink class="monospace" :to="getTransactionDetailsPath(chainType, tx.id)" :value="tx.id" :xsLength="40"
-                      :smLength="64" :mdLength="15" :lgLength="20" :xlLength="30"></AddressLink>
+                    <AddressLink class="monospace" :to="getTransactionDetailsPath(chainType, tx.id)" :value="tx.id"
+                      :xsLength="40" :smLength="64" :mdLength="15" :lgLength="20" :xlLength="30"></AddressLink>
                     <p v-if="tx.timestamp">{{ getRelativeTime(tx.timestamp) + " ago" }}</p>
                   </div>
                   <div class="col-md-1 col-12">
-                    <q-avatar :class="'text-' + avatar + '-avatar'" :color="avatar + '-avatar'">{{ avatar.toUpperCase() }}</q-avatar>
+                    <q-avatar :class="'text-' + avatar + '-avatar'" :color="avatar + '-avatar'">{{ avatar.toUpperCase()
+                    }}</q-avatar>
                   </div>
                   <div class="col-md-1 col-12">
                     <q-chip>{{ tx.type }}</q-chip>
                   </div>
                   <div class="col-md-4 col-12">
-                    <FundCard class="col-md col-12" type="From" title="Input" :funds="tx.from" :breakPoints="[30, 20, 12, 20, 35]">
+                    <FundCard class="col-md col-12" type="From" title="Input" :funds="tx.from"
+                      :breakPoints="[30, 20, 12, 20, 35]">
                     </FundCard>
                   </div>
                   <!-- <q-separator class="lt-md" /> -->
                   <div class="col-md-4 col-12">
-                    <FundCard class="col-md-3 col-12" type="To" title="Output" :funds="tx.to" :breakPoints="[30, 20, 12, 20, 35]">
+                    <FundCard class="col-md-3 col-12" type="To" title="Output" :funds="tx.to"
+                      :breakPoints="[30, 20, 12, 20, 35]">
                     </FundCard>
                   </div>
                 </div>
@@ -111,7 +114,7 @@ export default defineComponent({
     const addressStore = useAddressStore();
     const address = ref(getStringOrFirstElement(route.params.addressId));
     const allTxData: Ref<XPTransaction[]> = ref(await addressStore.loadXpTransactions(address.value, getAlias(props.chainType), 0, 100))
-
+    const balance = ref(await addressStore.loadCaminoBalance(address.value))
     return {
       getRelativeTime,
       getTransactionDetailsPath,
@@ -123,7 +126,8 @@ export default defineComponent({
         return false;
       },
       txData: allTxData,
-      avatar: getAlias(props.chainType)
+      avatar: getAlias(props.chainType),
+      balance
     };
   },
   components: { ErrorNotFoundPage, DetailField, FundCard, AddressLink }
