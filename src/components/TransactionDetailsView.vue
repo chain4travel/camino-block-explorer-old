@@ -25,8 +25,8 @@
           :value="content.maxPriorityFeePerGas" type="wei" />
         <detail-field icon="mdi-help-circle-outline" field="Gas Limit" :value="content.gasLimit" type="wei" />
         <detail-field icon="mdi-help-circle-outline" field="Value" :value="content.value" type="wei" />
-        <detail-field icon="mdi-help-circle-outline" field="From" :value="content.fromAddr" type="string" :allow-copy="true"/>
-        <detail-field icon="mdi-help-circle-outline" field="To" :value="content.toAddr" type="string" :allow-copy="true"/>
+        <detail-field icon="mdi-help-circle-outline" field="From" :value="content.fromAddr" type="hexdata" :allow-copy="true"/>
+        <detail-field icon="mdi-help-circle-outline" field="To" :value="content.toAddr" type="hexdata" :allow-copy="true"/>
         <detail-field icon="mdi-help-circle-outline" field="Gas Used" :value="parseInt(content.gasUsed)" type="wei" />
         <detail-field v-if="content.contractAddress && parseInt(content.contractAddress)" icon="mdi-help-circle-outline" field="Contract Address" :value="content.contractAddress"
           type="hexdata" :allow-copy="true"></detail-field>
