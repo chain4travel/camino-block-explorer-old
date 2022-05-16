@@ -3,7 +3,7 @@
     <!-- Latest Transactions-->
     <div class="col-12 q-pr-md q-pl-md">
       <x-transaction-list :transactions="transactions" :show-all-link="getAllTransactionsPath(chainType)"
-        @refresh="refreshTransactions" @row-clicked="openTransactionDetail">
+        @refresh="refreshTransactions" :detailsLinkFunction="getTransactionDetailsLink">
       </x-transaction-list>
     </div>
   </div>
@@ -12,17 +12,14 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import XTransactionList from 'src/components/XTransactionList.vue';
-import { useRouter } from 'vue-router';
 import { getTransactionDetailsPath, getAllTransactionsPath, getAllBlocksPath } from 'src/utils/route-utils';
 import { ChainType } from 'src/types/chain-type';
 import { useXIndexStore } from 'src/stores/x-index-store'
-import { XPTransaction } from 'src/types/transaction';
 
 export default defineComponent({
   name: 'XChainPage',
   components: { XTransactionList },
   async setup(props, { emit }) {
-    const router = useRouter();
     const pageSize = 10;
     const chainType = ChainType.X_CHAIN;
     const store = useXIndexStore();
@@ -39,11 +36,8 @@ export default defineComponent({
       async refreshTransactions() {
         transactions.value = await store?.loadLatestTransactions(0, pageSize)
       },
-      openTransactionDetail(item: XPTransaction) {
-        if (!item.id) {
-          return;
-        }
-        router.push(getTransactionDetailsPath(chainType, item.id))
+      getTransactionDetailsLink(item: string) {
+        return getTransactionDetailsPath(chainType, item);
       },
       getAllBlocksPath,
       getAllTransactionsPath

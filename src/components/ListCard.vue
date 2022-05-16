@@ -2,19 +2,18 @@
   <q-card>
     <q-card-section v-if="title">
       <div class="row">
-        <div class="text-h6 col-md-11 col-10">{{ title }}</div>
-        <div class="col-md-1 col-2 text-right">
+        <div class="text-h6 col-xs-grow">{{ title }}</div>
+        <div class="col-xs-auto text-right">
           <q-btn outline rounded color="primary" icon="mdi-refresh" @click="() => $emit('refresh')" />
         </div>
       </div>
     </q-card-section>
     <q-card-section v-if="items.length > 0">
       <q-list dense separator class="limit-height">
-        <q-item v-for="item, index in items" :key="index" clickable v-ripple>
-          <q-item-section>
+        <div v-for="item, index in items" :key="index" clickable>
             <slot :item="item"></slot>
-          </q-item-section>
-        </q-item>
+            <q-separator></q-separator>
+        </div>
       </q-list>
     </q-card-section>
     <q-card-section v-else class="container">
