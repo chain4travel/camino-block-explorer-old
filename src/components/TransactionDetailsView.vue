@@ -19,7 +19,6 @@
         <detail-field icon="mdi-help-circle-outline" field="Block" :value="content.block" type="string"
           :details-link="getBlockDetailsPath(type, content.block)" />
         <detail-field icon="mdi-help-circle-outline" field="Date" :value="content.createdAt" type="timestamp" />
-        <detail-field icon="mdi-help-circle-outline" field="Nonce" :value="content.nonce" type="string" />
         <detail-field icon="mdi-help-circle-outline" field="Gas Price" :value="content.gasPrice" type="wei" />
         <detail-field icon="mdi-help-circle-outline" field="Max fee per gas" :value="content.maxFeePerGas" type="wei" />
         <detail-field icon="mdi-help-circle-outline" field="Max Priority fee per gas"
@@ -29,7 +28,7 @@
         <detail-field icon="mdi-help-circle-outline" field="From" :value="content.fromAddr" type="string" :allow-copy="true"/>
         <detail-field icon="mdi-help-circle-outline" field="To" :value="content.toAddr" type="string" :allow-copy="true"/>
         <detail-field icon="mdi-help-circle-outline" field="Gas Used" :value="parseInt(content.gasUsed)" type="wei" />
-        <detail-field v-if="content.contractAddress" icon="mdi-help-circle-outline" field="Contract Address" :value="content.contractAddress"
+        <detail-field v-if="content.contractAddress && parseInt(content.contractAddress)" icon="mdi-help-circle-outline" field="Contract Address" :value="content.contractAddress"
           type="hexdata" :allow-copy="true"></detail-field>
       </q-list>
     </q-card-section>
@@ -45,6 +44,8 @@ import { getBlockDetailsPath } from 'src/utils/route-utils'
 import { ChainType } from 'src/types/chain-type'
 import DetailField from 'src/components/ui/DetailField.vue'
 import { TranscationDetail } from 'src/types/transaction-detail'
+
+
 
 export default defineComponent({
   name: 'TransactionDetailsView',

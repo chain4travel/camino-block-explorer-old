@@ -12,6 +12,15 @@ function sortByAddress(a : Fund,b: Fund) : number {
   return a.address.localeCompare(b.address);
 }
 
+function convertMemo(memo: string) : string {
+  try {
+    return atob(memo);
+  } catch(e) {
+    console.log('Memo was not base64 encoded, using raw value');
+    return memo;
+  }
+}
+
 export function createTransaction(magellanTransaction: MagellanXPTransaction): XPTransaction {
   return <XPTransaction> {
     id: magellanTransaction.id,
@@ -23,7 +32,7 @@ export function createTransaction(magellanTransaction: MagellanXPTransaction): X
     inputTotals: magellanTransaction.inputTotals,
     outputTotals: magellanTransaction.outputTotals,
     status: 'accepted', //TODO: set dynamically when magellan delivers this information
-    memo: magellanTransaction.memo,
+    memo: convertMemo(magellanTransaction.memo)
   }
 }
 
