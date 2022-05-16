@@ -2,13 +2,13 @@
   <list-card :title="title || 'Latest Blocks'" :items="blocks" :show-all-link="showAllLink"
     @refresh="() => $emit('refresh')">
     <template v-slot="{ item }">
-      <div @click="() => $emit('row-clicked', item)" class="row q-py-sm">
+      <div class="row q-py-sm">
         <div class="gt-xs col-auto text-center m q-pr-md">
           <q-icon class="square-background" size="sm" name="mdi-cube-outline" />
         </div>
         <div class="col-lg-2 col-sm-3 q-pr-lg col-12">
           <div>
-            {{ item.number }}
+            <AddressLink :value="item.number" :to="detailsLinkFunction(item.number)"></AddressLink>
           </div>
           <div class="grey-color">
             {{ getRelativeTime(item.timestamp) + " ago" }}
@@ -40,6 +40,7 @@ import { getRelativeTime, displayLongString } from 'src/utils/display-utils'
 import { getDisplayValue } from 'src/utils/currency-utils'
 import ListCard from './ListCard.vue'
 import LongString from './ui/LongString.vue'
+import AddressLink from  './ui/AddressLink.vue'
 
 export default defineComponent({
   name: 'BlockList',
@@ -47,14 +48,15 @@ export default defineComponent({
   props: {
     title: { type: String, required: false },
     blocks: { type: Array as PropType<BlockTableData[]>, required: true },
-    showAllLink: { type: String, required: false }
+    showAllLink: { type: String, required: false },
+    detailsLinkFunction: {type: Function, required: true}
   },
   setup() {
     return {
-      getRelativeTime, displayLongString, getDisplayValue
+      getRelativeTime, displayLongString, getDisplayValue, AddressLink
     };
   },
-  components: { ListCard, LongString }
+  components: { ListCard, LongString, AddressLink}
 })
 </script>
 <style lang="sass" scoped>

@@ -66,9 +66,7 @@ body.body--dark {
 
   .text-link {
     color: $accent !important;
-  }
-  .bg-link {
-    background: $background !important;
+    text-decoration: none;
   }
 }
 
@@ -136,10 +134,8 @@ body.body--light {
   }
 
   .text-link {
-    color: darken($accent, 20%) !important;
-  }
-  .bg-link {
-    background: $background-light !important;
+    color: darken($accent, 20%) !important;;
+    text-decoration: none;
   }
 }
 
