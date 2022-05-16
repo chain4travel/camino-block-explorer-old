@@ -1,5 +1,5 @@
 <template>
-    <span v-if="getTargetSize($q.screen.name, xlLength, lgLength, mdLength, smLength, xsLength) < value.length">
+    <span v-if="value && getTargetSize($q.screen.name, xlLength, lgLength, mdLength, smLength, xsLength) < value.length">
       {{ displayFirstPartLongString(value, getTargetSize($q.screen.name, xlLength, lgLength, mdLength, smLength, xsLength)) }}&hellip;{{ displaySecondPartLongString(value, getTargetSize($q.screen.name, xlLength, lgLength, mdLength, smLength, xsLength)) }}
       <q-tooltip :v-if="'value'">
         {{ value }}

@@ -2,14 +2,14 @@
   <list-card title="Latest Transactions" :items="transactions" @refresh="() => $emit('refresh')"
     :show-all-link="showAllLink">
     <template v-slot="{ item }">
-      <div @click="() => $emit('row-clicked', item)" :class="'row'  + ($q.screen.xs ? ' q-py-md' : '')">
+      <div :class="'row'  + ($q.screen.xs ? ' q-py-md' : '')">
           <div class="gt-xs col-auto q-pt-lg q-pr-md">
             <q-icon class="square-background " size="sm" name="mdi-transfer" />
           </div>
           <div class="col-lg-4 col-sm-3 col-12 q-pt-sm">
             <div class="row">
               <div class="col-md-7 col-lg-9 col-12">
-                <long-string :value="item.id" :xl-length="50" :lg-length="38" :md-length="14" :sm-length="14" :xs-length="35"></long-string>
+                <AddressLink :value="item.id" :to="detailsLinkFunction(item.id)" :xl-length="50" :lg-length="38" :md-length="14" :sm-length="14" :xs-length="35"></AddressLink>
               </div>
               <div class="col-md-5 col-lg-3">
                 <q-chip :size="$q.screen.lt.sm ? 'md' :'sm'">{{ item.type }}</q-chip>
@@ -88,6 +88,7 @@ import { getDisplayValueForGewi } from 'src/utils/currency-utils'
 import ListCard from './ListCard.vue'
 import { XPTransaction } from 'src/types/transaction'
 import LongString from './ui/LongString.vue'
+import AddressLink from './ui/AddressLink.vue'
 
 export default defineComponent({
   name: 'XTransactionList',
@@ -96,12 +97,13 @@ export default defineComponent({
     title: { type: String, required: false },
     transactions: { type: Array as PropType<XPTransaction[]>, required: true },
     showAllLink: { type: String, required: false },
-    showType: { type: Boolean, default: false }
+    showType: { type: Boolean, default: false },
+    detailsLinkFunction: {type: Function, required: true}
   },
   setup() {
     return { getRelativeTime, displayLongString, getDisplayValueForGewi };
   },
-  components: { ListCard, LongString }
+  components: { ListCard, LongString, AddressLink }
 })
 </script>
 <style lang="sass" scoped>

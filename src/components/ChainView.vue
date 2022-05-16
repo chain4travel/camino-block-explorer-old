@@ -4,14 +4,14 @@
       <div>
         <!-- Latest Blocks-->
         <block-list :has-next-page="blockHasNextPage" :blocks="blocks" :show-all-link="getAllBlocksPath(type)"
-          @refresh="refreshBlocks" @row-clicked="openBlockDetail">
+          @refresh="refreshBlocks" :detailsLinkFunction="getBlockDetailsLink">
         </block-list>
       </div>
     </div>
     <!-- Latest Transactions-->
     <div :class="$q.screen.lt.md ? 'col-12 q-pa-md' : 'col-md-6 q-pl-sm q-pr-md'">
       <transaction-list :transactions="transactions" :show-all-link="getAllTransactionsPath(type)"
-        @refresh="refreshTransactions" @row-clicked="openTransactionDetail">
+        @refresh="refreshTransactions" :detailsLinkFunction="getTransactionDetailsLink">
       </transaction-list>
     </div>
   </div>
@@ -24,7 +24,6 @@ import TransactionList from 'src/components/TransactionList.vue';
 import { ChainViewLoader } from 'src/types/chain-view-loader';
 import { BlockTableData } from 'src/types/block';
 import { CTransaction } from 'src/types/transaction';
-import { useRouter } from 'vue-router';
 import { getBlockDetailsPath, getTransactionDetailsPath, getAllTransactionsPath, getAllBlocksPath } from 'src/utils/route-utils';
 import { ChainType } from 'src/types/chain-type';
 import { computed } from '@vue/reactivity';
@@ -39,7 +38,6 @@ export default defineComponent({
     pageSize: { type: Number, default: 10 },
   },
   async setup(props, { emit }) {
-    const router = useRouter();
     const blocks: Ref<BlockTableData[]> = ref(await props.store?.loadLatestBlocks(0, props.pageSize))
     const transactions: Ref<CTransaction[]> = ref(await props.store?.loadLatestTransactions(0, props.pageSize))
     const blockPage = ref(1);
@@ -60,14 +58,11 @@ export default defineComponent({
       async refreshTransactions() {
         transactions.value = (await props.store?.loadLatestTransactions((transactionsPage.value - 1) * props.pageSize, props.pageSize))
       },
-      openBlockDetail(item: BlockTableData) {
-        router.push(getBlockDetailsPath(props.type, item.number))
+      getBlockDetailsLink(item: number) {
+        return getBlockDetailsPath(props.type, item);
       },
-      openTransactionDetail(item: CTransaction) {
-        if (!item.hash) {
-          return;
-        }
-        router.push(getTransactionDetailsPath(props.type, item.hash))
+      getTransactionDetailsLink(item: string) {
+        return getTransactionDetailsPath(props.type, item);;
       },
       async loadBlockPage(newPageNumber: number) {
         blocks.value = await props.store.loadLatestBlocks((newPageNumber - 1) * props.pageSize, props.pageSize);
