@@ -9,7 +9,7 @@
           <div class="col-lg-4 col-sm-3 col-12 q-pt-sm">
             <div class="row">
               <div class="col-md-7 col-lg-9 col-12">
-                <AddressLink :value="item.id" :to="detailsLinkFunction(item.id)" :xl-length="50" :lg-length="38" :md-length="14" :sm-length="14" :xs-length="35"></AddressLink>
+                <AddressLink class="monospace" :value="item.id" :to="detailsLinkFunction(item.id)" :xl-length="50" :lg-length="38" :md-length="14" :sm-length="14" :xs-length="25"></AddressLink>
               </div>
               <div class="col-md-5 col-lg-3">
                 <q-chip :size="$q.screen.lt.sm ? 'md' :'sm'">{{ item.type }}</q-chip>
@@ -19,44 +19,41 @@
               <q-chip :size="$q.screen.lt.sm ? 'md' : 'sm'">{{ item.type }}</q-chip>
             </div>
           </div>
-          <div class="col-auto">
-            <q-chip :size="$q.screen.lt.sm ? 'md' : 'sm'">{{ item.type }}</q-chip>
-          </div>
-        </div>
-        <div :class="'col-sm-grow col-12' + ($q.screen.xs ? ' q-py-md' : '')">
-          <div class="row items-center">
-            <div :class="'col-2'">From </div>
-            <div :class="'col'">
-              <div class="row items-center" :key="ad.id" v-for="ad in item.from">
-                <div :class="'col self-center' + ($q.screen.xs ? ' col-xs-12' : '')">
-                  <address-link class="monospace" :value="ad.address" :xl-length="50" :lg-length="32" :md-length="14"
-                    :sm-length="10" :xs-length="28"></address-link>
-                </div>
-                <div :class="'col-auto text-right'">
-                  <q-chip>
-                    <q-icon :left="true" size="sm" name="img:/images/camino-coin-logo.png"></q-icon>
-                    {{ getDisplayValueForGewi(ad.value) }}
-                  </q-chip>
+          <div :class="'col-sm-grow col-12'  + ($q.screen.xs ? ' q-py-md' : '')">
+            <div class="row items-center">
+              <div :class="'col-2'">From </div>
+              <div :class="'col'">
+                <div class="row items-center" :key="ad.id" v-for="ad in item.from">
+                  <div :class="'col self-center' + ($q.screen.xs ? ' col-xs-12' : '')">
+                    <long-string class="monospace" :value="ad.address" :xl-length="50" :lg-length="32" :md-length="14" :sm-length="10" :xs-length="20"></long-string>
+                  </div>
+                  <div :class="'col-auto text-right'">
+                    <q-chip >
+                      <q-icon :left="true" size="sm" name="img:images/camino-coin-logo.png"></q-icon>
+                      {{ getDisplayValueForGewi(ad.value)}}
+                      <!-- {{ getDisplayValueForGewi(10000000000000000) }} -->
+                    </q-chip>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <q-separator class="separator-lines" />
-          <div :class="'row'">
-            <div :class="'col-2 q-pt-sm'">To </div>
-            <div :class="'col'">
-              <div
-                v-bind:class="{ 'text-grey-8': item.from && item.from[0] && ad.address == item.from[0].address, 'row': true }"
-                :key="ad.id" v-for="ad in item.to">
-                <div :class="'col self-center' + ($q.screen.xs ? ' col-xs-12' : '')">
-                  <address-link class="monospace" :value="ad.address" :xl-length="50" :lg-length="32" :md-length="14"
-                    :sm-length="10" :xs-length="28"></address-link>
-                </div>
-                <div class="col-auto text-right">
-                  <q-chip>
-                    <q-icon :left="true" size="sm" name="img:/images/camino-coin-logo.png"></q-icon>
-                    {{ getDisplayValueForGewi(ad.value) }}
-                  </q-chip>
+            <q-separator class="separator-lines" />
+            <div :class="'row'">
+              <div :class="'col-2 q-pt-sm'">To </div>
+              <div :class="'col'">
+                <div
+                  v-bind:class="{ 'text-grey-8': item.from && item.from[0] && ad.address == item.from[0].address, 'row': true }"
+                  :key="ad.id" v-for="ad in item.to">
+                  <div :class="'col self-center' + ($q.screen.xs ? ' col-xs-12' : '')">
+                    <long-string class="monospace" :value="ad.address" :xl-length="50" :lg-length="32" :md-length="14" :sm-length="10" :xs-length="20"></long-string>
+                  </div>
+                  <div class="col-auto text-right">
+                    <q-chip>
+                      <q-icon :left="true" size="sm" name="img:images/camino-coin-logo.png"></q-icon>
+                      {{ getDisplayValueForGewi(ad.value)}}
+                      <!-- {{ getDisplayValueForGewi(10000000000000000) }} -->
+                    </q-chip>
+                  </div>
                 </div>
               </div>
             </div>
