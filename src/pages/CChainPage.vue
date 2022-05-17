@@ -1,29 +1,82 @@
 <template>
-  <ChainView @search="search" :store="cStore" :type="chainType" />
+  <!-- <ChainView @search="search" :store="cStore" :type="chainType" /> -->
+    <div class="row ">
+    <div :class="$q.screen.lt.md ? 'col-12 q-pa-md' : 'col-md-6 q-pr-sm q-pl-md'">
+      <div>
+        <!-- Latest Blocks-->
+        <BlockList :has-next-page="blockHasNextPage" :blocks="blocks" :show-all-link="getAllBlocksPath(ChainType.C_CHAIN)"
+          @refresh="refreshBlocks" :detailsLinkFunction="getBlockDetailsLink">
+        </BlockList>
+      </div>
+    </div>
+    <!-- Latest Transactions-->
+    <div :class="$q.screen.lt.md ? 'col-12 q-pa-md' : 'col-md-6 q-pl-sm q-pr-md'">
+      <TransactionList :transactions="transactions" :show-all-link="getAllTransactionsPath(ChainType.C_CHAIN)"
+        @refresh="refreshTransactions" :detailsLinkFunction="getTransactionDetailsLink">
+      </TransactionList>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { getRelativeTime } from 'src/utils/display-utils'
-import { useCIndexStore } from 'src/stores/c-index-store'
-import ChainView from 'src/components/ChainView.vue';
+import { defineComponent, ref, Ref } from 'vue'
+import BlockList from 'src/components/BlockList.vue';
+import TransactionList from 'src/components/TransactionList.vue';
+import { BlockTableData } from 'src/types/block';
+import { CTransaction } from 'src/types/transaction';
+import { getBlockDetailsPath, getTransactionDetailsPath, getAllTransactionsPath, getAllBlocksPath } from 'src/utils/route-utils';
 import { ChainType } from 'src/types/chain-type';
+import { computed } from '@vue/reactivity';
+import { useCIndexStore } from 'src/stores/c-index-store'
 
 export default defineComponent({
-  name: 'CChainPage',
-  components: { ChainView },
-
-  async setup() {
-    const cStore = useCIndexStore();
-    return {
-      cStore,
-      chainType: ChainType.C_CHAIN,
-      getRelativeTime,
-      search(value: string) {
-        console.log('Searching for value', value);
-      },
-    };
+  name: 'ChainView',
+  components: { BlockList, TransactionList },
+  emits: ['search', 'refresh-blocks', 'refresh-transactions'],
+  props: {
+    // type: { type: String as PropType<ChainType>, required: true },
+    pageSize: { type: Number, default: 10 },
   },
+  async setup(props, { emit }) {
+    const cStore = useCIndexStore();
+    const blocks: Ref<BlockTableData[]> = ref(await cStore.loadLatestBlocks(0, props.pageSize))
+    const transactions: Ref<CTransaction[]> = ref(await cStore.loadLatestTransactions(0, props.pageSize))
+    const blockPage = ref(1);
+    const transactionsPage = ref(1);
 
+    return {
+      ChainType,
+      blocks,
+      transactions,
+      blockPage,
+      transactionsPage,
+      blockHasNextPage: computed(() => !(blocks.value.some(item => item.number === 0))),
+      search(value: string) {
+        emit('search', value);
+      },
+      async refreshBlocks() {
+        blocks.value = await cStore.loadLatestBlocks((blockPage.value - 1) * props.pageSize, props.pageSize)
+      },
+      async refreshTransactions() {
+        transactions.value = (await cStore.loadLatestTransactions((transactionsPage.value - 1) * props.pageSize, props.pageSize))
+      },
+      getBlockDetailsLink(item: number) {
+        return getBlockDetailsPath(ChainType.C_CHAIN, item);
+      },
+      getTransactionDetailsLink(item: string) {
+        return getTransactionDetailsPath(ChainType.C_CHAIN, item);
+      },
+      async loadBlockPage(newPageNumber: number) {
+        blocks.value = await cStore.loadLatestBlocks((newPageNumber - 1) * props.pageSize, props.pageSize);
+        blockPage.value = newPageNumber;
+      },
+      async loadTransactionPage(newPageNumber: number) {
+        transactions.value = await (await cStore.loadLatestTransactions((newPageNumber - 1) * props.pageSize, props.pageSize));
+        transactionsPage.value = newPageNumber
+      },
+      getAllBlocksPath,
+      getAllTransactionsPath
+    }
+  }
 })
 </script>
