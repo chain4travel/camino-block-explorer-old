@@ -39,7 +39,17 @@
           <q-tab-panels v-model="tab" animated>
             <q-tab-panel name="transactions">
               <details-table @row-clicked="(item) => handleRowEvent(item)" :columns="columns" :load-data="loadData"
-                :require-load-more="requireLoadMore">
+                :require-load-more="requireLoadMore" :store="store">
+                <template v-slot:body-cell-direction="props">
+                  <q-td :props="props">
+                    <div>
+                      <q-badge :color="props.value === 'in' ? 'primary' : 'secondary'" :label="props.value" />
+                    </div>
+                    <div class="my-table-details">
+                      {{ props.row.details }}
+                    </div>
+                  </q-td>
+                </template>
               </details-table>
             </q-tab-panel>
           </q-tab-panels>
@@ -67,6 +77,7 @@ import { getDisplayValue } from 'src/utils/currency-utils'
 import { MagellanTransactionDetail } from 'src/types/magellan-types';
 import { getTransactionDetailsPath } from 'src/utils/route-utils';
 import { ChainType } from 'src/types/chain-type';
+import { ChainViewLoader } from 'src/types/chain-view-loader';
 
 const tabs =
   [{
@@ -76,9 +87,9 @@ const tabs =
 
 const columns = [
   {
-    name: 'action',
+    name: 'direction',
     label: '',
-    field: '',
+    field: 'direction',
     align: 'left',
     width: '65' // check!!
   },
@@ -153,7 +164,7 @@ export default defineComponent({
     const addressStore = useAddressStore();
 
     const allTxData: Ref<CAddressTransactionTableData[]> = ref([])
-    const hasMore = true;
+    let moreToLoad = true;
 
     const getMethod = async (element: MagellanTransactionDetail): Promise<string> => {
       if (element.input) {
@@ -162,36 +173,45 @@ export default defineComponent({
       return '';
     }
 
+    const address = route.params.addressId;
+
 
     return {
       copyToClipBoard,
       tab: ref('transactions'),
       tabs,
       columns: columns,
+      store: addressStore,
       handleRowEvent(item: CAddressTransactionTableData) {
         router.push({ path: getTransactionDetailsPath(ChainType.C_CHAIN, item.txnHash), query: { back: route.fullPath } });
       },
-      async loadData() {
-        const data = await addressStore.loadAllCTxsForAddress(getStringOrFirstElement(route.params.addressId), 0, 100);
-        console.log('Loaded data: ', data);
+      async loadData(store: ChainViewLoader, knownHashes: string[], offset: number, limit: number) {
+        const data = await store.loadAllCTxsForAddress(getStringOrFirstElement(route.params.addressId), offset, limit);
         const newData: CAddressTransactionTableData[] = [];
+        moreToLoad = false;
         for (const element of data) {
-          newData.push({
-            type: element.type,
-            age: element.createdAt,
-            block: element.block,
-            from: element.fromAddr,
-            to: element.toAddr,
-            method: await getMethod(element),
-            txnFee: getFee(element),
-            txnHash: element.hash,
-            value: getDisplayValue(element.value)
-          })
+          if (!knownHashes.includes(element.hash)) {
+            newData.push({
+              type: element.type,
+              age: element.createdAt,
+              block: element.block,
+              from: element.fromAddr,
+              to: element.toAddr,
+              method: await getMethod(element),
+              txnFee: getFee(element),
+              txnHash: element.hash,
+              value: getDisplayValue(element.value),
+              direction: element.fromAddr === address ? 'out' : 'in'
+            })
+            moreToLoad = true;
+            knownHashes.push(element.hash);
+          }
+
         }
         return newData;
       },
-      requireLoadMore() {
-        return false;
+      requireLoadMore(): boolean {
+        return moreToLoad;
       },
       txMainData: allTxData
     };

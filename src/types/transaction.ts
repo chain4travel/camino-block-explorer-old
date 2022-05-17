@@ -60,4 +60,5 @@ export interface CAddressTransactionTableData {
   to: string;
   value: string;
   txnFee: string;
+  direction: 'out'|'in';
 }

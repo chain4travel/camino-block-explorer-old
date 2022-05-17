@@ -19,10 +19,16 @@ export const useAddressStore = defineStore('address', {
   },
   actions: {
     async loadAllCTxsForAddress(address: string, offset = 0, count = 10): Promise<MagellanTransactionDetail[]> {
-      const fromAddressTxsPromise = axios.get(`${getMagellanBaseUrl()}${cTransactionApi}?fromAddress=${address}`)
-      const toAddressTxsPromise = axios.get(`${getMagellanBaseUrl()}${cTransactionApi}?toAddress=${address}`)
+      //TODO Offset Deprecated is currently returned by magellan when using offset with
+      // ctransactions endpoint. For now add both to limit and use splice to
+      // get correct range
+      // Also not optimal, that offset/count are applied to both to/from, leading to double the amount of returns and no clear ordering.
+      // Here a new/fixed endpoint ordered by date in magellan would be better.
+      const limitAndOffsetQueryString = `limit=${count + offset}`;
+      const fromAddressTxsPromise = axios.get(`${getMagellanBaseUrl()}${cTransactionApi}?fromAddress=${address}&${limitAndOffsetQueryString}`)
+      const toAddressTxsPromise = axios.get(`${getMagellanBaseUrl()}${cTransactionApi}?toAddress=${address}&${limitAndOffsetQueryString}`)
       const [fromAddressTxs, toAddressTxs] = await Promise.all([fromAddressTxsPromise, toAddressTxsPromise])
-      return [...(<CTransactionResponse>fromAddressTxs.data).Transactions, ...(<CTransactionResponse>toAddressTxs.data).Transactions]
+      return [...(<CTransactionResponse>fromAddressTxs.data).Transactions.splice(offset, count), ...(<CTransactionResponse>toAddressTxs.data).Transactions.splice(offset, count)]
     },
     // Returns decoded method name, or input id hex if not found
     async lookForMethodName(inputHex: string): Promise<string> {
@@ -58,7 +64,7 @@ export const useAddressStore = defineStore('address', {
       const addressBalances: AddressBalance[] = []
       if (addressInfo && addressInfo.assets) {
         Object.entries(addressInfo.assets).forEach(([key, value]) => {
-          addressBalances.push({id: key, balance: value.balance, symbol: symbols.get(key) || 'UNKNOWN'})
+          addressBalances.push({ id: key, balance: value.balance, symbol: symbols.get(key) || 'UNKNOWN' })
         })
         return addressBalances;
       }

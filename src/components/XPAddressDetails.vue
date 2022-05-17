@@ -17,7 +17,8 @@
             <div v-for="balance in balances" :key="balance.id">
               <detail-field v-if="balance.symbol === 'CAM'" type="gwei" field="Balance" :value="balance.balance">
               </detail-field>
-              <detail-field v-else type="currency" :field="balance.symbol" :value="{value: balance.balance, currency: balance.symbol}"></detail-field>
+              <detail-field v-else type="currency" :field="balance.symbol"
+                :value="{ value: balance.balance, currency: balance.symbol }"></detail-field>
             </div>
           </q-card-section>
         </q-card>
@@ -46,34 +47,45 @@
                 <div class="col-md-4">To</div>
               </div>
               <q-separator class="gt-sm" /> -->
-              <div v-for="tx in txData" :key="tx.id">
-                <div class="row items-center">
-                  <div class="col-md-2 col-12">
-                    <AddressLink class="monospace" :to="getDetailsRoute(tx.id)" :value="tx.id" :xsLength="40"
-                      :smLength="64" :mdLength="15" :lgLength="20" :xlLength="30"></AddressLink>
-                    <p v-if="tx.timestamp">{{ getRelativeTime(tx.timestamp) + " ago" }}</p>
+              <q-card>
+                <q-card-section>
+                  <div v-for="tx in txData" :key="tx.id">
+                    <div class="row items-center">
+                      <div class="col-md-2 col-12">
+                        <AddressLink class="monospace" :to="getDetailsRoute(tx.id)" :value="tx.id" :xsLength="40"
+                          :smLength="64" :mdLength="15" :lgLength="20" :xlLength="30"></AddressLink>
+                        <p v-if="tx.timestamp">{{ getRelativeTime(tx.timestamp) + " ago" }}</p>
+                      </div>
+                      <div class="col-md-1 col-12">
+                        <q-avatar :class="'text-' + avatar + '-avatar'" :color="avatar + '-avatar'">{{
+                            avatar.toUpperCase()
+                        }}</q-avatar>
+                      </div>
+                      <div class="col-md-1 col-12">
+                        <q-chip>{{ tx.type }}</q-chip>
+                      </div>
+                      <div class="col-md-4 col-12">
+                        <FundCard class="col-md col-12" type="From" title="Input" :funds="tx.from"
+                          :breakPoints="[30, 20, 12, 20, 35]">
+                        </FundCard>
+                      </div>
+                      <!-- <q-separator class="lt-md" /> -->
+                      <div class="col-md-4 col-12">
+                        <FundCard class="col-md-3 col-12" type="To" title="Output" :funds="tx.to"
+                          :breakPoints="[30, 20, 12, 20, 35]">
+                        </FundCard>
+                      </div>
+                    </div>
+                    <q-separator />
                   </div>
-                  <div class="col-md-1 col-12">
-                    <q-avatar :class="'text-' + avatar + '-avatar'" :color="avatar + '-avatar'">{{ avatar.toUpperCase()
-                    }}</q-avatar>
-                  </div>
-                  <div class="col-md-1 col-12">
-                    <q-chip>{{ tx.type }}</q-chip>
-                  </div>
-                  <div class="col-md-4 col-12">
-                    <FundCard class="col-md col-12" type="From" title="Input" :funds="tx.from"
-                      :breakPoints="[30, 20, 12, 20, 35]">
-                    </FundCard>
-                  </div>
-                  <!-- <q-separator class="lt-md" /> -->
-                  <div class="col-md-4 col-12">
-                    <FundCard class="col-md-3 col-12" type="To" title="Output" :funds="tx.to"
-                      :breakPoints="[30, 20, 12, 20, 35]">
-                    </FundCard>
-                  </div>
-                </div>
-                <q-separator />
-              </div>
+                  <q-card-actions v-if="couldBeMoreElements" class="justify-center">
+                    <q-btn outline rounded  @click="loadNextPage"  color="primary" class="col-6">
+                      Load More
+                    </q-btn>
+                  </q-card-actions>
+                </q-card-section>
+              </q-card>
+
               <q-separator />
             </q-tab-panel>
           </q-tab-panels>
@@ -109,6 +121,8 @@ const tabs =
     label: 'Transactions'
   }]
 
+const pageSize = 10;
+
 export default defineComponent({
   name: 'AddressDetails',
   props:
@@ -120,9 +134,12 @@ export default defineComponent({
     const route = useRoute();
     const addressStore = useAddressStore();
     const address = ref(getStringOrFirstElement(route.params.addressId));
-    const allTxData: Ref<XPTransaction[]> = ref(await addressStore.loadXpTransactions(address.value, getAlias(props.chainType), 0, 100))
+    const allTxData: Ref<XPTransaction[]> = ref(await addressStore.loadXpTransactions(address.value, getAlias(props.chainType), 0, pageSize))
+    let couldBeMoreElements: Ref<boolean> = ref(allTxData.value.length >= pageSize);
+    let currentOffset = allTxData.value.length;
     const balances = ref(await addressStore.loadBalances(address.value))
     return {
+      couldBeMoreElements,
       getRelativeTime,
       getTransactionDetailsPath,
       copyToClipBoard,
@@ -134,6 +151,12 @@ export default defineComponent({
       },
       getDetailsRoute(txnHash: string) {
         return `${getTransactionDetailsPath(props.chainType, txnHash)}?back=${route.fullPath}`;
+      },
+      loadNextPage: async () => {
+        const nextPage = await addressStore.loadXpTransactions(address.value, getAlias(props.chainType), currentOffset, pageSize);
+        allTxData.value.push(...nextPage)
+        currentOffset += nextPage.length;
+        couldBeMoreElements.value = nextPage.length >= pageSize;
       },
       txData: allTxData,
       avatar: getAlias(props.chainType),
