@@ -10,7 +10,7 @@
           <div class="text-center text-h6 text-bold">Search for anything</div>
         </q-card-section>
         <q-card-section>
-          <search-input />
+          <SearchInput />
         </q-card-section>
       </q-card>
     </q-dialog>

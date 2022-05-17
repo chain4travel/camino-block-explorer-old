@@ -15,17 +15,17 @@
     </q-card-section>
     <q-card-section class="container">
       <q-list bordered separator>
-        <detail-field icon="mdi-help-circle-outline" field="Number" :value="content.blockNumber" type="string" />
-         <detail-field icon="mdi-help-circle-outline" field="Parent Hash" :value="content.parentHash" type="string"
+        <DetailField icon="mdi-help-circle-outline" field="Number" :value="content.blockNumber" type="string" />
+         <DetailField icon="mdi-help-circle-outline" field="Parent Hash" :value="content.parentHash" type="string"
           :details-link="content.parentBlockNumber ? getBlockDetailsPath(type, content.parentBlockNumber) : undefined" :allow-copy="true" />
-        <detail-field icon="mdi-help-circle-outline" field="Base Gas Fee" :value="content.baseGaseFee" type="wei" />
-        <detail-field icon="mdi-help-circle-outline" field="Fees" :value="content.fees" type="wei" />
-        <detail-field icon="mdi-help-circle-outline" field="Gas Limit" :value="content.gasLimit" type="wei" />
-        <detail-field icon="mdi-help-circle-outline" field="Gas Used" :value="content.gasUsed" type="wei" />
-        <detail-field icon="mdi-help-circle-outline" field="Timestamp" :value="content.timestamp" type="timestamp" />
-        <detail-field icon="mdi-help-circle-outline" field="Transaction Count" :value="content.transactionCount"
+        <DetailField icon="mdi-help-circle-outline" field="Base Gas Fee" :value="content.baseGaseFee" type="wei" />
+        <DetailField icon="mdi-help-circle-outline" field="Fees" :value="content.fees" type="wei" />
+        <DetailField icon="mdi-help-circle-outline" field="Gas Limit" :value="content.gasLimit" type="wei" />
+        <DetailField icon="mdi-help-circle-outline" field="Gas Used" :value="content.gasUsed" type="wei" />
+        <DetailField icon="mdi-help-circle-outline" field="Timestamp" :value="content.timestamp" type="timestamp" />
+        <DetailField icon="mdi-help-circle-outline" field="Transaction Count" :value="content.transactionCount"
           type="string" />
-        <detail-field icon="mdi-help-circle-outline" field="Extra Data" :value="content.additionalInformation.extraData"
+        <DetailField icon="mdi-help-circle-outline" field="Extra Data" :value="content.additionalInformation.extraData"
           type="hexdata" />
       </q-list>
     </q-card-section>

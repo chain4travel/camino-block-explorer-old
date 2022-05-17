@@ -13,8 +13,8 @@
           <div class="col-1">
             <q-avatar size="sm" :color="menuItem.avatarColor">{{ menuItem.avatar }}</q-avatar>
           </div>
-          <div class="col-11">
-            <long-string>{{ menuItem.label }}</long-string>
+          <div class="col-11 overflow-handle">
+            {{ menuItem.label }}
           </div>
         </div>
       </q-item>
@@ -31,7 +31,6 @@ import { defineComponent, Ref, ref } from 'vue'
 import { MagellanSearchResponse, MagellanSearchResultElementType, XPTransactionSearchResult, CTransactionSearchResult, CBlockSearchResult, AddressSearchResult } from 'src/types/magellan-types';
 import { getBlockDetailsPath, getTransactionDetailsPath } from 'src/utils/route-utils'
 import { ChainType } from 'src/types/chain-type';
-import LongString from './ui/LongString.vue';
 
 const resultLimit = 6;
 
@@ -131,7 +130,7 @@ export default defineComponent({
       }
     };
   },
-  components: { LongString }
+  components: { }
 });
 </script>
 

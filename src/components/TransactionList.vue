@@ -18,13 +18,13 @@
           <div class="row q-gutter-sm">
             <div class="col-3">From</div>
             <div class="col">
-              <long-string class="grey-color monospace" :value="item.from"  :xl-length="26" :lg-length="15"  :md-length="7" :sm-length="10" :xs-length="20"></long-string>
+              <LongString class="grey-color monospace" :value="item.from"  :xl-length="26" :lg-length="15"  :md-length="7" :sm-length="10" :xs-length="20"></LongString>
             </div>
           </div>
           <div class="row q-gutter-sm">
             <div class="col-3">To </div>
             <div class="col">
-              <long-string class="grey-color monospace" :value="item.to"  :xl-length="26" :lg-length="15"  :md-length="7" :sm-length="10" :xs-length="20"></long-string>
+              <LongString class="grey-color monospace" :value="item.to"  :xl-length="26" :lg-length="15"  :md-length="7" :sm-length="10" :xs-length="20"></LongString>
             </div>
           </div>
         </div>

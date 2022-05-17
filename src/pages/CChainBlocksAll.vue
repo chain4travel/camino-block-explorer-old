@@ -1,9 +1,9 @@
 <template>
   <div class="row q-mt-xl">
     <div class="col-12">
-      <details-table :back-addr="backAddr" :load-data="loadBlocks" :require-load-more="requireLoadMore"
+      <DetailsTable :back-addr="backAddr" :load-data="loadBlocks" :require-load-more="requireLoadMore"
         :columns="columns" title="C-Blocks" :store="store" @row-clicked="(item) => rowEvent(item)">
-      </details-table>
+      </DetailsTable>
     </div>
   </div>
 </template>

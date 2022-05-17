@@ -2,9 +2,9 @@
   <!-- content -->
   <div class="row q-mt-xl">
     <div class="col-12">
-      <details-table :back-addr="backAddr" :load-data="loadTransactions" :require-load-more="requireLoadMore"
+      <DetailsTable :back-addr="backAddr" :load-data="loadTransactions" :require-load-more="requireLoadMore"
         :columns="columns" title="X-Transactions" :store="store" @row-clicked="(item) => rowEvent(item)">
-      </details-table>
+      </DetailsTable>
     </div>
   </div>
 </template>

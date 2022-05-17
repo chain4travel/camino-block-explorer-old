@@ -1,5 +1,5 @@
 <template>
-  <chain-view @search="search" :store="cStore" :type="chainType" />
+  <ChainView @search="search" :store="cStore" :type="chainType" />
 </template>
 
 <script lang="ts">

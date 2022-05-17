@@ -3,16 +3,16 @@
     <div :class="$q.screen.lt.md ? 'col-12 q-pa-md' : 'col-md-6 q-pr-sm q-pl-md'">
       <div>
         <!-- Latest Blocks-->
-        <block-list :has-next-page="blockHasNextPage" :blocks="blocks" :show-all-link="getAllBlocksPath(type)"
+        <BlockList :has-next-page="blockHasNextPage" :blocks="blocks" :show-all-link="getAllBlocksPath(type)"
           @refresh="refreshBlocks" :detailsLinkFunction="getBlockDetailsLink">
-        </block-list>
+        </BlockList>
       </div>
     </div>
     <!-- Latest Transactions-->
     <div :class="$q.screen.lt.md ? 'col-12 q-pa-md' : 'col-md-6 q-pl-sm q-pr-md'">
-      <transaction-list :transactions="transactions" :show-all-link="getAllTransactionsPath(type)"
+      <TransactionList :transactions="transactions" :show-all-link="getAllTransactionsPath(type)"
         @refresh="refreshTransactions" :detailsLinkFunction="getTransactionDetailsLink">
-      </transaction-list>
+      </TransactionList>
     </div>
   </div>
 </template>
