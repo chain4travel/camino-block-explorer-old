@@ -2,23 +2,23 @@
   <div class="row full-width justify-center">
     <!-- Latest Transactions-->
     <div class="col-12 q-pr-md q-pl-md">
-      <XTransactionList :transactions="transactions" :show-all-link="getAllTransactionsPath(chainType)"
+      <XPTransactionList :transactions="transactions" :show-all-link="getAllTransactionsPath(chainType)"
         @refresh="refreshTransactions" :detailsLinkFunction="getTransactionDetailsLink">
-      </XTransactionList>
+      </XPTransactionList>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import XTransactionList from 'src/components/XTransactionList.vue';
+import XPTransactionList from 'src/components/XPTransactionList.vue';
 import { getTransactionDetailsPath, getAllTransactionsPath, getAllBlocksPath } from 'src/utils/route-utils';
 import { ChainType } from 'src/types/chain-type';
 import { useXIndexStore } from 'src/stores/x-index-store'
 
 export default defineComponent({
   name: 'XChainPage',
-  components: { XTransactionList },
+  components: { XPTransactionList },
   async setup(props, { emit }) {
     const pageSize = 10;
     const chainType = ChainType.X_CHAIN;

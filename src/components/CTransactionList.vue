@@ -51,7 +51,7 @@ import LongString from './ui/LongString.vue'
 import AddressLink from './ui/AddressLink.vue'
 
 export default defineComponent({
-  name: 'TransactionList',
+  name: 'CTransactionList',
   emits: ['refresh', 'row-clicked'],
   props: {
     title: { type: String, required: false },

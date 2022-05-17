@@ -11,9 +11,9 @@
     </div>
     <!-- Latest Transactions-->
     <div :class="$q.screen.lt.md ? 'col-12 q-pa-md' : 'col-md-6 q-pl-sm q-pr-md'">
-      <TransactionList :transactions="transactions" :show-all-link="getAllTransactionsPath(ChainType.C_CHAIN)"
+      <CTransactionList :transactions="transactions" :show-all-link="getAllTransactionsPath(ChainType.C_CHAIN)"
         @refresh="refreshTransactions" :detailsLinkFunction="getTransactionDetailsLink">
-      </TransactionList>
+      </CTransactionList>
     </div>
   </div>
 </template>
@@ -21,7 +21,7 @@
 <script lang="ts">
 import { defineComponent, ref, Ref } from 'vue'
 import BlockList from 'src/components/BlockList.vue';
-import TransactionList from 'src/components/TransactionList.vue';
+import CTransactionList from 'src/components/CTransactionList.vue';
 import { BlockTableData } from 'src/types/block';
 import { CTransaction } from 'src/types/transaction';
 import { getBlockDetailsPath, getTransactionDetailsPath, getAllTransactionsPath, getAllBlocksPath } from 'src/utils/route-utils';
@@ -30,8 +30,8 @@ import { computed } from '@vue/reactivity';
 import { useCIndexStore } from 'src/stores/c-index-store'
 
 export default defineComponent({
-  name: 'ChainView',
-  components: { BlockList, TransactionList },
+  name: 'CChainPage',
+  components: { BlockList, CTransactionList },
   emits: ['search', 'refresh-blocks', 'refresh-transactions'],
   props: {
     // type: { type: String as PropType<ChainType>, required: true },

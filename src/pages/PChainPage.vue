@@ -3,9 +3,9 @@
     <!-- Latest Transactions-->
     <div class=" col-12 q-pr-md q-pl-md">
       <!-- Rename that component-->
-      <XTransactionList :show-type="true" :transactions="transactions"
+      <XPTransactionList :show-type="true" :transactions="transactions"
         :show-all-link="getAllTransactionsPath(chainType)" @refresh="refreshTransactions" :detailsLinkFunction="getTransactionDetailsLink" >
-      </XTransactionList>
+      </XPTransactionList>
     </div>
   </div>
 </template>
@@ -13,14 +13,14 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import XTransactionList from 'src/components/XTransactionList.vue';
+import XPTransactionList from 'src/components/XPTransactionList.vue';
 import { getTransactionDetailsPath, getAllTransactionsPath, getAllBlocksPath } from 'src/utils/route-utils';
 import { ChainType } from 'src/types/chain-type';
 import { usePIndexStore } from 'src/stores/p-index-store'
 
 export default defineComponent({
   name: 'PChainPage',
-  components: { XTransactionList },
+  components: { XPTransactionList },
   async setup() {
     const pageSize = 10;
     const chainType = ChainType.P_CHAIN;
