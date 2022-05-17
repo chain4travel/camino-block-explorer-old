@@ -2,7 +2,7 @@
   <div class="row full-width justify-center">
     <!-- Latest Transactions-->
     <div class="col-12 q-pr-md q-pl-md">
-      <x-transaction-list :transactions="transactions" :show-all-link="getAllTransactionsPath(chainType)"
+      <x-transaction-list :type="chainType" :transactions="transactions" :show-all-link="getAllTransactionsPath(chainType)"
         @refresh="refreshTransactions" :detailsLinkFunction="getTransactionDetailsLink">
       </x-transaction-list>
     </div>

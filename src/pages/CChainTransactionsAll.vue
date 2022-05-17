@@ -67,13 +67,6 @@ const columns = [
     field: (row: TransactionTableData) => getDisplayValue(row.value),
     align: 'left',
     width: '90'
-  },
-  {
-    value: 'transactionCost',
-    label: 'Transaction Cost',
-    field: (row: TransactionTableData) => getDisplayValue(row.transactionCost),
-    align: 'left',
-    width: '90'
   }
 ]
 
@@ -106,7 +99,7 @@ export default defineComponent({
         return moreToLoad;
       },
       async loadTransactions(store: ChainViewLoader, knownHashes: string[], offset: number, limit: number) {
-        const apiData : CTransaction[] = await store.loadLatestTransactions(offset, limit);
+        const apiData: CTransaction[] = await store.loadLatestTransactions(offset, limit);
         const newData: TransactionTableData[] = [];
         moreToLoad = false;
         apiData.map(mapToTableData).forEach(newTransaction => {

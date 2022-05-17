@@ -29,7 +29,7 @@ import { getMagellanBaseUrl, getChainId } from 'src/utils/client-utils';
 import { search } from 'src/utils/magellan-api-utils';
 import { defineComponent, Ref, ref } from 'vue'
 import { MagellanSearchResponse, MagellanSearchResultElementType, XPTransactionSearchResult, CTransactionSearchResult, CBlockSearchResult, AddressSearchResult } from 'src/types/magellan-types';
-import { getBlockDetailsPath, getTransactionDetailsPath } from 'src/utils/route-utils'
+import { getBlockDetailsPath, getTransactionDetailsPath, getAddressDetailsPath } from 'src/utils/route-utils'
 import { ChainType } from 'src/types/chain-type';
 import LongString from './ui/LongString.vue';
 
@@ -37,9 +37,16 @@ const resultLimit = 6;
 
 async function mapToItem(type: MagellanSearchResultElementType, data: XPTransactionSearchResult | CTransactionSearchResult | CBlockSearchResult | AddressSearchResult): Promise<SearchMenuItem | undefined> {
   switch (type) {
-    case MagellanSearchResultElementType.ADDRESS:
+    case MagellanSearchResultElementType.CVM_ADDRESS:
       // currently not implemented
-      return undefined;
+      const cvmAddressData: CTransactionSearchResult = <CTransactionSearchResult>data;
+      return {
+        label: cvmAddressData.fromAddr,
+        type: type,
+        link: getAddressDetailsPath(cvmAddressData.address),
+        avatar: 'AD',
+        avatarColor: 'positive'
+      };
     case MagellanSearchResultElementType.C_BLOCK:
       const cBlockData: CBlockSearchResult = <CBlockSearchResult>data;
       return {

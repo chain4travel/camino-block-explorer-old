@@ -63,7 +63,7 @@ module.exports = configure(function (/* ctx */) {
         node: 'node16'
       },
 
-      vueRouterMode: 'hash', // available values: 'hash', 'history'
+      vueRouterMode: 'history', // available values: 'hash', 'history'
       // vueRouterBase,
       // vueDevtools,
       // vueOptionsAPI: false,
@@ -79,14 +79,6 @@ module.exports = configure(function (/* ctx */) {
       // polyfillModulePreload: true,
       // distDir
 
-      extendViteConf (viteConf) {
-        viteConf.resolve.alias.process = 'process/browser';
-        viteConf.resolve.alias.stream = 'stream-browserify';
-        viteConf.resolve.alias.http = 'agent-base';
-        viteConf.resolve.alias.zlib = 'browserify-zlib';
-        viteConf.resolve.alias.util = 'util';
-        viteConf.resolve.alias.web3 = 'web3/dist/web3.min.js'
-      },
       // viteVuePluginOptions: {},
 
       vitePlugins: [

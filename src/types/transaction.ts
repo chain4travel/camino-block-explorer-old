@@ -48,3 +48,17 @@ export interface XPTransactionTableData {
   fee: number;
   timestamp?: Date;
 }
+
+
+export interface CAddressTransactionTableData {
+  type: number;
+  txnHash: string;
+  method: string;
+  block: number;
+  age: Date;
+  from: string;
+  to: string;
+  value: string;
+  txnFee: string;
+  direction: 'out'|'in';
+}

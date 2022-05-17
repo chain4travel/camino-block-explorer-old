@@ -45,6 +45,9 @@
           </div>
         </div>
       </template>
+      <template v-for="(_, slot) of $slots" v-slot:[slot]="scope">
+        <slot :name="slot" v-bind="scope" />
+      </template>
     </q-table>
   </div>
 </template>
@@ -136,7 +139,7 @@ export default defineComponent({
       }
     };
   },
-  components: {  }
+  components: {}
 })
 </script>
 
