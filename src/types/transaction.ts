@@ -68,3 +68,16 @@ export interface TranscationDetail {
   gasUsed?: number;
   contractAddress?: string;
 }
+
+export interface CAddressTransactionTableData {
+  type: number;
+  txnHash: string;
+  method: string;
+  block: number;
+  age: Date;
+  from: string;
+  to: string;
+  value: string;
+  txnFee: string;
+  direction: 'out'|'in';
+}

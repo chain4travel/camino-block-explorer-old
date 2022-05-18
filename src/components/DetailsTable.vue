@@ -45,6 +45,9 @@
           </div>
         </div>
       </template>
+      <template v-for="(_, slot) of $slots" v-slot:[slot]="scope">
+        <slot :name="slot" v-bind="scope" />
+      </template>
     </q-table>
   </div>
 </template>
@@ -88,10 +91,7 @@ export default defineComponent({
   async setup(props) {
     const widthPerColumn = calculateWidthPerColumn(props.columns);
     const computedColumns = computed(() => {
-      console.log('Recomputing')
       return props.columns.map((e: { style?: string, width?: number }) => {
-        console.log('e', e);
-        console.log('width', e.width);
         if (!e.style) {
           if (e.width) {
             e.style = createFixedWidthParams(e.width);
@@ -136,7 +136,7 @@ export default defineComponent({
       }
     };
   },
-  components: {  }
+  components: {}
 })
 </script>
 

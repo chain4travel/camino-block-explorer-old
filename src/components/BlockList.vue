@@ -22,7 +22,7 @@
         </div>
         <div :class="'col-auto justify-end'+ ($q.screen.gt.xs ? ' q-px-sm ':'')">
           <q-chip >
-            <q-icon :left="true" size="sm" name="img:images/camino-coin-logo.png"></q-icon>
+            <q-icon :left="true" size="sm" name="img:/images/camino-coin-logo.png"></q-icon>
             {{ getDisplayValue(item.gasUsed) }}
             <!-- {{ getDisplayValue(10000000000000000000000000) }} -->
           </q-chip>

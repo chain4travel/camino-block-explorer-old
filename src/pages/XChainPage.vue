@@ -1,10 +1,13 @@
 <template>
-  <div class="row full-width justify-center">
-    <!-- Latest Transactions-->
-    <div class="col-12 q-pr-md q-pl-md">
-      <XPTransactionList :transactions="transactions" :show-all-link="getAllTransactionsPath(chainType)"
-        @refresh="refreshTransactions" :detailsLinkFunction="getTransactionDetailsLink">
-      </XPTransactionList>
+  <div>
+    <ChainOverviewCards :store="store"></ChainOverviewCards>
+    <div class="row full-width justify-center">
+      <!-- Latest Transactions-->
+      <div class="col-12 q-pr-md q-pl-md">
+        <XPTransactionList :transactions="transactions" :show-all-link="getAllTransactionsPath(chainType)"
+          @refresh="refreshTransactions" :detailsLinkFunction="getTransactionDetailsLink">
+        </XPTransactionList>
+      </div>
     </div>
   </div>
 </template>
@@ -15,10 +18,11 @@ import XPTransactionList from 'src/components/XPTransactionList.vue';
 import { getTransactionDetailsPath, getAllTransactionsPath, getAllBlocksPath } from 'src/utils/route-utils';
 import { ChainType } from 'src/types/chain-type';
 import { useXIndexStore } from 'src/stores/x-index-store'
+import ChainOverviewCards from 'src/components/ChainOverviewCards.vue';
 
 export default defineComponent({
   name: 'XChainPage',
-  components: { XPTransactionList },
+  components: { XPTransactionList, ChainOverviewCards },
   async setup(props, { emit }) {
     const pageSize = 10;
     const chainType = ChainType.X_CHAIN;

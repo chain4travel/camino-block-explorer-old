@@ -33,7 +33,7 @@ export function getDisplayValue(weiVal: number): string {
 }
 
 export function formatAmount(value: number, currency: string): string {
-  return `${value.toLocaleString('en-US')} ${currency}`;
+  return `${value.toLocaleString()} ${currency}`;
 }
 
 export const currencyFields = [

@@ -7,13 +7,16 @@ body.body--dark {
   .q-header {
     background: $background;
   }
+
   .q-footer {
     background: $background;
     color: $background-light;
   }
+
   .router-link-exact-active:not(.fixed-color) {
     color: $primary !important;
   }
+  
   .navigation-link {
     color: $background-light;
     text-decoration: none;
@@ -67,6 +70,22 @@ body.body--dark {
   .text-link {
     color: $accent !important;
     text-decoration: none;
+  }
+
+  .text-x-avatar {
+    color: white !important;
+  }
+
+  .bg-x-avatar {
+    background: $secondary !important;
+  }
+
+  .text-p-avatar {
+    color: white !important;
+  }
+
+  .bg-p-avatar {
+    background: $accent !important;
   }
 }
 
@@ -134,8 +153,16 @@ body.body--light {
   }
 
   .text-link {
-    color: darken($accent, 20%) !important;;
+    color: darken($accent, 20%) !important;
     text-decoration: none;
+  }
+
+  .text-x-avatar {
+    color: blue !important;
+  }
+
+  .bg-x-avatar {
+    background: lightblue !important;
   }
 }
 

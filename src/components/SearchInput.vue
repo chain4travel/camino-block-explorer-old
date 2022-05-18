@@ -36,9 +36,16 @@ const resultLimit = 6;
 
 async function mapToItem(type: MagellanSearchResultElementType, data: MagellanXPTransactionSearchResult | MagellanCTransactionSearchResult | MagellanCBlockSearchResult | MagellanAddressSearchResult): Promise<SearchMenuItem | undefined> {
   switch (type) {
-    case MagellanSearchResultElementType.ADDRESS:
+    case MagellanSearchResultElementType.CVM_ADDRESS:
       // currently not implemented
-      return undefined;
+      const cvmAddressData: MagellanCTransactionSearchResult = <MagellanCTransactionSearchResult>data;
+      return {
+        label: cvmAddressData.fromAddr,
+        type: type,
+        link: getAddressDetailsPath(cvmAddressData.address),
+        avatar: 'AD',
+        avatarColor: 'positive'
+      };
     case MagellanSearchResultElementType.C_BLOCK:
       const cBlockData: MagellanCBlockSearchResult = <MagellanCBlockSearchResult>data;
       return {

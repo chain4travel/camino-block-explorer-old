@@ -13,6 +13,15 @@ async function loadBlocksAndTransactions(blockOffset = 0, blockCount = 10, trans
   return await (await axios.get(`${getMagellanBaseUrl()}${cBlocksApi}?limit=${blockCount}&limit=${transactionCount}&offset=${blockOffset}&offset=${transactionOffset}`)).data;
 }
 
+async function cTransactionsBetweenDates(start: DateTime, end: DateTime): Promise<MagellanTransactionDetail[]> {
+  //Query parameters are currently ignored, so manual filter needed at the end. Does not scale well!
+  const data: MagellanCTransactionResponse = await (await axios.get(`${getMagellanBaseUrl()}${cTransactionApi}?startTime=${start.toISO}&endTime=${end.toISO}`)).data;
+  const validInterval = Interval.fromDateTimes(start, end);
+  return data.Transactions.filter(item => {
+    return validInterval.contains(DateTime.fromJSDate(new Date(item.createdAt)))
+  });
+}
+
 export const useCIndexStore = defineStore('cindex', {
   getters: {
   },
@@ -53,7 +62,7 @@ export const useCIndexStore = defineStore('cindex', {
           timestamp: new Date(parseInt(element.timestamp) * 1000),
           to: element.to,
           value: parseInt(element.value),
-          transactionCost: (parseInt(element.gasUsed) * (parseInt(element.gasPrice)||0)),
+          transactionCost: (parseInt(element.gasUsed) * (parseInt(element.gasPrice) || 0)),
         }));
       } catch (e) {
         return []

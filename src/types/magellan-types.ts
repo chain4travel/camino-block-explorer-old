@@ -44,9 +44,9 @@ export interface MagellanTransactionDetail {
   type: number;
   block: number;
   hash: string;
-  createdAt: Date;
+  createdAt: string;
   nonce: number;
-  gasPrice: number;
+  gasPrice: string;
   maxFeePerGas: number;
   maxPriorityFeePerGas: number;
   gasLimit: number;
@@ -61,18 +61,18 @@ export interface MagellanTransactionDetail {
 }
 
 export interface MagellanTransactionReceipt {
-  type: number;
+  type: string;
   root: string;
-  status: number;
-  cumulativeGasUsed: number;
+  status: string;
+  cumulativeGasUsed: string;
   logsBloom: string;
   logs: MagellanTransactionDetailLog[],
   transactionHash: string;
   contractAddress: string;
-  gasUsed: number;
+  gasUsed: string;
   blockHash: string;
-  blockNumber: number;
-  transactionIndex: number;
+  blockNumber: string;
+  transactionIndex: string;
 }
 
 export interface MagellanTransactionDetailLog {
@@ -163,7 +163,8 @@ export interface MagellanSearchResultElement {
 
 export interface MagellanAddressSearchResult {
   //currently unknown!
-  hash: string;
+  address: string;
+  chainID: string;
 }
 
 export interface MagellanCBlockSearchResult {
@@ -214,5 +215,67 @@ export enum MagellanSearchResultElementType {
   XP_TRANSACTION = 'transaction',
   ADDRESS = 'address',
   C_TRANSACTION = 'ctransaction',
-  C_BLOCK = 'cblock'
+  C_BLOCK = 'cblock',
+  CVM_ADDRESS = 'cvmAddress'
+}
+export interface MagellanAssetsResponse {
+  assets: Asset[];
+}
+
+export interface Asset {
+  id: string;
+  chainID: string;
+  name: string;
+  symbol: string;
+  alias: string;
+  currentSupply: string;
+  timestamp: string;
+  denomination: number;
+  variableCap: number;
+  nft: number;
+}
+export interface MagellanAddressResponse {
+  chainID: string;
+  address: string;
+  publicKey: string;
+  assets: Record<string, AddressResponseAsset>;
+}
+
+export interface AddressResponseAsset {
+  id: string;
+  transactionCount: number;
+  utxoCount: number;
+  balance: string;
+  totalReceived: string;
+  totalSent: string;
+}
+
+
+export interface MagellanAggregatesResponse {
+  aggregates: Aggregates;
+  startTime: string;
+  endTime: string;
+}
+
+export interface Aggregates {
+  startTime: string;
+  endTime: string;
+  transactionVolume: string;
+  transactionCount: number;
+  addressCount: number;
+  outputCount: number;
+  assetCount: number;
+}
+
+
+export interface MagellanTxFeeAggregatesResponse {
+  aggregates: TxFeeAggregates;
+  startTime: string;
+  endTime: string;
+}
+
+export interface TxFeeAggregates {
+  startTime: string;
+  endTime: string;
+  txfee: string;
 }
