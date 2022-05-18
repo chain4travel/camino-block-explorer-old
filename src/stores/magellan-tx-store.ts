@@ -14,8 +14,12 @@ function sortByAddress(a: Fund, b: Fund): number {
 
 function convertMemo(memo: string): string {
   try {
+    // Turn the string from bytestream to percent-encoding
+    const percentEnc = atob(memo).split('').map(function (c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join('')
     // decode base64 string including special characters
-    return decodeURIComponent(escape(memo));
+    return decodeURIComponent(percentEnc);
   } catch (e) {
     console.log('Memo was not base64 encoded, using raw value');
     return memo;
