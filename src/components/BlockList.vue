@@ -59,13 +59,3 @@ export default defineComponent({
   components: { ListCard, LongString, AddressLink}
 })
 </script>
-<style lang="sass" scoped>
-.large-chip
-  @media (max-width: $breakpoint-sm-max)
-    min-width: 50px
-.row
-  @media (max-width: $breakpoint-sm-max)
-    width: 100%
-
-
-</style>
