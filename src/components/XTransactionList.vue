@@ -15,9 +15,9 @@
             <div class="col-md-5 col-lg-3">
               <q-chip :size="$q.screen.lt.sm ? 'md' : 'sm'">{{ item.type }}</q-chip>
             </div>
-          </div>
-          <div class="col-md-5 col-lg-3">
-            <q-chip :size="$q.screen.lt.sm ? 'md' : 'sm'">{{ item.type }}</q-chip>
+            <div class="q-mt-xs">
+              {{ getRelativeTime(item.timestamp) + " ago" }}
+            </div>
           </div>
         </div>
         <div :class="'col-sm-grow col-12' + ($q.screen.xs ? ' q-py-md' : '')">
