@@ -91,10 +91,7 @@ export default defineComponent({
   async setup(props) {
     const widthPerColumn = calculateWidthPerColumn(props.columns);
     const computedColumns = computed(() => {
-      console.log('Recomputing')
       return props.columns.map((e: { style?: string, width?: number }) => {
-        console.log('e', e);
-        console.log('width', e.width);
         if (!e.style) {
           if (e.width) {
             e.style = createFixedWidthParams(e.width);

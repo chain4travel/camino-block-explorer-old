@@ -32,9 +32,6 @@ export default defineComponent({
       pageSize,
       chainType,
       transactions,
-      search(value: string) {
-        console.log('PChain Page search', value)
-      },
       async refreshTransactions() {
         transactions.value = await store?.loadLatestTransactions(0, pageSize)
       },
