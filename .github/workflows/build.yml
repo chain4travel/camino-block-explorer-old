@@ -57,9 +57,8 @@ jobs:
           password: ${{ secrets.docker_pass }}
       - name: Set tag variables
         id: setTagVariables
-        env:
-          - "BRANCH_NAME=${{ github.ref_name }}"
         run: |
+          BRANCH_NAME=${{ github.ref_name }}
           if [[ "${{ github.ref_name }}" == "main" ]]; then
               echo "::set-output name=stable::c4tplatform/camino-block-explorer:stable"
           fi
