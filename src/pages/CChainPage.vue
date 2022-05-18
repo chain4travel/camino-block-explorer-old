@@ -1,7 +1,9 @@
 <template>
-  <div>
+  <div class="row justify-center">
     <!-- This would be cool, but currently no easy way to get transaction count/gasfees -->
-    <ChainOverviewCards :price-in-wei="true" :store="cStore"></ChainOverviewCards>
+    <ChainOverviewCards class="col-9" :price-in-wei="true" :store="cStore"/>
+  </div>
+  <div>
     <ChainView @search="search" :store="cStore" :type="chainType" />
   </div>
 </template>

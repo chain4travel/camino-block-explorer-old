@@ -18,7 +18,7 @@
           <div>
             {{ item.numberOfTransactions + " txns" }}
           </div>
-          <long-string class="grey-color monospace" :value="item.hash" :xl-length="58" :lg-length="32" :md-length="9" :sm-length="16" :xs-length="28"></long-string>
+          <long-string class="monospace" :value="item.hash" :xl-length="58" :lg-length="32" :md-length="9" :sm-length="16" :xs-length="28"></long-string>
         </div>
         <div :class="'col-auto justify-end'+ ($q.screen.gt.xs ? ' q-px-sm ':'')">
           <q-chip >
