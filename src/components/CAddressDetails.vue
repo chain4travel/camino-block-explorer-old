@@ -165,7 +165,6 @@ export default defineComponent({
 
     const allTxData: Ref<CAddressTransactionTableData[]> = ref([])
     let moreToLoad = true;
-    const address = 
 
     const getMethod = async (element: MagellanTransactionDetail): Promise<string> => {
       if (element.input) {
@@ -173,9 +172,6 @@ export default defineComponent({
       }
       return '';
     }
-
-    const address = route.params.addressId;
-
 
     return {
       copyToClipBoard,
