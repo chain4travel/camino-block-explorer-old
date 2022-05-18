@@ -48,6 +48,8 @@ jobs:
   docker-build:
     runs-on: ubuntu-latest
     needs: bump-version
+    env:
+      safe-git-ref: ${ github.ref_name//\//- }
     steps:
       - uses: actions/checkout@v3
       - uses: docker/login-action@v1
@@ -66,7 +68,7 @@ jobs:
         with:
           context: ./
           tags: |
-            c4tplatform/camino-block-explorer:${ github.ref_name//\//- }-${{ github.run_id }}
+            c4tplatform/camino-block-explorer:${{ env.safe-git-ref }}-${{ github.run_id }}
             c4tplatform/camino-block-explorer:${{ needs.bump-version.outputs.version }}
             ${{ steps.setStableTag.outputs.tag }}
           push: ${{ github.ref == 'refs/heads/main' }}
