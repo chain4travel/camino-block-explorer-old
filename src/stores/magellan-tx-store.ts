@@ -14,8 +14,7 @@ function sortByAddress(a: Fund, b: Fund): number {
 
 function convertMemo(memo: string): string {
   try {
-    // decode base64 string including special characters
-    return decodeURIComponent(escape(memo));
+    return atob(memo);
   } catch (e) {
     console.log('Memo was not base64 encoded, using raw value');
     return memo;
