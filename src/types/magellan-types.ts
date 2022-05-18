@@ -249,3 +249,33 @@ export interface AddressResponseAsset {
   totalReceived: string;
   totalSent: string;
 }
+
+
+export interface MagellanAggregatesResponse {
+  aggregates: Aggregates;
+  startTime: string;
+  endTime: string;
+}
+
+export interface Aggregates {
+  startTime: string;
+  endTime: string;
+  transactionVolume: string;
+  transactionCount: number;
+  addressCount: number;
+  outputCount: number;
+  assetCount: number;
+}
+
+
+export interface MagellanTxFeeAggregatesResponse {
+  aggregates: TxFeeAggregates;
+  startTime: string;
+  endTime: string;
+}
+
+export interface TxFeeAggregates {
+  startTime: string;
+  endTime: string;
+  txfee: string;
+}

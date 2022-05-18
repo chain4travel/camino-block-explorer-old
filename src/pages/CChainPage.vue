@@ -1,5 +1,9 @@
 <template>
-  <chain-view @search="search" :store="cStore" :type="chainType" />
+  <div>
+    <!-- This would be cool, but currently no easy way to get transaction count/gasfees -->
+    <!-- <ChainOverviewCards :store="cStore"></ChainOverviewCards> -->
+    <chain-view @search="search" :store="cStore" :type="chainType" />
+  </div>
 </template>
 
 <script lang="ts">

@@ -13,3 +13,7 @@ export const search = baseEndpoint + '/search';
 export const addresses = baseEndpoint + '/addresses';
 
 export const assets = baseEndpoint + '/assets';
+
+export const transactionAggregates = baseEndpoint + '/aggregates';
+
+export const transactionFeeAggregates = baseEndpoint + '/txfeeAggregates';

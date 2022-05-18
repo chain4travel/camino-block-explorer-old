@@ -7,6 +7,7 @@ import axios from 'axios';
 import { cBlocksApi, cTransactionApi, cBlocksDetailsApi } from 'src/utils/magellan-api-utils';
 import { MagellanCBlocksResponse, CTransactionResponse, MagellanBlockDetail, MagellanTransactionDetail } from 'src/types/magellan-types';
 import { TranscationDetail } from 'src/types/transaction-detail';
+import { usePIndexStore } from 'src/stores/p-index-store';
 
 
 async function loadBlocksAndTransactions(blockOffset = 0, blockCount = 10, transactionOffset = 0, transactionCount = 10): Promise<MagellanCBlocksResponse> {
@@ -15,11 +16,14 @@ async function loadBlocksAndTransactions(blockOffset = 0, blockCount = 10, trans
 
 export const useCIndexStore = defineStore('cindex', {
   state: () => ({
-    baseUrl: '/ext/index/C/block'
+    pStore: usePIndexStore()
   }),
   getters: {
   },
   actions: {
+    async getNumberOfValidators(): Promise<number> {
+      return this.pStore.getNumberOfValidators()
+    },
     async loadLatestBlocks(offset = 0, count = 10): Promise<BlockTableData[]> {
       try {
         const cBlockresponse = await loadBlocksAndTransactions(offset, count, 0, 0);
@@ -56,7 +60,7 @@ export const useCIndexStore = defineStore('cindex', {
           timestamp: new Date(parseInt(element.timestamp) * 1000),
           to: element.to,
           value: parseInt(element.value),
-          transactionCost: (parseInt(element.gasUsed) * (parseInt(element.gasPrice)||0)),
+          transactionCost: (parseInt(element.gasUsed) * (parseInt(element.gasPrice) || 0)),
         }));
       } catch (e) {
         return []

@@ -1,11 +1,15 @@
 <template>
-  <div class="row full-width">
-    <!-- Latest Transactions-->
-    <div class=" col-12 q-pr-md q-pl-md">
-      <!-- Rename that component-->
-      <x-transaction-list :type="chainType"  :transactions="transactions"
-        :show-all-link="getAllTransactionsPath(chainType)" @refresh="refreshTransactions" :detailsLinkFunction="getTransactionDetailsLink" >
-      </x-transaction-list>
+  <div>
+    <ChainOverviewCards :store="store"></ChainOverviewCards>
+    <div class="row full-width">
+      <!-- Latest Transactions-->
+      <div class=" col-12 q-pr-md q-pl-md">
+        <!-- Rename that component-->
+        <x-transaction-list :type="chainType" :transactions="transactions"
+          :show-all-link="getAllTransactionsPath(chainType)" @refresh="refreshTransactions"
+          :detailsLinkFunction="getTransactionDetailsLink">
+        </x-transaction-list>
+      </div>
     </div>
   </div>
 </template>
@@ -17,10 +21,11 @@ import XTransactionList from 'src/components/XTransactionList.vue';
 import { getTransactionDetailsPath, getAllTransactionsPath, getAllBlocksPath } from 'src/utils/route-utils';
 import { ChainType } from 'src/types/chain-type';
 import { usePIndexStore } from 'src/stores/p-index-store'
+import ChainOverviewCards from 'src/components/ChainOverviewCards.vue';
 
 export default defineComponent({
   name: 'PChainPage',
-  components: { XTransactionList },
+  components: { XTransactionList, ChainOverviewCards },
   async setup() {
     const pageSize = 10;
     const chainType = ChainType.P_CHAIN;
