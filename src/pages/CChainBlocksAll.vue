@@ -17,7 +17,7 @@ import { BlockTableData } from 'src/types/block';
 import { useRouter } from 'vue-router'
 import { getAllBlocksPath, getBlockDetailsPath, getOverviewPath } from 'src/utils/route-utils';
 import { ChainType } from 'src/types/chain-type';
-import { ChainViewLoader } from 'src/types/chain-view-loader';
+import { ChainLoader } from 'src/types/chain-loader';
 
 const columns = [
   {
@@ -76,8 +76,8 @@ export default defineComponent({
       rowEvent(item: BlockTableData) {
         router.push({ path: getBlockDetailsPath(ChainType.C_CHAIN, item.number || 0), query: { back: getAllBlocksPath(ChainType.C_CHAIN) } })
       },
-      async loadBlocks(store: ChainViewLoader, knownHashes: string[], offset: number, limit: number): Promise<BlockTableData[]> {
-        const apiData: BlockTableData[] = await store.loadLatestBlocks(offset, limit);
+      async loadBlocks(store: ChainLoader, knownHashes: string[], offset: number, limit: number): Promise<BlockTableData[]> {
+        const apiData: BlockTableData[] = await store.loadBlocks(offset, limit);
         const newData: BlockTableData[] = []
         moreToLoad = false;
         apiData.forEach(newBlock => {

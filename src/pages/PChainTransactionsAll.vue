@@ -17,7 +17,7 @@ import { useRouter } from 'vue-router';
 import { XPTransaction, XPTransactionTableData } from 'src/types/transaction'
 import { getRelativeTime } from 'src/utils/display-utils';
 import { getDisplayValue } from 'src/utils/currency-utils';
-import { ChainViewLoader } from 'src/types/chain-view-loader';
+import { ChainLoader } from 'src/types/chain-loader';
 import DetailsTable from '../components/DetailsTable.vue';
 import { usePIndexStore } from 'src/stores/p-index-store';
 import { getDisplayAddress } from 'src/utils/display-utils'
@@ -100,8 +100,8 @@ export default defineComponent({
       requireLoadMore(): boolean {
         return moreToLoad;
       },
-      async loadTransactions(store: ChainViewLoader, knownHashes: string[], offset: number, limit: number) {
-        const apiData: XPTransaction[] = await store.loadLatestTransactions(offset, limit);
+      async loadTransactions(store: ChainLoader, knownHashes: string[], offset: number, limit: number) {
+        const apiData: XPTransaction[] = await store.loadTransactions(offset, limit);
         const newData: XPTransactionTableData[] = [];
         moreToLoad = false;
         apiData.map(mapToTableData).forEach(newTransaction => {

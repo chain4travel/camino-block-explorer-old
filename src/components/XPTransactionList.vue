@@ -1,5 +1,5 @@
 <template>
-  <list-card title="Latest Transactions" :items="transactions" @refresh="() => $emit('refresh')"
+  <ListCard title="Latest Transactions" :items="transactions" @refresh="() => $emit('refresh')"
     :show-all-link="showAllLink">
     <template v-slot="{ item }">
       <div :class="'row'  + ($q.screen.xs ? ' q-py-md' : '')">
@@ -25,7 +25,7 @@
               <div :class="'col'">
                 <div class="row items-center" :key="ad.id" v-for="ad in item.from">
                   <div :class="'col self-center' + ($q.screen.xs ? ' col-xs-12' : '')">
-                    <long-string class="monospace" :value="ad.address" :xl-length="50" :lg-length="32" :md-length="14" :sm-length="10" :xs-length="20"></long-string>
+                    <LongString class="monospace" :value="ad.address" :xl-length="50" :lg-length="32" :md-length="14" :sm-length="10" :xs-length="20"></LongString>
                   </div>
                   <div :class="'col-auto text-right'">
                     <q-chip >
@@ -45,7 +45,7 @@
                   v-bind:class="{ 'text-grey-8': item.from && item.from[0] && ad.address == item.from[0].address, 'row': true }"
                   :key="ad.id" v-for="ad in item.to">
                   <div :class="'col self-center' + ($q.screen.xs ? ' col-xs-12' : '')">
-                    <long-string class="monospace" :value="ad.address" :xl-length="50" :lg-length="32" :md-length="14" :sm-length="10" :xs-length="20"></long-string>
+                    <LongString class="monospace" :value="ad.address" :xl-length="50" :lg-length="32" :md-length="14" :sm-length="10" :xs-length="20"></LongString>
                   </div>
                   <div class="col-auto text-right">
                     <q-chip>
@@ -77,7 +77,7 @@
           </div>
         </div>
     </template>
-  </list-card>
+  </ListCard>
 </template>
 
 <script lang="ts">

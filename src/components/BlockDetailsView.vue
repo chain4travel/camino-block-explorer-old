@@ -9,7 +9,7 @@
     </q-card-section>
     <q-card-section v-if="title">
       <q-list bordered seperator>
-        <detail-field class="highlighted q-pt-md" icon="mdi-cube-outline" field="Block" :value="content.hash"
+        <DetailField class="highlighted q-pt-md" icon="mdi-cube-outline" field="Block" :value="content.hash"
           type="string" :allow-copy="true" />
       </q-list>
     </q-card-section>
@@ -37,7 +37,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import { BlockDetails } from 'src/types/block-detail'
+import { BlockDetails } from 'src/types/block'
 import { getBlockDetailsPath } from 'src/utils/route-utils'
 import { ChainType } from 'src/types/chain-type'
 import DetailField from 'src/components/ui/DetailField.vue'

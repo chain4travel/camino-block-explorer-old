@@ -14,8 +14,8 @@ export const useXIndexStore = defineStore('xindex', {
       return await this.store.getChainId('x');
     },
 
-    async loadLatestTransactions(offset = 0, count = 10): Promise<XPTransaction[]> {
-      return await this.store.loadLatestTransactions('x', offset, count);
+    async loadTransactions(offset = 0, count = 10): Promise<XPTransaction[]> {
+      return await this.store.loadTransactions('x', offset, count);
     },
 
     async loadTransactionById(transactionId: string): Promise<XPTransaction> {

@@ -1,12 +1,12 @@
+import axios from 'axios';
 import { defineStore } from 'pinia';
 import { BlockTableData } from 'src/types/block'
 import { CTransaction } from 'src/types/transaction';
-import { BlockDetails } from 'src/types/block-detail';
+import { BlockDetails } from 'src/types/block';
 import { getMagellanBaseUrl } from 'src/utils/client-utils';
-import axios from 'axios';
 import { cBlocksApi, cTransactionApi, cBlocksDetailsApi } from 'src/utils/magellan-api-utils';
 import { MagellanCBlocksResponse, MagellanCTransactionResponse, MagellanBlockDetail, MagellanTransactionDetail } from 'src/types/magellan-types';
-import { TranscationDetail } from 'src/types/transaction-detail';
+import { TranscationDetail } from 'src/types/transaction';
 
 
 async function loadBlocksAndTransactions(blockOffset = 0, blockCount = 10, transactionOffset = 0, transactionCount = 10): Promise<MagellanCBlocksResponse> {
@@ -14,13 +14,10 @@ async function loadBlocksAndTransactions(blockOffset = 0, blockCount = 10, trans
 }
 
 export const useCIndexStore = defineStore('cindex', {
-  state: () => ({
-    baseUrl: '/ext/index/C/block'
-  }),
   getters: {
   },
   actions: {
-    async loadLatestBlocks(offset = 0, count = 10): Promise<BlockTableData[]> {
+    async loadBlocks(offset = 0, count = 10): Promise<BlockTableData[]> {
       try {
         const cBlockresponse = await loadBlocksAndTransactions(offset, count, 0, 0);
         if (!cBlockresponse.blocks) {
@@ -40,7 +37,7 @@ export const useCIndexStore = defineStore('cindex', {
         return [];
       }
     },
-    async loadLatestTransactions(offset = 0, count = 10): Promise<CTransaction[]> {
+    async loadTransactions(offset = 0, count = 10): Promise<CTransaction[]> {
       // currently offset is not available "natively", so we add offset and count and skip the offset elements in processing
       // this does not work for more than 5k elements at once.. will need to adjust for that to work
       try {

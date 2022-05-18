@@ -1,5 +1,5 @@
 <template>
-  <list-card title="Latest Transactions" :items="transactions" :show-all-link="showAllLink"
+  <ListCard title="Latest Transactions" :items="transactions" :show-all-link="showAllLink"
     @refresh="() => $emit('refresh')">
     <template v-slot="{ item }">
       <div class="row q-py-sm">
@@ -37,7 +37,7 @@
         </div>
       </div>
     </template>
-  </list-card>
+  </ListCard>
 </template>
 
 <script lang="ts">

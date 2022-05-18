@@ -25,7 +25,7 @@ export default defineComponent({
     const pageSize = 10;
     const chainType = ChainType.P_CHAIN;
     const store = usePIndexStore();
-    const transactions = ref(await store?.loadLatestTransactions(0, pageSize))
+    const transactions = ref(await store?.loadTransactions(0, pageSize))
 
     return {
       store,
@@ -36,7 +36,7 @@ export default defineComponent({
         console.log('PChain Page search', value)
       },
       async refreshTransactions() {
-        transactions.value = await store?.loadLatestTransactions(0, pageSize)
+        transactions.value = await store?.loadTransactions(0, pageSize)
       },
       getTransactionDetailsLink(item: string) {
         return getTransactionDetailsPath(chainType, item);

@@ -23,7 +23,7 @@ export default defineComponent({
     const pageSize = 10;
     const chainType = ChainType.X_CHAIN;
     const store = useXIndexStore();
-    const transactions = ref(await store?.loadLatestTransactions(0, pageSize))
+    const transactions = ref(await store?.loadTransactions(0, pageSize))
 
     return {
       store,
@@ -34,7 +34,7 @@ export default defineComponent({
         emit('search', value);
       },
       async refreshTransactions() {
-        transactions.value = await store?.loadLatestTransactions(0, pageSize)
+        transactions.value = await store?.loadTransactions(0, pageSize)
       },
       getTransactionDetailsLink(item: string) {
         return getTransactionDetailsPath(chainType, item);

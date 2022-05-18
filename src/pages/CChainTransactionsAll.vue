@@ -18,7 +18,7 @@ import { useRouter } from 'vue-router';
 import { CTransaction, TransactionTableData } from 'src/types/transaction'
 import { getRelativeTime } from 'src/utils/display-utils';
 import { getDisplayValue } from 'src/utils/currency-utils';
-import { ChainViewLoader } from 'src/types/chain-view-loader';
+import { ChainLoader } from 'src/types/chain-loader';
 import DetailsTable from '../components/DetailsTable.vue';
 
 const columns = [
@@ -105,8 +105,8 @@ export default defineComponent({
       requireLoadMore(): boolean {
         return moreToLoad;
       },
-      async loadTransactions(store: ChainViewLoader, knownHashes: string[], offset: number, limit: number) {
-        const apiData : CTransaction[] = await store.loadLatestTransactions(offset, limit);
+      async loadTransactions(store: ChainLoader, knownHashes: string[], offset: number, limit: number) {
+        const apiData : CTransaction[] = await store.loadTransactions(offset, limit);
         const newData: TransactionTableData[] = [];
         moreToLoad = false;
         apiData.map(mapToTableData).forEach(newTransaction => {

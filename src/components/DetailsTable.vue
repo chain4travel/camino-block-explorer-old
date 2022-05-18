@@ -52,7 +52,7 @@
 <script lang="ts">
 import { defineComponent, PropType, Ref, ref } from 'vue';
 import { BlockTableData } from 'src/types/block';
-import { ChainViewLoader } from 'src/types/chain-view-loader';
+import { ChainLoader } from 'src/types/chain-loader';
 import { computed } from '@vue/reactivity';
 
 const pageSize = 20;
@@ -77,7 +77,7 @@ function createFixedWidthParams(width: number) {
 export default defineComponent({
   name: 'DetailsTable',
   props: {
-    store: { type: Object as PropType<ChainViewLoader>, required: true },
+    store: { type: Object as PropType<ChainLoader>, required: true },
     title: { type: String, required: true },
     columns: { type: Array as PropType<Array<{ style?: string, width?: number }>>, required: true },
     loadData: { type: Function, required: true },

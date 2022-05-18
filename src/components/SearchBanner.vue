@@ -1,6 +1,6 @@
 <template>
   <div v-if="$q.screen.gt.sm" class="search-banner q-mr-md">
-    <search-input />
+    <SearchInput />
   </div>
   <div v-if="$q.screen.lt.md">
     <q-btn class="navigation-link" @click="() => openDialog = true" icon="search" rounded dense></q-btn>

@@ -28,19 +28,19 @@ import { SearchMenuItem } from 'src/types/search-menu';
 import { getMagellanBaseUrl, getChainId } from 'src/utils/client-utils';
 import { search } from 'src/utils/magellan-api-utils';
 import { defineComponent, Ref, ref } from 'vue'
-import { MagellanSearchResponse, MagellanSearchResultElementType, XPTransactionSearchResult, CTransactionSearchResult, CBlockSearchResult, AddressSearchResult } from 'src/types/magellan-types';
+import { MagellanSearchResponse, MagellanSearchResultElementType, MagellanXPTransactionSearchResult, MagellanCTransactionSearchResult, MagellanCBlockSearchResult, MagellanAddressSearchResult } from 'src/types/magellan-types';
 import { getBlockDetailsPath, getTransactionDetailsPath } from 'src/utils/route-utils'
 import { ChainType } from 'src/types/chain-type';
 
 const resultLimit = 6;
 
-async function mapToItem(type: MagellanSearchResultElementType, data: XPTransactionSearchResult | CTransactionSearchResult | CBlockSearchResult | AddressSearchResult): Promise<SearchMenuItem | undefined> {
+async function mapToItem(type: MagellanSearchResultElementType, data: MagellanXPTransactionSearchResult | MagellanCTransactionSearchResult | MagellanCBlockSearchResult | MagellanAddressSearchResult): Promise<SearchMenuItem | undefined> {
   switch (type) {
     case MagellanSearchResultElementType.ADDRESS:
       // currently not implemented
       return undefined;
     case MagellanSearchResultElementType.C_BLOCK:
-      const cBlockData: CBlockSearchResult = <CBlockSearchResult>data;
+      const cBlockData: MagellanCBlockSearchResult = <MagellanCBlockSearchResult>data;
       return {
         label: cBlockData.Hash,
         type: type,
@@ -49,7 +49,7 @@ async function mapToItem(type: MagellanSearchResultElementType, data: XPTransact
         avatarColor: 'primary'
       };
     case MagellanSearchResultElementType.C_TRANSACTION:
-      const cTransaction: CTransactionSearchResult = <CTransactionSearchResult>data;
+      const cTransaction: MagellanCTransactionSearchResult = <MagellanCTransactionSearchResult>data;
       return {
         label: cTransaction.hash,
         type: type,
@@ -58,7 +58,7 @@ async function mapToItem(type: MagellanSearchResultElementType, data: XPTransact
         avatarColor: 'info'
       };
     case MagellanSearchResultElementType.XP_TRANSACTION:
-      const xpTransaction: XPTransactionSearchResult = <XPTransactionSearchResult>data;
+      const xpTransaction: MagellanXPTransactionSearchResult = <MagellanXPTransactionSearchResult>data;
       let detailsLink = '';
       let avatar = '';
       let avatarColor = ''
@@ -96,7 +96,6 @@ export default defineComponent({
       menuItems,
       showMenu,
       search: async () => {
-        console.log('searchInput.value', searchInput.value)
         if (!searchInput.value || searchInput.value.length < 1) {
           menuItems.value = [];
           showMenu.value = false;

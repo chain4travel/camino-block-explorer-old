@@ -43,7 +43,7 @@ import { defineComponent, PropType } from 'vue'
 import { getBlockDetailsPath } from 'src/utils/route-utils'
 import { ChainType } from 'src/types/chain-type'
 import DetailField from 'src/components/ui/DetailField.vue'
-import { TranscationDetail } from 'src/types/transaction-detail'
+import { TranscationDetail } from 'src/types/transaction'
 
 
 

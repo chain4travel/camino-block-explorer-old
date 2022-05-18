@@ -1,5 +1,4 @@
 <template>
-  <!-- <ChainView @search="search" :store="cStore" :type="chainType" /> -->
     <div class="row ">
     <div :class="$q.screen.lt.md ? 'col-12 q-pa-md' : 'col-md-6 q-pr-sm q-pl-md'">
       <div>
@@ -39,8 +38,8 @@ export default defineComponent({
   },
   async setup(props, { emit }) {
     const cStore = useCIndexStore();
-    const blocks: Ref<BlockTableData[]> = ref(await cStore.loadLatestBlocks(0, props.pageSize))
-    const transactions: Ref<CTransaction[]> = ref(await cStore.loadLatestTransactions(0, props.pageSize))
+    const blocks: Ref<BlockTableData[]> = ref(await cStore.loadBlocks(0, props.pageSize))
+    const transactions: Ref<CTransaction[]> = ref(await cStore.loadTransactions(0, props.pageSize))
     const blockPage = ref(1);
     const transactionsPage = ref(1);
 
@@ -55,10 +54,10 @@ export default defineComponent({
         emit('search', value);
       },
       async refreshBlocks() {
-        blocks.value = await cStore.loadLatestBlocks((blockPage.value - 1) * props.pageSize, props.pageSize)
+        blocks.value = await cStore.loadBlocks((blockPage.value - 1) * props.pageSize, props.pageSize)
       },
       async refreshTransactions() {
-        transactions.value = (await cStore.loadLatestTransactions((transactionsPage.value - 1) * props.pageSize, props.pageSize))
+        transactions.value = (await cStore.loadTransactions((transactionsPage.value - 1) * props.pageSize, props.pageSize))
       },
       getBlockDetailsLink(item: number) {
         return getBlockDetailsPath(ChainType.C_CHAIN, item);
@@ -67,11 +66,11 @@ export default defineComponent({
         return getTransactionDetailsPath(ChainType.C_CHAIN, item);
       },
       async loadBlockPage(newPageNumber: number) {
-        blocks.value = await cStore.loadLatestBlocks((newPageNumber - 1) * props.pageSize, props.pageSize);
+        blocks.value = await cStore.loadBlocks((newPageNumber - 1) * props.pageSize, props.pageSize);
         blockPage.value = newPageNumber;
       },
       async loadTransactionPage(newPageNumber: number) {
-        transactions.value = await (await cStore.loadLatestTransactions((newPageNumber - 1) * props.pageSize, props.pageSize));
+        transactions.value = await (await cStore.loadTransactions((newPageNumber - 1) * props.pageSize, props.pageSize));
         transactionsPage.value = newPageNumber
       },
       getAllBlocksPath,
