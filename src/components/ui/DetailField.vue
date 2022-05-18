@@ -85,7 +85,7 @@
         </div>
         <div v-else-if="type == 'hexdata'">
           <q-icon v-if="parseInt(value) === 0" class="q-ml-sm text-grey" size="xs" name="mdi-circle-off-outline" />
-          <long-string v-else :value="value" :xl-length="xlLength" :lg-length="lgLength" :md-length="mdLength" :sm-length="smLength" :xs-length="xsLength" />
+          <long-string class="monospace" v-else :value="value" :xl-length="xlLength" :lg-length="lgLength" :md-length="mdLength" :sm-length="smLength" :xs-length="xsLength" />
         </div>
       </div>
       <div v-if="(detailsLink || allowCopy) && (value !== undefined && value !== '' && parseInt(value) !== 0)"
@@ -166,7 +166,7 @@ export default defineComponent({
     smLength: {type: Number, required: false, default: 50},
     mdLength: {type: Number, required: false, default: 40},
     lgLength: {type: Number, required: false, default: 55},
-    xlLength: {type: Number, required: false, default: 55}
+    xlLength: {type: Number, required: false, default: 75}
   },
   setup() {
     return {

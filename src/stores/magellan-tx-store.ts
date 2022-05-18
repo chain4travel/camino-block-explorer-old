@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia';
 
 import { XPTransaction, Fund } from 'src/types/transaction';
-import { MagellanXPTransactionResponse, MagellanXPTransaction, MagellanXPOutput } from 'src/types/magellan-types';
+import { MagellanXPTransactionResponse, MagellanXPTransaction, MagellanXPOutput, MagellanAggregatesResponse, MagellanTxFeeAggregatesResponse } from 'src/types/magellan-types';
 import axios from 'axios';
-import { transactionApi } from 'src/utils/magellan-api-utils';
+import { transactionAggregates, transactionApi, transactionFeeAggregates } from 'src/utils/magellan-api-utils';
 
 import { getChainId, getMagellanBaseUrl } from 'src/utils/client-utils';
 
@@ -94,6 +94,33 @@ export const useMagellanTxStore = defineStore('magellan-tx-store', {
       }
       const rawTransactions: MagellanXPTransactionResponse = await (await axios.get(url)).data;
       return rawTransactions.transactions ? rawTransactions.transactions.map(createTransaction) : [];
+    },
+
+    /**
+     * Returns the aggregated information of transactions
+     *
+     * @param chainAlias the chain alias in magellan, currently x and p are supported
+     * @param startTime the start time used while aggregating formatted as ISO date (e.g. 2022-02-21T00:00:00Z)
+     * @param endTime the end time used while aggregating formatted as ISO date (e.g. 2022-02-21T00:00:00Z)
+     */
+    async loadTransactionAggregates(chainAlias: string, startTime: string, endTime: string): Promise<MagellanAggregatesResponse> {
+      const chainId = await this.getChainId(chainAlias);
+      const url = `${getMagellanBaseUrl()}${transactionAggregates}?chainID=${chainId}&startTime=${startTime}&endTime=${endTime}`
+      return (await axios.get(url)).data;
+    },
+
+    /**
+ * Returns the aggregated information of transactions
+ *
+ * @param chainAlias the chain alias in magellan, currently x and p are supported
+ * @param startTime the start time used while aggregating formatted as ISO date (e.g. 2022-02-21T00:00:00Z)
+ * @param endTime the end time used while aggregating formatted as ISO date (e.g. 2022-02-21T00:00:00Z)
+ */
+    async loadTransactionFeesAggregates(chainAlias: string, startTime: string, endTime: string): Promise<MagellanTxFeeAggregatesResponse> {
+      const chainId = await this.getChainId(chainAlias);
+      const url = `${getMagellanBaseUrl()}${transactionFeeAggregates}?chainID=${chainId}&startTime=${startTime}&endTime=${endTime}`
+      return (await axios.get(url)).data;
     }
+
   },
 });
