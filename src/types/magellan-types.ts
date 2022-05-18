@@ -61,18 +61,18 @@ export interface MagellanTransactionDetail {
 }
 
 export interface MagellanTransactionReceipt {
-  type: number;
+  type: string;
   root: string;
-  status: number;
-  cumulativeGasUsed: number;
+  status: string;
+  cumulativeGasUsed: string;
   logsBloom: string;
   logs: MagellanTransactionDetailLog[],
   transactionHash: string;
   contractAddress: string;
-  gasUsed: number;
+  gasUsed: string;
   blockHash: string;
-  blockNumber: number;
-  transactionIndex: number;
+  blockNumber: string;
+  transactionIndex: string;
 }
 
 export interface MagellanTransactionDetailLog {
@@ -163,7 +163,8 @@ export interface MagellanSearchResultElement {
 
 export interface AddressSearchResult {
   //currently unknown!
-  hash: string;
+  address: string;
+  chainID: string;
 }
 
 export interface CBlockSearchResult {
@@ -214,5 +215,37 @@ export enum MagellanSearchResultElementType {
   XP_TRANSACTION = 'transaction',
   ADDRESS = 'address',
   C_TRANSACTION = 'ctransaction',
-  C_BLOCK = 'cblock'
+  C_BLOCK = 'cblock',
+  CVM_ADDRESS = 'cvmAddress'
+}
+export interface MagellanAssetsResponse {
+  assets: Asset[];
+}
+
+export interface Asset {
+  id: string;
+  chainID: string;
+  name: string;
+  symbol: string;
+  alias: string;
+  currentSupply: string;
+  timestamp: string;
+  denomination: number;
+  variableCap: number;
+  nft: number;
+}
+export interface MagellanAddressResponse {
+  chainID: string;
+  address: string;
+  publicKey: string;
+  assets: Record<string, AddressResponseAsset>;
+}
+
+export interface AddressResponseAsset {
+  id: string;
+  transactionCount: number;
+  utxoCount: number;
+  balance: string;
+  totalReceived: string;
+  totalSent: string;
 }

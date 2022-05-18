@@ -141,7 +141,7 @@ export default defineComponent({
     const menuRoutes = allRoutes.filter(e => e?.meta?.showInMenu);
     const additionalMenuItems = [
       { name: 'Documentation', href: 'https://docs.camino.foundation', icon: 'mdi-school-outline' },
-      { name: 'Wallet', href: 'https://wallet.camino.foundation', icon: 'mdi-wallet-travel' }
+      { name: 'Wallet', href: 'https://wallet.camino.foundation', icon: 'mdi-wallet-travel' },
     ] as ExternalMenuLink[];
     return {
       leftDrawerOpen,

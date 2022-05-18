@@ -20,6 +20,9 @@
         <div v-else-if="type == 'string'">
           <long-string :value="value" :xl-length="xlLength" :lg-length="lgLength" :md-length="mdLength" :sm-length="smLength" :xs-length="xsLength"></long-string>
         </div>
+        <div v-else-if="type == 'monospace'">
+          <long-string class="monospace" :value="value" :xl-length="xlLength" :lg-length="lgLength" :md-length="mdLength" :sm-length="smLength" :xs-length="xsLength"></long-string>
+        </div>
         <div v-else-if="type == 'txstatus'">
           <q-icon :class="getStatusClass(value)" size="xs" :name="getStatusIcon(value)">
             <q-tooltip>
@@ -64,6 +67,15 @@
             </div>
           </div>
         </div>
+        <div v-else-if="type == 'currency'">
+          <div class="row">
+            <div class="col-auto">
+              <q-chip class="q-chip-camino" size="md">
+                {{ formatAmount(parseInt(value.value), value.currency) }}
+              </q-chip>
+            </div>
+          </div>
+        </div>
         <div v-else-if="type == 'ctxtype'">
           <div class="row">
             <div class="col-auto">
@@ -80,7 +92,7 @@
         :class="$q.screen.gt.sm ? detailsLink ? 'col-md-2 text-right' : 'col-md-1 text-right' : 'col-2'">
         <q-btn v-if="detailsLink" size="sm" color="primary" outline rounded icon="mdi-open-in-new" :to="detailsLink">
           &nbsp;Open</q-btn>
-        <q-btn class="q-ml-xs" v-if="allowCopy" @click="() => copyToClipBoard(value?.toString())" size="sm" outline
+        <q-btn class="q-ml-xs" v-if="allowCopy && value" @click="() => copyToClipBoard(value.toString())" size="sm" outline
           rounded icon="mdi-content-copy"></q-btn>
       </div>
     </div>
@@ -89,7 +101,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { getRelativeTime } from 'src/utils/display-utils'
-import { getDisplayValueForGewi, getDisplayValue } from 'src/utils/currency-utils'
+import { getDisplayValueForGewi, getDisplayValue, formatAmount } from 'src/utils/currency-utils'
 import LongString from 'src/components/ui/LongString.vue'
 import { copyToClipBoard } from 'src/utils/copy-utils';
 
@@ -164,6 +176,7 @@ export default defineComponent({
       getDisplayValueForGewi,
       getDisplayValue,
       copyToClipBoard,
+      formatAmount,
       getTooltip: (field: string): string | undefined => {
         if (Object.keys(tooltips).includes(field)) {
           return tooltips[field];

@@ -1,4 +1,4 @@
-import { CHAIN_OVERVIEW, DETAILS, getAllBlocksPath, getAllBlocksPathName, getAllTransactionsPath, getAllTransactionsPathName, getBlockDetailsPath, getBlockDetailsPathName, getOverviewPath, getOverviewPathName, getTransactionDetailsPath, getTransactionsPathName, TABLES } from 'src/utils/route-utils';
+import { CHAIN_OVERVIEW, DETAILS, getAddressDetailsPath, getAllBlocksPath, getAllBlocksPathName, getAllTransactionsPath, getAllTransactionsPathName, getBlockDetailsPath, getBlockDetailsPathName, getOverviewPath, getOverviewPathName, getTransactionDetailsPath, getTransactionsPathName, TABLES } from 'src/utils/route-utils';
 import { ChainType } from 'src/types/chain-type';
 import { RouteRecordRaw } from 'vue-router';
 
@@ -66,6 +66,11 @@ const routes: RouteRecordRaw[] = [
             path: getTransactionDetailsPath(ChainType.P_CHAIN, ':transactionId'),
             component: () => import('src/pages/PChainTransactionDetails.vue'),
           },
+          {
+            name: `Address-${DETAILS}`,
+            path: getAddressDetailsPath(':addressId'),
+            component: () => import('src/pages/AddressDetailsView.vue'),
+          }
         ]
       },
       {
