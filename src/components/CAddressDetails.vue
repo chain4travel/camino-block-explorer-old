@@ -162,6 +162,7 @@ export default defineComponent({
     const router = useRouter();
     const route = useRoute();
     const addressStore = useAddressStore();
+    const address = getStringOrFirstElement(route.params.addressId)
 
     const allTxData: Ref<CAddressTransactionTableData[]> = ref([])
     let moreToLoad = true;

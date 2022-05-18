@@ -6,7 +6,7 @@
     <div class="row full-width justify-center">
       <!-- Latest Transactions-->
       <div class="col-12 q-pr-md q-pl-md">
-        <XPTransactionList :transactions="transactions" :show-all-link="getAllTransactionsPath(chainType)"
+        <XPTransactionList :transactions="transactions" :type="chainType" :show-all-link="getAllTransactionsPath(chainType)"
           @refresh="refreshTransactions" :detailsLinkFunction="getTransactionDetailsLink">
         </XPTransactionList>
       </div>

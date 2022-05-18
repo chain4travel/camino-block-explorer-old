@@ -7,8 +7,8 @@
       <!-- Latest Transactions-->
       <div class=" col-12 q-pr-md q-pl-md">
         <!-- Rename that component-->
-        <XPTransactionList :show-type="true" :transactions="transactions"
-          :show-all-link="getAllTransactionsPath(chainType)" @refresh="refreshTransactions" :detailsLinkFunction="getTransactionDetailsLink" >
+        <XPTransactionList :transactions="transactions"
+          :show-all-link="getAllTransactionsPath(chainType)" @refresh="refreshTransactions" :type="chainType" :detailsLinkFunction="getTransactionDetailsLink" >
         </XPTransactionList>
       </div>
     </div>
