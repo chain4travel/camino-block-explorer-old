@@ -22,12 +22,7 @@ async function cTransactionsBetweenDates(start: DateTime, end: DateTime): Promis
   const data: CTransactionResponse = await (await axios.get(`${getMagellanBaseUrl()}${cTransactionApi}?startTime=${start.toISO}&endTime=${end.toISO}`)).data;
   const validInterval = Interval.fromDateTimes(start, end);
   return data.Transactions.filter(item => {
-    const date = DateTime.fromJSDate(new Date(item.createdAt));
-    console.log('Date', date);
-
-    console.log(validInterval.contains(DateTime.fromJSDate(new Date(item.createdAt))))
     return validInterval.contains(DateTime.fromJSDate(new Date(item.createdAt)))
-
   });
 }
 
@@ -42,7 +37,6 @@ export const useCIndexStore = defineStore('cindex', {
       const currentDate = DateTime.now().setZone('utc');
       const startDate = getStartDate(currentDate, timeframe);
       const data = await cTransactionsBetweenDates(startDate, currentDate);
-      console.log('data ', data)
       return data.length;
     },
 

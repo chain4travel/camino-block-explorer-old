@@ -2,7 +2,7 @@
   <div>
     <!-- This would be cool, but currently no easy way to get transaction count/gasfees -->
     <ChainOverviewCards :price-in-wei="true" :store="cStore"></ChainOverviewCards>
-    <chain-view @search="search" :store="cStore" :type="chainType" />
+    <ChainView @search="search" :store="cStore" :type="chainType" />
   </div>
 </template>
 
@@ -24,9 +24,6 @@ export default defineComponent({
       cStore,
       chainType: ChainType.C_CHAIN,
       getRelativeTime,
-      search(value: string) {
-        console.log('Searching for value', value);
-      },
     };
   },
 
