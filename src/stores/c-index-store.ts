@@ -7,6 +7,10 @@ import { getMagellanBaseUrl } from 'src/utils/client-utils';
 import { cBlocksApi, cTransactionApi, cBlocksDetailsApi } from 'src/utils/magellan-api-utils';
 import { MagellanCBlocksResponse, MagellanCTransactionResponse, MagellanBlockDetail, MagellanTransactionDetail } from 'src/types/magellan-types';
 import { TranscationDetail } from 'src/types/transaction';
+import { DateTime, Interval } from 'luxon';
+import { Timeframe } from 'src/types/chain-loader';
+import { getStartDate } from 'src/utils/date-utils';
+import { usePIndexStore } from './p-index-store';
 
 
 async function loadBlocksAndTransactions(blockOffset = 0, blockCount = 10, transactionOffset = 0, transactionCount = 10): Promise<MagellanCBlocksResponse> {
@@ -23,9 +27,32 @@ async function cTransactionsBetweenDates(start: DateTime, end: DateTime): Promis
 }
 
 export const useCIndexStore = defineStore('cindex', {
+  state: () => ({
+    pStore: usePIndexStore()
+  }),
   getters: {
   },
   actions: {
+    async loadNumberOfTransactions(timeframe: Timeframe): Promise<number> {
+      const currentDate = DateTime.now().setZone('utc');
+      const startDate = getStartDate(currentDate, timeframe);
+      const data = await cTransactionsBetweenDates(startDate, currentDate);
+      return data.length;
+    },
+
+    async loadTotalGasFess(timeframe: Timeframe): Promise<number> {
+      const currentDate = DateTime.now().setZone('utc');
+      const startDate = getStartDate(currentDate, timeframe);
+      const data: MagellanTransactionDetail[] = await cTransactionsBetweenDates(startDate, currentDate)
+      let fees = 0;
+      data.forEach(item => {
+        fees += parseInt(item.gasPrice) * parseInt(item.receipt.gasUsed)
+      })
+      return fees;
+    },
+    async getNumberOfValidators(): Promise<number> {
+      return this.pStore.getNumberOfValidators()
+    },
     async loadBlocks(offset = 0, count = 10): Promise<BlockTableData[]> {
       try {
         const cBlockresponse = await loadBlocksAndTransactions(offset, count, 0, 0);

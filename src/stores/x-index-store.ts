@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 import { XPTransaction } from 'src/types/transaction';
 import { useMagellanTxStore } from 'src/stores/magellan-tx-store';
 import { usePIndexStore } from './p-index-store';
-import { Timeframe } from 'src/types/chain-view-loader';
+import { Timeframe } from 'src/types/chain-loader';
 import { DateTime } from 'luxon';
 import { getStartDate } from 'src/utils/date-utils';
 

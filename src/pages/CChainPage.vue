@@ -27,11 +27,12 @@ import { CTransaction } from 'src/types/transaction';
 import { getBlockDetailsPath, getTransactionDetailsPath, getAllTransactionsPath, getAllBlocksPath } from 'src/utils/route-utils';
 import { ChainType } from 'src/types/chain-type';
 import { computed } from '@vue/reactivity';
-import { useCIndexStore } from 'src/stores/c-index-store'
+import { useCIndexStore } from 'src/stores/c-index-store';
+import ChainOverviewCards from 'src/components/ChainOverviewCards.vue';
 
 export default defineComponent({
   name: 'CChainPage',
-  components: { BlockList, CTransactionList },
+  components: { BlockList, CTransactionList, ChainOverviewCards },
   emits: ['search', 'refresh-blocks', 'refresh-transactions'],
   props: {
     // type: { type: String as PropType<ChainType>, required: true },
@@ -45,6 +46,7 @@ export default defineComponent({
     const transactionsPage = ref(1);
 
     return {
+      cStore,
       ChainType,
       blocks,
       transactions,

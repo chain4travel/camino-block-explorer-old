@@ -59,18 +59,12 @@
             </div>
           </div>
         </div>
-      </div>
       <div :class="'col-lg-2 col-md-3 text-right gas-used q-pl-xl gt-sm'">
         <q-chip>
           <q-icon :left="true" size="sm" name="img:/images/camino-coin-logo.png"></q-icon>
           {{ getDisplayValueForGewi(item.fee) }}
         </q-chip>
       </div>
-      <div :class="'col-auto text-right gas-used q-pl-xl gt-sm'">
-        <q-chip>
-          <q-icon :left="true" size="sm" name="img:/images/camino-coin-logo.png"></q-icon>
-          {{ getDisplayValueForGewi(item.fee) }}
-        </q-chip>
       </div>
     </template>
   </ListCard>

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { defineStore } from 'pinia';
 import { XPTransaction, Fund } from 'src/types/transaction';
 import { MagellanXPTransactionResponse, MagellanXPTransaction, MagellanXPOutput } from 'src/types/magellan-types';
-import { transactionApi } from 'src/utils/magellan-api-utils';
+import { transactionApi, transactionAggregates, transactionFeeAggregates } from 'src/utils/magellan-api-utils';
 import { getChainId, getMagellanBaseUrl } from 'src/utils/client-utils';
 
 
