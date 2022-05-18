@@ -5,7 +5,7 @@ import { BlockDetails } from 'src/types/block-detail';
 import { getMagellanBaseUrl } from 'src/utils/client-utils';
 import axios from 'axios';
 import { cBlocksApi, cTransactionApi, cBlocksDetailsApi } from 'src/utils/magellan-api-utils';
-import { MagellanCBlocksResponse, CTransactionResponse, MagellanBlockDetail, MagellanTransactionDetail } from 'src/types/magellan-types';
+import { MagellanCBlocksResponse, MagellanCTransactionResponse, MagellanBlockDetail, MagellanTransactionDetail } from 'src/types/magellan-types';
 import { TranscationDetail } from 'src/types/transaction-detail';
 
 
@@ -107,7 +107,7 @@ export const useCIndexStore = defineStore('cindex', {
         timestamp: new Date(block.header.timestamp * 1000)
       };
     },
-    async loadMagellanTransactionbyHash(transactionHash: string): Promise<CTransactionResponse> {
+    async loadMagellanTransactionbyHash(transactionHash: string): Promise<MagellanCTransactionResponse> {
       return await (await axios.get(`${getMagellanBaseUrl()}${cTransactionApi}?hash=${transactionHash}`)).data;
     },
     async loadMagellanBlockByNumber(blockNumber: number): Promise<MagellanBlockDetail> {

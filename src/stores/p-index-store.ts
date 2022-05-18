@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 
 import { XPTransaction } from 'src/types/transaction';
-import {  useMagellanTxStore } from 'src/stores/magellan-tx-store';
+import { useMagellanTxStore } from 'src/stores/magellan-tx-store';
 
 export const usePIndexStore = defineStore('pindex', {
   state: () => ({

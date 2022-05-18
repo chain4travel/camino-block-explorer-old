@@ -1,4 +1,4 @@
-export interface CTransactionResponse {
+export interface MagellanCTransactionResponse {
   Transactions: MagellanTransactionDetail[];
 }
 
@@ -158,15 +158,15 @@ export interface MagellanSearchResponse {
 
 export interface MagellanSearchResultElement {
   type: MagellanSearchResultElementType,
-  data: XPTransactionSearchResult | CTransactionSearchResult | CBlockSearchResult | AddressSearchResult
+  data: MagellanXPTransactionSearchResult | MagellanCTransactionSearchResult | MagellanCBlockSearchResult | MagellanAddressSearchResult
 }
 
-export interface AddressSearchResult {
+export interface MagellanAddressSearchResult {
   //currently unknown!
   hash: string;
 }
 
-export interface CBlockSearchResult {
+export interface MagellanCBlockSearchResult {
   Block: string; // block number
   Hash: string;
   ChainID: string;
@@ -176,7 +176,7 @@ export interface CBlockSearchResult {
 }
 
 
-export interface CTransactionSearchResult {
+export interface MagellanCTransactionSearchResult {
   type: number; //0 -> legacy, 2 EIP115
   block: string; // block number
   hash: string;
@@ -187,7 +187,7 @@ export interface CTransactionSearchResult {
   toAddr: string;
 }
 
-export interface XPTransactionSearchResult {
+export interface MagellanXPTransactionSearchResult {
   id: string;
   chainID: string;
   type: string;
