@@ -2,27 +2,29 @@
   <list-card :title="title || 'Latest Blocks'" :items="blocks" :show-all-link="showAllLink"
     @refresh="() => $emit('refresh')">
     <template v-slot="{ item }">
-      <div @click="() => $emit('row-clicked', item)" class="row">
-        <div class="gt-sm col-1 text-center q-pt-sm q-pb-sm">
+      <div class="row q-py-sm">
+        <div class="gt-xs col-auto text-center m q-pr-md">
           <q-icon class="square-background" size="sm" name="mdi-cube-outline" />
         </div>
-        <div class="col-md-2 col-12">
+        <div class="col-lg-2 col-sm-3 q-pr-lg col-12">
           <div>
-            {{ item.number }}</div>
+            <AddressLink :value="item.number" :to="detailsLinkFunction(item.number)"></AddressLink>
+          </div>
           <div class="grey-color">
             {{ getRelativeTime(item.timestamp) + " ago" }}
           </div>
         </div>
-        <div :class="'col-md-7 col-12' + ($q.screen.lt.md ? ' q-pt-md' : '')">
+        <div :class="'col-sm-grow col-12'+ ($q.screen.xs ? ' q-pt-md':'')">
           <div>
             {{ item.numberOfTransactions + " txns" }}
           </div>
-          <long-string class="grey-color" :value="item.hash" :max-length="45"></long-string>
+          <long-string class="grey-color monospace" :value="item.hash" :xl-length="58" :lg-length="32" :md-length="9" :sm-length="16" :xs-length="28"></long-string>
         </div>
         <div class="col-md-2 col-auto q-pt-sm">
           <q-chip class="large-chip justify-end">
             <q-icon class="q-pr-sm" size="sm" name="img:/images/camino-coin-logo.png"></q-icon>
             {{ getDisplayValue(item.gasUsed) }}
+            <!-- {{ getDisplayValue(10000000000000000000000000) }} -->
           </q-chip>
         </div>
       </div>
@@ -38,6 +40,7 @@ import { getRelativeTime, displayLongString } from 'src/utils/display-utils'
 import { getDisplayValue } from 'src/utils/currency-utils'
 import ListCard from './ListCard.vue'
 import LongString from './ui/LongString.vue'
+import AddressLink from  './ui/AddressLink.vue'
 
 export default defineComponent({
   name: 'BlockList',
@@ -45,14 +48,15 @@ export default defineComponent({
   props: {
     title: { type: String, required: false },
     blocks: { type: Array as PropType<BlockTableData[]>, required: true },
-    showAllLink: { type: String, required: false }
+    showAllLink: { type: String, required: false },
+    detailsLinkFunction: {type: Function, required: true}
   },
   setup() {
     return {
-      getRelativeTime, displayLongString, getDisplayValue
+      getRelativeTime, displayLongString, getDisplayValue, AddressLink
     };
   },
-  components: { ListCard, LongString }
+  components: { ListCard, LongString, AddressLink}
 })
 </script>
 <style lang="sass" scoped>

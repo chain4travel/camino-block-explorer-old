@@ -2,29 +2,29 @@
   <list-card title="Latest Transactions" :items="transactions" :show-all-link="showAllLink"
     @refresh="() => $emit('refresh')">
     <template v-slot="{ item }">
-      <div @click="() => $emit('row-clicked', item)" class="row">
-        <div class="gt-sm col-1 text-center q-pt-sm q-pb-sm">
+      <div class="row q-py-sm">
+        <div class="gt-xs col-auto text-center q-pr-md">
           <q-icon class="square-background" size="sm" name="mdi-transfer" />
         </div>
-        <div class="col-md-5 col-12 ">
+        <div class="col-sm-grow col-12">
           <div>
-            <long-string :value="item.hash"></long-string>
+            <AddressLink class="monospace" :value="item.hash" :to="detailsLinkFunction(item.hash)" :xl-length="32" :lg-length="20"  :md-length="9" :sm-length="12" :xs-length="26"></AddressLink>
           </div>
           <div class="grey-color">
             {{ getRelativeTime(item.timestamp) + " ago"}}
           </div>
         </div>
-        <div :class="'col-md-4 col-12'+ ($q.screen.lt.md ? ' q-pt-md':'')">
-          <div class="row">
-            <div class="col-md-3 col-2">From </div>
-            <div class="col-md-9 col-10">
-              <long-string class="grey-color" :value="item.from" :max-length="26"></long-string>
+        <div :class="'col-sm-grow col-12'+ ($q.screen.lt.sm ? ' q-pt-md':'')">
+          <div class="row q-gutter-sm">
+            <div class="col-3">From</div>
+            <div class="col">
+              <long-string class="grey-color monospace" :value="item.from"  :xl-length="26" :lg-length="15"  :md-length="7" :sm-length="10" :xs-length="20"></long-string>
             </div>
           </div>
-          <div class="row">
-            <div class="col-md-3 col-2">To </div>
-            <div class="col-md-9 col-10">
-              <long-string class="grey-color" :value="item.to" :max-length="26"></long-string>
+          <div class="row q-gutter-sm">
+            <div class="col-3">To </div>
+            <div class="col">
+              <long-string class="grey-color monospace" :value="item.to"  :xl-length="26" :lg-length="15"  :md-length="7" :sm-length="10" :xs-length="20"></long-string>
             </div>
           </div>
         </div>
@@ -47,6 +47,7 @@ import { getDisplayValue } from 'src/utils/currency-utils'
 import ListCard from './ListCard.vue'
 import { CTransaction } from 'src/types/transaction'
 import LongString from './ui/LongString.vue'
+import AddressLink from './ui/AddressLink.vue'
 
 export default defineComponent({
   name: 'TransactionList',
@@ -54,17 +55,14 @@ export default defineComponent({
   props: {
     title: { type: String, required: false },
     transactions: { type: Array as PropType<CTransaction[]>, required: true },
-    showAllLink: { type: String, required: false }
+    showAllLink: { type: String, required: false },
+    detailsLinkFunction: {type: Function, required: true}
   },
   setup() {
     return { getRelativeTime, displayLongString, getDisplayValue };
   },
-  components: { ListCard, LongString }
+  components: { ListCard, LongString, AddressLink }
 })
 </script>
 <style lang="sass" scoped>
-.row
-  @media (max-width: $breakpoint-sm-max)
-  width: 100%
-
 </style>

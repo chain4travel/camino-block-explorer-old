@@ -63,6 +63,11 @@ body.body--dark {
   .bg-search-banner-input {
     background: $dark-level-1 !important;
   }
+
+  .text-link {
+    color: $accent !important;
+    text-decoration: none;
+  }
 }
 
 body.body--light {
@@ -127,6 +132,15 @@ body.body--light {
   .bg-search-banner-input {
     background: $background-light !important;
   }
+
+  .text-link {
+    color: darken($accent, 20%) !important;;
+    text-decoration: none;
+  }
+}
+
+.monospace {
+  font-family: 'Hack';
 }
 
 .network-active-color {
@@ -138,7 +152,12 @@ body.body--light {
 }
 
 .large-chip {
-  min-width: 120px;
+  // min-width: 120px;
+
+  width: 95%;
+
+  overflow: clip;
+  white-space: nowrap;
 }
 
 .grey-color {

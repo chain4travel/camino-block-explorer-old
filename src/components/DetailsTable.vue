@@ -6,7 +6,9 @@
       @row-click="(event, item) => $emit('row-clicked', item)">
       <template v-slot:body-cell="props">
         <q-td :props="props">
-          <long-string :value="props.value" />
+          <div class="overflow-handle">
+            {{ props.value }}
+          </div>
         </q-td>
       </template>
       <template v-slot:top-right>
@@ -25,7 +27,7 @@
                   <div class="q-table__grid-item-row">
                     <div class="q-table__grid-item-title">{{ col.label }}</div>
                     <div class="q-table__grid-item-value">
-                      <long-string :value="col.value" />
+                      {{ col.value }}
                     </div>
                   </div>
                 </q-item>
@@ -51,7 +53,6 @@
 import { defineComponent, PropType, Ref, ref } from 'vue';
 import { BlockTableData } from 'src/types/block';
 import { ChainViewLoader } from 'src/types/chain-view-loader';
-import LongString from './ui/LongString.vue';
 import { computed } from '@vue/reactivity';
 
 const pageSize = 20;
@@ -135,11 +136,13 @@ export default defineComponent({
       }
     };
   },
-  components: { LongString }
+  components: {  }
 })
 </script>
 
 <style lang="sass">
 .q-table__grid-item-row
+  width: 100%
+.q-td
   width: 100%
 </style>
