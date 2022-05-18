@@ -22,11 +22,7 @@ export default defineComponent({
   setup() {
     const startupErrorCaptured = ref(false);
     return {
-      search() {
-        console.log('Search!')
-      },
       startupErrorCaptured
-
     };
   },
 })

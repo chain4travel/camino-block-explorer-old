@@ -101,13 +101,10 @@ export default defineComponent({
     return {
       getRelativeTime, displayLongString, getDisplayValueForGewi,
       getAddressLink(value: string): string {
-        console.log('props.type', props.type);
         if (props.type === ChainType.X_CHAIN) {
-          console.log('returning X-');
           return getAddressDetailsPath( 'X-' + value);
         }
         if (props.type === ChainType.P_CHAIN) {
-          console.log('returning P-');
           return getAddressDetailsPath('P-' + value);
         }
         return getAddressDetailsPath(value);

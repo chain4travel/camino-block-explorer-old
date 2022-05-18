@@ -7,13 +7,16 @@ body.body--dark {
   .q-header {
     background: $background;
   }
+
   .q-footer {
     background: $background;
     color: $background-light;
   }
+
   .router-link-exact-active:not(.fixed-color) {
     color: $primary !important;
   }
+  
   .navigation-link {
     color: $background-light;
     text-decoration: none;

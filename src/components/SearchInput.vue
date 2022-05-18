@@ -104,7 +104,6 @@ export default defineComponent({
       menuItems,
       showMenu,
       search: async () => {
-        console.log('searchInput.value', searchInput.value)
         if (!searchInput.value || searchInput.value.length < 1) {
           menuItems.value = [];
           showMenu.value = false;
