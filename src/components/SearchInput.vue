@@ -3,7 +3,7 @@
     <q-input id="input" dense class="search-input" bg-color="search-banner-input" rounded
       label="Search by Address / Hash / Block" outlined v-model="searchInput" clearable @update:model-value="search">
       <template v-slot:append>
-        <q-avatar color="search-banner-icon" size="lg" icon="search">
+        <q-avatar size="lg" icon="search">
         </q-avatar>
       </template>
     </q-input>
