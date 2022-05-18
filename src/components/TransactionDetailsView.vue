@@ -9,27 +9,27 @@
     </q-card-section>
     <q-card-section>
       <q-list bordered separator>
-        <detail-field class="highlighted q-pt-md" icon="mdi-transfer" field="Transaction" :value="content.hash"
+        <DetailField class="highlighted q-pt-md" icon="mdi-transfer" field="Transaction" :value="content.hash"
           type="hexdata" :allow-copy="true" />
       </q-list>
     </q-card-section>
     <q-card-section class="container">
       <q-list bordered separator>
-        <detail-field icon="mdi-help-circle-outline" field="Type" :value="content.type" type="ctxtype" />
-        <detail-field icon="mdi-help-circle-outline" field="Block" :value="content.block" type="string"
+        <DetailField icon="mdi-help-circle-outline" field="Type" :value="content.type" type="ctxtype" />
+        <DetailField icon="mdi-help-circle-outline" field="Block" :value="content.block" type="string"
           :details-link="getBlockDetailsPath(type, content.block)" />
-        <detail-field icon="mdi-help-circle-outline" field="Date" :value="content.createdAt" type="timestamp" />
-        <detail-field icon="mdi-help-circle-outline" field="Gas Price" :value="content.gasPrice" type="wei" />
-        <detail-field icon="mdi-help-circle-outline" field="Max fee per gas" :value="content.maxFeePerGas" type="wei" />
-        <detail-field icon="mdi-help-circle-outline" field="Max Priority fee per gas"
+        <DetailField icon="mdi-help-circle-outline" field="Date" :value="content.createdAt" type="timestamp" />
+        <DetailField icon="mdi-help-circle-outline" field="Gas Price" :value="content.gasPrice" type="wei" />
+        <DetailField icon="mdi-help-circle-outline" field="Max fee per gas" :value="content.maxFeePerGas" type="wei" />
+        <DetailField icon="mdi-help-circle-outline" field="Max Priority fee per gas"
           :value="content.maxPriorityFeePerGas" type="wei" />
-        <detail-field icon="mdi-help-circle-outline" field="Gas Limit" :value="content.gasLimit" type="wei" />
-        <detail-field icon="mdi-help-circle-outline" field="Value" :value="content.value" type="wei" />
-        <detail-field icon="mdi-help-circle-outline" field="From" :value="content.fromAddr" type="hexdata" :allow-copy="true" md-length="38" />
-        <detail-field icon="mdi-help-circle-outline" field="To" :value="content.toAddr" type="hexdata" :allow-copy="true" md-length="38" />
-        <detail-field icon="mdi-help-circle-outline" field="Gas Used" :value="parseInt(content.gasUsed)" type="wei" />
-        <detail-field v-if="content.contractAddress && parseInt(content.contractAddress)" icon="mdi-help-circle-outline" field="Contract Address" :value="content.contractAddress"
-          type="hexdata" :allow-copy="true"></detail-field>
+        <DetailField icon="mdi-help-circle-outline" field="Gas Limit" :value="content.gasLimit" type="wei" />
+        <DetailField icon="mdi-help-circle-outline" field="Value" :value="content.value" type="wei" />
+        <DetailField icon="mdi-help-circle-outline" field="From" :value="content.fromAddr" type="hexdata" :allow-copy="true" md-length="38" />
+        <DetailField icon="mdi-help-circle-outline" field="To" :value="content.toAddr" type="hexdata" :allow-copy="true" md-length="38" />
+        <DetailField icon="mdi-help-circle-outline" field="Gas Used" :value="parseInt(content.gasUsed)" type="wei" />
+        <DetailField v-if="content.contractAddress && parseInt(content.contractAddress)" icon="mdi-help-circle-outline" field="Contract Address" :value="content.contractAddress"
+          type="hexdata" :allow-copy="true"></DetailField>
       </q-list>
     </q-card-section>
     <q-card-actions v-if="backRoute">
@@ -43,7 +43,7 @@ import { defineComponent, PropType } from 'vue'
 import { getBlockDetailsPath } from 'src/utils/route-utils'
 import { ChainType } from 'src/types/chain-type'
 import DetailField from 'src/components/ui/DetailField.vue'
-import { TranscationDetail } from 'src/types/transaction-detail'
+import { TranscationDetail } from 'src/types/transaction'
 
 
 

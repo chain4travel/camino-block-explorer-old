@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 import { XPTransaction } from 'src/types/transaction';
 import { useMagellanTxStore } from 'src/stores/magellan-tx-store';
 import { usePIndexStore } from './p-index-store';
-import { Timeframe } from 'src/types/chain-view-loader';
+import { Timeframe } from 'src/types/chain-loader';
 import { DateTime } from 'luxon';
 import { getStartDate } from 'src/utils/date-utils';
 
@@ -34,8 +34,8 @@ export const useXIndexStore = defineStore('xindex', {
       const result = await this.store.loadTransactionFeesAggregates('x', startDate.toISO(), currentDate.toISO());
       return result && result.aggregates && parseInt(result.aggregates.txfee);
     },
-    async loadLatestTransactions(offset = 0, count = 10): Promise<XPTransaction[]> {
-      return await this.store.loadLatestTransactions('x', offset, count);
+    async loadTransactions(offset = 0, count = 10): Promise<XPTransaction[]> {
+      return await this.store.loadTransactions('x', offset, count);
     },
 
     async loadTransactionById(transactionId: string): Promise<XPTransaction> {

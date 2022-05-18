@@ -2,9 +2,9 @@
   <!-- content -->
   <div class="row q-mt-xl">
     <div class="col-12">
-      <details-table :back-addr="backAddr" :load-data="loadTransactions" :require-load-more="requireLoadMore"
+      <DetailsTable :back-addr="backAddr" :load-data="loadTransactions" :require-load-more="requireLoadMore"
         :columns="columns" title="X-Transactions" :store="store" @row-clicked="(item) => rowEvent(item)">
-      </details-table>
+      </DetailsTable>
     </div>
   </div>
 </template>
@@ -17,7 +17,7 @@ import { useRouter } from 'vue-router';
 import { XPTransaction, XPTransactionTableData } from 'src/types/transaction'
 import { getRelativeTime } from 'src/utils/display-utils';
 import { getDisplayValue } from 'src/utils/currency-utils';
-import { ChainViewLoader } from 'src/types/chain-view-loader';
+import { ChainLoader } from 'src/types/chain-loader';
 import DetailsTable from '../components/DetailsTable.vue';
 import { useXIndexStore } from 'src/stores/x-index-store';
 import { getDisplayAddress } from 'src/utils/display-utils'
@@ -98,8 +98,8 @@ export default defineComponent({
       requireLoadMore(): boolean {
         return moreToLoad;
       },
-      async loadTransactions(store: ChainViewLoader, knownHashes: string[], offset: number, limit: number) {
-        const apiData: XPTransaction[] = await store.loadLatestTransactions(offset, limit);
+      async loadTransactions(store: ChainLoader, knownHashes: string[], offset: number, limit: number) {
+        const apiData: XPTransaction[] = await store.loadTransactions(offset, limit);
         const newData: XPTransactionTableData[] = [];
         moreToLoad = false;
         apiData.map(mapToTableData).forEach(newTransaction => {
@@ -116,23 +116,3 @@ export default defineComponent({
   components: { DetailsTable }
 })
 </script>
-
-<style scoped lang="sass">
-.my-sticky-dynamic
-  /* height or max-height is important */
-  height: 80vh
-
-  .q-table__top,
-  .q-table__bottom,
-  thead tr:first-child th
-    background-color: #ffffff
-    position: sticky
-    z-index: 1
-
-  /* this will be the loading indicator */
-  thead tr:last-child th
-    /* height of all previous header rows */
-    top: 48px
-  thead tr:first-child th
-    top: 0
-</style>

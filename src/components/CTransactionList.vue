@@ -1,5 +1,5 @@
 <template>
-  <list-card title="Latest Transactions" :items="transactions" :show-all-link="showAllLink"
+  <ListCard title="Latest Transactions" :items="transactions" :show-all-link="showAllLink"
     @refresh="() => $emit('refresh')">
     <template v-slot="{ item }">
       <div class="row q-py-sm">
@@ -39,7 +39,7 @@
         </div>
       </div>
     </template>
-  </list-card>
+  </ListCard>
 </template>
 
 <script lang="ts">
@@ -48,12 +48,12 @@ import { getRelativeTime, displayLongString } from 'src/utils/display-utils'
 import { getDisplayValue } from 'src/utils/currency-utils'
 import { getAddressDetailsPath } from 'src/utils/route-utils'
 
-import ListCard from './ListCard.vue'
+import ListCard from './ui/ListCard.vue'
 import { CTransaction } from 'src/types/transaction'
 import AddressLink from './ui/AddressLink.vue'
 
 export default defineComponent({
-  name: 'TransactionList',
+  name: 'CTransactionList',
   emits: ['refresh', 'row-clicked'],
   props: {
     title: { type: String, required: false },

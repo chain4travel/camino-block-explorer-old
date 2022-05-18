@@ -1,5 +1,5 @@
 <template>
-  <list-card title="Latest Transactions" :items="transactions" @refresh="() => $emit('refresh')"
+  <ListCard title="Latest Transactions" :items="transactions" @refresh="() => $emit('refresh')"
     :show-all-link="showAllLink">
     <template v-slot="{ item }">
       <div :class="'row' + ($q.screen.xs ? ' q-py-md' : '')">
@@ -59,21 +59,15 @@
             </div>
           </div>
         </div>
-      </div>
       <div :class="'col-lg-2 col-md-3 text-right gas-used q-pl-xl gt-sm'">
         <q-chip>
           <q-icon :left="true" size="sm" name="img:/images/camino-coin-logo.png"></q-icon>
           {{ getDisplayValueForGewi(item.fee) }}
         </q-chip>
       </div>
-      <div :class="'col-auto text-right gas-used q-pl-xl gt-sm'">
-        <q-chip>
-          <q-icon :left="true" size="sm" name="img:/images/camino-coin-logo.png"></q-icon>
-          {{ getDisplayValueForGewi(item.fee) }}
-        </q-chip>
       </div>
     </template>
-  </list-card>
+  </ListCard>
 </template>
 
 <script lang="ts">
@@ -82,7 +76,7 @@ import { getRelativeTime, displayLongString } from 'src/utils/display-utils'
 import { getDisplayValueForGewi } from 'src/utils/currency-utils'
 import { getAddressDetailsPath } from 'src/utils/route-utils'
 
-import ListCard from './ListCard.vue'
+import ListCard from './ui/ListCard.vue'
 import { XPTransaction } from 'src/types/transaction'
 import AddressLink from './ui/AddressLink.vue'
 import { ChainType } from 'src/types/chain-type'

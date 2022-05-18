@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { defineStore } from 'pinia';
-import { CTransactionResponse, MagellanTransactionDetail } from 'src/types/magellan-types';
+import { MagellanCTransactionResponse, MagellanTransactionDetail } from 'src/types/magellan-types';
 import { XPTransaction } from 'src/types/transaction';
 import { getMagellanBaseUrl } from 'src/utils/client-utils';
 import { cTransactionApi } from 'src/utils/magellan-api-utils';
@@ -13,7 +13,7 @@ import { AddressBalance } from 'src/types/address';
 export const useAddressStore = defineStore('address', {
   state: () => ({
     magellanStore: useMagellanTxStore(),
-    assetIdsToSymbol: undefined as Map<string, string> | undefined
+    assets: undefined as Map<string, {name:string, symbol:string}> | undefined
   }),
   getters: {
   },
@@ -28,7 +28,7 @@ export const useAddressStore = defineStore('address', {
       const fromAddressTxsPromise = axios.get(`${getMagellanBaseUrl()}${cTransactionApi}?fromAddress=${address}&${limitAndOffsetQueryString}`)
       const toAddressTxsPromise = axios.get(`${getMagellanBaseUrl()}${cTransactionApi}?toAddress=${address}&${limitAndOffsetQueryString}`)
       const [fromAddressTxs, toAddressTxs] = await Promise.all([fromAddressTxsPromise, toAddressTxsPromise])
-      return [...(<CTransactionResponse>fromAddressTxs.data).Transactions.splice(offset, count), ...(<CTransactionResponse>toAddressTxs.data).Transactions.splice(offset, count)]
+      return [...(<MagellanCTransactionResponse>fromAddressTxs.data).Transactions.splice(offset, count), ...(<MagellanCTransactionResponse>toAddressTxs.data).Transactions.splice(offset, count)]
     },
     // Returns decoded method name, or input id hex if not found
     async lookForMethodName(inputHex: string): Promise<string> {
@@ -42,29 +42,29 @@ export const useAddressStore = defineStore('address', {
       }
     },
     async loadXpTransactions(address: string, chain: string, offset: number, limit: number): Promise<XPTransaction[]> {
-      return this.magellanStore.loadTransactions(chain, address, offset, limit);
+      return this.magellanStore.loadTransactions(chain, offset, limit, address);
     },
-    async loadAssetIdToSymbol(): Promise<Map<string, string>> {
-      if (this.assetIdsToSymbol) {
-        return this.assetIdsToSymbol;
+    async loadAssets(): Promise<Map<string, { name:string, symbol:string }>> {
+      if (this.assets) {
+        return this.assets;
       }
       const loadedAssets: MagellanAssetsResponse = await (await axios.get(`${getMagellanBaseUrl()}${assets}`)).data
       const newElements = new Map();
       if (loadedAssets.assets) {
         loadedAssets.assets.forEach(element => {
-          newElements.set(element.id, element.symbol);
+          newElements.set(element.id, {name: element.name, symbol: element.symbol});
         });
       }
-      this.assetIdsToSymbol = newElements;
-      return this.assetIdsToSymbol;
+      this.assets = newElements;
+      return this.assets;
     },
     async loadBalances(address: string): Promise<AddressBalance[]> {
-      const symbols = await this.loadAssetIdToSymbol();
+      const assets = await this.loadAssets();
       const addressInfo: MagellanAddressResponse = await (await axios.get(`${getMagellanBaseUrl()}${addresses}/${address}`)).data
       const addressBalances: AddressBalance[] = []
       if (addressInfo && addressInfo.assets) {
         Object.entries(addressInfo.assets).forEach(([key, value]) => {
-          addressBalances.push({ id: key, balance: value.balance, symbol: symbols.get(key) || 'UNKNOWN' })
+          addressBalances.push({ id: key, balance: value.balance, name: assets.get(key)?.name || 'UNKNOWN' , symbol: assets.get(key)?.symbol || 'UNKNOWN' })
         })
         return addressBalances;
       }

@@ -1,10 +1,8 @@
-import { defineStore } from 'pinia';
-
-import { XPTransaction, Fund } from 'src/types/transaction';
-import { MagellanXPTransactionResponse, MagellanXPTransaction, MagellanXPOutput, MagellanAggregatesResponse, MagellanTxFeeAggregatesResponse } from 'src/types/magellan-types';
 import axios from 'axios';
-import { transactionAggregates, transactionApi, transactionFeeAggregates } from 'src/utils/magellan-api-utils';
-
+import { defineStore } from 'pinia';
+import { XPTransaction, Fund } from 'src/types/transaction';
+import { MagellanXPTransactionResponse, MagellanXPTransaction, MagellanXPOutput } from 'src/types/magellan-types';
+import { transactionApi, transactionAggregates, transactionFeeAggregates } from 'src/utils/magellan-api-utils';
 import { getChainId, getMagellanBaseUrl } from 'src/utils/client-utils';
 
 
@@ -77,16 +75,12 @@ export const useMagellanTxStore = defineStore('magellan-tx-store', {
       return this.chainIds[chainAlias]
     },
 
-    async loadLatestTransactions(chainAlias: string, offset = 0, limit = 10): Promise<XPTransaction[]> {
-      return this.loadTransactions(chainAlias, null, offset, limit);
-    },
-
     async loadTransactionById(transactionId: string): Promise<XPTransaction> {
       const rawTransaction = await axios.get(getMagellanBaseUrl() + transactionApi + '/' + transactionId);
       return Promise.resolve(createTransaction(rawTransaction.data))
     },
 
-    async loadTransactions(chainAlias: string, address: string | null, offset = 0, limit = 10): Promise<XPTransaction[]> {
+    async loadTransactions(chainAlias: string, offset = 0, limit = 10, address: string | null): Promise<XPTransaction[]> {
       const chainId = await this.getChainId(chainAlias);
       let url = `${getMagellanBaseUrl()}${transactionApi}?chainID=${chainId}&offset=${offset}&limit=${limit}&sort=timestamp-desc`
       if (address) {

@@ -42,7 +42,7 @@
 import { defineComponent, ref, PropType, Ref } from 'vue';
 import DataCard from 'src/components/ui/DataCard.vue'
 import { getDisplayValueForGewi, getDisplayValue } from 'src/utils/currency-utils';
-import { ChainOverviewLoader, getLabel, Timeframe } from 'src/types/chain-view-loader';
+import { ChainOverviewLoader, getLabel, Timeframe } from 'src/types/chain-loader';
 
 export default defineComponent({
   name: 'ChainOverviewCards',

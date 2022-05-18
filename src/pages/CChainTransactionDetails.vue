@@ -2,9 +2,9 @@
   <!-- content -->
   <div class="row">
     <div class="offset-md-2 col-md-8 col-12">
-      <transaction-details-view :type="type" title="C-Chain Transaction" :back-route="backroute"
+      <TransactionDetailsView :type="type" title="C-Chain Transaction" :back-route="backroute"
         :content="loadedTransaction">
-      </transaction-details-view>
+      </TransactionDetailsView>
     </div>
   </div>
 </template>
