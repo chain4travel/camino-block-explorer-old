@@ -26,7 +26,7 @@
       <div class="col">
         <DataCard title="Total Gas Fees" class="text-h3">
           <span v-if="!gasFeesLoading">{{
-              getDisplayValueForGewi(totalGasFees)
+              priceInWei ? getDisplayValue(totalGasFees) : getDisplayValueForGewi(totalGasFees)
           }}</span>
           <q-spinner v-else color="primary" />
         </DataCard>
@@ -38,12 +38,15 @@
 <script lang="ts">
 import { defineComponent, ref, PropType, Ref } from 'vue';
 import DataCard from 'src/components/ui/DataCard.vue'
-import { getDisplayValueForGewi } from 'src/utils/currency-utils';
+import { getDisplayValueForGewi, getDisplayValue } from 'src/utils/currency-utils';
 import { ChainOverviewLoader, getLabel, Timeframe } from 'src/types/chain-view-loader';
 
 export default defineComponent({
   name: 'ChainOverviewCards',
-  props: { store: { type: Object as PropType<ChainOverviewLoader> } },
+  props: {
+    store: { type: Object as PropType<ChainOverviewLoader> },
+    priceInWei: { type: Boolean, default: false }
+  },
   async setup(props) {
 
     const timeOptions = ref([{ value: Timeframe.HOURS_24, label: getLabel(Timeframe.HOURS_24) }, { value: Timeframe.DAYS_7, label: getLabel(Timeframe.DAYS_7) }, { value: Timeframe.MONTHS_1, label: getLabel(Timeframe.MONTHS_1) }])
@@ -77,6 +80,7 @@ export default defineComponent({
       totalGasFees,
       timeOptions,
       selectedTime,
+      getDisplayValue,
       getDisplayValueForGewi,
       updateFields
     }

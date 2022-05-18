@@ -46,7 +46,7 @@ export interface MagellanTransactionDetail {
   hash: string;
   createdAt: Date;
   nonce: number;
-  gasPrice: number;
+  gasPrice: string;
   maxFeePerGas: number;
   maxPriorityFeePerGas: number;
   gasLimit: number;

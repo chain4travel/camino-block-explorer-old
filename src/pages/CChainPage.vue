@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- This would be cool, but currently no easy way to get transaction count/gasfees -->
-    <!-- <ChainOverviewCards :store="cStore"></ChainOverviewCards> -->
+    <ChainOverviewCards :price-in-wei="true" :store="cStore"></ChainOverviewCards>
     <chain-view @search="search" :store="cStore" :type="chainType" />
   </div>
 </template>
@@ -12,10 +12,11 @@ import { getRelativeTime } from 'src/utils/display-utils'
 import { useCIndexStore } from 'src/stores/c-index-store'
 import ChainView from 'src/components/ChainView.vue';
 import { ChainType } from 'src/types/chain-type';
+import ChainOverviewCards from 'src/components/ChainOverviewCards.vue';
 
 export default defineComponent({
   name: 'CChainPage',
-  components: { ChainView },
+  components: { ChainView, ChainOverviewCards },
 
   async setup() {
     const cStore = useCIndexStore();

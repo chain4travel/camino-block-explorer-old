@@ -8,6 +8,9 @@ import { cBlocksApi, cTransactionApi, cBlocksDetailsApi } from 'src/utils/magell
 import { MagellanCBlocksResponse, CTransactionResponse, MagellanBlockDetail, MagellanTransactionDetail } from 'src/types/magellan-types';
 import { TranscationDetail } from 'src/types/transaction-detail';
 import { usePIndexStore } from 'src/stores/p-index-store';
+import { getStartDate } from 'src/utils/date-utils';
+import { DateTime } from 'luxon';
+import { Timeframe } from 'src/types/chain-view-loader';
 
 
 async function loadBlocksAndTransactions(blockOffset = 0, blockCount = 10, transactionOffset = 0, transactionCount = 10): Promise<MagellanCBlocksResponse> {
@@ -21,6 +24,23 @@ export const useCIndexStore = defineStore('cindex', {
   getters: {
   },
   actions: {
+    async loadNumberOfTransactions(timeframe: Timeframe): Promise<number> {
+      const currentDate = DateTime.now().setZone('utc');
+      const startDate = getStartDate(currentDate, timeframe);
+      const data: CTransactionResponse = await (await axios.get(`${getMagellanBaseUrl()}${cTransactionApi}?startTime=${startDate}&endTime=${currentDate}`)).data;
+      return data.Transactions.length;
+    },
+
+    async loadTotalGasFess(timeframe: Timeframe): Promise<number> {
+      const currentDate = DateTime.now().setZone('utc');
+      const startDate = getStartDate(currentDate, timeframe);
+      const data: CTransactionResponse = await (await axios.get(`${getMagellanBaseUrl()}${cTransactionApi}?startTime=${startDate}&endTime=${currentDate}`)).data;
+      let fees = 0;
+      data.Transactions.forEach(item => {
+        fees += parseInt(item.gasPrice) * parseInt(item.receipt.gasUsed)
+      })
+      return fees;
+    },
     async getNumberOfValidators(): Promise<number> {
       return this.pStore.getNumberOfValidators()
     },
