@@ -1,30 +1,33 @@
 <template>
   <div>
-    <div class="row justify-end q-pa-sm">
-      <div class="col-2">
-        <q-select dense @update:model-value="updateFields" v-model="selectedTime" :options="timeOptions" emit-value
+    <div :class="'row  q-pa-sm ' +  ($q.screen.gt.sm ? 'justify-end text-right' : 'justify-center text-center')">
+      <div class="col-12">
+        <div class="q-gutter-sm">
+          <q-radio dense @update:model-value="updateFields" v-for="option in timeOptions" v-model="selectedTime" :val="option.value" :label="option.label" :key="option.label" />
+        </div>
+        <!-- <q-select dense @update:model-value="updateFields" v-model="selectedTime" :options="timeOptions" emit-value
           map-options label="Timeframe">
-        </q-select>
+        </q-select> -->
       </div>
     </div>
     <div class="row q-gutter-sm q-pb-md">
-      <div class="col">
-        <DataCard title="Number of Validators" class="text-h3">
+      <div class="col-md col-12">
+        <DataCard title="Current Number of Validators" class="text-h4">
           <span v-if="!validatorsLoading">{{ numberOfValidators ? numberOfValidators.toLocaleString() : 'UNKNOWN'
           }}</span>
           <q-spinner v-else color="primary" />
         </DataCard>
       </div>
-      <div class="col">
-        <DataCard title="Number of Transactions " class="text-h3">
+      <div class="col-md col-12">
+        <DataCard title="Number of Transactions " class="text-h4">
           <span v-if="!transactionsLoading">{{
               numberOfTransactions.toLocaleString()
           }}</span>
           <q-spinner v-else color="primary" />
         </DataCard>
       </div>
-      <div class="col">
-        <DataCard title="Total Gas Fees" class="text-h3">
+      <div class="col-md col-12">
+        <DataCard title="Total Gas Fees" class="text-h4">
           <span v-if="!gasFeesLoading">{{
               priceInWei ? getDisplayValue(totalGasFees) : getDisplayValueForGewi(totalGasFees)
           }}</span>

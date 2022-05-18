@@ -173,9 +173,6 @@ export default defineComponent({
       return '';
     }
 
-    const address = route.params.addressId;
-
-
     return {
       copyToClipBoard,
       tab: ref('transactions'),

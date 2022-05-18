@@ -1,6 +1,8 @@
 <template>
   <div>
-    <ChainOverviewCards :store="store"></ChainOverviewCards>
+    <div class="row justify-center">
+      <ChainOverviewCards class="col-9" :store="store" />
+    </div>
     <div class="row full-width justify-center">
       <!-- Latest Transactions-->
       <div class="col-12 q-pr-md q-pl-md">
