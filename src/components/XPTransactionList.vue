@@ -16,9 +16,7 @@
               <q-chip :size="$q.screen.lt.sm ? 'md' : 'sm'">{{ item.type }}</q-chip>
             </div>
           </div>
-          <div class="q-mt-xs">
-            {{ getRelativeTime(item.timestamp) + " ago" }}
-          </div>
+          <RelativeTime class="q-mt-xs" :value="item.timestamp"></RelativeTime>
         </div>
 
         <div :class="'col-sm-grow col-12' + ($q.screen.xs ? ' q-py-md' : '')">
@@ -93,6 +91,7 @@ import ListCard from './ui/ListCard.vue'
 import { XPTransaction } from 'src/types/transaction'
 import AddressLink from './ui/AddressLink.vue'
 import { ChainType } from 'src/types/chain-type'
+import RelativeTime from './ui/RelativeTime.vue'
 
 export default defineComponent({
   name: 'XTransactionList',
@@ -118,7 +117,7 @@ export default defineComponent({
       },
     };
   },
-  components: { ListCard, AddressLink }
+  components: { ListCard, AddressLink, RelativeTime }
 })
 </script>
 <style lang="sass" scoped>
