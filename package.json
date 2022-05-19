@@ -2,7 +2,7 @@
   "name": "block-explorer-pw",
   "version": "0.0.1",
   "description": "Block explorer for the camino block chain by c4t",
-  "productName": "C4t Block explorer",
+  "productName": "Camino Block Explorer",
   "author": "Nathan Hamley <nathan.hamley@peakwork.com>",
   "private": true,
   "scripts": {
