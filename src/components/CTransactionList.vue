@@ -32,10 +32,11 @@
           </div>
         </div>
         <div :class="'col-auto justify-end' + ($q.screen.gt.xs ? ' q-px-sm ' : '')">
-          <q-chip>
+          <!-- <q-chip>
             <q-icon size="sm" :left="true" name="img:/images/camino-coin-logo.png"></q-icon>
             {{ getDisplayValue(item.value) }}
-          </q-chip>
+          </q-chip> -->
+          <CamAmount :value="item.value" />
         </div>
       </div>
     </template>
@@ -51,6 +52,7 @@ import { getAddressDetailsPath } from 'src/utils/route-utils'
 import ListCard from './ui/ListCard.vue'
 import { CTransaction } from 'src/types/transaction'
 import AddressLink from './ui/AddressLink.vue'
+import CamAmount from './ui/CamAmount.vue'
 
 export default defineComponent({
   name: 'CTransactionList',
@@ -64,7 +66,7 @@ export default defineComponent({
   setup() {
     return { getRelativeTime, displayLongString, getDisplayValue, getAddressDetailsPath };
   },
-  components: { ListCard, AddressLink }
+  components: { ListCard, AddressLink, CamAmount }
 })
 </script>
 <style lang="sass" scoped>
