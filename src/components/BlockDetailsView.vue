@@ -43,7 +43,7 @@ import { ChainType } from 'src/types/chain-type'
 import DetailField from 'src/components/ui/DetailField.vue'
 
 export default defineComponent({
-  name: 'DetailsView',
+  name: 'BlockDetailsView',
   props: {
     title: { type: String as PropType<string>, required: false },
     type: { type: String as PropType<ChainType>, required: true },

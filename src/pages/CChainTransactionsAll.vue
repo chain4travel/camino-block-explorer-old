@@ -84,7 +84,7 @@ function mapToTableData(transaction: CTransaction): TransactionTableData {
 }
 
 export default defineComponent({
-  name: 'CChainBlocksAll',
+  name: 'CChainTransactionsAll',
   async setup() {
     const router = useRouter();
     let moreToLoad = true;

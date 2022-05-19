@@ -124,7 +124,7 @@ const tabs =
 const pageSize = 10;
 
 export default defineComponent({
-  name: 'AddressDetails',
+  name: 'XPAddressDetails',
   props:
   {
     chainType: { type: String as PropType<ChainType>, required: true }
