@@ -9,7 +9,7 @@
         <div class="col-sm-grow col-12">
           <div>
             <AddressLink class="monospace" :value="item.hash" :to="detailsLinkFunction(item.hash)" :xl-length="32"
-              :lg-length="20" :md-length="9" :sm-length="12" :xs-length="26"></AddressLink>
+              :lg-length="20" :md-length="9" :sm-length="12" :xs-length="12"></AddressLink>
           </div>
           <div class="grey-color">
             {{ getRelativeTime(item.timestamp) + " ago" }}
@@ -20,14 +20,14 @@
             <div class="col-3">From</div>
             <div class="col">
               <AddressLink class="monospace" :to="getAddressDetailsPath(item.from)" :value="item.from"
-                :xl-length="26" :lg-length="15" :md-length="7" :sm-length="10" :xs-length="20"></AddressLink>
+                :xl-length="26" :lg-length="15" :md-length="7" :sm-length="10" :xs-length="10"></AddressLink>
             </div>
           </div>
           <div class="row q-gutter-sm">
             <div class="col-3">To </div>
             <div class="col">
               <AddressLink class="monospace" :to="getAddressDetailsPath(item.to)" :value="item.to"
-                :xl-length="26" :lg-length="15" :md-length="7" :sm-length="10" :xs-length="20"></AddressLink>
+                :xl-length="26" :lg-length="15" :md-length="7" :sm-length="10" :xs-length="10"></AddressLink>
             </div>
           </div>
         </div>
