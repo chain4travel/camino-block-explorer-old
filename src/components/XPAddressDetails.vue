@@ -15,9 +15,9 @@
               Balances
             </q-card-section>
             <div v-for="balance in balances" :key="balance.id">
-              <detail-field v-if="balance.symbol === 'CAM'" type="gwei" field="Balance" :value="balance.balance">
+              <detail-field v-if="balance.symbol === 'CAM'" type="gwei" :field="balance.name" :value="balance.balance">
               </detail-field>
-              <detail-field v-else type="currency" :field="balance.symbol"
+              <detail-field v-else type="currency" :field="balance.name"
                 :value="{ value: balance.balance, currency: balance.symbol }"></detail-field>
             </div>
           </q-card-section>

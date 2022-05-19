@@ -1,16 +1,16 @@
+import axios from 'axios';
 import { defineStore } from 'pinia';
 import { BlockTableData } from 'src/types/block'
 import { CTransaction } from 'src/types/transaction';
-import { BlockDetails } from 'src/types/block-detail';
+import { BlockDetails } from 'src/types/block';
 import { getMagellanBaseUrl } from 'src/utils/client-utils';
-import axios from 'axios';
 import { cBlocksApi, cTransactionApi, cBlocksDetailsApi } from 'src/utils/magellan-api-utils';
-import { MagellanCBlocksResponse, CTransactionResponse, MagellanBlockDetail, MagellanTransactionDetail } from 'src/types/magellan-types';
-import { TranscationDetail } from 'src/types/transaction-detail';
-import { usePIndexStore } from 'src/stores/p-index-store';
-import { getStartDate } from 'src/utils/date-utils';
+import { MagellanCBlocksResponse, MagellanCTransactionResponse, MagellanBlockDetail, MagellanTransactionDetail } from 'src/types/magellan-types';
+import { TranscationDetail } from 'src/types/transaction';
 import { DateTime, Interval } from 'luxon';
-import { Timeframe } from 'src/types/chain-view-loader';
+import { Timeframe } from 'src/types/chain-loader';
+import { getStartDate } from 'src/utils/date-utils';
+import { usePIndexStore } from './p-index-store';
 
 
 async function loadBlocksAndTransactions(blockOffset = 0, blockCount = 10, transactionOffset = 0, transactionCount = 10): Promise<MagellanCBlocksResponse> {
@@ -19,7 +19,7 @@ async function loadBlocksAndTransactions(blockOffset = 0, blockCount = 10, trans
 
 async function cTransactionsBetweenDates(start: DateTime, end: DateTime): Promise<MagellanTransactionDetail[]> {
   //Query parameters are currently ignored, so manual filter needed at the end. Does not scale well!
-  const data: CTransactionResponse = await (await axios.get(`${getMagellanBaseUrl()}${cTransactionApi}?startTime=${start.toISO}&endTime=${end.toISO}`)).data;
+  const data: MagellanCTransactionResponse = await (await axios.get(`${getMagellanBaseUrl()}${cTransactionApi}?startTime=${start.toISO}&endTime=${end.toISO}`)).data;
   const validInterval = Interval.fromDateTimes(start, end);
   return data.Transactions.filter(item => {
     return validInterval.contains(DateTime.fromJSDate(new Date(item.createdAt)))
@@ -53,7 +53,7 @@ export const useCIndexStore = defineStore('cindex', {
     async getNumberOfValidators(): Promise<number> {
       return this.pStore.getNumberOfValidators()
     },
-    async loadLatestBlocks(offset = 0, count = 10): Promise<BlockTableData[]> {
+    async loadBlocks(offset = 0, count = 10): Promise<BlockTableData[]> {
       try {
         const cBlockresponse = await loadBlocksAndTransactions(offset, count, 0, 0);
         if (!cBlockresponse.blocks) {
@@ -73,7 +73,7 @@ export const useCIndexStore = defineStore('cindex', {
         return [];
       }
     },
-    async loadLatestTransactions(offset = 0, count = 10): Promise<CTransaction[]> {
+    async loadTransactions(offset = 0, count = 10): Promise<CTransaction[]> {
       // currently offset is not available "natively", so we add offset and count and skip the offset elements in processing
       // this does not work for more than 5k elements at once.. will need to adjust for that to work
       try {
@@ -140,7 +140,7 @@ export const useCIndexStore = defineStore('cindex', {
         timestamp: new Date(block.header.timestamp * 1000)
       };
     },
-    async loadMagellanTransactionbyHash(transactionHash: string): Promise<CTransactionResponse> {
+    async loadMagellanTransactionbyHash(transactionHash: string): Promise<MagellanCTransactionResponse> {
       return await (await axios.get(`${getMagellanBaseUrl()}${cTransactionApi}?hash=${transactionHash}`)).data;
     },
     async loadMagellanBlockByNumber(blockNumber: number): Promise<MagellanBlockDetail> {

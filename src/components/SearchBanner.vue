@@ -1,6 +1,6 @@
 <template>
   <div v-if="$q.screen.gt.sm" class="search-banner q-mr-md">
-    <search-input />
+    <SearchInput />
   </div>
   <div v-if="$q.screen.lt.md">
     <q-btn class="navigation-link" @click="() => openDialog = true" icon="search" rounded dense></q-btn>
@@ -10,7 +10,7 @@
           <div class="text-center text-h6 text-bold">Search for anything</div>
         </q-card-section>
         <q-card-section>
-          <search-input />
+          <SearchInput />
         </q-card-section>
       </q-card>
     </q-dialog>

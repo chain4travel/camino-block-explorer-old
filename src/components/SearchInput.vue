@@ -3,7 +3,7 @@
     <q-input id="input" dense class="search-input" bg-color="search-banner-input" rounded
       label="Search by Address / Hash / Block" outlined v-model="searchInput" clearable @update:model-value="search">
       <template v-slot:append>
-        <q-avatar color="search-banner-icon" size="lg" icon="search">
+        <q-avatar size="lg" icon="search">
         </q-avatar>
       </template>
     </q-input>
@@ -13,8 +13,8 @@
           <div class="col-1">
             <q-avatar size="sm" :color="menuItem.avatarColor">{{ menuItem.avatar }}</q-avatar>
           </div>
-          <div class="col-11">
-            <long-string>{{ menuItem.label }}</long-string>
+          <div class="col-11 overflow-handle">
+            {{ menuItem.label }}
           </div>
         </div>
       </q-item>
@@ -28,18 +28,17 @@ import { SearchMenuItem } from 'src/types/search-menu';
 import { getMagellanBaseUrl, getChainId } from 'src/utils/client-utils';
 import { search } from 'src/utils/magellan-api-utils';
 import { defineComponent, Ref, ref } from 'vue'
-import { MagellanSearchResponse, MagellanSearchResultElementType, XPTransactionSearchResult, CTransactionSearchResult, CBlockSearchResult, AddressSearchResult } from 'src/types/magellan-types';
-import { getBlockDetailsPath, getTransactionDetailsPath, getAddressDetailsPath } from 'src/utils/route-utils'
+import { MagellanSearchResponse, MagellanSearchResultElementType, MagellanXPTransactionSearchResult, MagellanCTransactionSearchResult, MagellanCBlockSearchResult, MagellanAddressSearchResult } from 'src/types/magellan-types';
+import { getBlockDetailsPath, getTransactionDetailsPath } from 'src/utils/route-utils'
 import { ChainType } from 'src/types/chain-type';
-import LongString from './ui/LongString.vue';
 
 const resultLimit = 6;
 
-async function mapToItem(type: MagellanSearchResultElementType, data: XPTransactionSearchResult | CTransactionSearchResult | CBlockSearchResult | AddressSearchResult): Promise<SearchMenuItem | undefined> {
+async function mapToItem(type: MagellanSearchResultElementType, data: MagellanXPTransactionSearchResult | MagellanCTransactionSearchResult | MagellanCBlockSearchResult | MagellanAddressSearchResult): Promise<SearchMenuItem | undefined> {
   switch (type) {
     case MagellanSearchResultElementType.CVM_ADDRESS:
       // currently not implemented
-      const cvmAddressData: CTransactionSearchResult = <CTransactionSearchResult>data;
+      const cvmAddressData: MagellanCTransactionSearchResult = <MagellanCTransactionSearchResult>data;
       return {
         label: cvmAddressData.fromAddr,
         type: type,
@@ -48,7 +47,7 @@ async function mapToItem(type: MagellanSearchResultElementType, data: XPTransact
         avatarColor: 'positive'
       };
     case MagellanSearchResultElementType.C_BLOCK:
-      const cBlockData: CBlockSearchResult = <CBlockSearchResult>data;
+      const cBlockData: MagellanCBlockSearchResult = <MagellanCBlockSearchResult>data;
       return {
         label: cBlockData.Hash,
         type: type,
@@ -57,7 +56,7 @@ async function mapToItem(type: MagellanSearchResultElementType, data: XPTransact
         avatarColor: 'primary'
       };
     case MagellanSearchResultElementType.C_TRANSACTION:
-      const cTransaction: CTransactionSearchResult = <CTransactionSearchResult>data;
+      const cTransaction: MagellanCTransactionSearchResult = <MagellanCTransactionSearchResult>data;
       return {
         label: cTransaction.hash,
         type: type,
@@ -66,7 +65,7 @@ async function mapToItem(type: MagellanSearchResultElementType, data: XPTransact
         avatarColor: 'info'
       };
     case MagellanSearchResultElementType.XP_TRANSACTION:
-      const xpTransaction: XPTransactionSearchResult = <XPTransactionSearchResult>data;
+      const xpTransaction: MagellanXPTransactionSearchResult = <MagellanXPTransactionSearchResult>data;
       let detailsLink = '';
       let avatar = '';
       let avatarColor = ''
@@ -137,7 +136,7 @@ export default defineComponent({
       }
     };
   },
-  components: { LongString }
+  components: { }
 });
 </script>
 

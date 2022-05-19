@@ -77,7 +77,7 @@ import { getDisplayValue } from 'src/utils/currency-utils'
 import { MagellanTransactionDetail } from 'src/types/magellan-types';
 import { getTransactionDetailsPath } from 'src/utils/route-utils';
 import { ChainType } from 'src/types/chain-type';
-import { ChainViewLoader } from 'src/types/chain-view-loader';
+import { ChainLoader } from 'src/types/chain-loader';
 
 const tabs =
   [{
@@ -162,6 +162,7 @@ export default defineComponent({
     const router = useRouter();
     const route = useRoute();
     const addressStore = useAddressStore();
+    const address = getStringOrFirstElement(route.params.addressId)
 
     const allTxData: Ref<CAddressTransactionTableData[]> = ref([])
     let moreToLoad = true;
@@ -172,9 +173,6 @@ export default defineComponent({
       }
       return '';
     }
-
-    const address = route.params.addressId;
-
 
     return {
       copyToClipBoard,

@@ -1,6 +1,6 @@
 <template>
   <router-link class="text-link" :to="to">
-    <long-string :showTooltip="!$q.platform.is.mobile" :value="value" :xl-length="xlLength || 55" :lg-length="lgLength || 55" :md-length="mdLength || 40" :sm-length="smLength || 50" :xs-length="xsLength || 20" />
+    <LongString :showTooltip="!$q.platform.is.mobile" :value="value" :xl-length="xlLength || 55" :lg-length="lgLength || 55" :md-length="mdLength || 40" :sm-length="smLength || 50" :xs-length="xsLength || 20" />
   </router-link>
 </template>
 <script lang="ts">

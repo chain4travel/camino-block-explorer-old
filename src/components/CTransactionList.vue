@@ -1,5 +1,5 @@
 <template>
-  <list-card title="Latest Transactions" :items="transactions" :show-all-link="showAllLink"
+  <ListCard title="Latest Transactions" :items="transactions" :show-all-link="showAllLink"
     @refresh="() => $emit('refresh')">
     <template v-slot="{ item }">
       <div class="row q-py-sm">
@@ -19,14 +19,14 @@
           <div class="row q-gutter-sm">
             <div class="col-3">From</div>
             <div class="col">
-              <AddressLink class="grey-color monospace" :to="getAddressDetailsPath(item.from)" :value="item.from"
+              <AddressLink class="monospace" :to="getAddressDetailsPath(item.from)" :value="item.from"
                 :xl-length="26" :lg-length="15" :md-length="7" :sm-length="10" :xs-length="20"></AddressLink>
             </div>
           </div>
           <div class="row q-gutter-sm">
             <div class="col-3">To </div>
             <div class="col">
-              <AddressLink class="grey-color monospace" :to="getAddressDetailsPath(item.to)" :value="item.to"
+              <AddressLink class="monospace" :to="getAddressDetailsPath(item.to)" :value="item.to"
                 :xl-length="26" :lg-length="15" :md-length="7" :sm-length="10" :xs-length="20"></AddressLink>
             </div>
           </div>
@@ -39,7 +39,7 @@
         </div>
       </div>
     </template>
-  </list-card>
+  </ListCard>
 </template>
 
 <script lang="ts">
@@ -48,12 +48,12 @@ import { getRelativeTime, displayLongString } from 'src/utils/display-utils'
 import { getDisplayValue } from 'src/utils/currency-utils'
 import { getAddressDetailsPath } from 'src/utils/route-utils'
 
-import ListCard from './ListCard.vue'
+import ListCard from './ui/ListCard.vue'
 import { CTransaction } from 'src/types/transaction'
 import AddressLink from './ui/AddressLink.vue'
 
 export default defineComponent({
-  name: 'TransactionList',
+  name: 'CTransactionList',
   emits: ['refresh', 'row-clicked'],
   props: {
     title: { type: String, required: false },

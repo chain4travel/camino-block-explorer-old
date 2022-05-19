@@ -44,8 +44,8 @@ export const usePIndexStore = defineStore('pindex', {
       return await this.store.getChainId('p');
     },
 
-    async loadLatestTransactions(offset = 0, count = 10): Promise<XPTransaction[]> {
-      return await this.store.loadLatestTransactions('p', offset, count);
+    async loadTransactions(offset = 0, count = 10): Promise<XPTransaction[]> {
+      return await this.store.loadTransactions('p', offset, count);
     },
 
     async loadTransactionById(transactionId: string): Promise<XPTransaction> {

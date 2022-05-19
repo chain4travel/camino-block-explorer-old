@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import {getOverviewPathName} from 'src/utils/route-utils';
+import { getOverviewPathName } from 'src/utils/route-utils';
 import { ChainType } from 'src/types/chain-type';
 
 export default defineComponent({
