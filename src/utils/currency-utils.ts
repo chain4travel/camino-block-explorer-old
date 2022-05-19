@@ -29,15 +29,18 @@ export function getDisplayValue(aCam: number): string {
   return formatAmount(amount.value, amount.currency);
 }
 
-export function getDisplayAmount(aCam: number): Amount {
-  if (aCam === 0) {
-    return {
-       value: 0,
-       currency: 'CAM',
-       currencyIcon: 'img:/images/camino-coin-logo.png'
-    }
+export function getACamAmount(value: number, currency: string): number {
+  if (currency.toLowerCase() === 'cam') {
+    return value * conversionACamPerCam;
+  } else if (currency.toLowerCase() === 'ncam') {
+    return value * conversionACamPerNCam;
+  } else {
+    return value;
   }
-  if (aCam >= ACAM_CAM_CONVERSION_THRESHHOLD) {
+}
+
+export function getDisplayAmount(aCam: number): Amount {
+  if (aCam === 0 || aCam >= ACAM_CAM_CONVERSION_THRESHHOLD) {
     return {
       value: aCamToCam(aCam),
       currency: 'CAM',
@@ -48,13 +51,13 @@ export function getDisplayAmount(aCam: number): Amount {
     return {
       value: aCamToNCam(aCam),
       currency: 'nCAM',
-      currencyIcon: 'img:/images/camino-coin-logo.png'
+      currencyIcon: 'img:/images/camino-ncam-coin-logo.png'
     }
   }
   return {
     value: aCam,
     currency: 'aCAM',
-    currencyIcon: 'img:/images/camino-coin-logo.png'
+    currencyIcon: 'img:/images/camino-acam-coin-logo.png'
   }
 }
 

@@ -31,10 +31,7 @@
                     :lg-length="32" :md-length="14" :sm-length="10" :xs-length="20"></AddressLink>
                 </div>
                 <div :class="'col-auto text-right'">
-                  <q-chip>
-                    <q-icon :left="true" size="sm" name="img:/images/camino-coin-logo.png"></q-icon>
-                    {{ getDisplayValueForGewi(ad.value) }}
-                  </q-chip>
+                  <CamAmount :value="ad.value" currency="nCam"/>
                 </div>
               </div>
             </div>
@@ -51,10 +48,7 @@
                     :lg-length="32" :md-length="14" :sm-length="10" :xs-length="20"></AddressLink>
                 </div>
                 <div class="col-auto text-right">
-                  <q-chip>
-                    <q-icon :left="true" size="sm" name="img:/images/camino-coin-logo.png"></q-icon>
-                    {{ getDisplayValueForGewi(ad.value) }}
-                  </q-chip>
+                  <CamAmount :value="ad.value" currency="nCam"/>
                 </div>
               </div>
             </div>
@@ -63,20 +57,13 @@
           <div :class="'row lt-md'">
             <div :class="'q-pt-sm' + ($q.screen.xs ? ' col-xs-2' : ' col')">Fee </div>
             <div :class="'col-auto'">
-              <q-chip>
-                <q-icon :left="true" size="sm" name="img:/images/camino-coin-logo.png"></q-icon>
-                {{ getDisplayValueForGewi(item.fee) }}
-                <!-- {{ getDisplayValueForGewi(10000000000000000) }} -->
-              </q-chip>
+                <CamAmount :value="item.fee" currency="nCam"/>
             </div>
 
           </div>
         </div>
-        <div :class="'col-lg-2 col-md-3 text-right gas-used q-pl-xl gt-sm'">
-          <q-chip>
-            <q-icon :left="true" size="sm" name="img:/images/camino-coin-logo.png"></q-icon>
-            {{ getDisplayValueForGewi(item.fee) }}
-          </q-chip>
+        <div :class="'col-lg-2 col-md-3 jusitfy-end text-right gas-used q-pl-xl gt-sm'">
+            <CamAmount :value="item.fee" currency="nCam"/>
         </div>
       </div>
     </template>
@@ -93,6 +80,7 @@ import ListCard from './ui/ListCard.vue'
 import { XPTransaction } from 'src/types/transaction'
 import AddressLink from './ui/AddressLink.vue'
 import { ChainType } from 'src/types/chain-type'
+import CamAmount from './ui/CamAmount.vue'
 
 export default defineComponent({
   name: 'XTransactionList',
@@ -118,7 +106,7 @@ export default defineComponent({
       },
     };
   },
-  components: { ListCard, AddressLink }
+  components: { ListCard, AddressLink, CamAmount }
 })
 </script>
 <style lang="sass" scoped>

@@ -63,16 +63,6 @@
             </div>
           </div>
         </div>
-
-<!-- <div v-else-if="type == 'currency'">
-          <div class="row">
-            <div class="col-auto">
-              <q-chip class="q-chip-camino" size="md">
-                {{ formatAmount(parseInt(value.value), value.currency) }}
-              </q-chip>
-            </div>
-          </div>
-        </div> -->
         <div v-else-if="type == 'ctxtype'">
           <div class="row">
             <div class="col-auto">
