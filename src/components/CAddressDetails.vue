@@ -157,7 +157,7 @@ function getFee(element: MagellanTransactionDetail): string {
 }
 
 export default defineComponent({
-  name: 'AddressDetails',
+  name: 'CAddressDetails',
   async setup() {
     const router = useRouter();
     const route = useRoute();
