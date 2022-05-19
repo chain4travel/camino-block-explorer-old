@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import { ChainType } from 'src/types/chain-type';
-import { getAllTransactionsPath, getOverviewPath, getTransactionDetailsPath } from 'src/utils/route-utils';
+import { getAllTransactionsPath, getOverviewPath, getTransactionDetailsPath, getAddressDetailsPath } from 'src/utils/route-utils';
 import { defineComponent } from 'vue'
 import { useRouter } from 'vue-router';
 import { XPTransaction, XPTransactionTableData } from 'src/types/transaction'
@@ -21,48 +21,6 @@ import { ChainLoader } from 'src/types/chain-loader';
 import DetailsTable from '../components/DetailsTable.vue';
 import { useXIndexStore } from 'src/stores/x-index-store';
 import { getDisplayAddress } from 'src/utils/display-utils'
-
-const columns = [
-  {
-    name: 'hash',
-    label: 'Hash',
-    field: 'hash',
-    align: 'left'
-  },
-  {
-    name: 'from',
-    label: 'From',
-    field: 'from',
-    align: 'left'
-  },
-  {
-    name: 'to',
-    label: 'To',
-    field: 'to',
-    align: 'left'
-  },
-  {
-    name: 'timestamp',
-    label: 'Timestamp',
-    field: (row: XPTransactionTableData) => getRelativeTime(row.timestamp) + ' ago',
-    align: 'left',
-    width: '120'
-  },
-  {
-    name: 'type',
-    label: 'Type',
-    field: 'type',
-    align: 'left',
-    width: '120'
-  },
-  {
-    value: 'fee',
-    label: 'Fee',
-    field: (row: XPTransactionTableData) => getDisplayValue(row.fee),
-    align: 'left',
-    width: '150'
-  }
-]
 
 function getValue(outputTotal?: object, inputTotal?: object): number {
   const output = outputTotal ? Object.entries(outputTotal).map(([key, value]) => parseInt(value)).reduce((pv, cv) => pv + cv, 0) : 0;
@@ -83,6 +41,14 @@ function mapToTableData(transaction: XPTransaction): XPTransactionTableData {
   }
 }
 
+function txDetailsLink(item: string) {
+  return `${getTransactionDetailsPath(ChainType.X_CHAIN, item)}?back=${getAllTransactionsPath(ChainType.X_CHAIN)}`
+}
+
+function addressDetails(item: string) {
+  return `${getAddressDetailsPath('X-' + item)}?back=${getAllTransactionsPath(ChainType.X_CHAIN)}`
+}
+
 export default defineComponent({
   name: 'XChainBlocksAll',
   async setup() {
@@ -90,11 +56,7 @@ export default defineComponent({
     let moreToLoad = true;
     return {
       store: useXIndexStore(),
-      columns,
       backAddr: getOverviewPath(ChainType.X_CHAIN),
-      rowEvent(item: XPTransactionTableData) {
-        router.push({ path: getTransactionDetailsPath(ChainType.X_CHAIN, item.hash), query: { back: getAllTransactionsPath(ChainType.X_CHAIN) } });
-      },
       requireLoadMore(): boolean {
         return moreToLoad;
       },
@@ -110,7 +72,55 @@ export default defineComponent({
           }
         });
         return newData;
-      }
+      },
+      columns: [
+        {
+          name: 'hash',
+          label: 'Hash',
+          field: 'hash',
+          align: 'left',
+          type: 'hash',
+          detailsLink: txDetailsLink
+        },
+        {
+          name: 'from',
+          label: 'From',
+          field: 'from',
+          align: 'left',
+          type: 'hash',
+          detailsLink: addressDetails
+        },
+        {
+          name: 'to',
+          label: 'To',
+          field: 'to',
+          align: 'left',
+          type: 'hash',
+          detailsLink: addressDetails
+        },
+        {
+          name: 'timestamp',
+          label: 'Timestamp',
+          field: (row: XPTransactionTableData) => getRelativeTime(row.timestamp) + ' ago',
+          align: 'left',
+          width: '120'
+        },
+        {
+          name: 'type',
+          label: 'Type',
+          field: 'type',
+          align: 'left',
+          width: '120'
+        },
+        {
+          value: 'fee',
+          label: 'Fee',
+          field: (row: XPTransactionTableData) => getDisplayValue(row.fee),
+          align: 'left',
+          width: '150',
+          type: 'currency'
+        }
+      ]
     };
   },
   components: { DetailsTable }

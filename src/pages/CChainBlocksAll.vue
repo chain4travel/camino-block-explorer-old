@@ -2,7 +2,7 @@
   <div class="row q-mt-xl">
     <div class="col-12">
       <DetailsTable :back-addr="backAddr" :load-data="loadBlocks" :require-load-more="requireLoadMore"
-        :columns="columns" title="C-Blocks" :store="store" @row-clicked="(item) => rowEvent(item)">
+        :columns="columns" title="C-Blocks" :store="store" :details-link="detailsLink">
       </DetailsTable>
     </div>
   </div>
@@ -18,64 +18,21 @@ import { useRouter } from 'vue-router'
 import { getAllBlocksPath, getBlockDetailsPath, getOverviewPath } from 'src/utils/route-utils';
 import { ChainType } from 'src/types/chain-type';
 import { ChainLoader } from 'src/types/chain-loader';
+import { getDisplayValue } from 'src/utils/currency-utils';
 
-const columns = [
-  {
-    name: 'block',
-    label: 'Block',
-    field: 'number',
-    align: 'left',
-    width: '65'
-  },
-  {
-    name: 'age',
-    label: 'Age',
-    field: (row: BlockTableData) => getRelativeTime(row.timestamp),
-    align: 'left',
-    width: '150'
-  },
-  {
-    name: 'transactions',
-    label: '# of tx',
-    field: 'numberOfTransactions',
-    align: 'left',
-    width: '150'
-  },
-  {
-    name: 'hash',
-    label: 'Hash',
-    field: 'hash',
-    align: 'left'
-  },
-  {
-    name: 'gasUsed',
-    label: 'Gas Used',
-    field: 'gasUsed',
-    align: 'left',
-    width: '200'
-  },
-  {
-    name: 'gasLimit',
-    label: 'Gas Limit',
-    field: 'gasLimit',
-    align: 'left',
-    width: '200'
-  }
-]
 
 export default defineComponent({
   name: 'CChainBlocksAll',
   components: { DetailsTable },
   async setup() {
-    const router = useRouter();
     let moreToLoad = true;
+
+    function detailsLink(blockNumber: string) {
+      return `${getBlockDetailsPath(ChainType.C_CHAIN, blockNumber || 0)}?back=${getAllBlocksPath(ChainType.C_CHAIN)}`
+    }
 
     return {
       store: useCIndexStore(),
-      columns,
-      rowEvent(item: BlockTableData) {
-        router.push({ path: getBlockDetailsPath(ChainType.C_CHAIN, item.number || 0), query: { back: getAllBlocksPath(ChainType.C_CHAIN) } })
-      },
       async loadBlocks(store: ChainLoader, knownHashes: string[], offset: number, limit: number): Promise<BlockTableData[]> {
         const apiData: BlockTableData[] = await store.loadBlocks(offset, limit);
         const newData: BlockTableData[] = []
@@ -92,7 +49,50 @@ export default defineComponent({
       requireLoadMore(): boolean {
         return moreToLoad;
       },
-      backAddr: getOverviewPath(ChainType.C_CHAIN)
+      backAddr: getOverviewPath(ChainType.C_CHAIN),
+      columns: [
+        {
+          name: 'block',
+          label: 'Block',
+          field: 'number',
+          align: 'left',
+          type: 'hash',
+          detailsLink: detailsLink
+        },
+        {
+          name: 'age',
+          label: 'Age',
+          field: (row: BlockTableData) => getRelativeTime(row.timestamp) + ' ago',
+          align: 'left',
+        },
+        {
+          name: 'transactions',
+          label: '# of tx',
+          field: 'numberOfTransactions',
+          align: 'left',
+        },
+        {
+          name: 'hash',
+          label: 'Hash',
+          field: 'hash',
+          align: 'left',
+          type: 'hash'
+        },
+        {
+          name: 'gasUsed',
+          label: 'Gas Used',
+          field: (row) => getDisplayValue(row.gasUsed),
+          align: 'left',
+          type: 'currency'
+        },
+        {
+          name: 'gasLimit',
+          label: 'Gas Limit',
+          field: (row) => getDisplayValue(row.gasLimit),
+          align: 'left',
+          type: 'currency'
+        }
+      ]
     }
   }
 })

@@ -7,23 +7,6 @@
       <q-btn class="col-auto q-ml-xs" @click="() => copyToClipBoard($route.params.addressId)" size="sm" rounded
         icon="mdi-content-copy"></q-btn>
     </div>
-    <!-- TODO Add once overview data available in magellan-->
-    <!-- <div class="row q-gutter-md">
-      <div class="col">
-        <q-card>
-          <q-card-section>
-            <h1>Overview</h1>
-          </q-card-section>
-        </q-card>
-      </div>
-      <div class="col">
-        <q-card>
-          <q-card-section>
-            <h1>More Info</h1>
-          </q-card-section>
-        </q-card>
-      </div>
-    </div> -->
     <div class="row q-pt-md justify-center">
       <q-card class="col">
         <q-card-section>
@@ -38,8 +21,8 @@
           </div>
           <q-tab-panels v-model="tab" animated>
             <q-tab-panel name="transactions">
-              <details-table @row-clicked="(item) => handleRowEvent(item)" :columns="columns" :load-data="loadData"
-                :require-load-more="requireLoadMore" :store="store">
+              <DetailsTable :columns="columns" :load-data="loadData" :require-load-more="requireLoadMore"
+                :store="store">
                 <template v-slot:body-cell-direction="props">
                   <q-td :props="props">
                     <div>
@@ -50,7 +33,7 @@
                     </div>
                   </q-td>
                 </template>
-              </details-table>
+              </DetailsTable>
             </q-tab-panel>
           </q-tab-panels>
         </q-card-section>
@@ -75,9 +58,8 @@ import { getRelativeTime, getStringOrFirstElement } from 'src/utils/display-util
 import { CAddressTransactionTableData } from 'src/types/transaction'
 import { getDisplayValue } from 'src/utils/currency-utils'
 import { MagellanTransactionDetail } from 'src/types/magellan-types';
-import { getTransactionDetailsPath } from 'src/utils/route-utils';
+import { getTransactionDetailsPath, getAddressDetailsPath } from 'src/utils/route-utils';
 import { ChainType } from 'src/types/chain-type';
-import { ChainLoader } from 'src/types/chain-loader';
 
 const tabs =
   [{
@@ -85,71 +67,6 @@ const tabs =
     label: 'Transactions'
   }]
 
-const columns = [
-  {
-    name: 'direction',
-    label: '',
-    field: 'direction',
-    align: 'left',
-    width: '65' // check!!
-  },
-  {
-    name: 'txnHash',
-    label: 'Txn Hash',
-    field: 'txnHash',
-    align: 'left',
-    // width: '65' // check!!
-  },
-  {
-    name: 'method',
-    label: 'Method',
-    field: 'method',
-    align: 'left',
-    // width: '65' // check!!
-  },
-  {
-    name: 'block',
-    label: 'Block',
-    field: 'block',
-    align: 'left',
-    // width: '65' // check!!
-  },
-  {
-    name: 'age',
-    label: 'Age',
-    field: (row: CAddressTransactionTableData) => getRelativeTime(row.age) + ' ago',
-    align: 'left',
-    // width: '65' // check!!
-  },
-  {
-    name: 'from',
-    label: 'From',
-    field: 'from',
-    align: 'left',
-    // width: '65' // check!!
-  },
-  {
-    name: 'to',
-    label: 'To',
-    field: 'to',
-    align: 'left',
-    // width: '65' // check!!
-  },
-  {
-    name: 'value',
-    label: 'Value',
-    field: 'value',
-    align: 'left',
-    // width: '65' // check!!
-  },
-  {
-    name: 'txnFee',
-    label: 'Txn Fee',
-    field: 'txnFee',
-    align: 'left',
-    // width: '65' // check!!
-  },
-]
 
 
 function getFee(element: MagellanTransactionDetail): string {
@@ -174,15 +91,16 @@ export default defineComponent({
       return '';
     }
 
+    function detailsLink(item: string) {
+      return `${getTransactionDetailsPath(ChainType.C_CHAIN, item)}?back=${route.fullPath}`
+    }
+
     return {
       copyToClipBoard,
       tab: ref('transactions'),
       tabs,
-      columns: columns,
       store: addressStore,
-      handleRowEvent(item: CAddressTransactionTableData) {
-        router.push({ path: getTransactionDetailsPath(ChainType.C_CHAIN, item.txnHash), query: { back: route.fullPath } });
-      },
+
       async loadData(store: ChainViewLoader, knownHashes: string[], offset: number, limit: number) {
         const data = await store.loadAllCTxsForAddress(getStringOrFirstElement(route.params.addressId), offset, limit);
         const newData: CAddressTransactionTableData[] = [];
@@ -211,7 +129,71 @@ export default defineComponent({
       requireLoadMore(): boolean {
         return moreToLoad;
       },
-      txMainData: allTxData
+      txMainData: allTxData,
+      columns: [
+        {
+          name: 'direction',
+          label: 'In/Out',
+          field: 'direction',
+          align: 'left',
+        },
+        {
+          name: 'txnHash',
+          label: 'Txn Hash',
+          field: 'txnHash',
+          align: 'left',
+          type: 'hash',
+          detailsLink: detailsLink
+        },
+        {
+          name: 'method',
+          label: 'Method',
+          field: 'method',
+          align: 'left',
+        },
+        {
+          name: 'block',
+          label: 'Block',
+          field: 'block',
+          align: 'left',
+        },
+        {
+          name: 'age',
+          label: 'Age',
+          field: (row: CAddressTransactionTableData) => getRelativeTime(row.age) + ' ago',
+          align: 'left',
+        },
+        {
+          name: 'from',
+          label: 'From',
+          field: 'from',
+          align: 'left',
+          type: 'hash',
+          detailsLink: getAddressDetailsPath
+        },
+        {
+          name: 'to',
+          label: 'To',
+          field: 'to',
+          align: 'left',
+          type: 'hash',
+          detailsLink: getAddressDetailsPath
+        },
+        {
+          name: 'value',
+          label: 'Value',
+          field: 'value',
+          align: 'left',
+          type: 'currency'
+        },
+        {
+          name: 'txnFee',
+          label: 'Txn Fee',
+          field: 'txnFee',
+          align: 'left',
+          type: 'currency'
+        },
+      ]
     };
   },
   components: { DetailsTable, ErrorNotFoundPage }
