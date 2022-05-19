@@ -1,8 +1,10 @@
 <template>
-    <div>
+    <div class="row">
         {{ getDisplayAmount(value).value }}
         <q-icon size="sm" :left="true" :right="true" name="img:/images/camino-coin-logo.png"></q-icon>
-        {{ getDisplayAmount(value).currency }}
+        <div class="currency-symbol">
+          a{{ getDisplayAmount(value).currency }}
+        </div>
     </div>
 </template>
 <script lang="ts">
