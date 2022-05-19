@@ -1,9 +1,9 @@
 <template>
     <div class="row">
-        {{ getDisplayAmount(value).value }}
-        <q-icon size="sm" :left="true" :right="true" name="img:/images/camino-coin-logo.png"></q-icon>
+        {{ getDisplayAmount(value).value.toLocaleString() }}
+        <q-icon size="sm" :left="true" :right="true" :name="getDisplayAmount(value).currencyIcon"></q-icon>
         <div class="currency-symbol">
-          a{{ getDisplayAmount(value).currency }}
+          {{ getDisplayAmount(value).currency }}
         </div>
     </div>
 </template>

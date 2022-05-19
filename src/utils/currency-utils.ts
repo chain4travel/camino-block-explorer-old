@@ -16,6 +16,10 @@ export function aCamToNCam(aCam: number) {
   return aCam / conversionACamPerNCam;
 }
 
+export function nCamToACam(nCam: number) {
+  return nCam * conversionACamPerNCam;
+}
+
 export function getDisplayValueForGewi(nCamVal: number): string {
   return getDisplayValue(nCamVal * conversionACamPerNCam);
 }
@@ -29,24 +33,28 @@ export function getDisplayAmount(aCam: number): Amount {
   if (aCam === 0) {
     return {
        value: 0,
-       currency: 'CAM'
+       currency: 'CAM',
+       currencyIcon: 'img:/images/camino-coin-logo.png'
     }
   }
   if (aCam >= ACAM_CAM_CONVERSION_THRESHHOLD) {
     return {
       value: aCamToCam(aCam),
-      currency: 'CAM'
+      currency: 'CAM',
+      currencyIcon: 'img:/images/camino-coin-logo.png'
     }
   }
   if (aCam >= ACAM_NCAM_CONVERSION_THRESHHOLD) {
     return {
       value: aCamToNCam(aCam),
-      currency: 'nCAM'
+      currency: 'nCAM',
+      currencyIcon: 'img:/images/camino-coin-logo.png'
     }
   }
   return {
     value: aCam,
-    currency: 'aCAM'
+    currency: 'aCAM',
+    currencyIcon: 'img:/images/camino-coin-logo.png'
   }
 }
 

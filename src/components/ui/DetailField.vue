@@ -52,22 +52,19 @@
         <div v-else-if="type == 'gwei'">
           <div class="row">
             <div class="col-auto">
-              <q-chip class="q-chip-camino" size="md" icon="img:/images/camino-coin-logo.png">
-                {{ getDisplayValueForGewi(value) }}
-              </q-chip>
+              <CamAmount :value="nCamToACam(Number(value))" />
             </div>
           </div>
         </div>
         <div v-else-if="type == 'wei'">
           <div class="row">
             <div class="col-auto">
-              <q-chip class="q-chip-camino" icon="img:/images/camino-coin-logo.png">
-                {{ getDisplayValue(value) }}
-              </q-chip>
+              <CamAmount :value="Number(value)" />
             </div>
           </div>
         </div>
-        <div v-else-if="type == 'currency'">
+
+<!-- <div v-else-if="type == 'currency'">
           <div class="row">
             <div class="col-auto">
               <q-chip class="q-chip-camino" size="md">
@@ -75,7 +72,7 @@
               </q-chip>
             </div>
           </div>
-        </div>
+        </div> -->
         <div v-else-if="type == 'ctxtype'">
           <div class="row">
             <div class="col-auto">
@@ -101,9 +98,10 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { getRelativeTime } from 'src/utils/display-utils'
-import { getDisplayValueForGewi, getDisplayValue, formatAmount } from 'src/utils/currency-utils'
+import { getDisplayValueForGewi, getDisplayValue, formatAmount, nCamToACam } from 'src/utils/currency-utils'
 import LongString from 'src/components/ui/LongString.vue'
 import { copyToClipBoard } from 'src/utils/copy-utils';
+import CamAmount from 'src/components/ui/CamAmount.vue'
 
 function getStatusIcon(status: string) {
   if (status === 'accepted') {
@@ -175,6 +173,7 @@ export default defineComponent({
       getRelativeTime,
       getDisplayValueForGewi,
       getDisplayValue,
+      nCamToACam,
       copyToClipBoard,
       formatAmount,
       getTooltip: (field: string): string | undefined => {
@@ -185,7 +184,7 @@ export default defineComponent({
       }
     }
   },
-  components: { LongString }
+  components: { LongString, CamAmount }
 })
 </script>
 <style scoped lang="sass" >

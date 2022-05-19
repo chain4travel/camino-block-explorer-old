@@ -32,10 +32,6 @@
           </div>
         </div>
         <div :class="'col-auto justify-end' + ($q.screen.gt.xs ? ' q-px-sm ' : '')">
-          <!-- <q-chip>
-            <q-icon size="sm" :left="true" name="img:/images/camino-coin-logo.png"></q-icon>
-            {{ getDisplayValue(item.value) }}
-          </q-chip> -->
           <CamAmount :value="item.value" />
         </div>
       </div>
