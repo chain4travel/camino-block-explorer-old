@@ -9,7 +9,7 @@
         <div class="col-sm-grow col-12">
           <div>
             <AddressLink class="monospace" :value="item.hash" :to="detailsLinkFunction(item.hash)" :xl-length="32"
-              :lg-length="20" :md-length="9" :sm-length="12" :xs-length="12"></AddressLink>
+              :lg-length="20" :md-length="10" :sm-length="13" :xs-length="12"></AddressLink>
           </div>
           <RelativeTime class="grey-color" :value="item.timestamp"></RelativeTime>
         </div>
@@ -29,11 +29,8 @@
             </div>
           </div>
         </div>
-        <div :class="'col-auto justify-end' + ($q.screen.gt.xs ? ' q-px-sm ' : '')">
-          <q-chip>
-            <q-icon size="sm" :left="true" name="img:/images/camino-coin-logo.png"></q-icon>
-            {{ getDisplayValue(item.value) }}
-          </q-chip>
+        <div :class="'col-auto self-center justify-end' + ($q.screen.gt.xs ? ' q-px-sm ' : '')">
+          <CamAmount :value="item.value" />
         </div>
       </div>
     </template>
@@ -48,6 +45,7 @@ import { getAddressDetailsPath } from 'src/utils/route-utils'
 import ListCard from './ui/ListCard.vue'
 import { CTransaction } from 'src/types/transaction'
 import AddressLink from './ui/AddressLink.vue'
+import CamAmount from './ui/CamAmount.vue'
 import RelativeTime from './ui/RelativeTime.vue'
 
 export default defineComponent({
@@ -62,7 +60,7 @@ export default defineComponent({
   setup() {
     return { getRelativeTime, displayLongString, getDisplayValue, getAddressDetailsPath };
   },
-  components: { ListCard, AddressLink, RelativeTime }
+  components: { ListCard, AddressLink, RelativeTime, CamAmount }
 })
 </script>
 <style lang="sass" scoped>

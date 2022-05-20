@@ -1,5 +1,4 @@
 <template>
-  <!-- content -->
   <div class="row">
     Loading...
   </div>

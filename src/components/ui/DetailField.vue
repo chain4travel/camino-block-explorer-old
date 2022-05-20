@@ -52,27 +52,14 @@
         <div v-else-if="type == 'gwei'">
           <div class="row">
             <div class="col-auto">
-              <q-chip class="q-chip-camino" size="md" icon="img:/images/camino-coin-logo.png">
-                {{ getDisplayValueForGewi(value) }}
-              </q-chip>
+              <CamAmount :value="nCamToACam(Number(value))" />
             </div>
           </div>
         </div>
         <div v-else-if="type == 'wei'">
           <div class="row">
             <div class="col-auto">
-              <q-chip class="q-chip-camino" icon="img:/images/camino-coin-logo.png">
-                {{ getDisplayValue(value) }}
-              </q-chip>
-            </div>
-          </div>
-        </div>
-        <div v-else-if="type == 'currency'">
-          <div class="row">
-            <div class="col-auto">
-              <q-chip class="q-chip-camino" size="md">
-                {{ formatAmount(parseInt(value.value), value.currency) }}
-              </q-chip>
+              <CamAmount :value="Number(value)" />
             </div>
           </div>
         </div>
@@ -100,8 +87,9 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { getRelativeTime } from 'src/utils/display-utils'
-import { getDisplayValueForGewi, getDisplayValue, formatAmount } from 'src/utils/currency-utils'
+import { getDisplayValueForGewi, getDisplayValue, formatAmount, nCamToACam } from 'src/utils/currency-utils'
 import LongString from 'src/components/ui/LongString.vue'
+import CamAmount from 'src/components/ui/CamAmount.vue'
 import CopyButton from 'src/components/ui/CopyButton.vue';
 
 function getStatusIcon(status: string) {
@@ -174,6 +162,7 @@ export default defineComponent({
       getRelativeTime,
       getDisplayValueForGewi,
       getDisplayValue,
+      nCamToACam,
       formatAmount,
       getTooltip: (field: string): string | undefined => {
         if (Object.keys(tooltips).includes(field)) {
@@ -183,7 +172,7 @@ export default defineComponent({
       }
     }
   },
-  components: { LongString, CopyButton }
+  components: { LongString, CopyButton, CamAmount }
 })
 </script>
 <style scoped lang="sass" >
