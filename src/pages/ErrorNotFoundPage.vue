@@ -1,5 +1,5 @@
 <template>
-  <div class=" text-center q-pa-xl">
+  <div class="text-center q-pa-xl q-mt-md">
     <div>
       <h2>
         404 Page Not Found

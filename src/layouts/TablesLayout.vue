@@ -2,7 +2,9 @@
   <q-page-container>
     <Suspense>
       <template #default>
-        <router-view />
+        <div class="q-mt-md">
+          <router-view />
+        </div>
       </template>
       <template #fallback>
         <div class="row">
