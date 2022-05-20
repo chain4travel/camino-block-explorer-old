@@ -2,7 +2,9 @@
   <q-page-container>
     <Suspense>
       <template #default>
-        <router-view :key="$route.fullPath" />
+        <div class="q-mt-md">
+          <router-view :key="$route.fullPath" />
+        </div>
       </template>
       <template #fallback>
         <div class="row">
