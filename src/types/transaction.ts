@@ -40,8 +40,8 @@ export interface TransactionTableData {
 }
 
 export interface XPTransactionTableData {
-  from: string;
-  to: string;
+  from: Fund[];
+  to: Fund[];
   hash: string;
   type: string;
   value: number;

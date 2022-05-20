@@ -30,12 +30,11 @@ function getValue(outputTotal?: object, inputTotal?: object): number {
 
 function mapToTableData(transaction: XPTransaction): XPTransactionTableData {
   return {
-    from: getDisplayAddress(transaction.from),
+    from: transaction.from,
     hash: transaction.id,
     type: transaction.type,
     timestamp: transaction.timestamp,
-    to: getDisplayAddress(transaction.to),
-    // Currently not shown, need to discuss what to show here
+    to: transaction.to,
     value: getValue(transaction.outputTotals, transaction.inputTotals),
     fee: transaction.fee
   }
@@ -46,7 +45,8 @@ function txDetailsLink(item: string) {
 }
 
 function addressDetails(item: string) {
-  return `${getAddressDetailsPath('X-' + item)}?back=${getAllTransactionsPath(ChainType.X_CHAIN)}`
+  const firstAddress = item.split(' (')[0]
+  return `${getAddressDetailsPath('X-' + firstAddress)}?back=${getAllTransactionsPath(ChainType.X_CHAIN)}`
 }
 
 export default defineComponent({
@@ -85,7 +85,7 @@ export default defineComponent({
         {
           name: 'from',
           label: 'From',
-          field: 'from',
+          field: (row: XPTransactionTableData) => getDisplayAddress(row.from),
           align: 'left',
           type: 'hash',
           detailsLink: addressDetails
@@ -93,7 +93,7 @@ export default defineComponent({
         {
           name: 'to',
           label: 'To',
-          field: 'to',
+          field: (row: XPTransactionTableData) => getDisplayAddress(row.to),
           align: 'left',
           type: 'hash',
           detailsLink: addressDetails
@@ -103,21 +103,19 @@ export default defineComponent({
           label: 'Timestamp',
           field: (row: XPTransactionTableData) => getRelativeTime(row.timestamp) + ' ago',
           align: 'left',
-          width: '120'
         },
         {
           name: 'type',
           label: 'Type',
           field: 'type',
           align: 'left',
-          width: '120'
+          type: 'status'
         },
         {
           value: 'fee',
           label: 'Fee',
           field: (row: XPTransactionTableData) => getDisplayValue(row.fee),
           align: 'left',
-          width: '150',
           type: 'currency'
         }
       ]

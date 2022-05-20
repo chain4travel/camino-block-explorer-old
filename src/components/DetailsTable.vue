@@ -50,23 +50,24 @@
                           {{ col.value }}
                         </q-chip>
                       </div>
-                      <div v-else-if="col.value && col && col.type === 'address'">
-                        <AddressLink class="monospace" :to="getAddressDetailsPath(col.value)" :value="col.value"
-                          :xl-length="26" :lg-length="15" :md-length="7" :sm-length="10" :xs-length="10"></AddressLink>
+                      <div v-else-if="col && col.value &&  col.type === 'hash'">
+                        <AddressLink v-if="col.detailsLink" class="monospace"
+                          :to="col.detailsLink(col.value)" :value="col.value" :xl-length="26" :lg-length="15"
+                          :md-length="7" :sm-length="36" :xs-length="36">
+                        </AddressLink>
+                        <LongString v-else class="monospace" :value="col.value" :xl-length="26" :lg-length="15"
+                          :md-length="7" :sm-length="20" :xs-length="36"></LongString>
                       </div>
-                      <div v-else-if="col.value && col && col.type === 'transaction' && detailsLink">
-                        <AddressLink class="monospace" :value="col.value" :to="detailsLink(col.value)" :xl-length="32"
-                          :lg-length="20" :md-length="9" :sm-length="12" :xs-length="12"></AddressLink>
+                      <div v-else-if="col && col.type === 'status'">
+                        <q-chip class="chip-placing">
+                          {{ col.value }}
+                        </q-chip>
                       </div>
                       <div v-else class="overflow-handle">
                         {{ col.value }}
                       </div>
                     </div>
                   </div>
-                </q-item>
-                <q-item class="justify-end text-right">
-                  <q-btn @click="() => $emit('row-clicked', props.row)" class="square-background" size="sm" outline
-                    color="primary" rounded icon="search"></q-btn>
                 </q-item>
               </q-list>
             </div>
