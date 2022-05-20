@@ -18,16 +18,11 @@
           </div>
           <LongString class="monospace" :value="item.hash" :xl-length="58" :lg-length="32" :md-length="9" :sm-length="16" :xs-length="16"></LongString>
         </div>
-        <div :class="'col-auto justify-end'+ ($q.screen.gt.xs ? ' q-px-sm ':'')">
-          <q-chip >
-            <q-icon :left="true" size="sm" name="img:/images/camino-coin-logo.png"></q-icon>
-            {{ getDisplayValue(item.gasUsed) }}
-            <!-- {{ getDisplayValue(10000000000000000000000000) }} -->
-          </q-chip>
+        <div :class="'col-auto self-center justify-end'+ ($q.screen.gt.xs ? ' q-px-sm ':'')">
+          <CamAmount :value="item.gasUsed" />
         </div>
       </div>
     </template>
-
   </ListCard>
 </template>
 
@@ -39,6 +34,7 @@ import { getDisplayValue } from 'src/utils/currency-utils'
 import ListCard from './ui/ListCard.vue'
 import LongString from './ui/LongString.vue'
 import AddressLink from  './ui/AddressLink.vue'
+import CamAmount from './ui/CamAmount.vue'
 import RelativeTime from './ui/RelativeTime.vue'
 
 export default defineComponent({
@@ -55,6 +51,6 @@ export default defineComponent({
       getRelativeTime, displayLongString, getDisplayValue, AddressLink
     };
   },
-  components: { ListCard, LongString, AddressLink, RelativeTime}
+  components: { ListCard, LongString, AddressLink, RelativeTime, CamAmount }
 })
 </script>

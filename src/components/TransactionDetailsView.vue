@@ -45,8 +45,6 @@ import { ChainType } from 'src/types/chain-type'
 import DetailField from 'src/components/ui/DetailField.vue'
 import { TranscationDetail } from 'src/types/transaction'
 
-
-
 export default defineComponent({
   name: 'TransactionDetailsView',
   props: {
