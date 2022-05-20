@@ -20,7 +20,7 @@
           </div>
           <q-tab-panels v-model="tab" animated>
             <q-tab-panel name="transactions">
-              <DetailsTable height="69vh" :columns="columns" :load-data="loadData" :require-load-more="requireLoadMore"
+              <DetailsTable height="57vh" :columns="columns" :load-data="loadData" :require-load-more="requireLoadMore"
                 :store="store">
                 <template v-slot:body-cell-direction="props">
                   <q-td :props="props">
