@@ -34,7 +34,7 @@ function mapToTableData(transaction: CTransaction): TransactionTableData {
 }
 
 export default defineComponent({
-  name: 'CChainBlocksAll',
+  name: 'CChainTransactionsAll',
   async setup() {
 
     function transactionDetails(item: string) {

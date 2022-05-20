@@ -10,9 +10,7 @@
           <div>
             <AddressLink :value="item.number" :to="detailsLinkFunction(item.number)"></AddressLink>
           </div>
-          <div class="grey-color">
-            {{ getRelativeTime(item.timestamp) + " ago" }}
-          </div>
+          <RelativeTime class="grey-color" :value="item.timestamp"></RelativeTime>
         </div>
         <div :class="'col-sm-grow col-12'+ ($q.screen.xs ? ' q-pt-md':'')">
           <div>
@@ -41,6 +39,7 @@ import { getDisplayValue } from 'src/utils/currency-utils'
 import ListCard from './ui/ListCard.vue'
 import LongString from './ui/LongString.vue'
 import AddressLink from  './ui/AddressLink.vue'
+import RelativeTime from './ui/RelativeTime.vue'
 
 export default defineComponent({
   name: 'BlockList',
@@ -56,6 +55,6 @@ export default defineComponent({
       getRelativeTime, displayLongString, getDisplayValue, AddressLink
     };
   },
-  components: { ListCard, LongString, AddressLink}
+  components: { ListCard, LongString, AddressLink, RelativeTime}
 })
 </script>

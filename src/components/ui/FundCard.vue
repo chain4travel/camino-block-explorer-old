@@ -23,7 +23,7 @@ import { defineComponent, PropType } from 'vue'
 import { Fund } from 'src/types/transaction'
 import DetailField from 'src/components/ui/DetailField.vue'
 export default defineComponent({
-  name: 'AddressLink',
+  name: 'FundCard',
   props: {
     funds: { type: Array as PropType<Fund[]>, required: true },
     title: { type: String, required: true },

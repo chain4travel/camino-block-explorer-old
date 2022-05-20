@@ -4,8 +4,7 @@
       <q-icon class="col-auto grey-color q-pt-xs" size="sm" name="mdi-file-document"></q-icon>
       <div class="col-auto text-bold text-h6 q-pl-md"> Address <span class="grey-color">{{ $route.params.addressId
       }}</span></div>
-      <q-btn class="col-auto q-ml-xs" @click="() => copyToClipBoard($route.params.addressId)" size="sm" rounded
-        icon="mdi-content-copy"></q-btn>
+      <CopyButton class="col-auto" :value="$route.params.addressId.toString()" />
     </div>
     <div class="row q-pt-md justify-center">
       <q-card class="col">
@@ -49,7 +48,6 @@
 
 <script lang="ts">
 import { defineComponent, ref, Ref } from 'vue'
-import { copyToClipBoard } from 'src/utils/copy-utils';
 import DetailsTable from './DetailsTable.vue';
 import { useRoute, useRouter } from 'vue-router';
 import ErrorNotFoundPage from 'src/pages/ErrorNotFoundPage.vue';
@@ -60,6 +58,8 @@ import { getDisplayValue } from 'src/utils/currency-utils'
 import { MagellanTransactionDetail } from 'src/types/magellan-types';
 import { getTransactionDetailsPath, getAddressDetailsPath } from 'src/utils/route-utils';
 import { ChainType } from 'src/types/chain-type';
+import { ChainLoader } from 'src/types/chain-loader';
+import CopyButton from 'src/components/ui/CopyButton.vue';
 
 const tabs =
   [{
@@ -74,9 +74,8 @@ function getFee(element: MagellanTransactionDetail): string {
 }
 
 export default defineComponent({
-  name: 'AddressDetails',
+  name: 'CAddressDetails',
   async setup() {
-    const router = useRouter();
     const route = useRoute();
     const addressStore = useAddressStore();
     const address = getStringOrFirstElement(route.params.addressId)
@@ -96,12 +95,11 @@ export default defineComponent({
     }
 
     return {
-      copyToClipBoard,
       tab: ref('transactions'),
       tabs,
       store: addressStore,
 
-      async loadData(store: ChainViewLoader, knownHashes: string[], offset: number, limit: number) {
+      async loadData(store: ChainLoader, knownHashes: string[], offset: number, limit: number) {
         const data = await store.loadAllCTxsForAddress(getStringOrFirstElement(route.params.addressId), offset, limit);
         const newData: CAddressTransactionTableData[] = [];
         moreToLoad = false;
@@ -196,6 +194,6 @@ export default defineComponent({
       ]
     };
   },
-  components: { DetailsTable, ErrorNotFoundPage }
+  components: { DetailsTable, ErrorNotFoundPage, CopyButton }
 })
 </script>

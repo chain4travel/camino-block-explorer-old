@@ -50,7 +50,7 @@ function addressDetails(item: string) {
 }
 
 export default defineComponent({
-  name: 'XChainBlocksAll',
+  name: 'XChainTransactionsAll',
   async setup() {
     const router = useRouter();
     let moreToLoad = true;
