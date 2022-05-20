@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import DetailsTable from 'src/components/DetailsTable.vue'
 import { useCIndexStore } from 'src/stores/c-index-store';
 import { BlockTableData } from 'src/types/block';
@@ -21,29 +21,30 @@ export default defineComponent({
   name: 'CChainBlocksAll',
   components: { DetailsTable },
   async setup() {
-    let moreToLoad = true;
+    const moreToLoad = ref(true);
 
     function detailsLink(blockNumber: string) {
       return `${getBlockDetailsPath(ChainType.C_CHAIN, blockNumber || 0)}?back=${getAllBlocksPath(ChainType.C_CHAIN)}`
     }
 
     return {
+      moreToLoad,
       store: useCIndexStore(),
       async loadBlocks(store: ChainLoader, knownHashes: string[], offset: number, limit: number): Promise<BlockTableData[]> {
         const apiData: BlockTableData[] = await store.loadBlocks(offset, limit);
         const newData: BlockTableData[] = []
-        moreToLoad = false;
+        moreToLoad.value = false;
         apiData.forEach(newBlock => {
           if (!knownHashes.includes(newBlock.hash)) {
             knownHashes.push(newBlock.hash);
             newData.push(newBlock);
-            moreToLoad = true;
+            moreToLoad.value = true;
           }
         })
         return newData;
       },
       requireLoadMore(): boolean {
-        return moreToLoad;
+        return moreToLoad.value;
       },
       backAddr: getOverviewPath(ChainType.C_CHAIN),
       columns: [

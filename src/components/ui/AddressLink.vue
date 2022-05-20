@@ -10,7 +10,7 @@ export default defineComponent({
   name: 'AddressLink',
   props: {
     to: { type: String, required: true },
-    value: { type: String, required: true },
+    value: { type: [String, Number], required: true },
     xsLength: { type: Number, required: false },
     smLength: { type: Number, required: false },
     mdLength: { type: Number, required: false },
