@@ -107,7 +107,7 @@ export default defineComponent({
           if (!knownHashes.includes(element.hash)) {
             newData.push({
               type: element.type,
-              age: element.createdAt,
+              age: new Date(element.createdAt),
               block: element.block,
               from: element.fromAddr,
               to: element.toAddr,
@@ -158,8 +158,9 @@ export default defineComponent({
         {
           name: 'age',
           label: 'Age',
-          field: (row: CAddressTransactionTableData) => getRelativeTime(row.age) + ' ago',
+          field: 'age',
           align: 'left',
+          type: 'timestamp'
         },
         {
           name: 'from',

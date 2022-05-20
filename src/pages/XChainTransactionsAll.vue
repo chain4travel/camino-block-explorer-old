@@ -101,8 +101,9 @@ export default defineComponent({
         {
           name: 'timestamp',
           label: 'Timestamp',
-          field: (row: XPTransactionTableData) => getRelativeTime(row.timestamp) + ' ago',
+          field: 'timestamp',
           align: 'left',
+          type: 'timestamp'
         },
         {
           name: 'type',

@@ -23,6 +23,9 @@
               {{ props.value }}
             </q-chip>
           </div>
+          <div v-else-if="props.col && props.col.type === 'timestamp'">
+            <RelativeTime :value="props.value"></RelativeTime>
+          </div>
           <div v-else class="overflow-handle">
             {{ props.value }}
           </div>
@@ -50,10 +53,10 @@
                           {{ col.value }}
                         </q-chip>
                       </div>
-                      <div v-else-if="col && col.value &&  col.type === 'hash'">
-                        <AddressLink v-if="col.detailsLink" class="monospace"
-                          :to="col.detailsLink(col.value)" :value="col.value" :xl-length="26" :lg-length="15"
-                          :md-length="7" :sm-length="36" :xs-length="36">
+                      <div v-else-if="col && col.value && col.type === 'hash'">
+                        <AddressLink v-if="col.detailsLink" class="monospace" :to="col.detailsLink(col.value)"
+                          :value="col.value" :xl-length="26" :lg-length="15" :md-length="7" :sm-length="36"
+                          :xs-length="36">
                         </AddressLink>
                         <LongString v-else class="monospace" :value="col.value" :xl-length="26" :lg-length="15"
                           :md-length="7" :sm-length="20" :xs-length="36"></LongString>
@@ -94,6 +97,7 @@ import { computed } from '@vue/reactivity';
 import AddressLink from './ui/AddressLink.vue';
 import { getAddressDetailsPath } from 'src/utils/route-utils';
 import LongString from './ui/LongString.vue';
+import RelativeTime from './ui/RelativeTime.vue';
 
 const pageSize = 20;
 
@@ -155,7 +159,7 @@ export default defineComponent({
       }
     };
   },
-  components: { AddressLink, LongString }
+  components: { AddressLink, LongString, RelativeTime }
 })
 </script>
 

@@ -37,15 +37,6 @@
           </div>
           <q-tab-panels v-model="tab" animated>
             <q-tab-panel name="transactions">
-              <!-- Discuss if needed (would look like table headers)-->
-              <!-- <div class="gt-md row">
-                <div class="col-md-2">ID</div>
-                <div class="col-md-1">Chain</div>
-                <div class="col-md-1">Type</div>
-                <div class="col-md-4">From</div>
-                <div class="col-md-4">To</div>
-              </div>
-              <q-separator class="gt-sm" /> -->
               <q-card>
                 <q-card-section>
                   <div v-for="tx in txData" :key="tx.id">
@@ -53,7 +44,9 @@
                       <div class="col-md-2 col-12">
                         <AddressLink class="monospace" :to="getDetailsRoute(tx.id)" :value="tx.id" :xsLength="40"
                           :smLength="64" :mdLength="15" :lgLength="20" :xlLength="30"></AddressLink>
-                        <p v-if="tx.timestamp">{{ getRelativeTime(tx.timestamp) + " ago" }}</p>
+                        <div>
+                          <RelativeTime v-if="tx.timestamp" :value="new Date(tx.timestamp)"></RelativeTime>
+                        </div>
                       </div>
                       <div class="col-md-1 col-12">
                         <q-avatar :class="'text-' + avatar + '-avatar'" :color="avatar + '-avatar'">{{
@@ -78,7 +71,7 @@
                     <q-separator />
                   </div>
                   <q-card-actions v-if="couldBeMoreElements" class="justify-center">
-                    <q-btn outline rounded  @click="loadNextPage"  color="primary" class="col-6">
+                    <q-btn outline rounded @click="loadNextPage" color="primary" class="col-6">
                       Load More
                     </q-btn>
                   </q-card-actions>
@@ -113,6 +106,7 @@ import { getAlias } from 'src/types/chain-type';
 import FundCard from './ui/FundCard.vue';
 import AddressLink from './ui/AddressLink.vue';
 import CopyButton from './ui/CopyButton.vue';
+import RelativeTime from './ui/RelativeTime.vue';
 
 const tabs =
   [{
@@ -161,6 +155,6 @@ export default defineComponent({
       balances
     };
   },
-  components: { ErrorNotFoundPage, DetailField, FundCard, AddressLink, CopyButton }
+  components: { ErrorNotFoundPage, DetailField, FundCard, AddressLink, CopyButton, RelativeTime }
 })
 </script>

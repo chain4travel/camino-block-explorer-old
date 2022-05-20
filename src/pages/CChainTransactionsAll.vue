@@ -99,11 +99,12 @@ export default defineComponent({
           type: 'hash',
           detailsLink: transactionDetails
         },
-        {
+       {
           name: 'timestamp',
           label: 'Timestamp',
-          field: (row: TransactionTableData) => getRelativeTime(row.timestamp) + ' ago',
+          field: 'timestamp',
           align: 'left',
+          type: 'timestamp'
         },
         {
           name: 'status',

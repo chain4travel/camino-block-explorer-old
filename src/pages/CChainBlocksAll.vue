@@ -62,8 +62,9 @@ export default defineComponent({
         {
           name: 'age',
           label: 'Age',
-          field: (row: BlockTableData) => getRelativeTime(row.timestamp) + ' ago',
+          field: 'timestamp',
           align: 'left',
+          type: 'timestamp'
         },
         {
           name: 'transactions',
