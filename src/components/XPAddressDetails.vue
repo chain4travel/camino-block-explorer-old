@@ -1,5 +1,7 @@
 <template>
   <div v-if="address">
+    <q-infinite-scroll @load="loadNextPage" :offset="15">
+    </q-infinite-scroll>
     <div class="row q-pa-md">
       <q-icon class="col-auto grey-color q-pt-xs" size="sm" name="mdi-file-document"></q-icon>
       <div class="col-auto text-bold text-h6 q-pl-md"> Address <span class="grey-color">{{ address
@@ -37,15 +39,6 @@
           </div>
           <q-tab-panels v-model="tab" animated>
             <q-tab-panel name="transactions">
-              <!-- Discuss if needed (would look like table headers)-->
-              <!-- <div class="gt-md row">
-                <div class="col-md-2">ID</div>
-                <div class="col-md-1">Chain</div>
-                <div class="col-md-1">Type</div>
-                <div class="col-md-4">From</div>
-                <div class="col-md-4">To</div>
-              </div>
-              <q-separator class="gt-sm" /> -->
               <q-card>
                 <q-card-section>
                   <div v-for="tx in txData" :key="tx.id">
@@ -64,34 +57,24 @@
                         <q-chip>{{ tx.type }}</q-chip>
                       </div>
                       <div class="col-md-4 col-12">
-                        <FundCard class="col-md col-12" type="From" title="Input" :funds="tx.from"
-                          :breakPoints="[30, 20, 12, 20, 35]">
+                        <FundCard type="From" title="Input" :funds="tx.from" :breakPoints="[30, 20, 12, 20, 35]">
                         </FundCard>
                       </div>
                       <!-- <q-separator class="lt-md" /> -->
                       <div class="col-md-4 col-12">
-                        <FundCard class="col-md-3 col-12" type="To" title="Output" :funds="tx.to"
-                          :breakPoints="[30, 20, 12, 20, 35]">
+                        <FundCard type="To" title="Output" :funds="tx.to" :breakPoints="[30, 20, 12, 20, 35]">
                         </FundCard>
                       </div>
                     </div>
                     <q-separator />
                   </div>
-                  <q-card-actions v-if="couldBeMoreElements" class="justify-center">
-                    <q-btn outline rounded  @click="loadNextPage"  color="primary" class="col-6">
-                      Load More
-                    </q-btn>
-                  </q-card-actions>
                 </q-card-section>
               </q-card>
-
               <q-separator />
             </q-tab-panel>
           </q-tab-panels>
         </q-card-section>
-
       </q-card>
-
     </div>
   </div>
   <div v-else>
@@ -150,11 +133,13 @@ export default defineComponent({
       getDetailsRoute(txnHash: string) {
         return `${getTransactionDetailsPath(props.chainType, txnHash)}?back=${route.fullPath}`;
       },
-      loadNextPage: async () => {
+      loadNextPage: async (index: number, done: (moreToLoad: boolean) => void) => {
+        console.log('Loading more')
         const nextPage = await addressStore.loadXpTransactions(address.value, getAlias(props.chainType), currentOffset, pageSize);
         allTxData.value.push(...nextPage)
         currentOffset += nextPage.length;
         couldBeMoreElements.value = nextPage.length >= pageSize;
+        done(!couldBeMoreElements.value)
       },
       txData: allTxData,
       avatar: getAlias(props.chainType),
