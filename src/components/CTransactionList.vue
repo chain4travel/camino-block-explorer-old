@@ -31,7 +31,7 @@
             </div>
           </div>
         </div>
-        <div :class="'col-auto justify-end' + ($q.screen.gt.xs ? ' q-px-sm ' : '')">
+        <div :class="'col-auto self-center justify-end' + ($q.screen.gt.xs ? ' q-px-sm ' : '')">
           <CamAmount :value="item.value" />
         </div>
       </div>
