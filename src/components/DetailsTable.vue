@@ -1,22 +1,22 @@
 <template>
   <div :class="$q.screen.lt.md ? '' : 'q-pa-md'">
-    <q-table :grid="$q.screen.lt.sm" class="sticky-headers" :title="title" :rows="data" :columns="computedColumns"
-      :loading="loading" row-key="index" virtual-scroll :virtual-scroll-item-size="48"
-      :virtual-scroll-sticky-size-start="48" :rows-per-page-options="[0]" @virtual-scroll="onScroll">
+    <q-table card-class="q-card" table-header-class="q-card" :grid="$q.screen.lt.md" class="sticky-headers "
+      :title="title" :rows="data" :columns="columns" :loading="loading" row-key="index" virtual-scroll
+      :virtual-scroll-item-size="48" :virtual-scroll-sticky-size-start="48" :rows-per-page-options="[0]"
+      @virtual-scroll="onScroll">
       <template v-slot:body-cell="props">
         <q-td :props="props">
-          <div v-if="props.col && props.col.type === 'currency'">
-            <q-chip class="chip-placing">
-              <q-icon size="sm" :left="true" name="img:/images/camino-coin-logo.png"></q-icon>
-              {{ props.value }}
-            </q-chip>
+          <div class="row justify-center" v-if="props.col && props.col.type === 'currency'">
+            <div>
+              <CamAmount style="min-width: 160px; max-width: 160px;" :value="props.value"></CamAmount>
+            </div>
           </div>
           <div v-else-if="props.value && props.col && props.col.type === 'hash'">
             <AddressLink v-if="props.col.detailsLink" class="monospace" :to="props.col.detailsLink(props.value)"
-              :value="props.value" :xl-length="26" :lg-length="15" :md-length="7" :sm-length="10" :xs-length="10">
+              :value="props.value" :xl-length="60" :lg-length="30" :md-length="15" :sm-length="7" :xs-length="20">
             </AddressLink>
-            <LongString v-else class="monospace" :value="props.value" :xl-length="26" :lg-length="15" :md-length="7"
-              :sm-length="10" :xs-length="10"></LongString>
+            <LongString v-else class="monospace" :value="props.value" :xl-length="60" :lg-length="30" :md-length="15"
+              :sm-length="7" :xs-length="10"></LongString>
           </div>
           <div v-else-if="props.col && props.col.type === 'status'">
             <q-chip class="chip-placing">
@@ -40,7 +40,7 @@
       </template>
       <template v-slot:item="props">
 
-        <div class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition">
+        <div class="q-pa-xs col-xs-12 col-sm-12 col-md-4 col-lg-3 grid-style-transition">
           <q-card>
             <div class="q-py-sm">
               <q-list dense>
@@ -48,24 +48,26 @@
                   <div class="q-table__grid-item-row">
                     <div class="q-table__grid-item-title">{{ col.label }}</div>
                     <div class="q-table__grid-item-value">
-                      <div v-if="col && col.type === 'currency'">
-                        <q-chip class="chip-placing">
-                          <q-icon size="sm" :left="true" name="img:/images/camino-coin-logo.png"></q-icon>
-                          {{ col.value }}
-                        </q-chip>
+                      <div class="row justify-center" v-if="col && col.type === 'currency'">
+                        <div>
+                          <CamAmount :value="col.value"></CamAmount>
+                        </div>
                       </div>
-                      <div v-else-if="col && col.value && col.type === 'hash'">
-                        <AddressLink v-if="col.detailsLink" class="monospace" :to="col.detailsLink(col.value)"
-                          :value="col.value" :xl-length="26" :lg-length="15" :md-length="7" :sm-length="36"
-                          :xs-length="36">
+                      <div v-else-if="col && col.value &&  col.type === 'hash'">
+                        <AddressLink v-if="col.detailsLink" class="monospace"
+                          :to="col.detailsLink(col.value)" :value="col.value" :xl-length="36" :lg-length="15"
+                          :md-length="7" :sm-length="70" :xs-length="30">
                         </AddressLink>
-                        <LongString v-else class="monospace" :value="col.value" :xl-length="26" :lg-length="15"
-                          :md-length="7" :sm-length="20" :xs-length="36"></LongString>
+                        <LongString v-else class="monospace" :value="col.value" :xl-length="36" :lg-length="36"
+                          :md-length="7" :sm-length="70" :xs-length="30"></LongString>
                       </div>
                       <div v-else-if="col && col.type === 'status'">
                         <q-chip class="chip-placing">
                           {{ col.value }}
                         </q-chip>
+                      </div>
+                      <div v-else-if="col && col.type === 'timestamp'">
+                        <RelativeTime :value="col.value"></RelativeTime>
                       </div>
                       <div v-else class="overflow-handle">
                         {{ col.value }}
@@ -97,11 +99,11 @@
 import { defineComponent, PropType, Ref, ref } from 'vue';
 import { BlockTableData } from 'src/types/block';
 import { ChainLoader } from 'src/types/chain-loader';
-import { computed } from '@vue/reactivity';
 import AddressLink from './ui/AddressLink.vue';
 import { getAddressDetailsPath } from 'src/utils/route-utils';
 import LongString from './ui/LongString.vue';
 import RelativeTime from './ui/RelativeTime.vue';
+import CamAmount from './ui/CamAmount.vue';
 
 const pageSize = 20;
 
@@ -118,9 +120,6 @@ export default defineComponent({
   },
   emits: ['row-clicked'],
   async setup(props) {
-    const computedColumns = computed(() => {
-      return props.columns;
-    })
     const loading = ref(false);
 
     let knownHashes: string[] = [];
@@ -131,13 +130,8 @@ export default defineComponent({
       currentOffset.value = initData.length;
     });
 
-
-
-    console.log('in setup!')
-
     return {
       getAddressDetailsPath,
-      computedColumns,
       data: data,
       loading,
       pagination: { rowsPerPage: 0 },
@@ -163,7 +157,7 @@ export default defineComponent({
       }
     };
   },
-  components: { AddressLink, LongString, RelativeTime }
+  components: { AddressLink, LongString, RelativeTime, CamAmount }
 })
 </script>
 

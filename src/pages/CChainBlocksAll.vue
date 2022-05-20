@@ -12,14 +12,10 @@
 import { defineComponent } from 'vue'
 import DetailsTable from 'src/components/DetailsTable.vue'
 import { useCIndexStore } from 'src/stores/c-index-store';
-import { getRelativeTime } from 'src/utils/display-utils';
 import { BlockTableData } from 'src/types/block';
-import { useRouter } from 'vue-router'
 import { getAllBlocksPath, getBlockDetailsPath, getOverviewPath } from 'src/utils/route-utils';
 import { ChainType } from 'src/types/chain-type';
 import { ChainLoader } from 'src/types/chain-loader';
-import { getDisplayValue } from 'src/utils/currency-utils';
-
 
 export default defineComponent({
   name: 'CChainBlocksAll',
@@ -55,7 +51,7 @@ export default defineComponent({
           name: 'block',
           label: 'Block',
           field: 'number',
-          align: 'left',
+          align: 'center',
           type: 'hash',
           detailsLink: detailsLink
         },
@@ -63,35 +59,35 @@ export default defineComponent({
           name: 'age',
           label: 'Age',
           field: 'timestamp',
-          align: 'left',
+          align: 'center',
           type: 'timestamp'
         },
         {
           name: 'transactions',
           label: '# of tx',
           field: 'numberOfTransactions',
-          align: 'left',
+          align: 'center',
         },
         {
           name: 'hash',
           label: 'Hash',
           field: 'hash',
-          align: 'left',
+          align: 'center',
           type: 'hash'
         },
         {
           name: 'gasUsed',
           label: 'Gas Used',
-          field: (row) => getDisplayValue(row.gasUsed),
-          align: 'left',
-          type: 'currency'
+          field: 'gasUsed',
+          align: 'center',
+          type: 'currency',
         },
         {
           name: 'gasLimit',
           label: 'Gas Limit',
-          field: (row) => getDisplayValue(row.gasLimit),
-          align: 'left',
-          type: 'currency'
+          field: 'gasLimit',
+          align: 'center',
+          type: 'currency',
         }
       ]
     }

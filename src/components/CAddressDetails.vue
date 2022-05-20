@@ -49,10 +49,10 @@
 <script lang="ts">
 import { defineComponent, ref, Ref } from 'vue'
 import DetailsTable from './DetailsTable.vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import ErrorNotFoundPage from 'src/pages/ErrorNotFoundPage.vue';
 import { useAddressStore } from 'src/stores/address-store';
-import { getRelativeTime, getStringOrFirstElement } from 'src/utils/display-utils';
+import { getStringOrFirstElement } from 'src/utils/display-utils';
 import { CAddressTransactionTableData } from 'src/types/transaction'
 import { getDisplayValue } from 'src/utils/currency-utils'
 import { MagellanTransactionDetail } from 'src/types/magellan-types';
@@ -133,13 +133,13 @@ export default defineComponent({
           name: 'direction',
           label: 'In/Out',
           field: 'direction',
-          align: 'left',
+          align: 'center',
         },
         {
           name: 'txnHash',
           label: 'Txn Hash',
           field: 'txnHash',
-          align: 'left',
+          align: 'center',
           type: 'hash',
           detailsLink: detailsLink
         },
@@ -147,26 +147,26 @@ export default defineComponent({
           name: 'method',
           label: 'Method',
           field: 'method',
-          align: 'left',
+          align: 'center',
         },
         {
           name: 'block',
           label: 'Block',
           field: 'block',
-          align: 'left',
+          align: 'center',
         },
         {
           name: 'age',
           label: 'Age',
           field: 'age',
-          align: 'left',
+          align: 'center',
           type: 'timestamp'
         },
         {
           name: 'from',
           label: 'From',
           field: 'from',
-          align: 'left',
+          align: 'center',
           type: 'hash',
           detailsLink: getAddressDetailsPath
         },
@@ -174,7 +174,7 @@ export default defineComponent({
           name: 'to',
           label: 'To',
           field: 'to',
-          align: 'left',
+          align: 'center',
           type: 'hash',
           detailsLink: getAddressDetailsPath
         },
@@ -182,14 +182,14 @@ export default defineComponent({
           name: 'value',
           label: 'Value',
           field: 'value',
-          align: 'left',
+          align: 'center',
           type: 'currency'
         },
         {
           name: 'txnFee',
           label: 'Txn Fee',
           field: 'txnFee',
-          align: 'left',
+          align: 'center',
           type: 'currency'
         },
       ]

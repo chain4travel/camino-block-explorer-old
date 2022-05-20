@@ -12,9 +12,7 @@
 import { ChainType } from 'src/types/chain-type';
 import { getAllTransactionsPath, getOverviewPath, getTransactionDetailsPath, getAddressDetailsPath } from 'src/utils/route-utils';
 import { defineComponent } from 'vue'
-import { useRouter } from 'vue-router';
 import { XPTransaction, XPTransactionTableData } from 'src/types/transaction'
-import { getRelativeTime } from 'src/utils/display-utils';
 import { getDisplayValue } from 'src/utils/currency-utils';
 import { ChainLoader } from 'src/types/chain-loader';
 import DetailsTable from '../components/DetailsTable.vue';
@@ -51,7 +49,6 @@ function addressDetails(item: string) {
 export default defineComponent({
   name: 'XChainTransactionsAll',
   async setup() {
-    const router = useRouter();
     let moreToLoad = true;
     return {
       store: useXIndexStore(),
@@ -77,7 +74,7 @@ export default defineComponent({
           name: 'hash',
           label: 'Hash',
           field: 'hash',
-          align: 'left',
+          align: 'center',
           type: 'hash',
           detailsLink: txDetailsLink
         },
@@ -85,7 +82,7 @@ export default defineComponent({
           name: 'from',
           label: 'From',
           field: (row: XPTransactionTableData) => getDisplayAddress(row.from),
-          align: 'left',
+          align: 'center',
           type: 'hash',
           detailsLink: addressDetails
         },
@@ -93,7 +90,7 @@ export default defineComponent({
           name: 'to',
           label: 'To',
           field: (row: XPTransactionTableData) => getDisplayAddress(row.to),
-          align: 'left',
+          align: 'center',
           type: 'hash',
           detailsLink: addressDetails
         },
@@ -101,21 +98,21 @@ export default defineComponent({
           name: 'timestamp',
           label: 'Timestamp',
           field: 'timestamp',
-          align: 'left',
+          align: 'center',
           type: 'timestamp'
         },
         {
           name: 'type',
           label: 'Type',
           field: 'type',
-          align: 'left',
+          align: 'center',
           type: 'status'
         },
         {
           value: 'fee',
           label: 'Fee',
           field: (row: XPTransactionTableData) => getDisplayValue(row.fee),
-          align: 'left',
+          align: 'center',
           type: 'currency'
         }
       ]

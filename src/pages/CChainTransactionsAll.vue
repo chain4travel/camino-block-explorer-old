@@ -15,7 +15,6 @@ import { ChainType } from 'src/types/chain-type';
 import { getAllTransactionsPath, getOverviewPath, getTransactionDetailsPath, getAddressDetailsPath, getBlockDetailsPath } from 'src/utils/route-utils';
 import { defineComponent } from 'vue'
 import { CTransaction, TransactionTableData } from 'src/types/transaction'
-import { getRelativeTime } from 'src/utils/display-utils';
 import { getDisplayValue } from 'src/utils/currency-utils';
 import { ChainLoader } from 'src/types/chain-loader';
 import DetailsTable from '../components/DetailsTable.vue';
@@ -71,7 +70,7 @@ export default defineComponent({
           name: 'blockNumber',
           label: 'Block',
           field: 'blockNumber',
-          align: 'left',
+          align: 'center',
           type: 'hash',
           detailsLink: blockDetails
         },
@@ -79,7 +78,7 @@ export default defineComponent({
           name: 'from',
           label: 'From',
           field: 'from',
-          align: 'left',
+          align: 'center',
           type: 'hash',
           detailsLink: addressDetails
         },
@@ -87,7 +86,7 @@ export default defineComponent({
           name: 'to',
           label: 'To',
           field: 'to',
-          align: 'left',
+          align: 'center',
           type: 'hash',
           detailsLink: addressDetails
         },
@@ -95,7 +94,7 @@ export default defineComponent({
           name: 'hash',
           label: 'Hash',
           field: 'hash',
-          align: 'left',
+          align: 'center',
           type: 'hash',
           detailsLink: transactionDetails
         },
@@ -103,21 +102,21 @@ export default defineComponent({
           name: 'timestamp',
           label: 'Timestamp',
           field: 'timestamp',
-          align: 'left',
+          align: 'center',
           type: 'timestamp'
         },
         {
           name: 'status',
           label: 'Status',
           field: 'status',
-          align: 'left',
+          align: 'center',
           type: 'status'
         },
         {
           value: 'value',
           label: 'Value',
           field: (row: TransactionTableData) => getDisplayValue(row.value),
-          align: 'left',
+          align: 'center',
           type: 'currency'
         }
       ]
