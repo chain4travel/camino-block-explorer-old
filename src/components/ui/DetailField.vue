@@ -92,8 +92,7 @@
         :class="$q.screen.gt.sm ? detailsLink ? 'col-md-2 text-right' : 'col-md-1 text-right' : 'col-2'">
         <q-btn v-if="detailsLink" size="sm" color="primary" outline rounded icon="mdi-open-in-new" :to="detailsLink">
           &nbsp;Open</q-btn>
-        <q-btn class="q-ml-xs" v-if="allowCopy && value" @click="() => copyToClipBoard(value.toString())" size="sm" outline
-          rounded icon="mdi-content-copy"></q-btn>
+        <CopyButton v-if="allowCopy && value" :value="value.toString()"/>
       </div>
     </div>
   </q-item>
@@ -103,7 +102,7 @@ import { defineComponent } from 'vue'
 import { getRelativeTime } from 'src/utils/display-utils'
 import { getDisplayValueForGewi, getDisplayValue, formatAmount } from 'src/utils/currency-utils'
 import LongString from 'src/components/ui/LongString.vue'
-import { copyToClipBoard } from 'src/utils/copy-utils';
+import CopyButton from 'src/components/ui/CopyButton.vue';
 
 function getStatusIcon(status: string) {
   if (status === 'accepted') {
@@ -175,7 +174,6 @@ export default defineComponent({
       getRelativeTime,
       getDisplayValueForGewi,
       getDisplayValue,
-      copyToClipBoard,
       formatAmount,
       getTooltip: (field: string): string | undefined => {
         if (Object.keys(tooltips).includes(field)) {
@@ -185,7 +183,7 @@ export default defineComponent({
       }
     }
   },
-  components: { LongString }
+  components: { LongString, CopyButton }
 })
 </script>
 <style scoped lang="sass" >

@@ -4,8 +4,7 @@
       <q-icon class="col-auto grey-color q-pt-xs" size="sm" name="mdi-file-document"></q-icon>
       <div class="col-auto text-bold text-h6 q-pl-md"> Address <span class="grey-color">{{ address
       }}</span></div>
-      <q-btn class="col-auto q-ml-xs" @click="() => copyToClipBoard(address)" size="sm" rounded icon="mdi-content-copy">
-      </q-btn>
+      <CopyButton class="col-auto" :value="address" />
     </div>
     <div class="row q-gutter-md">
       <div class="col">
@@ -15,10 +14,10 @@
               Balances
             </q-card-section>
             <div v-for="balance in balances" :key="balance.id">
-              <detail-field v-if="balance.symbol === 'CAM'" type="gwei" :field="balance.name" :value="balance.balance">
-              </detail-field>
-              <detail-field v-else type="currency" :field="balance.name"
-                :value="{ value: balance.balance, currency: balance.symbol }"></detail-field>
+              <DetailField v-if="balance.symbol === 'CAM'" type="gwei" :field="balance.name" :value="balance.balance">
+              </DetailField>
+              <DetailField v-else type="currency" :field="balance.name"
+                :value="{ value: balance.balance, currency: balance.symbol }"></DetailField>
             </div>
           </q-card-section>
         </q-card>
@@ -102,7 +101,6 @@
 
 <script lang="ts">
 import { defineComponent, ref, Ref, PropType } from 'vue'
-import { copyToClipBoard } from 'src/utils/copy-utils';
 import { useRoute } from 'vue-router';
 import ErrorNotFoundPage from 'src/pages/ErrorNotFoundPage.vue';
 import { useAddressStore } from 'src/stores/address-store';
@@ -114,6 +112,7 @@ import { getTransactionDetailsPath } from 'src/utils/route-utils';
 import { getAlias } from 'src/types/chain-type';
 import FundCard from './ui/FundCard.vue';
 import AddressLink from './ui/AddressLink.vue';
+import CopyButton from './ui/CopyButton.vue';
 
 const tabs =
   [{
@@ -142,7 +141,6 @@ export default defineComponent({
       couldBeMoreElements,
       getRelativeTime,
       getTransactionDetailsPath,
-      copyToClipBoard,
       tab: ref('transactions'),
       tabs,
       address,
@@ -163,6 +161,6 @@ export default defineComponent({
       balances
     };
   },
-  components: { ErrorNotFoundPage, DetailField, FundCard, AddressLink }
+  components: { ErrorNotFoundPage, DetailField, FundCard, AddressLink, CopyButton }
 })
 </script>
