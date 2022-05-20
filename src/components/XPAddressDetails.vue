@@ -1,7 +1,6 @@
 <template>
   <div v-if="address">
-    <q-infinite-scroll @load="loadNextPage" :offset="15">
-    </q-infinite-scroll>
+
     <div class="row q-pa-md">
       <q-icon class="col-auto grey-color q-pt-xs" size="sm" name="mdi-file-document"></q-icon>
       <div class="col-auto text-bold text-h6 q-pl-md"> Address <span class="grey-color">{{ address
@@ -76,6 +75,13 @@
         </q-card-section>
       </q-card>
     </div>
+    <q-infinite-scroll @load="loadNextPage" :offset="15">
+      <template v-slot:loading>
+        <div class="row justify-center q-my-md">
+          <q-spinner-dots color="primary" size="40px" />
+        </div>
+      </template>
+    </q-infinite-scroll>
   </div>
   <div v-else>
     <error-not-found-page></error-not-found-page>
@@ -103,7 +109,7 @@ const tabs =
     label: 'Transactions'
   }]
 
-const pageSize = 10;
+const pageSize = 1;
 
 export default defineComponent({
   name: 'XPAddressDetails',
@@ -134,7 +140,6 @@ export default defineComponent({
         return `${getTransactionDetailsPath(props.chainType, txnHash)}?back=${route.fullPath}`;
       },
       loadNextPage: async (index: number, done: (moreToLoad: boolean) => void) => {
-        console.log('Loading more')
         const nextPage = await addressStore.loadXpTransactions(address.value, getAlias(props.chainType), currentOffset, pageSize);
         allTxData.value.push(...nextPage)
         currentOffset += nextPage.length;
