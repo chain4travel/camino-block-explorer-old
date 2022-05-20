@@ -1,5 +1,5 @@
 <template>
-    <div class="row self-center justify-end">
+    <div class="row self-center justify-end amount-box">
         <div class="self-center">{{ getDisplayAmount(getACamAmount(value, currency)).value.toLocaleString() }}</div>        
         <q-icon size="sm" :left="true" :right="true" :name="getDisplayAmount(getACamAmount(value, currency)).currencyIcon"></q-icon>
         <div class="currency-symbol self-center">
@@ -25,3 +25,8 @@ export default defineComponent({
   }
 })
 </script>
+<style scoped lang="sass" >
+.amount-box
+  padding-top: 1px
+  padding-bottom: 1px
+</style>
