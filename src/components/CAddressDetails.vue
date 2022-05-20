@@ -54,7 +54,6 @@ import ErrorNotFoundPage from 'src/pages/ErrorNotFoundPage.vue';
 import { useAddressStore } from 'src/stores/address-store';
 import { getStringOrFirstElement } from 'src/utils/display-utils';
 import { CAddressTransactionTableData } from 'src/types/transaction'
-import { getDisplayValue } from 'src/utils/currency-utils'
 import { MagellanTransactionDetail } from 'src/types/magellan-types';
 import { getTransactionDetailsPath, getAddressDetailsPath } from 'src/utils/route-utils';
 import { ChainType } from 'src/types/chain-type';

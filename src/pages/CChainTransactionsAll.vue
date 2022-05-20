@@ -15,7 +15,6 @@ import { ChainType } from 'src/types/chain-type';
 import { getAllTransactionsPath, getOverviewPath, getTransactionDetailsPath, getAddressDetailsPath, getBlockDetailsPath } from 'src/utils/route-utils';
 import { defineComponent } from 'vue'
 import { CTransaction, TransactionTableData } from 'src/types/transaction'
-import { getDisplayValue } from 'src/utils/currency-utils';
 import { ChainLoader } from 'src/types/chain-loader';
 import DetailsTable from '../components/DetailsTable.vue';
 

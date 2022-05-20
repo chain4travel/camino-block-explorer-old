@@ -71,7 +71,6 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import { getRelativeTime, displayLongString } from 'src/utils/display-utils'
-import { getDisplayValueForGewi } from 'src/utils/currency-utils'
 import { getAddressDetailsPath } from 'src/utils/route-utils'
 
 import ListCard from './ui/ListCard.vue'
@@ -93,7 +92,7 @@ export default defineComponent({
   },
   setup(props) {
     return {
-      getRelativeTime, displayLongString, getDisplayValueForGewi,
+      getRelativeTime, displayLongString,
       getAddressLink(value: string): string {
         if (props.type === ChainType.X_CHAIN) {
           return getAddressDetailsPath('X-' + value);

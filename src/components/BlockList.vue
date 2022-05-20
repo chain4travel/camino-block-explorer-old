@@ -30,7 +30,6 @@
 import { BlockTableData } from 'src/types/block'
 import { defineComponent, PropType } from 'vue'
 import { getRelativeTime, displayLongString } from 'src/utils/display-utils'
-import { getDisplayValue } from 'src/utils/currency-utils'
 import ListCard from './ui/ListCard.vue'
 import LongString from './ui/LongString.vue'
 import AddressLink from  './ui/AddressLink.vue'
@@ -48,7 +47,7 @@ export default defineComponent({
   },
   setup() {
     return {
-      getRelativeTime, displayLongString, getDisplayValue, AddressLink
+      getRelativeTime, displayLongString, AddressLink
     };
   },
   components: { ListCard, LongString, AddressLink, RelativeTime, CamAmount }

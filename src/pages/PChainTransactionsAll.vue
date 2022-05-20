@@ -13,7 +13,6 @@ import { ChainType } from 'src/types/chain-type';
 import { getAddressDetailsPath, getAllTransactionsPath, getOverviewPath, getTransactionDetailsPath } from 'src/utils/route-utils';
 import { defineComponent } from 'vue'
 import { XPTransaction, XPTransactionTableData } from 'src/types/transaction'
-import { getDisplayValue } from 'src/utils/currency-utils';
 import { ChainLoader } from 'src/types/chain-loader';
 import DetailsTable from '../components/DetailsTable.vue';
 import { usePIndexStore } from 'src/stores/p-index-store';
