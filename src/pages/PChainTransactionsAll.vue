@@ -1,5 +1,5 @@
 <template>
-  <div class="row q-mt-xl">
+  <div class="row">
     <div class="col-12">
       <DetailsTable :back-addr="backAddr" :load-data="loadTransactions" :require-load-more="requireLoadMore"
         :columns="columns" title="P-Transactions" :store="store" @row-clicked="(item) => rowEvent(item)">

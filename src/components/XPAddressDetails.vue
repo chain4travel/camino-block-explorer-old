@@ -1,5 +1,6 @@
 <template>
   <div v-if="address">
+
     <div class="row q-pa-md">
       <q-icon class="col-auto grey-color q-pt-xs" size="sm" name="mdi-file-document"></q-icon>
       <div class="col-auto text-bold text-h6 q-pl-md"> Address <span class="grey-color">{{ address
@@ -57,35 +58,32 @@
                         <q-chip>{{ tx.type }}</q-chip>
                       </div>
                       <div class="col-md-4 col-12">
-                        <FundCard class="col-md col-12" type="From" title="Input" :funds="tx.from"
-                          :breakPoints="[30, 20, 12, 20, 35]">
+                        <FundCard type="From" title="Input" :funds="tx.from" :breakPoints="[30, 20, 12, 20, 35]">
                         </FundCard>
                       </div>
                       <!-- <q-separator class="lt-md" /> -->
                       <div class="col-md-4 col-12">
-                        <FundCard class="col-md-3 col-12" type="To" title="Output" :funds="tx.to"
-                          :breakPoints="[30, 20, 12, 20, 35]">
+                        <FundCard type="To" title="Output" :funds="tx.to" :breakPoints="[30, 20, 12, 20, 35]">
                         </FundCard>
                       </div>
                     </div>
                     <q-separator />
                   </div>
-                  <q-card-actions v-if="couldBeMoreElements" class="justify-center">
-                    <q-btn outline rounded @click="loadNextPage" color="primary" class="col-6">
-                      Load More
-                    </q-btn>
-                  </q-card-actions>
                 </q-card-section>
               </q-card>
-
               <q-separator />
             </q-tab-panel>
           </q-tab-panels>
         </q-card-section>
-
       </q-card>
-
     </div>
+    <q-infinite-scroll @load="loadNextPage" :offset="15">
+      <template v-slot:loading>
+        <div class="row justify-center q-my-md">
+          <q-spinner-dots color="primary" size="40px" />
+        </div>
+      </template>
+    </q-infinite-scroll>
   </div>
   <div v-else>
     <error-not-found-page></error-not-found-page>
@@ -114,7 +112,7 @@ const tabs =
     label: 'Transactions'
   }]
 
-const pageSize = 10;
+const pageSize = 1;
 
 export default defineComponent({
   name: 'XPAddressDetails',
@@ -144,11 +142,12 @@ export default defineComponent({
       getDetailsRoute(txnHash: string) {
         return `${getTransactionDetailsPath(props.chainType, txnHash)}?back=${route.fullPath}`;
       },
-      loadNextPage: async () => {
+      loadNextPage: async (index: number, done: (moreToLoad: boolean) => void) => {
         const nextPage = await addressStore.loadXpTransactions(address.value, getAlias(props.chainType), currentOffset, pageSize);
         allTxData.value.push(...nextPage)
         currentOffset += nextPage.length;
         couldBeMoreElements.value = nextPage.length >= pageSize;
+        done(!couldBeMoreElements.value)
       },
       txData: allTxData,
       avatar: getAlias(props.chainType),

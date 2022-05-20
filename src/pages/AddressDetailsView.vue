@@ -1,7 +1,9 @@
 <template>
   <!-- content -->
-  <c-address-details v-if="isCChain"></c-address-details>
-  <x-p-address-details v-else-if="chainType" :chain-type="chainType"></x-p-address-details>
+  <div>
+    <c-address-details v-if="isCChain"></c-address-details>
+    <x-p-address-details v-else-if="chainType" :chain-type="chainType"></x-p-address-details>
+  </div>
 </template>
 
 <script lang="ts">

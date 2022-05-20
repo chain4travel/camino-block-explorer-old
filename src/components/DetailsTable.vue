@@ -39,6 +39,7 @@
           @click="() => $router.push(backAddr)" />
       </template>
       <template v-slot:item="props">
+
         <div class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition">
           <q-card>
             <div class="q-py-sm">
@@ -75,12 +76,15 @@
               </q-list>
             </div>
           </q-card>
-          <div class="q-pt-lg text-right" v-if="props.rowIndex === data.length - 1 && requireLoadMore(data)">
-            <q-btn :loading="loading" :disable="loading" @click="() => onScroll({ to: props.rowIndex })"
-              class="square-background" size="sm" outline color="primary" rounded icon="mdi-chevron-down">Load More
-            </q-btn>
-          </div>
         </div>
+        <q-infinite-scroll v-if="props.rowIndex === data.length - 1 && requireLoadMore(data)"
+          @load="onScroll({ to: props.rowIndex })" :offset="15">
+          <template v-slot:loading>
+            <div class="row justify-center q-my-md">
+              <q-spinner-dots color="primary" size="40px" />
+            </div>
+          </template>
+        </q-infinite-scroll>
       </template>
       <template v-for="(_, slot) of $slots" v-slot:[slot]="scope">
         <slot :name="slot" v-bind="scope" />
