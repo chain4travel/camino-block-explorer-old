@@ -9,7 +9,7 @@
         <div class="col-sm-grow col-12">
           <div>
             <AddressLink class="monospace" :value="item.hash" :to="detailsLinkFunction(item.hash)" :xl-length="32"
-              :lg-length="20" :md-length="9" :sm-length="12" :xs-length="12"></AddressLink>
+              :lg-length="20" :md-length="10" :sm-length="13" :xs-length="12"></AddressLink>
           </div>
           <RelativeTime class="grey-color" :value="item.timestamp"></RelativeTime>
         </div>
