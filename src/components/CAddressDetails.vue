@@ -6,23 +6,6 @@
       }}</span></div>
       <CopyButton class="col-auto" :value="$route.params.addressId.toString()" />
     </div>
-    <!-- TODO Add once overview data available in magellan-->
-    <!-- <div class="row q-gutter-md">
-      <div class="col">
-        <q-card>
-          <q-card-section>
-            <h1>Overview</h1>
-          </q-card-section>
-        </q-card>
-      </div>
-      <div class="col">
-        <q-card>
-          <q-card-section>
-            <h1>More Info</h1>
-          </q-card-section>
-        </q-card>
-      </div>
-    </div> -->
     <div class="row q-pt-md justify-center">
       <q-card class="col">
         <q-card-section>
