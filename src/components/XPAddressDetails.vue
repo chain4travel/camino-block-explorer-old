@@ -109,7 +109,7 @@ const tabs =
     label: 'Transactions'
   }]
 
-const pageSize = 1;
+const pageSize = 10;
 
 export default defineComponent({
   name: 'XPAddressDetails',
