@@ -2,11 +2,12 @@ import { Duration } from 'luxon';
 import { Fund } from 'src/types/transaction';
 
 export function getRelativeTime(timestamp: Date | number | string): string {
+
   const time = getTime(timestamp)
   if (!Number.isInteger(time)) {
     return 'Unknown';
   }
-  const duration = Duration.fromMillis(new Date().getTime() - time).shiftTo('seconds');
+  const duration = Duration.fromMillis(new Date().getTime() - time, {locale: "en-US"}).shiftTo('seconds');
   if (duration.seconds < 1) {
     return 'less than one second'
   } else if (duration.seconds < 60) {

@@ -12,8 +12,8 @@
     </div>
     <div class="row q-gutter-sm q-pb-md">
       <div class="col-md col-12">
-        <DataCard title="Current Number of Validators" :class="($q.screen.gt.sm ? 'text-h4' : 'text-h6')">
-          <span v-if="!validatorsLoading">{{ numberOfValidators ? numberOfValidators.toLocaleString() : 'UNKNOWN'
+        <DataCard title="Current Number of Validators" class="text-h4">
+          <span v-if="!validatorsLoading">{{ numberOfValidators ? numberOfValidators.toLocaleString() : '-'
           }}</span>
           <q-spinner v-else color="primary" />
         </DataCard>

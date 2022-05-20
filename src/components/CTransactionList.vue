@@ -11,9 +11,7 @@
             <AddressLink class="monospace" :value="item.hash" :to="detailsLinkFunction(item.hash)" :xl-length="32"
               :lg-length="20" :md-length="9" :sm-length="12" :xs-length="12"></AddressLink>
           </div>
-          <div class="grey-color">
-            {{ getRelativeTime(item.timestamp) + " ago" }}
-          </div>
+          <RelativeTime class="grey-color" :value="item.timestamp"></RelativeTime>
         </div>
         <div :class="'col-sm-grow col-12' + ($q.screen.lt.sm ? ' q-pt-md' : '')">
           <div class="row q-gutter-sm">
@@ -44,11 +42,11 @@ import { defineComponent, PropType } from 'vue'
 import { getRelativeTime, displayLongString } from 'src/utils/display-utils'
 import { getDisplayValue } from 'src/utils/currency-utils'
 import { getAddressDetailsPath } from 'src/utils/route-utils'
-
 import ListCard from './ui/ListCard.vue'
 import { CTransaction } from 'src/types/transaction'
 import AddressLink from './ui/AddressLink.vue'
 import CamAmount from './ui/CamAmount.vue'
+import RelativeTime from './ui/RelativeTime.vue'
 
 export default defineComponent({
   name: 'CTransactionList',
@@ -62,7 +60,7 @@ export default defineComponent({
   setup() {
     return { getRelativeTime, displayLongString, getDisplayValue, getAddressDetailsPath };
   },
-  components: { ListCard, AddressLink, CamAmount }
+  components: { ListCard, AddressLink, RelativeTime, CamAmount }
 })
 </script>
 <style lang="sass" scoped>
