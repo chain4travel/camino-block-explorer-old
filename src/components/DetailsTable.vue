@@ -1,6 +1,6 @@
 <template>
   <div :class="$q.screen.lt.md ? '' : 'q-pa-md'">
-    <q-table card-class="q-card" table-header-class="q-card" :grid="$q.screen.lt.md" class="sticky-headers "
+    <q-table :style="'height:'+ height" card-class="q-card" table-header-class="q-card" :grid="$q.screen.lt.md" class="sticky-headers "
       :title="title" :rows="data" :columns="columns" :loading="loading" row-key="index" virtual-scroll
       :virtual-scroll-item-size="48" :virtual-scroll-sticky-size-start="48" :rows-per-page-options="[0]"
       @virtual-scroll="onScroll">
@@ -8,14 +8,14 @@
         <q-td :props="props">
           <div class="row justify-center" v-if="props.col && props.col.type === 'currency'">
             <div>
-              <CamAmount style="min-width: 160px; max-width: 160px;" :value="props.value"></CamAmount>
+              <CamAmount style="min-width: 130px; max-width: 130px;" :value="props.value"></CamAmount>
             </div>
           </div>
           <div v-else-if="props.value && props.col && props.col.type === 'hash'">
             <AddressLink v-if="props.col.detailsLink" class="monospace" :to="props.col.detailsLink(props.value)"
-              :value="props.value" :xl-length="60" :lg-length="30" :md-length="15" :sm-length="7" :xs-length="20">
+              :value="props.value" :xl-length="50" :lg-length="25" :md-length="7" :sm-length="7" :xs-length="20">
             </AddressLink>
-            <LongString v-else class="monospace" :value="props.value" :xl-length="60" :lg-length="30" :md-length="15"
+            <LongString v-else class="monospace" :value="props.value" :xl-length="50" :lg-length="25" :md-length="7"
               :sm-length="7" :xs-length="10"></LongString>
           </div>
           <div v-else-if="props.col && props.col.type === 'status'">
@@ -117,6 +117,7 @@ export default defineComponent({
     requireLoadMore: { type: Function, required: true },
     backAddr: { type: String, requried: false },
     detailsLink: { type: Function, required: false },
+    height: {type: String, default: '80vh'}
   },
   emits: ['row-clicked'],
   async setup(props) {

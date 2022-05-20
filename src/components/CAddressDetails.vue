@@ -20,7 +20,7 @@
           </div>
           <q-tab-panels v-model="tab" animated>
             <q-tab-panel name="transactions">
-              <DetailsTable :columns="columns" :load-data="loadData" :require-load-more="requireLoadMore"
+              <DetailsTable height="69vh" :columns="columns" :load-data="loadData" :require-load-more="requireLoadMore"
                 :store="store">
                 <template v-slot:body-cell-direction="props">
                   <q-td :props="props">
@@ -69,8 +69,8 @@ const tabs =
 
 
 
-function getFee(element: MagellanTransactionDetail): string {
-  return getDisplayValue(element.gasPrice * parseInt(element.receipt.gasUsed));
+function getFee(element: MagellanTransactionDetail): number {
+  return parseInt(element.gasPrice) * parseInt(element.receipt.gasUsed);
 }
 
 export default defineComponent({
@@ -114,7 +114,7 @@ export default defineComponent({
               method: await getMethod(element),
               txnFee: getFee(element),
               txnHash: element.hash,
-              value: getDisplayValue(element.value),
+              value: element.value,
               direction: element.fromAddr === address ? 'out' : 'in'
             })
             moreToLoad = true;

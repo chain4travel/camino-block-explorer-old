@@ -77,7 +77,7 @@ export interface CAddressTransactionTableData {
   age: Date;
   from: string;
   to: string;
-  value: string;
-  txnFee: string;
+  value: number;
+  txnFee: number;
   direction: 'out'|'in';
 }
