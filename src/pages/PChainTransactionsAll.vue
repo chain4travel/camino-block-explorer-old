@@ -112,7 +112,7 @@ export default defineComponent({
         {
           value: 'fee',
           label: 'Fee',
-          field: (row: XPTransactionTableData) => getDisplayValue(row.fee),
+          field: 'fee',
           align: 'center',
           type: 'currency'
         }

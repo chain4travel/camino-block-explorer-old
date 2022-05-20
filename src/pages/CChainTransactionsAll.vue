@@ -115,7 +115,7 @@ export default defineComponent({
         {
           value: 'value',
           label: 'Value',
-          field: (row: TransactionTableData) => getDisplayValue(row.value),
+          field: 'value',
           align: 'center',
           type: 'currency'
         }
