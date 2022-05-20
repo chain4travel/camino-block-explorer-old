@@ -16,7 +16,7 @@ import { getRelativeTime } from 'src/utils/display-utils';
 export default defineComponent({
   name: 'RelativeTime',
   props: {
-    value: { type: String, required: true },
+    value: { type: Date, required: true },
   },
   setup() {
     return {

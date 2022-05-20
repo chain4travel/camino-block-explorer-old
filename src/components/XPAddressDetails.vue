@@ -45,7 +45,9 @@
                       <div class="col-md-2 col-12">
                         <AddressLink class="monospace" :to="getDetailsRoute(tx.id)" :value="tx.id" :xsLength="40"
                           :smLength="64" :mdLength="15" :lgLength="20" :xlLength="30"></AddressLink>
-                        <p v-if="tx.timestamp">{{ getRelativeTime(tx.timestamp) + " ago" }}</p>
+                        <div>
+                          <RelativeTime v-if="tx.timestamp" :value="new Date(tx.timestamp)"></RelativeTime>
+                        </div>
                       </div>
                       <div class="col-md-1 col-12">
                         <q-avatar :class="'text-' + avatar + '-avatar'" :color="avatar + '-avatar'">{{
@@ -102,6 +104,7 @@ import { getAlias } from 'src/types/chain-type';
 import FundCard from './ui/FundCard.vue';
 import AddressLink from './ui/AddressLink.vue';
 import CopyButton from './ui/CopyButton.vue';
+import RelativeTime from './ui/RelativeTime.vue';
 
 const tabs =
   [{
@@ -151,6 +154,6 @@ export default defineComponent({
       balances
     };
   },
-  components: { ErrorNotFoundPage, DetailField, FundCard, AddressLink, CopyButton }
+  components: { ErrorNotFoundPage, DetailField, FundCard, AddressLink, CopyButton, RelativeTime }
 })
 </script>

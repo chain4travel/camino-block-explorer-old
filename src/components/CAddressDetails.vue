@@ -20,8 +20,8 @@
           </div>
           <q-tab-panels v-model="tab" animated>
             <q-tab-panel name="transactions">
-              <details-table @row-clicked="(item) => handleRowEvent(item)" :columns="columns" :load-data="loadData"
-                :require-load-more="requireLoadMore" :store="store">
+              <DetailsTable height="57vh" :columns="columns" :load-data="loadData" :require-load-more="requireLoadMore"
+                :store="store">
                 <template v-slot:body-cell-direction="props">
                   <q-td :props="props">
                     <div>
@@ -32,7 +32,7 @@
                     </div>
                   </q-td>
                 </template>
-              </details-table>
+              </DetailsTable>
             </q-tab-panel>
           </q-tab-panels>
         </q-card-section>
@@ -49,17 +49,16 @@
 <script lang="ts">
 import { defineComponent, ref, Ref } from 'vue'
 import DetailsTable from './DetailsTable.vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import ErrorNotFoundPage from 'src/pages/ErrorNotFoundPage.vue';
 import { useAddressStore } from 'src/stores/address-store';
-import { getRelativeTime, getStringOrFirstElement } from 'src/utils/display-utils';
+import { getStringOrFirstElement } from 'src/utils/display-utils';
 import { CAddressTransactionTableData } from 'src/types/transaction'
-import { getDisplayValue } from 'src/utils/currency-utils'
 import { MagellanTransactionDetail } from 'src/types/magellan-types';
-import { getTransactionDetailsPath } from 'src/utils/route-utils';
+import { getTransactionDetailsPath, getAddressDetailsPath } from 'src/utils/route-utils';
 import { ChainType } from 'src/types/chain-type';
-import CopyButton from 'src/components/ui/CopyButton.vue';
 import { ChainLoader } from 'src/types/chain-loader';
+import CopyButton from 'src/components/ui/CopyButton.vue';
 
 const tabs =
   [{
@@ -67,81 +66,15 @@ const tabs =
     label: 'Transactions'
   }]
 
-const columns = [
-  {
-    name: 'direction',
-    label: '',
-    field: 'direction',
-    align: 'left',
-    width: '65' // check!!
-  },
-  {
-    name: 'txnHash',
-    label: 'Txn Hash',
-    field: 'txnHash',
-    align: 'left',
-    // width: '65' // check!!
-  },
-  {
-    name: 'method',
-    label: 'Method',
-    field: 'method',
-    align: 'left',
-    // width: '65' // check!!
-  },
-  {
-    name: 'block',
-    label: 'Block',
-    field: 'block',
-    align: 'left',
-    // width: '65' // check!!
-  },
-  {
-    name: 'age',
-    label: 'Age',
-    field: (row: CAddressTransactionTableData) => getRelativeTime(row.age) + ' ago',
-    align: 'left',
-    // width: '65' // check!!
-  },
-  {
-    name: 'from',
-    label: 'From',
-    field: 'from',
-    align: 'left',
-    // width: '65' // check!!
-  },
-  {
-    name: 'to',
-    label: 'To',
-    field: 'to',
-    align: 'left',
-    // width: '65' // check!!
-  },
-  {
-    name: 'value',
-    label: 'Value',
-    field: 'value',
-    align: 'left',
-    // width: '65' // check!!
-  },
-  {
-    name: 'txnFee',
-    label: 'Txn Fee',
-    field: 'txnFee',
-    align: 'left',
-    // width: '65' // check!!
-  },
-]
 
 
-function getFee(element: MagellanTransactionDetail): string {
-  return getDisplayValue(element.gasPrice * parseInt(element.receipt.gasUsed));
+function getFee(element: MagellanTransactionDetail): number {
+  return parseInt(element.gasPrice) * parseInt(element.receipt.gasUsed);
 }
 
 export default defineComponent({
   name: 'CAddressDetails',
   async setup() {
-    const router = useRouter();
     const route = useRoute();
     const addressStore = useAddressStore();
     const address = getStringOrFirstElement(route.params.addressId)
@@ -156,14 +89,15 @@ export default defineComponent({
       return '';
     }
 
+    function detailsLink(item: string) {
+      return `${getTransactionDetailsPath(ChainType.C_CHAIN, item)}?back=${route.fullPath}`
+    }
+
     return {
       tab: ref('transactions'),
       tabs,
-      columns: columns,
       store: addressStore,
-      handleRowEvent(item: CAddressTransactionTableData) {
-        router.push({ path: getTransactionDetailsPath(ChainType.C_CHAIN, item.txnHash), query: { back: route.fullPath } });
-      },
+
       async loadData(store: ChainLoader, knownHashes: string[], offset: number, limit: number) {
         const data = await store.loadAllCTxsForAddress(getStringOrFirstElement(route.params.addressId), offset, limit);
         const newData: CAddressTransactionTableData[] = [];
@@ -172,14 +106,14 @@ export default defineComponent({
           if (!knownHashes.includes(element.hash)) {
             newData.push({
               type: element.type,
-              age: element.createdAt,
+              age: new Date(element.createdAt),
               block: element.block,
               from: element.fromAddr,
               to: element.toAddr,
               method: await getMethod(element),
               txnFee: getFee(element),
               txnHash: element.hash,
-              value: getDisplayValue(element.value),
+              value: element.value,
               direction: element.fromAddr === address ? 'out' : 'in'
             })
             moreToLoad = true;
@@ -192,7 +126,72 @@ export default defineComponent({
       requireLoadMore(): boolean {
         return moreToLoad;
       },
-      txMainData: allTxData
+      txMainData: allTxData,
+      columns: [
+        {
+          name: 'direction',
+          label: 'In/Out',
+          field: 'direction',
+          align: 'center',
+        },
+        {
+          name: 'txnHash',
+          label: 'Txn Hash',
+          field: 'txnHash',
+          align: 'center',
+          type: 'hash',
+          detailsLink: detailsLink
+        },
+        {
+          name: 'method',
+          label: 'Method',
+          field: 'method',
+          align: 'center',
+        },
+        {
+          name: 'block',
+          label: 'Block',
+          field: 'block',
+          align: 'center',
+        },
+        {
+          name: 'age',
+          label: 'Age',
+          field: 'age',
+          align: 'center',
+          type: 'timestamp'
+        },
+        {
+          name: 'from',
+          label: 'From',
+          field: 'from',
+          align: 'center',
+          type: 'hash',
+          detailsLink: getAddressDetailsPath
+        },
+        {
+          name: 'to',
+          label: 'To',
+          field: 'to',
+          align: 'center',
+          type: 'hash',
+          detailsLink: getAddressDetailsPath
+        },
+        {
+          name: 'value',
+          label: 'Value',
+          field: 'value',
+          align: 'center',
+          type: 'currency'
+        },
+        {
+          name: 'txnFee',
+          label: 'Txn Fee',
+          field: 'txnFee',
+          align: 'center',
+          type: 'currency'
+        },
+      ]
     };
   },
   components: { DetailsTable, ErrorNotFoundPage, CopyButton }

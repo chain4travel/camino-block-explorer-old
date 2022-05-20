@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col-12">
       <DetailsTable :back-addr="backAddr" :load-data="loadTransactions" :require-load-more="requireLoadMore"
-        :columns="columns" title="C-Transaction" :store="store" @row-clicked="(item) => rowEvent(item)">
+        :columns="columns" title="C-Transaction" :store="store">
       </DetailsTable>
     </div>
   </div>
@@ -12,63 +12,11 @@
 <script lang="ts">
 import { useCIndexStore } from 'src/stores/c-index-store';
 import { ChainType } from 'src/types/chain-type';
-import { getAllTransactionsPath, getOverviewPath, getTransactionDetailsPath } from 'src/utils/route-utils';
+import { getAllTransactionsPath, getOverviewPath, getTransactionDetailsPath, getAddressDetailsPath, getBlockDetailsPath } from 'src/utils/route-utils';
 import { defineComponent } from 'vue'
-import { useRouter } from 'vue-router';
 import { CTransaction, TransactionTableData } from 'src/types/transaction'
-import { getRelativeTime } from 'src/utils/display-utils';
-import { getDisplayValue } from 'src/utils/currency-utils';
 import { ChainLoader } from 'src/types/chain-loader';
 import DetailsTable from '../components/DetailsTable.vue';
-
-const columns = [
-  {
-    name: 'blockNumber',
-    label: 'Block',
-    field: 'blockNumber',
-    align: 'left',
-    width: '65'
-  },
-  {
-    name: 'from',
-    label: 'From',
-    field: 'from',
-    align: 'left'
-  },
-  {
-    name: 'to',
-    label: 'To',
-    field: 'to',
-    align: 'left'
-  },
-  {
-    name: 'hash',
-    label: 'Hash',
-    field: 'hash',
-    align: 'left'
-  },
-  {
-    name: 'timestamp',
-    label: 'Timestamp',
-    field: (row: TransactionTableData) => getRelativeTime(row.timestamp),
-    align: 'left',
-    width: '90'
-  },
-  {
-    name: 'status',
-    label: 'Status',
-    field: 'status',
-    align: 'left',
-    width: '90'
-  },
-  {
-    value: 'value',
-    label: 'Value',
-    field: (row: TransactionTableData) => getDisplayValue(row.value),
-    align: 'left',
-    width: '90'
-  }
-]
 
 function mapToTableData(transaction: CTransaction): TransactionTableData {
   return {
@@ -86,20 +34,25 @@ function mapToTableData(transaction: CTransaction): TransactionTableData {
 export default defineComponent({
   name: 'CChainTransactionsAll',
   async setup() {
-    const router = useRouter();
+
+    function transactionDetails(item: string) {
+      return `${getTransactionDetailsPath(ChainType.C_CHAIN, item)}?back=${getAllTransactionsPath(ChainType.C_CHAIN)}`
+    }
+    function addressDetails(item: string) {
+      return `${getAddressDetailsPath(item)}?back=${getAllTransactionsPath(ChainType.C_CHAIN)}`
+    }
+    function blockDetails(item: string) {
+      return `${getBlockDetailsPath(ChainType.C_CHAIN, item)}?back=${getAllTransactionsPath(ChainType.C_CHAIN)}`
+    }
     let moreToLoad = true;
     return {
       store: useCIndexStore(),
-      columns,
       backAddr: getOverviewPath(ChainType.C_CHAIN),
-      rowEvent(item: TransactionTableData) {
-        router.push({ path: getTransactionDetailsPath(ChainType.C_CHAIN, item.hash), query: { back: getAllTransactionsPath(ChainType.C_CHAIN) } });
-      },
       requireLoadMore(): boolean {
         return moreToLoad;
       },
       async loadTransactions(store: ChainLoader, knownHashes: string[], offset: number, limit: number) {
-        const apiData : CTransaction[] = await store.loadTransactions(offset, limit);
+        const apiData: CTransaction[] = await store.loadTransactions(offset, limit);
         const newData: TransactionTableData[] = [];
         moreToLoad = false;
         apiData.map(mapToTableData).forEach(newTransaction => {
@@ -110,7 +63,62 @@ export default defineComponent({
           }
         });
         return newData;
-      }
+      },
+      columns: [
+        {
+          name: 'blockNumber',
+          label: 'Block',
+          field: 'blockNumber',
+          align: 'center',
+          type: 'hash',
+          detailsLink: blockDetails
+        },
+        {
+          name: 'from',
+          label: 'From',
+          field: 'from',
+          align: 'center',
+          type: 'hash',
+          detailsLink: addressDetails
+        },
+        {
+          name: 'to',
+          label: 'To',
+          field: 'to',
+          align: 'center',
+          type: 'hash',
+          detailsLink: addressDetails
+        },
+        {
+          name: 'hash',
+          label: 'Hash',
+          field: 'hash',
+          align: 'center',
+          type: 'hash',
+          detailsLink: transactionDetails
+        },
+       {
+          name: 'timestamp',
+          label: 'Timestamp',
+          field: 'timestamp',
+          align: 'center',
+          type: 'timestamp'
+        },
+        {
+          name: 'status',
+          label: 'Status',
+          field: 'status',
+          align: 'center',
+          type: 'status'
+        },
+        {
+          value: 'value',
+          label: 'Value',
+          field: 'value',
+          align: 'center',
+          type: 'currency'
+        }
+      ]
     };
   },
   components: { DetailsTable }

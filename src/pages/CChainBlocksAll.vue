@@ -2,97 +2,95 @@
   <div class="row">
     <div class="col-12">
       <DetailsTable :back-addr="backAddr" :load-data="loadBlocks" :require-load-more="requireLoadMore"
-        :columns="columns" title="C-Blocks" :store="store" @row-clicked="(item) => rowEvent(item)">
+        :columns="columns" title="C-Blocks" :store="store" :details-link="detailsLink">
       </DetailsTable>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import DetailsTable from 'src/components/DetailsTable.vue'
 import { useCIndexStore } from 'src/stores/c-index-store';
-import { getRelativeTime } from 'src/utils/display-utils';
 import { BlockTableData } from 'src/types/block';
-import { useRouter } from 'vue-router'
 import { getAllBlocksPath, getBlockDetailsPath, getOverviewPath } from 'src/utils/route-utils';
 import { ChainType } from 'src/types/chain-type';
 import { ChainLoader } from 'src/types/chain-loader';
-
-const columns = [
-  {
-    name: 'block',
-    label: 'Block',
-    field: 'number',
-    align: 'left',
-    width: '65'
-  },
-  {
-    name: 'age',
-    label: 'Age',
-    field: (row: BlockTableData) => getRelativeTime(row.timestamp),
-    align: 'left',
-    width: '150'
-  },
-  {
-    name: 'transactions',
-    label: '# of tx',
-    field: 'numberOfTransactions',
-    align: 'left',
-    width: '150'
-  },
-  {
-    name: 'hash',
-    label: 'Hash',
-    field: 'hash',
-    align: 'left'
-  },
-  {
-    name: 'gasUsed',
-    label: 'Gas Used',
-    field: 'gasUsed',
-    align: 'left',
-    width: '200'
-  },
-  {
-    name: 'gasLimit',
-    label: 'Gas Limit',
-    field: 'gasLimit',
-    align: 'left',
-    width: '200'
-  }
-]
 
 export default defineComponent({
   name: 'CChainBlocksAll',
   components: { DetailsTable },
   async setup() {
-    const router = useRouter();
-    let moreToLoad = true;
+    const moreToLoad = ref(true);
+
+    function detailsLink(blockNumber: string) {
+      return `${getBlockDetailsPath(ChainType.C_CHAIN, blockNumber || 0)}?back=${getAllBlocksPath(ChainType.C_CHAIN)}`
+    }
 
     return {
+      moreToLoad,
       store: useCIndexStore(),
-      columns,
-      rowEvent(item: BlockTableData) {
-        router.push({ path: getBlockDetailsPath(ChainType.C_CHAIN, item.number || 0), query: { back: getAllBlocksPath(ChainType.C_CHAIN) } })
-      },
       async loadBlocks(store: ChainLoader, knownHashes: string[], offset: number, limit: number): Promise<BlockTableData[]> {
         const apiData: BlockTableData[] = await store.loadBlocks(offset, limit);
         const newData: BlockTableData[] = []
-        moreToLoad = false;
+        moreToLoad.value = false;
         apiData.forEach(newBlock => {
           if (!knownHashes.includes(newBlock.hash)) {
             knownHashes.push(newBlock.hash);
             newData.push(newBlock);
-            moreToLoad = true;
+            moreToLoad.value = true;
           }
         })
         return newData;
       },
       requireLoadMore(): boolean {
-        return moreToLoad;
+        return moreToLoad.value;
       },
-      backAddr: getOverviewPath(ChainType.C_CHAIN)
+      backAddr: getOverviewPath(ChainType.C_CHAIN),
+      columns: [
+        {
+          name: 'block',
+          label: 'Block',
+          field: 'number',
+          align: 'center',
+          type: 'hash',
+          detailsLink: detailsLink
+        },
+        {
+          name: 'age',
+          label: 'Age',
+          field: 'timestamp',
+          align: 'center',
+          type: 'timestamp'
+        },
+        {
+          name: 'transactions',
+          label: '# of tx',
+          field: 'numberOfTransactions',
+          align: 'center',
+        },
+        {
+          name: 'hash',
+          label: 'Hash',
+          field: 'hash',
+          align: 'center',
+          type: 'hash'
+        },
+        {
+          name: 'gasUsed',
+          label: 'Gas Used',
+          field: 'gasUsed',
+          align: 'center',
+          type: 'currency',
+        },
+        {
+          name: 'gasLimit',
+          label: 'Gas Limit',
+          field: 'gasLimit',
+          align: 'center',
+          type: 'currency',
+        }
+      ]
     }
   }
 })

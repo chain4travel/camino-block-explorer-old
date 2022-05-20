@@ -201,13 +201,10 @@ body.body--light {
 }
 
 .sticky-headers {
-  /* height or max-height is important */
-  height: 80vh;
 
   .q-table__top,
   .q-table__bottom,
   thead tr:first-child th {
-    background-color: $background;
     position: sticky;
     z-index: 1;
   }

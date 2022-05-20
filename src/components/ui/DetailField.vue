@@ -87,7 +87,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { getRelativeTime } from 'src/utils/display-utils'
-import { getDisplayValueForGewi, getDisplayValue, formatAmount, nCamToACam } from 'src/utils/currency-utils'
+import { formatAmount, nCamToACam } from 'src/utils/currency-utils'
 import LongString from 'src/components/ui/LongString.vue'
 import CamAmount from 'src/components/ui/CamAmount.vue'
 import CopyButton from 'src/components/ui/CopyButton.vue';
@@ -160,8 +160,6 @@ export default defineComponent({
       getStatusIcon,
       getStatusClass,
       getRelativeTime,
-      getDisplayValueForGewi,
-      getDisplayValue,
       nCamToACam,
       formatAmount,
       getTooltip: (field: string): string | undefined => {

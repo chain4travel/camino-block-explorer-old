@@ -34,7 +34,7 @@ function getTargetSize(screen: string, xlLength: number, lgLength: number, mdLen
 export default defineComponent({
   name: 'LongString',
   props: {
-    value: { type: String, required: true },
+    value: { type: [String,Number], required: true },
     xsLength: { type: Number, default: 28 },
     smLength: { type: Number, default: 16 },
     mdLength: { type: Number, default: 9 },

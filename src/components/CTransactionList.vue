@@ -40,7 +40,6 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import { getRelativeTime, displayLongString } from 'src/utils/display-utils'
-import { getDisplayValue } from 'src/utils/currency-utils'
 import { getAddressDetailsPath } from 'src/utils/route-utils'
 import ListCard from './ui/ListCard.vue'
 import { CTransaction } from 'src/types/transaction'
@@ -58,7 +57,7 @@ export default defineComponent({
     detailsLinkFunction: { type: Function, required: true }
   },
   setup() {
-    return { getRelativeTime, displayLongString, getDisplayValue, getAddressDetailsPath };
+    return { getRelativeTime, displayLongString, getAddressDetailsPath };
   },
   components: { ListCard, AddressLink, RelativeTime, CamAmount }
 })

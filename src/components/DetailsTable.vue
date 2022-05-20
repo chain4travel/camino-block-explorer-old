@@ -1,12 +1,32 @@
 <template>
   <div :class="$q.screen.lt.md ? '' : 'q-pa-md'">
-    <q-table :grid="$q.screen.lt.sm" class="sticky-headers" :title="title" :rows="data" :columns="computedColumns"
-      :loading="loading" row-key="index" virtual-scroll :virtual-scroll-item-size="48"
-      :virtual-scroll-sticky-size-start="48" :rows-per-page-options="[0]" @virtual-scroll="onScroll"
-      @row-click="(event, item) => $emit('row-clicked', item)">
+    <q-table :style="'height:'+ height" card-class="q-card" table-header-class="q-card" :grid="$q.screen.lt.md" class="sticky-headers "
+      :title="title" :rows="data" :columns="columns" :loading="loading" row-key="index" virtual-scroll
+      :virtual-scroll-item-size="48" :virtual-scroll-sticky-size-start="48" :rows-per-page-options="[0]"
+      @virtual-scroll="onScroll">
       <template v-slot:body-cell="props">
         <q-td :props="props">
-          <div class="overflow-handle">
+          <div class="row justify-center" v-if="props.col && props.col.type === 'currency'">
+            <div>
+              <CamAmount style="min-width: 130px; max-width: 130px;" :value="props.value"></CamAmount>
+            </div>
+          </div>
+          <div v-else-if="props.value && props.col && props.col.type === 'hash'">
+            <AddressLink v-if="props.col.detailsLink" class="monospace" :to="props.col.detailsLink(props.value)"
+              :value="props.value" :xl-length="50" :lg-length="25" :md-length="7" :sm-length="7" :xs-length="20">
+            </AddressLink>
+            <LongString v-else class="monospace" :value="props.value" :xl-length="50" :lg-length="25" :md-length="7"
+              :sm-length="7" :xs-length="10"></LongString>
+          </div>
+          <div v-else-if="props.col && props.col.type === 'status'">
+            <q-chip class="chip-placing">
+              {{ props.value }}
+            </q-chip>
+          </div>
+          <div v-else-if="props.col && props.col.type === 'timestamp'">
+            <RelativeTime :value="props.value"></RelativeTime>
+          </div>
+          <div v-else class="overflow-handle">
             {{ props.value }}
           </div>
         </q-td>
@@ -20,7 +40,7 @@
       </template>
       <template v-slot:item="props">
 
-        <div class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition">
+        <div class="q-pa-xs col-xs-12 col-sm-12 col-md-4 col-lg-3 grid-style-transition">
           <q-card>
             <div class="q-py-sm">
               <q-list dense>
@@ -28,13 +48,32 @@
                   <div class="q-table__grid-item-row">
                     <div class="q-table__grid-item-title">{{ col.label }}</div>
                     <div class="q-table__grid-item-value">
-                      {{ col.value }}
+                      <div class="row justify-center" v-if="col && col.type === 'currency'">
+                        <div>
+                          <CamAmount :value="col.value"></CamAmount>
+                        </div>
+                      </div>
+                      <div v-else-if="col && col.value &&  col.type === 'hash'">
+                        <AddressLink v-if="col.detailsLink" class="monospace"
+                          :to="col.detailsLink(col.value)" :value="col.value" :xl-length="36" :lg-length="15"
+                          :md-length="7" :sm-length="70" :xs-length="30">
+                        </AddressLink>
+                        <LongString v-else class="monospace" :value="col.value" :xl-length="36" :lg-length="36"
+                          :md-length="7" :sm-length="70" :xs-length="30"></LongString>
+                      </div>
+                      <div v-else-if="col && col.type === 'status'">
+                        <q-chip class="chip-placing">
+                          {{ col.value }}
+                        </q-chip>
+                      </div>
+                      <div v-else-if="col && col.type === 'timestamp'">
+                        <RelativeTime :value="col.value"></RelativeTime>
+                      </div>
+                      <div v-else class="overflow-handle">
+                        {{ col.value }}
+                      </div>
                     </div>
                   </div>
-                </q-item>
-                <q-item class="justify-end text-right">
-                  <q-btn @click="() => $emit('row-clicked', props.row)" class="square-background" size="sm" outline
-                    color="primary" rounded icon="search"></q-btn>
                 </q-item>
               </q-list>
             </div>
@@ -60,26 +99,13 @@
 import { defineComponent, PropType, Ref, ref } from 'vue';
 import { BlockTableData } from 'src/types/block';
 import { ChainLoader } from 'src/types/chain-loader';
-import { computed } from '@vue/reactivity';
+import AddressLink from './ui/AddressLink.vue';
+import { getAddressDetailsPath } from 'src/utils/route-utils';
+import LongString from './ui/LongString.vue';
+import RelativeTime from './ui/RelativeTime.vue';
+import CamAmount from './ui/CamAmount.vue';
 
 const pageSize = 20;
-
-function calculateWidthPerColumn(columns: Array<{ width?: number }>) {
-  let widthToDivide = screen.availWidth - 120;
-  let columnsWithEqualWidth = columns.length;
-  columns.forEach((e: { width?: number }) => {
-    if (e.width) {
-      widthToDivide -= e.width;
-      columnsWithEqualWidth--;
-    }
-  })
-  return widthToDivide / columnsWithEqualWidth;
-}
-
-function createFixedWidthParams(width: number) {
-  return 'max-width:' + width + 'px;' +
-    ' min-width:' + width + 'px;';
-}
 
 export default defineComponent({
   name: 'DetailsTable',
@@ -89,32 +115,24 @@ export default defineComponent({
     columns: { type: Array as PropType<Array<{ style?: string, width?: number }>>, required: true },
     loadData: { type: Function, required: true },
     requireLoadMore: { type: Function, required: true },
-    backAddr: { type: String, requried: false }
+    backAddr: { type: String, requried: false },
+    detailsLink: { type: Function, required: false },
+    height: {type: String, default: '80vh'}
   },
   emits: ['row-clicked'],
   async setup(props) {
-    const widthPerColumn = calculateWidthPerColumn(props.columns);
-    const computedColumns = computed(() => {
-      return props.columns.map((e: { style?: string, width?: number }) => {
-        if (!e.style) {
-          if (e.width) {
-            e.style = createFixedWidthParams(e.width);
-          } else {
-            e.style = createFixedWidthParams(widthPerColumn)
-          }
-        }
-        return e;
-      })
-    })
     const loading = ref(false);
 
     let knownHashes: string[] = [];
-    const initData: BlockTableData[] = await props.loadData(props.store, knownHashes, 0, pageSize);
-    const data: Ref<BlockTableData[]> = ref(initData);
-    const currentOffset = ref(initData.length);
+    const data: Ref<BlockTableData[]> = ref([]);
+    const currentOffset = ref(0);
+    props.loadData(props.store, knownHashes, 0, pageSize).then((initData: BlockTableData[]) => {
+      data.value = initData;
+      currentOffset.value = initData.length;
+    });
 
     return {
-      computedColumns,
+      getAddressDetailsPath,
       data: data,
       loading,
       pagination: { rowsPerPage: 0 },
@@ -140,13 +158,12 @@ export default defineComponent({
       }
     };
   },
-  components: {}
+  components: { AddressLink, LongString, RelativeTime, CamAmount }
 })
 </script>
 
 <style lang="sass">
-.q-table__grid-item-row
-  width: 100%
-.q-td
-  width: 100%
+
+.chip-placing
+  margin-left: -10px
 </style>
