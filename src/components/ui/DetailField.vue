@@ -62,7 +62,6 @@
         <div v-else-if="type == 'wei'">
           <div class="row">
             <div class="col-auto">
-              {{value}}
               <CamAmount :value="Number(value)" />
             </div>
           </div>
