@@ -103,18 +103,18 @@ export const useCIndexStore = defineStore('cindex', {
         createdAt: new Date(mglDetails.createdAt),
         fromAddr: mglDetails.fromAddr,
         gasLimit: mglDetails.gasLimit,
-        gasPrice: mglDetails.gasPrice,
+        gasPrice: parseInt(mglDetails.gasPrice),
         gasUsed: mglDetails.receipt ? parseInt(mglDetails.receipt.gasUsed) : undefined,
         hash: mglDetails.hash,
-        maxFeePerGas: mglDetails.maxFeePerGas,
-        maxPriorityFeePerGas: mglDetails.maxPriorityFeePerGas,
+        maxFeePerGas: parseInt(mglDetails.maxFeePerGas),
+        maxPriorityFeePerGas: parseInt(mglDetails.maxPriorityFeePerGas),
         nonce: mglDetails.nonce,
         r: mglDetails.r,
         s: mglDetails.s,
         v: mglDetails.v,
         toAddr: mglDetails.toAddr,
         type: mglDetails.type,
-        value: mglDetails.value,
+        value: parseInt(mglDetails.value),
       }
     },
     async loadByBlockId(blockNumberParam: string): Promise<BlockDetails> {
@@ -122,11 +122,7 @@ export const useCIndexStore = defineStore('cindex', {
       const block = await this.loadMagellanBlockByNumber(blockNumber);
       return {
         additionalInformation: {
-          difficulty: parseInt(block.header.difficulty),
           extraData: block.header.extraData,
-          logsBloom: block.header.logsBloom,
-          nonce: parseInt(block.header.nonce),
-          uncles: block.header.sha3Uncles
         },
         blockNumber: parseInt(block.header.number),
         hash: block.header.hash,
@@ -137,7 +133,17 @@ export const useCIndexStore = defineStore('cindex', {
         transactionCount: block.transactions ? block.transactions.length : 0,
         gasLimit: parseInt(block.header.gasLimit),
         gasUsed: parseInt(block.header.gasUsed),
-        timestamp: new Date(block.header.timestamp * 1000)
+        timestamp: new Date(block.header.timestamp * 1000),
+        transactions: block.transactions ? block.transactions.map(item =>({
+          block: item.block,
+          from: item.fromAddr,
+          hash: item.hash,
+          status: item.receipt.status,
+          timestamp: new Date(item.createdAt),
+          to: item.toAddr,
+          transactionCost: item.receipt.gasUsed ? parseInt(item.receipt.gasUsed) * parseInt(item.gasPrice) : parseInt(item.maxFeePerGas) * parseInt(item.gasPrice),
+          value: parseInt(item.value)
+        })): []
       };
     },
     async loadMagellanTransactionbyHash(transactionHash: string): Promise<MagellanCTransactionResponse> {

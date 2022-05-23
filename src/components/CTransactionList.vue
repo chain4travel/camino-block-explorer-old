@@ -1,6 +1,6 @@
 <template>
-  <ListCard title="Latest Transactions" :items="transactions" :show-all-link="showAllLink"
-    @refresh="() => $emit('refresh')">
+  <ListCard :title="title" :items="transactions" :show-all-link="showAllLink"
+    @refresh="() => $emit('refresh')" hideRefresh>
     <template v-slot="{ item }">
       <div class="row q-py-sm">
         <div class="gt-xs col-auto text-center q-pr-md">
@@ -51,10 +51,11 @@ export default defineComponent({
   name: 'CTransactionList',
   emits: ['refresh', 'row-clicked'],
   props: {
-    title: { type: String, required: false },
+    title: { type: String, default: 'Latest Transactions' },
     transactions: { type: Array as PropType<CTransaction[]>, required: true },
     showAllLink: { type: String, required: false },
-    detailsLinkFunction: { type: Function, required: true }
+    detailsLinkFunction: { type: Function, required: true },
+    hideRefresh: {type: Boolean, default: false}
   },
   setup() {
     return { getRelativeTime, displayLongString, getAddressDetailsPath };

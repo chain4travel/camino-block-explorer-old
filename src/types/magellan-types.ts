@@ -47,10 +47,10 @@ export interface MagellanTransactionDetail {
   createdAt: string;
   nonce: number;
   gasPrice: string;
-  maxFeePerGas: number;
-  maxPriorityFeePerGas: number;
+  maxFeePerGas: string;
+  maxPriorityFeePerGas: string;
   gasLimit: number;
-  value: number;
+  value: string;
   input: string;
   fromAddr: string;
   toAddr: string;

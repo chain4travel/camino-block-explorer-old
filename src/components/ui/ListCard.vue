@@ -4,7 +4,7 @@
       <div class="row">
         <div class="text-h6 col-xs-grow">{{ title }}</div>
         <div class="col-xs-auto text-right">
-          <q-btn outline rounded color="primary" icon="mdi-refresh" @click="() => $emit('refresh')" />
+          <q-btn v-if="!hideRefresh" outline rounded color="primary" icon="mdi-refresh" @click="() => $emit('refresh')" />
         </div>
       </div>
     </q-card-section>
@@ -12,7 +12,7 @@
       <q-list dense separator class="limit-height">
         <div v-for="item, index in items" :key="index" clickable>
             <slot :item="item"></slot>
-            <q-separator></q-separator>
+            <q-separator v-if="index !== items.length-1"></q-separator>
         </div>
       </q-list>
     </q-card-section>
@@ -37,6 +37,7 @@ export default defineComponent({
     title: { type: String, required: false },
     items: { type: Array, required: true },
     showAllLink: { type: String, required: false },
+    hideRefresh: {type: Boolean, default: false}
   }
 })
 </script>

@@ -8,7 +8,7 @@
         <q-td :props="props">
           <div class="row justify-center" v-if="props.col && props.col.type === 'currency'">
             <div>
-              <CamAmount style="min-width: 130px; max-width: 130px;" :value="props.value"></CamAmount>
+              <CamAmount style="min-width: 140px; max-width: 140px;" :value="props.value"></CamAmount>
             </div>
           </div>
           <div v-else-if="props.value && props.col && props.col.type === 'hash'">
