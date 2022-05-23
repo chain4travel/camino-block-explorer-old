@@ -67,6 +67,7 @@ export interface TranscationDetail {
   s: string;
   gasUsed?: number;
   contractAddress?: string;
+  transactionCost: number;
 }
 
 export interface CAddressTransactionTableData {

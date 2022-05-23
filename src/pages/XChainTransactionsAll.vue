@@ -19,8 +19,8 @@ import { useXIndexStore } from 'src/stores/x-index-store';
 import { getDisplayAddress } from 'src/utils/display-utils'
 
 function getValue(outputTotal?: object, inputTotal?: object): number {
-  const output = outputTotal ? Object.entries(outputTotal).map(([key, value]) => parseInt(value)).reduce((pv, cv) => pv + cv, 0) : 0;
-  const input = inputTotal ? Object.entries(inputTotal).map(([key, value]) => parseInt(value)).reduce((pv, cv) => pv + cv, 0) : 0;
+  const output = outputTotal ? Object.entries(outputTotal).map(([, value]) => parseInt(value)).reduce((pv, cv) => pv + cv, 0) : 0;
+  const input = inputTotal ? Object.entries(inputTotal).map(([, value]) => parseInt(value)).reduce((pv, cv) => pv + cv, 0) : 0;
   return output - input;
 }
 

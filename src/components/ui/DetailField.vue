@@ -20,6 +20,9 @@
         <div v-else-if="type == 'string'">
           <long-string :value="value" :xl-length="xlLength" :lg-length="lgLength" :md-length="mdLength" :sm-length="smLength" :xs-length="xsLength"></long-string>
         </div>
+          <div v-else-if="type == 'number'">
+          <long-string :value="value.toLocaleString()" :xl-length="xlLength" :lg-length="lgLength" :md-length="mdLength" :sm-length="smLength" :xs-length="xsLength"></long-string>
+        </div>
         <div v-else-if="type == 'monospace'">
           <long-string class="monospace" :value="value" :xl-length="xlLength" :lg-length="lgLength" :md-length="mdLength" :sm-length="smLength" :xs-length="xsLength"></long-string>
         </div>
@@ -59,6 +62,7 @@
         <div v-else-if="type == 'wei'">
           <div class="row">
             <div class="col-auto">
+              {{value}}
               <CamAmount :value="Number(value)" />
             </div>
           </div>

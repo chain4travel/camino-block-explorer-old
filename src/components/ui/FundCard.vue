@@ -27,7 +27,7 @@ export default defineComponent({
   props: {
     funds: { type: Array as PropType<Fund[]>, required: true },
     title: { type: String, required: true },
-    breakPoints: { type: Array as PropType<number[]>, default: () => [16, 50, 13, 25, 35] },
+    breakPoints: { type: Array as PropType<number[]>, default: () => [16, 40, 10, 20, 30] },
     type: {type: String as PropType<'From'|'To'>, required: true}
   },
   components: { DetailField }
