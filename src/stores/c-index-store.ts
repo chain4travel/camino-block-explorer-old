@@ -115,6 +115,7 @@ export const useCIndexStore = defineStore('cindex', {
         toAddr: mglDetails.toAddr,
         type: mglDetails.type,
         value: parseInt(mglDetails.value),
+        transactionCost: (parseInt(mglDetails.receipt.gasUsed) * (parseInt(mglDetails.gasPrice)))
       }
     },
     async loadByBlockId(blockNumberParam: string): Promise<BlockDetails> {
@@ -134,7 +135,7 @@ export const useCIndexStore = defineStore('cindex', {
         gasLimit: parseInt(block.header.gasLimit),
         gasUsed: parseInt(block.header.gasUsed),
         timestamp: new Date(block.header.timestamp * 1000),
-        transactions: block.transactions ? block.transactions.map(item =>({
+        transactions: block.transactions ? block.transactions.map(item => ({
           block: item.block,
           from: item.fromAddr,
           hash: item.hash,
@@ -143,7 +144,7 @@ export const useCIndexStore = defineStore('cindex', {
           to: item.toAddr,
           transactionCost: item.receipt.gasUsed ? parseInt(item.receipt.gasUsed) * parseInt(item.gasPrice) : parseInt(item.maxFeePerGas) * parseInt(item.gasPrice),
           value: parseInt(item.value)
-        })): []
+        })) : []
       };
     },
     async loadMagellanTransactionbyHash(transactionHash: string): Promise<MagellanCTransactionResponse> {

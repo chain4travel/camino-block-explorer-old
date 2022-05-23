@@ -7,7 +7,7 @@ export function getRelativeTime(timestamp: Date | number | string): string {
   if (!Number.isInteger(time)) {
     return 'Unknown';
   }
-  const duration = Duration.fromMillis(new Date().getTime() - time, {locale: "en-US"}).shiftTo('seconds');
+  const duration = Duration.fromMillis(new Date().getTime() - time, {locale: 'en-US'}).shiftTo('seconds');
   if (duration.seconds < 1) {
     return 'less than one second'
   } else if (duration.seconds < 60) {
@@ -36,10 +36,10 @@ export function displayLongString(val: string, maxLength = 12): string {
     return '';
   }
   if(val.length > maxLength) {
-    const partSize = (maxLength - 3) / 2;
-    const remainder = (maxLength - 3) % 2;
+    const partSize = (maxLength - 5) / 2;
+    const remainder = (maxLength - 5) % 2;
     const firstPartSize = partSize + remainder;
-    return val.substring(0, firstPartSize) + '&hellip;' + val.substring(val.length + 1 - partSize, val.length);
+    return val.substring(0, firstPartSize) + '&nbsp;&hellip; ' + val.substring(val.length + 1 - partSize, val.length);
   } else {
     return val;
   }

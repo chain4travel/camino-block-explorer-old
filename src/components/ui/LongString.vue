@@ -2,7 +2,7 @@
   <span v-if="value && getTargetSize($q.screen.name, xlLength, lgLength, mdLength, smLength, xsLength) < value.length">
     {{ displayFirstPartLongString(value, getTargetSize($q.screen.name, xlLength, lgLength, mdLength, smLength,
         xsLength))
-    }}&hellip;{{ displaySecondPartLongString(value, getTargetSize($q.screen.name, xlLength, lgLength,
+    }} &hellip; {{ displaySecondPartLongString(value, getTargetSize($q.screen.name, xlLength, lgLength,
     mdLength, smLength, xsLength))
 }}
     <q-tooltip :v-if="'value'">
@@ -18,7 +18,7 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { displayLongString, displayFirstPartLongString, displaySecondPartLongString } from 'src/utils/display-utils'
+import { displayFirstPartLongString, displaySecondPartLongString } from 'src/utils/display-utils'
 
 function getTargetSize(screen: string, xlLength: number, lgLength: number, mdLength: number, smLength: number, xsLength: number) {
   switch (screen) {
@@ -43,7 +43,7 @@ export default defineComponent({
   },
   setup() {
     return {
-      displayLongString, getTargetSize, displayFirstPartLongString, displaySecondPartLongString
+      getTargetSize, displayFirstPartLongString, displaySecondPartLongString
     }
   }
 })

@@ -69,7 +69,7 @@ const tabs =
 
 
 function getFee(element: MagellanTransactionDetail): number {
-  return parseInt(element.gasPrice) * parseInt(element.receipt.gasUsed);
+  return parseFloat(element.gasPrice) * parseFloat(element.receipt.gasUsed);
 }
 
 export default defineComponent({
