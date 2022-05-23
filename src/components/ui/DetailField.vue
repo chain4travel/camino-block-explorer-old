@@ -1,7 +1,7 @@
 <template>
-  <q-item>
-    <div class="row q-gutter-sm">
-      <div class="col-md-4 col-12 text-bold">
+  <q-item class="table-item">
+    <div class="row q-gutter-sm m-auto">
+      <div class="col-md-4 col-12 text-bold flex m-auto">
         <div class="row">
           <q-icon class="col-2 gt-sm grey-color" v-if="icon" size="xs" :name="icon">
             <q-tooltip v-if="tooltip || getTooltip(field)">
@@ -13,7 +13,7 @@
           </span>
         </div>
       </div>
-      <div class="col-md col">
+      <div class="col-md col m-auto">
         <div v-if="value === undefined || value === ''">
           <q-icon class="text-grey" size="xs" name="mdi-circle-off-outline" />
         </div>
@@ -76,7 +76,7 @@
         </div>
       </div>
       <div v-if="(detailsLink || allowCopy) && (value !== undefined && value !== '' && parseInt(value) !== 0)"
-        :class="$q.screen.gt.sm ? detailsLink ? 'col-md-2 text-right' : 'col-md-1 text-right' : 'col-2'">
+        :class="$q.screen.gt.sm ? detailsLink ? 'col-md-2 text-right m-auto' : 'col-md-1 text-right m-auto' : 'col-2 m-auto'">
         <q-btn v-if="detailsLink" size="sm" color="primary" outline rounded icon="mdi-open-in-new" :to="detailsLink">
           &nbsp;Open</q-btn>
         <CopyButton v-if="allowCopy && value" :value="value.toString()"/>
