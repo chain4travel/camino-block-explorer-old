@@ -1,3 +1,5 @@
+import { CTransaction } from "./transaction";
+
 export interface BlockTableData {
   number: number;
   timestamp: Date;
@@ -19,6 +21,7 @@ export interface BlockDetails {
   parentHash: string;
   additionalInformation: AdditionalInformation,
   parentBlockNumber?: number;
+  transactions: CTransaction[]
 }
 
 interface AdditionalInformation {

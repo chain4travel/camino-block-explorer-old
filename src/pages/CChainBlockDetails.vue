@@ -17,18 +17,17 @@ import { ChainType } from 'src/types/chain-type';
 import { useCIndexStore } from 'src/stores/c-index-store';
 import { getStringOrFirstElement } from 'src/utils/display-utils';
 
-const useMagellan = false;
-
 export default defineComponent({
   name: 'CChainBlockdetails',
   components: { BlockDetailsView },
   async setup() {
     const route = useRoute();
     const cChain = useCIndexStore();
+    const blockId = getStringOrFirstElement(route.params.blockId);
     return {
       blockId: route.params.blockId,
       backroute: route.query.back ? route.query.back : getOverviewPath(ChainType.C_CHAIN),
-      loadedBlock: useMagellan ? await cChain.loadMagellanBlockByNumber(parseInt(getStringOrFirstElement(route.params.blockId))) : await cChain.loadByBlockId(getStringOrFirstElement(route.params.blockId)),
+      loadedBlock: await cChain.loadByBlockId(blockId),
       type: ChainType.C_CHAIN
     }
   }
