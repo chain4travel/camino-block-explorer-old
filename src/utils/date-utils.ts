@@ -1,5 +1,5 @@
-import { DateTime } from "luxon";
-import { Timeframe } from "src/types/chain-loader";
+import { DateTime } from 'luxon';
+import { Timeframe } from 'src/types/chain-loader';
 
 export function getStartDate(endDate: DateTime, timeframe: Timeframe): DateTime {
   switch (timeframe) {
