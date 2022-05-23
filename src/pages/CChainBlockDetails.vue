@@ -2,7 +2,7 @@
   <!-- content -->
   <div class="row">
     <div class="offset-md-2 col-md-8 col-12">
-      <BlockDetailsView :type="type" title="C-Chain Block" :back-route="backroute" :content="loadedBlock">
+      <BlockDetailsView :type="type" :title="'C-Chain Block ' + blockId  " :back-route="backroute" :content="loadedBlock">
       </BlockDetailsView>
     </div>
   </div>
