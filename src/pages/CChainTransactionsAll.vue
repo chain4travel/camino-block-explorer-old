@@ -112,6 +112,13 @@ export default defineComponent({
           type: 'status'
         },
         {
+          value: 'transactionCost',
+          label: 'Transaction Cost',
+          field: 'transactionCost',
+          align: 'center',
+          type: 'currency'
+        },
+        {
           value: 'value',
           label: 'Value',
           field: 'value',

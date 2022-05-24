@@ -22,8 +22,8 @@
             :allow-copy="true" />
           <DetailField icon="mdi-help-circle-outline" field="Base Gas Fee" :value="content.baseGaseFee" type="wei" />
           <DetailField icon="mdi-help-circle-outline" field="Fees" :value="content.fees" type="wei" />
-          <DetailField icon="mdi-help-circle-outline" field="Gas Limit" :value="content.gasLimit" type="wei" />
-          <DetailField icon="mdi-help-circle-outline" field="Gas Used" :value="content.gasUsed" type="wei" />
+          <DetailField icon="mdi-help-circle-outline" field="Gas Limit" :value="content.gasLimit" type="number" />
+          <DetailField icon="mdi-help-circle-outline" field="Gas Used" :value="content.gasUsed" type="number" />
           <DetailField icon="mdi-help-circle-outline" field="Timestamp" :value="content.timestamp" type="timestamp" />
           <DetailField icon="mdi-help-circle-outline" field="Transaction Count" :value="content.transactionCount"
             type="string" />

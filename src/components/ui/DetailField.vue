@@ -131,7 +131,7 @@ const tooltips: { [key: string]: string } = {
   'Number': 'The block number',
   'Parent Hash': 'The Hash of the parent block',
   'Base Gas Fee': 'The minimum gas fee required for a transaction to be included in a block',
-  'Fees': 'The fees used by the block',
+  'Fees': "The toal cost of this block. This is calculated by adding up all the transaction costs, and adding ('Base Gas Fee' * 'Gas Used') to it.",
   'Timestamp': 'The date and time at which a transaction is validated',
   'Transaction Count': 'The amount of transactions in this block',
   'Extra Data': 'Additional data in this block',
