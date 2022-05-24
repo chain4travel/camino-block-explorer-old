@@ -81,14 +81,14 @@ export default defineComponent({
           label: 'Gas Used',
           field: 'gasUsed',
           align: 'center',
-          type: 'currency',
+          type: 'number',
         },
         {
           name: 'gasLimit',
           label: 'Gas Limit',
           field: 'gasLimit',
           align: 'center',
-          type: 'currency',
+          type: 'number',
         }
       ]
     }

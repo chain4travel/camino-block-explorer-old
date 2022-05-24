@@ -7,6 +7,7 @@ export interface BlockTableData {
   hash: string;
   gasUsed?: number;
   gasLimit?: number;
+  blockCost: number;
 }
 
 export interface BlockDetails {

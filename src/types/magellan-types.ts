@@ -23,14 +23,14 @@ export interface MagellanBlock {
   evmTx?: number;
 }
 
-
-export interface MagellanTransaction {
+interface MagellanTransaction {
   type: string;
   block: string;
   index: string;
   hash: string;
   nonce: string;
-  gasPrice: string;
+  maxFeePerGas: string;
+  maxPriorityFeePerGas: string;
   gas: string;
   value: string;
   from: string;
@@ -39,6 +39,7 @@ export interface MagellanTransaction {
   status: string;
   gasUsed: string;
 }
+
 
 export interface MagellanTransactionDetail {
   type: number;

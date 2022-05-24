@@ -26,6 +26,9 @@
           <div v-else-if="props.col && props.col.type === 'timestamp'">
             <RelativeTime :value="props.value"></RelativeTime>
           </div>
+          <div v-else-if="props.col && props.col.type === 'number'">
+            {{ props.value.toLocaleString() }}
+          </div>
           <div v-else class="overflow-handle">
             {{ props.value }}
           </div>

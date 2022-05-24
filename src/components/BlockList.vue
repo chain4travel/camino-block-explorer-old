@@ -19,7 +19,7 @@
           <LongString class="monospace" :value="item.hash" :xl-length="58" :lg-length="32" :md-length="9" :sm-length="16" :xs-length="16"></LongString>
         </div>
         <div :class="'col-auto self-center justify-end'+ ($q.screen.gt.xs ? ' q-px-sm ':'')">
-          <CamAmount :value="item.gasUsed" />
+          <CamAmount :value="item.blockCost" />
         </div>
       </div>
     </template>

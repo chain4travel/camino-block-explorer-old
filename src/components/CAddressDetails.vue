@@ -69,7 +69,7 @@ const tabs =
 
 
 function getFee(element: MagellanTransactionDetail): number {
-  return parseFloat(element.gasPrice) * parseFloat(element.receipt.gasUsed);
+  return parseInt(element.gasPrice) * parseInt(element.receipt.gasUsed);
 }
 
 export default defineComponent({
@@ -114,7 +114,7 @@ export default defineComponent({
               txnFee: getFee(element),
               txnHash: element.hash,
               value: element.value,
-              direction: element.fromAddr === address ? 'out' : 'in'
+              direction: element.fromAddr === address ? 'out' : 'in',
             })
             moreToLoad = true;
             knownHashes.push(element.hash);
