@@ -1,7 +1,7 @@
 <template>
   <q-item class="table-item">
-    <div class="row q-gutter-sm m-auto">
-      <div class="col-md-4 col-12 text-bold flex m-auto">
+    <div class="row q-gutter-sm m-auto--md">
+      <div class="col-md-4 col-12 text-bold flex m-auto--md">
         <div class="row">
           <q-icon class="col-2 gt-sm grey-color" v-if="icon" size="xs" :name="icon">
             <q-tooltip v-if="tooltip || getTooltip(field)">
@@ -13,7 +13,7 @@
           </span>
         </div>
       </div>
-      <div class="col-md col m-auto">
+      <div class="col-md col flex items-center">
         <div v-if="value === undefined || value === ''">
           <q-icon class="text-grey" size="xs" name="mdi-circle-off-outline" />
         </div>
@@ -79,7 +79,7 @@
         </div>
       </div>
       <div v-if="(detailsLink || allowCopy) && (value !== undefined && value !== '' && parseInt(value) !== 0)"
-        :class="$q.screen.gt.sm ? detailsLink ? 'col-md-2 text-right m-auto' : 'col-md-1 text-right m-auto' : 'col-2 m-auto'">
+        :class="$q.screen.gt.sm ? detailsLink ? 'col-auto text-right m-auto--md q-gutter-y-xs' : 'col-md-2 text-right m-auto--md' : 'col-auto q-gutter-y-xs m-auto'">
         <q-btn v-if="detailsLink" size="sm" color="primary" outline rounded icon="mdi-open-in-new" :to="detailsLink">
           &nbsp;Open</q-btn>
         <CopyButton v-if="allowCopy && value" :value="value.toString()"/>
@@ -153,9 +153,9 @@ export default defineComponent({
     detailsLink: { type: String, required: false },
     allowCopy: { type: Boolean, default: false },
     xsLength: {type: Number, required: false, default: 20},
-    smLength: {type: Number, required: false, default: 50},
-    mdLength: {type: Number, required: false, default: 40},
-    lgLength: {type: Number, required: false, default: 55},
+    smLength: {type: Number, required: false, default: 43},
+    mdLength: {type: Number, required: false, default: 27},
+    lgLength: {type: Number, required: false, default: 45},
     xlLength: {type: Number, required: false, default: 75}
   },
   setup() {
