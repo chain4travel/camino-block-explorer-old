@@ -192,13 +192,13 @@ body.body--light {
 }
 
 .overflow-handle {
-  display: flex;
+  display: inline-block;
   white-space: nowrap;
   width: 100%;
   overflow: hidden;
   -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
-  align-items: center;
+  margin: auto;
 }
 
 .sticky-headers {
@@ -229,6 +229,36 @@ body.body--light {
   align-items: center;
   justify-content: space-between;
   padding: 10px;
+  @media (max-width: 599px) {
+    .item-title {
+      order: 1;
+      padding: 10px;
+      padding-bottom: 0px;
+      margin: auto !important;
+    }
+    .item-content {
+      order: 3;
+    }
+    .item-buttons {
+      order: 2 !important;
+      float: right !important;
+      margin: auto !important;
+      white-space: nowrap !important;
+      text-align: right;
+      button {
+        margin-right: 0 !important;
+      }
+    }
+  }
+}
+
+.network-select{
+  .q-field__native span{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 4ch;
+  }
 }
 
 .m-auto {

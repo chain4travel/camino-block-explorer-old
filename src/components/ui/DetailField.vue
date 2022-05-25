@@ -1,7 +1,7 @@
 <template>
   <q-item class="table-item">
-    <div class="row q-gutter-sm m-auto--md">
-      <div class="col-md-4 col-12 text-bold flex m-auto--md">
+    <div class="row q-gutter-sm m-auto--md elements">
+      <div :class="getTitleClass($q.screen.gt.xs, detailsLink, allowCopy, value)">
         <div class="row">
           <q-icon class="col-2 gt-sm grey-color" v-if="icon" size="xs" :name="icon">
             <q-tooltip v-if="tooltip || getTooltip(field)">
@@ -13,7 +13,7 @@
           </span>
         </div>
       </div>
-      <div class="col-md col flex items-center">
+      <div :class="getContentClass($q.screen.gt.xs)">
         <div v-if="value === undefined || value === ''">
           <q-icon class="text-grey" size="xs" name="mdi-circle-off-outline" />
         </div>
@@ -79,7 +79,7 @@
         </div>
       </div>
       <div v-if="(detailsLink || allowCopy) && (value !== undefined && value !== '' && parseInt(value) !== 0)"
-        :class="$q.screen.gt.sm ? detailsLink ? 'col-auto text-right m-auto--md q-gutter-y-xs' : 'col-md-2 text-right m-auto--md' : 'col-auto q-gutter-y-xs m-auto'">
+        :class="$q.screen.gt.xs ? detailsLink ? 'col-auto text-right m-auto--md q-gutter-y-xs' : 'col-md-2 text-right m-auto' : 'col-6 q-gutter-y-xs m-auto item-buttons'">
         <q-btn v-if="detailsLink" size="sm" color="primary" outline rounded icon="mdi-open-in-new" :to="detailsLink">
           &nbsp;Open</q-btn>
         <CopyButton v-if="allowCopy && value" :value="value.toString()"/>
@@ -111,6 +111,25 @@ function getStatusClass(status: string) {
     css = css + 'text-blue';
   }
   return css
+}
+
+function getTitleClass(size: boolean| undefined, detailsLink: string | undefined, allowCopy: boolean, value: number | string) {
+  if (!size) {
+    if ((detailsLink || allowCopy) && (value !== undefined && value !== '' && parseInt(value) !== 0)) {
+      return 'col-md-4 col-6 text-bold flex m-auto--md item-title'
+    } else {
+      return 'col-md-4 col-12 text-bold flex m-auto--md item-title'
+    }
+  }
+  else
+    return 'col-md-4 col-12 text-bold flex m-auto--md'
+}
+
+function getContentClass(size: boolean| undefined) {
+  if (!size) 
+      return 'col-md col-12 flex items-center item-content'
+  else
+    return 'col-md col flex items-center'
 }
 
 const tooltips: { [key: string]: string } = {
@@ -165,6 +184,8 @@ export default defineComponent({
       getRelativeTime,
       nCamToACam,
       formatAmount,
+      getTitleClass,
+      getContentClass,
       getTooltip: (field: string): string | undefined => {
         if (Object.keys(tooltips).includes(field)) {
           return tooltips[field];
