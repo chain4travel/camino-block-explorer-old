@@ -1,6 +1,6 @@
 <template>
   <q-item class="table-item">
-    <div class="row q-gutter-sm m-auto--md elements">
+    <div class="row m-auto--md elements">
       <div :class="getTitleClass($q.screen.gt.xs, detailsLink, allowCopy, value)">
         <div class="row">
           <q-icon class="col-2 gt-sm grey-color" v-if="icon" size="xs" :name="icon">
@@ -79,7 +79,7 @@
         </div>
       </div>
       <div v-if="(detailsLink || allowCopy) && (value !== undefined && value !== '' && parseInt(value) !== 0)"
-        :class="$q.screen.gt.xs ? detailsLink ? 'col-auto text-right m-auto--md q-gutter-y-xs' : 'col-md-2 text-right m-auto' : 'col-6 q-gutter-y-xs m-auto item-buttons'">
+        :class="$q.screen.gt.xs ? detailsLink ? 'col-auto text-right m-auto--md q-gutter-y-xs' : 'col-md-2 col text-right m-auto' : 'col-6 q-gutter-y-xs m-auto item-buttons'">
         <q-btn v-if="detailsLink" size="sm" color="primary" outline rounded icon="mdi-open-in-new" :to="detailsLink">
           &nbsp;Open</q-btn>
         <CopyButton v-if="allowCopy && value" :value="value.toString()"/>
@@ -127,9 +127,9 @@ function getTitleClass(size: boolean| undefined, detailsLink: string | undefined
 
 function getContentClass(size: boolean| undefined) {
   if (!size) 
-      return 'col-md col-12 flex items-center item-content'
+    return 'col-md col-12 q-mt-xs flex items-center item-content'
   else
-    return 'col-md col flex items-center'
+    return 'col-md col-10 flex items-center'
 }
 
 const tooltips: { [key: string]: string } = {
