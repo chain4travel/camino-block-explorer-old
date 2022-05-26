@@ -79,7 +79,7 @@
         </div>
       </div>
       <div v-if="(detailsLink || allowCopy) && (value !== undefined && value !== '' && parseInt(value) !== 0)"
-        :class="$q.screen.gt.xs ? detailsLink ? 'col-auto text-right m-auto--md q-gutter-y-xs' : 'col-md-2 col text-right m-auto' : 'col-6 q-gutter-y-xs m-auto item-buttons'">
+        :class="$q.screen.gt.xs ? detailsLink ? 'col-4 text-right m-auto--md q-gutter-y-xs' : 'col-md-2 col text-right m-auto' : 'col-6 q-gutter-y-xs m-auto item-buttons'">
         <q-btn v-if="detailsLink" size="sm" color="primary" outline rounded icon="mdi-open-in-new" :to="detailsLink">
           &nbsp;Open</q-btn>
         <CopyButton v-if="allowCopy && value" :value="value.toString()"/>
@@ -129,7 +129,7 @@ function getContentClass(size: boolean| undefined) {
   if (!size) 
     return 'col-md col-12 q-mt-xs flex items-center item-content'
   else
-    return 'col-md col-10 flex items-center'
+    return 'col-md col-8 flex items-center'
 }
 
 const tooltips: { [key: string]: string } = {
@@ -172,7 +172,7 @@ export default defineComponent({
     detailsLink: { type: String, required: false },
     allowCopy: { type: Boolean, default: false },
     xsLength: {type: Number, required: false, default: 20},
-    smLength: {type: Number, required: false, default: 43},
+    smLength: {type: Number, required: false, default: 40},
     mdLength: {type: Number, required: false, default: 27},
     lgLength: {type: Number, required: false, default: 45},
     xlLength: {type: Number, required: false, default: 75}
