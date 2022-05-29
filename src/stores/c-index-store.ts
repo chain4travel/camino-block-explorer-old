@@ -11,23 +11,24 @@ import { DateTime, Interval } from 'luxon';
 import { Timeframe } from 'src/types/chain-loader';
 import { getStartDate } from 'src/utils/date-utils';
 import { usePIndexStore } from './p-index-store';
-
+import { useMagellanTxStore } from 'src/stores/magellan-tx-store';
 
 async function loadBlocksAndTransactions(blockOffset = 0, blockCount = 10, transactionOffset = 0, transactionCount = 10): Promise<MagellanCBlocksResponse> {
   return await (await axios.get(`${getMagellanBaseUrl()}${cBlocksApi}?limit=${blockCount}&limit=${transactionCount}&offset=${blockOffset}&offset=${transactionOffset}`)).data;
 }
 
-async function cTransactionsBetweenDates(start: DateTime, end: DateTime): Promise<MagellanTransactionDetail[]> {
-  //Query parameters are currently ignored, so manual filter needed at the end. Does not scale well!
-  const data: MagellanCTransactionResponse = await (await axios.get(`${getMagellanBaseUrl()}${cTransactionApi}?startTime=${start.toISO()}&endTime=${end.toISO()}`)).data;
-  const validInterval = Interval.fromDateTimes(start, end);
-  return data.Transactions.filter(item => {
-    return validInterval.contains(DateTime.fromJSDate(new Date(item.createdAt)))
-  });
-}
+// async function cTransactionsBetweenDates(start: DateTime, end: DateTime): Promise<MagellanTransactionDetail[]> {
+//   //Query parameters are currently ignored, so manual filter needed at the end. Does not scale well!
+//   const data: MagellanCTransactionResponse = await (await axios.get(`${getMagellanBaseUrl()}${cTransactionApi}?startTime=${start.toISO()}&endTime=${end.toISO()}`)).data;
+//   const validInterval = Interval.fromDateTimes(start, end);
+//   return data.Transactions.filter(item => {
+//     return validInterval.contains(DateTime.fromJSDate(new Date(item.createdAt)))
+//   });
+// }
 
 export const useCIndexStore = defineStore('cindex', {
   state: () => ({
+    store: useMagellanTxStore(),
     pStore: usePIndexStore()
   }),
   getters: {
@@ -36,19 +37,14 @@ export const useCIndexStore = defineStore('cindex', {
     async loadNumberOfTransactions(timeframe: Timeframe): Promise<number> {
       const currentDate = DateTime.now().setZone('utc');
       const startDate = getStartDate(currentDate, timeframe);
-      const data = await cTransactionsBetweenDates(startDate, currentDate);
-      return data.length;
+      const result = await this.store.loadTransactionAggregates('c', startDate.toISO(), currentDate.toISO());
+      return result && result.aggregates && result.aggregates.transactionCount;
     },
-
     async loadTotalGasFess(timeframe: Timeframe): Promise<number> {
       const currentDate = DateTime.now().setZone('utc');
       const startDate = getStartDate(currentDate, timeframe);
-      const data: MagellanTransactionDetail[] = await cTransactionsBetweenDates(startDate, currentDate)
-      let fees = 0;
-      data.forEach(item => {
-        fees += parseInt(item.gasPrice) * parseInt(item.receipt.gasUsed)
-      })
-      return fees;
+      const result = await this.store.loadTransactionFeesAggregates('c', startDate.toISO(), currentDate.toISO());
+      return result && result.aggregates && parseInt(result.aggregates.txfee);
     },
     async getNumberOfValidators(): Promise<number> {
       return this.pStore.getNumberOfValidators()
