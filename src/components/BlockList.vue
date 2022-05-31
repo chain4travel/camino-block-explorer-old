@@ -6,7 +6,7 @@
         <div class="gt-xs col-auto text-center m q-pr-md">
           <q-icon class="square-background" size="sm" name="mdi-cube-outline" />
         </div>
-        <div class="col-lg-2 col-sm-3 q-pr-lg col-12">
+        <div class="col-xl-2 col-lg-3 col-sm-4 q-pr-lg col-12">
           <div>
             <AddressLink :value="item.number" :to="detailsLinkFunction(item.number)"></AddressLink>
           </div>
