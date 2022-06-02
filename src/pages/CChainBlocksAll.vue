@@ -31,7 +31,9 @@ export default defineComponent({
       moreToLoad,
       store: useCIndexStore(),
       async loadBlocks(store: ChainLoader, knownHashes: string[], offset: number, limit: number): Promise<BlockTableData[]> {
-        const apiData: BlockTableData[] = await store.loadBlocks(offset, limit);
+        const apiData = (isNaN(store.firstBlockNumber))
+          ? await store.loadBlocks(NaN, limit + offset)
+          : await store.loadBlocks(store.firstBlockNumber - offset, limit);
         const newData: BlockTableData[] = []
         moreToLoad.value = false;
         apiData.forEach(newBlock => {

@@ -129,10 +129,6 @@ export default defineComponent({
     let knownHashes: string[] = [];
     const data: Ref<BlockTableData[]> = ref([]);
     const currentOffset = ref(0);
-    props.loadData(props.store, knownHashes, 0, pageSize).then((initData: BlockTableData[]) => {
-      data.value = initData;
-      currentOffset.value = initData.length;
-    });
 
     return {
       getAddressDetailsPath,
@@ -143,7 +139,7 @@ export default defineComponent({
         loading.value = true;
         currentOffset.value = 0;
         knownHashes = [];
-        data.value = await props.loadData(props.store, knownHashes, currentOffset.value, pageSize);
+        data.value = await props.loadData(props.store, knownHashes, NaN, pageSize);
         currentOffset.value += data.value.length;
         loading.value = false;
       },

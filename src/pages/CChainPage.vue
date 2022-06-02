@@ -42,10 +42,11 @@ export default defineComponent({
   },
   async setup(props, { emit }) {
     const cStore = useCIndexStore();
-    const blocks: Ref<BlockTableData[]> = ref(await cStore.loadBlocks(0, props.pageSize))
-    const transactions: Ref<CTransaction[]> = ref(await cStore.loadTransactions(0, props.pageSize))
+    const blocks: Ref<BlockTableData[]> = ref(await cStore.loadBlocks(NaN, props.pageSize))
+    const transactions: Ref<CTransaction[]> = ref(await cStore.loadTransactions(NaN, props.pageSize))
     const blockPage = ref(1);
     const transactionsPage = ref(1);
+    cStore.firstBlockNumber = await cStore.loadFirstBlockNumber(blocks.value[0]);
 
     return {
       cStore,
@@ -59,10 +60,12 @@ export default defineComponent({
         emit('search', value);
       },
       async refreshBlocks() {
-        blocks.value = await cStore.loadBlocks((blockPage.value - 1) * props.pageSize, props.pageSize)
+        blocks.value = await cStore.loadBlocks(NaN, props.pageSize)
+        cStore.firstBlockNumber = await cStore.loadFirstBlockNumber(blocks.value[0]);
       },
       async refreshTransactions() {
-        transactions.value = (await cStore.loadTransactions((transactionsPage.value - 1) * props.pageSize, props.pageSize))
+        transactions.value = await cStore.loadTransactions(NaN, props.pageSize);
+        cStore.firstBlockNumber = await cStore.loadFirstBlockNumber(blocks.value[0]);
       },
       getBlockDetailsLink(item: number) {
         return getBlockDetailsPath(ChainType.C_CHAIN, item);
