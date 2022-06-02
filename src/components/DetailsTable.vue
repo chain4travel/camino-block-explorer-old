@@ -147,7 +147,7 @@ export default defineComponent({
         to: number;
       }) {
         const lastIndex = data.value.length - 1;
-        if (loading.value !== true && to === lastIndex && props.requireLoadMore(data.value)) {
+        if (loading.value !== true && to === lastIndex) {
           loading.value = true;
           const apiData = await props.loadData(props.store, knownHashes, currentOffset.value, pageSize);
           currentOffset.value += apiData.length || 1;
