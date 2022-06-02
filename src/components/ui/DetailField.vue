@@ -146,11 +146,12 @@ const tooltips: { [key: string]: string } = {
   'To': 'The receiving party of the transaction',
   'Gas Used': 'The  gas used in this transaction',
   'Contract Address': 'The address of the contract that was created',
+  'Transaction Cost': "The cost of the transaction, calculated using ('Effective Gas Price' * 'Gas Limit')",
   //C-BLOCKS
   'Number': 'The block number',
   'Parent Hash': 'The Hash of the parent block',
   'Base Gas Fee': 'The minimum gas fee required for a transaction to be included in a block',
-  'Fees': "The toal cost of this block. This is calculated by adding up all the transaction costs, and adding ('Base Gas Fee' * 'Gas Used') to it.",
+  'Fees': "The total transaction fees for this block. This is calculated by adding up all the transaction costs.",
   'Timestamp': 'The date and time at which a transaction is validated',
   'Transaction Count': 'The amount of transactions in this block',
   'Extra Data': 'Additional data in this block',
