@@ -1,6 +1,6 @@
 <template>
   <div class="row justify-center">
-    <ChainOverviewCards class="col-9" :price-in-wei="true" :store="cStore"/>
+    <ChainOverviewCards class="col-9" :store="cStore"/>
   </div>
   <div class="row">
     <div :class="$q.screen.lt.md ? 'col-12 q-pa-md' : 'col-md-6 q-pr-sm q-pl-md'">
