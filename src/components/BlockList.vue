@@ -19,7 +19,7 @@
           <LongString class="monospace" :value="item.hash" :xl-length="58" :lg-length="32" :md-length="9" :sm-length="16" :xs-length="16"></LongString>
         </div>
         <div :class="'col-auto self-center justify-end'+ ($q.screen.gt.xs ? ' q-px-sm ':'')">
-          <CamAmount :value="item.blockCost" />
+          <GasAmount :value="item.gasUsed" />
         </div>
       </div>
     </template>
@@ -33,7 +33,7 @@ import { getRelativeTime, displayLongString } from 'src/utils/display-utils'
 import ListCard from './ui/ListCard.vue'
 import LongString from './ui/LongString.vue'
 import AddressLink from  './ui/AddressLink.vue'
-import CamAmount from './ui/CamAmount.vue'
+import GasAmount from './ui/GasAmount.vue'
 import RelativeTime from './ui/RelativeTime.vue'
 
 export default defineComponent({
@@ -50,6 +50,6 @@ export default defineComponent({
       getRelativeTime, displayLongString, AddressLink
     };
   },
-  components: { ListCard, LongString, AddressLink, RelativeTime, CamAmount }
+  components: { ListCard, LongString, AddressLink, RelativeTime, GasAmount }
 })
 </script>
