@@ -38,6 +38,7 @@ interface MagellanTransaction {
   timestamp: string;
   status: string;
   gasUsed: string;
+  effectiveGasPrice: string;
 }
 
 
@@ -58,7 +59,8 @@ export interface MagellanTransactionDetail {
   v: string;
   r: string;
   s: string;
-  receipt: MagellanTransactionReceipt
+  receipt: MagellanTransactionReceipt;
+  effectiveGasPrice: string;
 }
 
 export interface MagellanTransactionReceipt {
@@ -74,6 +76,7 @@ export interface MagellanTransactionReceipt {
   blockHash: string;
   blockNumber: string;
   transactionIndex: string;
+  effectiveGasPrice: string;
 }
 
 export interface MagellanTransactionDetailLog {

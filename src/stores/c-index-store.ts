@@ -88,7 +88,7 @@ export const useCIndexStore = defineStore('cindex', {
           timestamp: new Date(parseInt(element.timestamp) * 1000),
           to: element.to,
           value: parseInt(element.value),
-          transactionCost: (parseInt(element.gasUsed) * (parseInt(element.maxFeePerGas))),
+          transactionCost: (parseInt(element.gasUsed) * (parseInt(element.effectiveGasPrice))),
         }));
       } catch (e) {
         return []
@@ -117,7 +117,7 @@ export const useCIndexStore = defineStore('cindex', {
         toAddr: mglDetails.toAddr,
         type: mglDetails.type,
         value: parseInt(mglDetails.value),
-        transactionCost: (parseInt(mglDetails.receipt.gasUsed) * (parseInt(mglDetails.gasPrice)))
+        transactionCost: (parseInt(mglDetails.receipt.gasUsed) * (parseInt(mglDetails.receipt.effectiveGasPrice))),
       }
     },
     async loadByBlockId(blockNumberParam: string): Promise<BlockDetails> {
@@ -131,7 +131,7 @@ export const useCIndexStore = defineStore('cindex', {
         hash: block.header.hash,
         parentHash: block.header.parentHash,
         parentBlockNumber: parseInt(block.header.number) ? parseInt(block.header.number) - 1 : undefined,
-        fees: parseInt(block.header.gasUsed) * parseInt(block.header.baseFeePerGas), //We overwrite this field with the aggregated cost of transactions
+        fees: 0, //parseInt(block.header.gasUsed) * parseInt(block.header.baseFeePerGas), //We overwrite this field with the aggregated cost of transactions
         baseGaseFee: parseInt(block.header.baseFeePerGas),
         transactionCount: block.transactions ? block.transactions.length : 0,
         gasLimit: parseInt(block.header.gasLimit),
@@ -144,7 +144,7 @@ export const useCIndexStore = defineStore('cindex', {
           status: item.receipt.status,
           timestamp: new Date(item.createdAt),
           to: item.toAddr,
-          transactionCost: item.receipt.gasUsed ? parseInt(item.receipt.gasUsed) * parseInt(item.gasPrice) : parseInt(item.maxFeePerGas) * parseInt(item.gasPrice),
+          transactionCost: item.receipt.gasUsed ? parseInt(item.receipt.gasUsed) * parseInt(item.receipt.effectiveGasPrice) : parseInt(item.maxFeePerGas) * parseInt(item.receipt.effectiveGasPrice),
           value: parseInt(item.value)
         })) : []
       };
