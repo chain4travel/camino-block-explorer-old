@@ -52,7 +52,9 @@ export default defineComponent({
         return moreToLoad;
       },
       async loadTransactions(store: ChainLoader, knownHashes: string[], offset: number, limit: number) {
-        const apiData: CTransaction[] = await store.loadTransactions(offset, limit);
+        const apiData = (isNaN(store.firstBlockNumber))
+          ? await store.loadTransactions(NaN, limit + offset)
+          : await store.loadTransactions(store.firstBlockNumber - offset, limit);
         const newData: TransactionTableData[] = [];
         moreToLoad = false;
         apiData.map(mapToTableData).forEach(newTransaction => {

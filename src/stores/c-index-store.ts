@@ -13,8 +13,8 @@ import { getStartDate } from 'src/utils/date-utils';
 import { usePIndexStore } from './p-index-store';
 import { useMagellanTxStore } from 'src/stores/magellan-tx-store';
 
-async function loadBlocksAndTransactions(blockOffset = 0, blockCount = 10, transactionOffset = 0, transactionCount = 10): Promise<MagellanCBlocksResponse> {
-  return await (await axios.get(`${getMagellanBaseUrl()}${cBlocksApi}?limit=${blockCount}&limit=${transactionCount}&offset=${blockOffset}&offset=${transactionOffset}`)).data;
+async function loadBlocksAndTransactions(startingBlock = NaN, blockCount = 10, endingBlock = NaN, transactionCount = 10): Promise<MagellanCBlocksResponse> {
+  return await (await axios.get(`${getMagellanBaseUrl()}${cBlocksApi}?limit=${blockCount}&limit=${transactionCount}&blockStart=${startingBlock}&blockEnd=${endingBlock}`)).data;
 }
 
 // async function cTransactionsBetweenDates(start: DateTime, end: DateTime): Promise<MagellanTransactionDetail[]> {
@@ -29,7 +29,9 @@ async function loadBlocksAndTransactions(blockOffset = 0, blockCount = 10, trans
 export const useCIndexStore = defineStore('cindex', {
   state: () => ({
     store: useMagellanTxStore(),
-    pStore: usePIndexStore()
+    pStore: usePIndexStore(),
+    firstBlockNumber: NaN,
+    firstTransactionNumber: NaN,
   }),
   getters: {
   },
@@ -49,9 +51,9 @@ export const useCIndexStore = defineStore('cindex', {
     async getNumberOfValidators(): Promise<number> {
       return this.pStore.getNumberOfValidators()
     },
-    async loadBlocks(offset = 0, count = 10): Promise<BlockTableData[]> {
+    async loadBlocks(blockStart = NaN, count = 10): Promise<BlockTableData[]> {
       try {
-        const cBlockresponse = await loadBlocksAndTransactions(offset, count, 0, 0);
+        const cBlockresponse = await loadBlocksAndTransactions(blockStart, count, NaN, 0);
         if (!cBlockresponse.blocks) {
           return [];
         }
@@ -70,11 +72,11 @@ export const useCIndexStore = defineStore('cindex', {
         return [];
       }
     },
-    async loadTransactions(offset = 0, count = 10): Promise<CTransaction[]> {
+    async loadTransactions(startBlock = NaN, count = 10): Promise<CTransaction[]> {
       // currently offset is not available "natively", so we add offset and count and skip the offset elements in processing
       // this does not work for more than 5k elements at once.. will need to adjust for that to work
       try {
-        const cBlockresponse = await loadBlocksAndTransactions(0, 0, offset, count);
+        const cBlockresponse = await loadBlocksAndTransactions(startBlock, 0, NaN, count);
         if (!cBlockresponse.transactions) {
           return [];
         }
@@ -91,6 +93,9 @@ export const useCIndexStore = defineStore('cindex', {
       } catch (e) {
         return []
       }
+    },
+    async loadFirstBlockNumber(block: any): Promise<number> {
+      return this.firstBlockNumber = parseInt(block.number);
     },
     async loadTransactionById(transactionId: string): Promise<TranscationDetail> {
       const mglDetails: MagellanTransactionDetail = (await this.loadMagellanTransactionbyHash(transactionId)).Transactions[0]
