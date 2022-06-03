@@ -79,7 +79,7 @@
         </div>
       </div>
       <div v-if="(detailsLink || allowCopy) && (value !== undefined && value !== '' && parseInt(value) !== 0)"
-        :class="$q.screen.gt.xs ? detailsLink ? 'col-4 text-right m-auto--md q-gutter-y-xs' : 'col-md-2 col text-right m-auto' : 'col-6 q-gutter-y-xs m-auto item-buttons'">
+        :class="$q.screen.gt.xs ? detailsLink ? 'col-md-3 col-4 text-right m-auto--md q-gutter-y-xs' : 'col-md-2 col text-right m-auto' : 'col-6 q-gutter-y-xs m-auto item-buttons'">
         <q-btn v-if="detailsLink" size="sm" color="primary" outline rounded icon="mdi-open-in-new" :to="detailsLink">
           &nbsp;Open</q-btn>
         <CopyButton v-if="allowCopy && value" :value="value.toString()"/>
