@@ -20,11 +20,11 @@
           :details-link="getBlockDetailsPath(type, content.block)" />
         <DetailField icon="mdi-help-circle-outline" field="Date" :value="content.createdAt" type="timestamp" />
         <DetailField icon="mdi-help-circle-outline" field="Transaction Cost" :value="content.transactionCost" type="wei" />
-        <DetailField icon="mdi-help-circle-outline" field="Gas Price" :value="content.gasPrice" type="wei" />
-        <DetailField icon="mdi-help-circle-outline" field="Max fee per gas" :value="content.maxFeePerGas" type="wei" />
-        <DetailField icon="mdi-help-circle-outline" field="Max Priority fee per gas"
+        <DetailField v-if="content.gasPrice" icon="mdi-help-circle-outline" field="Gas Price" :value="content.gasPrice" type="wei" />
+        <DetailField v-if="content.maxFeePerGas && content.maxPriorityFeePerGas" icon="mdi-help-circle-outline" field="Max fee per gas" :value="content.maxFeePerGas" type="wei" />
+        <DetailField v-if="content.maxFeePerGas && content.maxPriorityFeePerGas" icon="mdi-help-circle-outline" field="Max Priority fee per gas"
           :value="content.maxPriorityFeePerGas" type="wei" />
-        <DetailField icon="mdi-help-circle-outline" field="Gas Limit" :value="content.gasLimit" type="number" />
+        <!-- <DetailField icon="mdi-help-circle-outline" field="Gas Limit" :value="content.gasLimit" type="number" /> -->
         <DetailField icon="mdi-help-circle-outline" field="Value" :value="content.value" type="wei" />
         <DetailField icon="mdi-help-circle-outline" field="From" :value="content.fromAddr" type="hexdata" :allow-copy="true" :md-length="38" />
         <DetailField icon="mdi-help-circle-outline" field="To" :value="content.toAddr" type="hexdata" :allow-copy="true" :md-length="38" />
