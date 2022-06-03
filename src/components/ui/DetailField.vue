@@ -69,7 +69,7 @@
         <div v-else-if="type == 'ctxtype'">
           <div class="row">
             <div class="col-auto">
-              <q-chip size="md">{{ value == 0 ? 'Legacy' : 'EIP1155' }}</q-chip>
+              <q-chip size="md">{{ value == 0 ? 'Legacy' : 'EIP1559' }}</q-chip>
             </div>
           </div>
         </div>

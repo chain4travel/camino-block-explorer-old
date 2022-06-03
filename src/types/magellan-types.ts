@@ -182,7 +182,7 @@ export interface MagellanCBlockSearchResult {
 
 
 export interface MagellanCTransactionSearchResult {
-  type: number; //0 -> legacy, 2 EIP115
+  type: number; //0 -> legacy, 2 EIP1559
   block: string; // block number
   hash: string;
   createdAt: Date;
