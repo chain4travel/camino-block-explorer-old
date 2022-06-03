@@ -1,7 +1,7 @@
 <template>
     <div class="row self-center justify-end amount-box">
         <div class="self-center">{{ getDisplayAmount(value).value.toLocaleString() }}</div>        
-        <q-icon size="sm" :right="true" name="img:/images/gas-station.png"></q-icon>
+        <q-icon size="sm" :right="true" name="img:/images/gas-station-outline.svg"></q-icon>
     </div>
 </template>
 <script lang="ts">
