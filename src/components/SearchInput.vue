@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-input id="input" dense class="search-input" bg-color="search-banner-input" rounded
-      label="Search by Address / Hash / Block" outlined v-model="searchInput" clearable @update:model-value="search">
+      label="Search by Address / Hash / Block" outlined v-model="searchInput" clearable @update:model-value="search" debounce="500">
       <template v-slot:append>
         <q-avatar size="lg" icon="search">
         </q-avatar>
@@ -103,7 +103,7 @@ export default defineComponent({
       menuItems,
       showMenu,
       search: async () => {
-        if (!searchInput.value || searchInput.value.length < 1) {
+        if (!searchInput.value || searchInput.value.length < 4) {
           menuItems.value = [];
           showMenu.value = false;
           return;
