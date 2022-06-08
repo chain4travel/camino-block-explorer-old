@@ -139,7 +139,7 @@ export default defineComponent({
         loading.value = true;
         currentOffset.value = 0;
         knownHashes = [];
-        data.value = await props.loadData(props.store, knownHashes, NaN, pageSize);
+        data.value = await props.loadData(props.store, knownHashes, currentOffset.value, pageSize);
         currentOffset.value += data.value.length;
         loading.value = false;
       },
@@ -147,10 +147,10 @@ export default defineComponent({
         to: number;
       }) {
         const lastIndex = data.value.length - 1;
-        if (loading.value !== true && to === lastIndex) {
+        if (loading.value !== true && to === lastIndex && props.requireLoadMore()) {
           loading.value = true;
           const apiData = await props.loadData(props.store, knownHashes, currentOffset.value, pageSize);
-          currentOffset.value += apiData.length || 1;
+          currentOffset.value += apiData.length || 0;
           data.value.push(...apiData);
           loading.value = false;
         }
