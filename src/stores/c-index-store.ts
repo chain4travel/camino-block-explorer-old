@@ -118,6 +118,7 @@ export const useCIndexStore = defineStore('cindex', {
         type: mglDetails.type,
         value: parseInt(mglDetails.value),
         transactionCost: (parseInt(mglDetails.receipt.gasUsed) * (parseInt(mglDetails.receipt.effectiveGasPrice))),
+        effectiveGasPrice: parseInt(mglDetails.receipt.effectiveGasPrice),
       }
     },
     async loadByBlockId(blockNumberParam: string): Promise<BlockDetails> {
