@@ -147,6 +147,7 @@ const tooltips: { [key: string]: string } = {
   'Gas Used': 'The  gas used in this transaction',
   'Contract Address': 'The address of the contract that was created',
   'Transaction Cost': "The cost of the transaction, calculated using ('Effective Gas Price' * 'Gas Limit')",
+  'Effective Gas Price': 'The gas price that the transaction is willing to pay',
   //C-BLOCKS
   'Number': 'The block number',
   'Parent Hash': 'The Hash of the parent block',
