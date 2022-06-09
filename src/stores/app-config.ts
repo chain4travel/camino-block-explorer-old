@@ -14,7 +14,7 @@ export const useAppConfig = defineStore({
         displayName: 'Columbus Network',
         protocol: 'https',
         host: 'columbus.camino.foundation',
-        magellanAddress: 'https://magellan.camino.foundation',
+        magellanAddress: 'http://192.168.220.6:8080',
         port: 443,
         predefined: true
       },
