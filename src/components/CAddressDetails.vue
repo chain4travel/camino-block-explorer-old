@@ -82,13 +82,6 @@ export default defineComponent({
     const allTxData: Ref<CAddressTransactionTableData[]> = ref([])
     let moreToLoad = true;
 
-    const getMethod = async (element: MagellanTransactionDetail): Promise<string> => {
-      if (element.input) {
-        return addressStore.lookForMethodName(element.input.substring(2, 10));
-      }
-      return '';
-    }
-
     function detailsLink(item: string) {
       return `${getTransactionDetailsPath(ChainType.C_CHAIN, item)}?back=${route.fullPath}`
     }
@@ -110,7 +103,6 @@ export default defineComponent({
               block: element.block,
               from: element.fromAddr,
               to: element.toAddr,
-              method: await getMethod(element),
               txnFee: getFee(element),
               txnHash: element.hash,
               value: element.value,
@@ -141,12 +133,6 @@ export default defineComponent({
           align: 'center',
           type: 'hash',
           detailsLink: detailsLink
-        },
-        {
-          name: 'method',
-          label: 'Method',
-          field: 'method',
-          align: 'center',
         },
         {
           name: 'block',
