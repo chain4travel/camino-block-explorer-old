@@ -74,7 +74,6 @@ export interface TranscationDetail {
 export interface CAddressTransactionTableData {
   type: number;
   txnHash: string;
-  method: string;
   block: number;
   age: Date;
   from: string;

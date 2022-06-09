@@ -30,17 +30,6 @@ export const useAddressStore = defineStore('address', {
       const [fromAddressTxs, toAddressTxs] = await Promise.all([fromAddressTxsPromise, toAddressTxsPromise])
       return [...(<MagellanCTransactionResponse>fromAddressTxs.data).Transactions.splice(offset, count), ...(<MagellanCTransactionResponse>toAddressTxs.data).Transactions.splice(offset, count)]
     },
-    // Returns decoded method name, or input id hex if not found
-    async lookForMethodName(inputHex: string): Promise<string> {
-      try {
-        const data = await (await axios.get(`https://raw.githubusercontent.com/ethereum-lists/4bytes/master/signatures/${inputHex}`)).data
-        // normally shows method name and parameters. This cuts off the parameters
-        return data.split('(')[0];
-      } catch (e) {
-        console.log('could not find method name, returning hex');
-        return inputHex;
-      }
-    },
     async loadXpTransactions(address: string, chain: string, offset: number, limit: number): Promise<XPTransaction[]> {
       return this.magellanStore.loadTransactions(chain, offset, limit, address);
     },
