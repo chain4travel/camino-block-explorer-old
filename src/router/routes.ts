@@ -107,7 +107,11 @@ const routes: RouteRecordRaw[] = [
         path: '/tx/:txId',
         component: () => import('src/pages/TxRedirectPage.vue'),
       },
-
+      // Path includes Network selector
+      {
+        path: '/columbus/:base+',
+        redirect: to => { return { path: '/' + (to.params.base as string[]).join('/') } }
+      },
       // Always leave this as last one,
       // but you can also remove it
       {
