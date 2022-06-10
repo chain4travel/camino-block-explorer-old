@@ -137,7 +137,6 @@ const routes: RouteRecordRaw[] = [
       {
         path: '/columbus/:base+',
         redirect: (to) => {
-          console.log(to.params);
           return { path: '/' + (to.params.base as string[]).join('/') };
         },
       },
