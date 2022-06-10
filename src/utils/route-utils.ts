@@ -12,7 +12,10 @@ export function getPathElement(type: ChainType): string {
   return type.toLowerCase();
 }
 
-export function getTransactionDetailsPath(chaintype: ChainType, transactionId: string): string {
+export function getTransactionDetailsPath(
+  chaintype: ChainType,
+  transactionId: string
+): string {
   const basePath = `/${DETAILS}/${transactions}/${getPathElement(chaintype)}/`;
   if (transactionId) {
     return basePath + transactionId;
@@ -21,10 +24,13 @@ export function getTransactionDetailsPath(chaintype: ChainType, transactionId: s
 }
 
 export function getAddressDetailsPath(addressId: string): string {
-  return `/${DETAILS}/${address}/${addressId}`
+  return `/${DETAILS}/${address}/${addressId}`;
 }
 
-export function getBlockDetailsPath(chaintype: ChainType, blockId: string | number): string {
+export function getBlockDetailsPath(
+  chaintype: ChainType,
+  blockId: string | number
+): string {
   const basePath = `/${DETAILS}/${blocks}/${getPathElement(chaintype)}/`;
   if (blockId !== undefined) {
     return basePath + blockId;
@@ -62,4 +68,17 @@ export function getAllBlocksPathName(chaintype: ChainType) {
 
 export function getAllTransactionsPathName(chaintype: ChainType) {
   return `${chaintype}-${transactions}-${TABLES}`;
+}
+
+export function makeSingleNetworkRoute(network: string) {
+  if (!network)
+    return {
+      path: network,
+      redirect: { name: getOverviewPathName(ChainType.C_CHAIN) },
+      name: 'index',
+    };
+  return {
+    path: network,
+    redirect: { name: getOverviewPathName(ChainType.C_CHAIN) },
+  };
 }

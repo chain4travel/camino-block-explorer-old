@@ -1,4 +1,20 @@
-import { CHAIN_OVERVIEW, DETAILS, getAddressDetailsPath, getAllBlocksPath, getAllBlocksPathName, getAllTransactionsPath, getAllTransactionsPathName, getBlockDetailsPath, getBlockDetailsPathName, getOverviewPath, getOverviewPathName, getTransactionDetailsPath, getTransactionsPathName, TABLES } from 'src/utils/route-utils';
+import {
+  CHAIN_OVERVIEW,
+  DETAILS,
+  getAddressDetailsPath,
+  getAllBlocksPath,
+  getAllBlocksPathName,
+  getAllTransactionsPath,
+  getAllTransactionsPathName,
+  getBlockDetailsPath,
+  getBlockDetailsPathName,
+  getOverviewPath,
+  getOverviewPathName,
+  getTransactionDetailsPath,
+  getTransactionsPathName,
+  makeSingleNetworkRoute,
+  TABLES,
+} from 'src/utils/route-utils';
 import { ChainType } from 'src/types/chain-type';
 import { RouteRecordRaw } from 'vue-router';
 
@@ -8,11 +24,8 @@ const routes: RouteRecordRaw[] = [
     component: () => import('layouts/MainLayout.vue'),
     redirect: { name: getOverviewPathName(ChainType.C_CHAIN) },
     children: [
-      {
-        path: '',
-        redirect: { name: getOverviewPathName(ChainType.C_CHAIN) },
-        name: 'index'
-      },
+      makeSingleNetworkRoute(''),
+      makeSingleNetworkRoute('columbus'),
       {
         path: CHAIN_OVERVIEW,
         component: () => import('layouts/ChainOverviewLayout.vue'),
@@ -20,27 +33,31 @@ const routes: RouteRecordRaw[] = [
           {
             path: '',
             redirect: { name: getOverviewPathName(ChainType.C_CHAIN) },
-            name: 'index'
+            name: 'index',
           },
           {
             name: getOverviewPathName(ChainType.C_CHAIN),
             path: getOverviewPath(ChainType.C_CHAIN),
             component: () => import('src/pages/CChainPage.vue'),
-            meta: { showInMenu: true, label: 'C-Chain', icon: 'mdi-text-box-multiple-outline ' },
+            meta: {
+              showInMenu: true,
+              label: 'C-Chain',
+              icon: 'mdi-text-box-multiple-outline ',
+            },
           },
           {
             name: getOverviewPathName(ChainType.X_CHAIN),
             path: getOverviewPath(ChainType.X_CHAIN),
             component: () => import('src/pages/XChainPage.vue'),
-            meta: { showInMenu: true, label: 'X-Chain', icon: 'mdi-hand-coin' }
+            meta: { showInMenu: true, label: 'X-Chain', icon: 'mdi-hand-coin' },
           },
           {
             name: getOverviewPathName(ChainType.P_CHAIN),
             path: getOverviewPath(ChainType.P_CHAIN),
             component: () => import('src/pages/PChainPage.vue'),
-            meta: { showInMenu: true, label: 'P-Chain', icon: 'mdi-database' }
+            meta: { showInMenu: true, label: 'P-Chain', icon: 'mdi-database' },
           },
-        ]
+        ],
       },
       {
         path: DETAILS,
@@ -48,7 +65,10 @@ const routes: RouteRecordRaw[] = [
         children: [
           {
             name: getTransactionsPathName(ChainType.C_CHAIN),
-            path: getTransactionDetailsPath(ChainType.C_CHAIN, ':transactionId'),
+            path: getTransactionDetailsPath(
+              ChainType.C_CHAIN,
+              ':transactionId'
+            ),
             component: () => import('src/pages/CChainTransactionDetails.vue'),
           },
           {
@@ -58,20 +78,26 @@ const routes: RouteRecordRaw[] = [
           },
           {
             name: getTransactionsPathName(ChainType.X_CHAIN),
-            path: getTransactionDetailsPath(ChainType.X_CHAIN, ':transactionId'),
+            path: getTransactionDetailsPath(
+              ChainType.X_CHAIN,
+              ':transactionId'
+            ),
             component: () => import('src/pages/XChainTransactionDetails.vue'),
           },
           {
             name: getTransactionsPathName(ChainType.P_CHAIN),
-            path: getTransactionDetailsPath(ChainType.P_CHAIN, ':transactionId'),
+            path: getTransactionDetailsPath(
+              ChainType.P_CHAIN,
+              ':transactionId'
+            ),
             component: () => import('src/pages/PChainTransactionDetails.vue'),
           },
           {
             name: `Address-${DETAILS}`,
             path: getAddressDetailsPath(':addressId'),
             component: () => import('src/pages/AddressDetailsView.vue'),
-          }
-        ]
+          },
+        ],
       },
       {
         //find better name
@@ -98,7 +124,7 @@ const routes: RouteRecordRaw[] = [
             path: getAllTransactionsPath(ChainType.P_CHAIN),
             component: () => import('src/pages/PChainTransactionsAll.vue'),
           },
-        ]
+        ],
       },
       // The wallet sends this with a magellan tx id. Reroute to correct detail view.
       // Cannot inline here as we need to make asynchronous calls to find out correct redirect route
@@ -110,7 +136,10 @@ const routes: RouteRecordRaw[] = [
       // Path includes Network selector
       {
         path: '/columbus/:base+',
-        redirect: to => { return { path: '/' + (to.params.base as string[]).join('/') } }
+        redirect: (to) => {
+          console.log(to.params);
+          return { path: '/' + (to.params.base as string[]).join('/') };
+        },
       },
       // Always leave this as last one,
       // but you can also remove it
