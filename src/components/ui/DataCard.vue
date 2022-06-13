@@ -6,7 +6,7 @@
       </div>
     </q-card-section>
 
-    <q-card-section class="text-center">
+    <q-card-section class="text-center flex justify-center items-center">
       <slot></slot>
     </q-card-section>
 

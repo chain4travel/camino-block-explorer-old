@@ -13,9 +13,15 @@
     <div class="row q-gutter-sm q-pb-md">
       <div class="col-md col-12">
         <DataCard title="Active Validators" class="text-h4">
-          <span v-if="!validatorsLoading">{{ numberOfValidators ? numberOfValidators.toLocaleString() : '-'
-          }}</span>
+          <span v-if="!validatorsLoading">
+            {{ numberOfValidators ? numberOfValidators.toLocaleString() : '-'}}
+          </span>
           <q-spinner v-else color="primary" />
+          <span class="grey-color q-pl-xs text-h6" v-if="!validatorsLoading && numberOfActiveValidators > 0">
+            ({{ numberOfActiveValidators }} 
+              / 
+              {{ (numberOfActiveValidators / numberOfValidators) * 100 }}% active)
+          </span>
         </DataCard>
       </div>
       <div class="col-md col-12">
@@ -55,7 +61,9 @@ export default defineComponent({
     const timeOptions = ref([{ value: Timeframe.HOURS_24, label: getLabel(Timeframe.HOURS_24) }, { value: Timeframe.DAYS_7, label: getLabel(Timeframe.DAYS_7) }, { value: Timeframe.MONTHS_1, label: getLabel(Timeframe.MONTHS_1) }])
     const selectedTime: Ref<Timeframe> = ref(Timeframe.HOURS_24);
 
-    const numberOfValidators = ref(await props.store?.getNumberOfValidators());
+    const validators = ref(await props.store?.getNumberOfValidators());
+    const numberOfActiveValidators = ref(validators?.value?.numberOfActiveValidators);
+    const numberOfValidators = ref(validators?.value?.numberOfValidators);
     const numberOfTransactions = ref(100)
     const totalGasFees = ref(100000000000)
     const transactionsLoading = ref(false);
@@ -79,6 +87,7 @@ export default defineComponent({
       validatorsLoading,
       gasFeesLoading,
       numberOfValidators,
+      numberOfActiveValidators,
       numberOfTransactions,
       totalGasFees,
       timeOptions,
