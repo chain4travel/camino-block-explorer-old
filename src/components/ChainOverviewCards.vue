@@ -18,9 +18,7 @@
           </span>
           <q-spinner v-else color="primary" />
           <span class="grey-color q-pl-xs text-h6" v-if="!validatorsLoading && numberOfActiveValidators > 0">
-            ({{ numberOfActiveValidators }} 
-              / 
-              {{ (numberOfActiveValidators / numberOfValidators) * 100 }}% active)
+            ({{ numberOfActiveValidators }} / {{ percentageOfActiveValidators }}% active)
           </span>
         </DataCard>
       </div>
@@ -69,6 +67,8 @@ export default defineComponent({
     const transactionsLoading = ref(false);
     const validatorsLoading = ref(false);
     const gasFeesLoading = ref(false);
+    const percentageOfActiveValidators = ref(Math.round(
+      ((numberOfActiveValidators.value / numberOfValidators.value) * 100) * 100) / 100);
 
     async function updateFields(value: Timeframe) {
       gasFeesLoading.value = true;
@@ -88,6 +88,7 @@ export default defineComponent({
       gasFeesLoading,
       numberOfValidators,
       numberOfActiveValidators,
+      percentageOfActiveValidators,
       numberOfTransactions,
       totalGasFees,
       timeOptions,
