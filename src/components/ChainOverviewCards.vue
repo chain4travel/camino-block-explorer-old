@@ -12,12 +12,12 @@
     </div>
     <div class="row q-gutter-sm q-pb-md">
       <div class="col-md col-12">
-        <DataCard title="Active Validators" class="text-h4">
+        <DataCard title="Validators" class="text-h4">
           <span v-if="!validatorsLoading">
             {{ numberOfValidators ? numberOfValidators.toLocaleString() : '-'}}
           </span>
           <q-spinner v-else color="primary" />
-          <span class="grey-color q-pl-xs text-h6" v-if="!validatorsLoading && numberOfActiveValidators > 0">
+          <span class="grey-color q-pl-sm text-h6" v-if="!validatorsLoading && numberOfActiveValidators > 0">
             ({{ numberOfActiveValidators }} / {{ percentageOfActiveValidators }}% active)
           </span>
         </DataCard>
@@ -67,8 +67,7 @@ export default defineComponent({
     const transactionsLoading = ref(false);
     const validatorsLoading = ref(false);
     const gasFeesLoading = ref(false);
-    const percentageOfActiveValidators = ref(Math.round(
-      ((numberOfActiveValidators.value / numberOfValidators.value) * 100) * 100) / 100);
+    const percentageOfActiveValidators = ref(((numberOfActiveValidators.value / numberOfValidators.value) * 100).toFixed(0));
 
     async function updateFields(value: Timeframe) {
       gasFeesLoading.value = true;
