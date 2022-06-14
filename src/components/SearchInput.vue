@@ -29,31 +29,30 @@ import { getMagellanBaseUrl, getChainId } from 'src/utils/client-utils';
 import { search } from 'src/utils/magellan-api-utils';
 import { defineComponent, Ref, ref } from 'vue'
 import { MagellanSearchResponse, MagellanSearchResultElementType, MagellanXPTransactionSearchResult, MagellanCTransactionSearchResult, MagellanCBlockSearchResult, MagellanAddressSearchResult } from 'src/types/magellan-types';
-import { getBlockDetailsPath, getTransactionDetailsPath } from 'src/utils/route-utils'
+import { getBlockDetailsPath, getTransactionDetailsPath, getAddressDetailsPath } from 'src/utils/route-utils'
 import { ChainType } from 'src/types/chain-type';
 
 const resultLimit = 6;
 
 async function mapToItem(type: MagellanSearchResultElementType, data: MagellanXPTransactionSearchResult | MagellanCTransactionSearchResult | MagellanCBlockSearchResult | MagellanAddressSearchResult): Promise<SearchMenuItem | undefined> {
   switch (type) {
-    case MagellanSearchResultElementType.CVM_ADDRESS:
-      // currently not implemented
-      const cvmAddressData: MagellanCTransactionSearchResult = <MagellanCTransactionSearchResult>data;
-      return {
-        label: cvmAddressData.fromAddr,
-        type: type,
-        link: getAddressDetailsPath(cvmAddressData.address),
-        avatar: 'AD',
-        avatarColor: 'positive'
-      };
     case MagellanSearchResultElementType.C_BLOCK:
       const cBlockData: MagellanCBlockSearchResult = <MagellanCBlockSearchResult>data;
       return {
-        label: cBlockData.Hash,
+        label: cBlockData.hash,
         type: type,
-        link: getBlockDetailsPath(ChainType.C_CHAIN, cBlockData.Block),
+        link: getBlockDetailsPath(ChainType.C_CHAIN, cBlockData.number),
         avatar: 'CB',
         avatarColor: 'primary'
+      };
+    case MagellanSearchResultElementType.C_ADDRESS:
+      const cAddressData: MagellanCBlockSearchResult = <MagellanCBlockSearchResult>data;
+      return {
+        label: cAddressData.hash,
+        type: type,
+        link: getAddressDetailsPath(cAddressData.hash),
+        avatar: 'AD',
+        avatarColor: 'positive'
       };
     case MagellanSearchResultElementType.C_TRANSACTION:
       const cTransaction: MagellanCTransactionSearchResult = <MagellanCTransactionSearchResult>data;
@@ -103,12 +102,12 @@ export default defineComponent({
       menuItems,
       showMenu,
       search: async () => {
-        if (!searchInput.value || searchInput.value.length < 4) {
+        if (!searchInput.value || searchInput.value.length < 1) {
           menuItems.value = [];
           showMenu.value = false;
           return;
         }
-        const data: MagellanSearchResponse = await (await axios.get(`${getMagellanBaseUrl()}${search}?query=${searchInput.value}&limit=${resultLimit}`)).data;
+        const data: MagellanSearchResponse = await (await axios.get(`${getMagellanBaseUrl()}${search}?query=${searchInput.value}`)).data;
         const newMenuItems: SearchMenuItem[] = [];
         for (let i = 0; i < data.results.length; i++) {
           const element = data.results[i];

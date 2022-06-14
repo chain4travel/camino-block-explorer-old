@@ -173,11 +173,12 @@ export interface MagellanAddressSearchResult {
 
 export interface MagellanCBlockSearchResult {
   Block: string; // block number
-  Hash: string;
+  hash: string;
   ChainID: string;
   EvmTx: number; // number of txs
   AtomicTx: number;
   CreatedAt: Date;
+  number: number;
 }
 
 
@@ -218,9 +219,9 @@ export interface MagellanXPTransactionSearchResult {
 export enum MagellanSearchResultElementType {
   XP_TRANSACTION = 'transaction',
   ADDRESS = 'address',
-  C_TRANSACTION = 'ctransaction',
-  C_BLOCK = 'cblock',
-  CVM_ADDRESS = 'cvmAddress'
+  C_TRANSACTION = 'cTransaction',
+  C_BLOCK = 'cBlock',
+  C_ADDRESS = 'cAddress',
 }
 export interface MagellanAssetsResponse {
   assets: Asset[];
