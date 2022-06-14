@@ -7,7 +7,7 @@ import { getMagellanBaseUrl } from 'src/utils/client-utils';
 import { cBlocksApi, cTransactionApi, cBlocksDetailsApi } from 'src/utils/magellan-api-utils';
 import { MagellanCBlocksResponse, MagellanCTransactionResponse, MagellanBlockDetail, MagellanTransactionDetail } from 'src/types/magellan-types';
 import { TranscationDetail } from 'src/types/transaction';
-import { DateTime, Interval } from 'luxon';
+import { DateTime } from 'luxon';
 import { Timeframe } from 'src/types/chain-loader';
 import { getStartDate } from 'src/utils/date-utils';
 import { usePIndexStore } from './p-index-store';
@@ -48,8 +48,8 @@ export const useCIndexStore = defineStore('cindex', {
       const result = await this.store.loadTransactionFeesAggregates('c', startDate.toISO(), currentDate.toISO());
       return result && result.aggregates && parseInt(result.aggregates.txfee);
     },
-    async getNumberOfValidators(): Promise<number> {
-      return this.pStore.getNumberOfValidators()
+    async getNumberOfValidators(): Promise<object> {
+      return this.pStore.getNumberOfValidators();
     },
     async loadBlocks(blockStart = NaN, count = 10): Promise<BlockTableData[]> {
       try {
@@ -94,8 +94,8 @@ export const useCIndexStore = defineStore('cindex', {
         return []
       }
     },
-    async loadFirstBlockNumber(block: any): Promise<number> {
-      return this.firstBlockNumber = parseInt(block.number);
+    async loadFirstBlockNumber(block: BlockTableData): Promise<number> {
+      return this.firstBlockNumber = block.number;
     },
     async loadTransactionById(transactionId: string): Promise<TranscationDetail> {
       const mglDetails: MagellanTransactionDetail = (await this.loadMagellanTransactionbyHash(transactionId)).Transactions[0]

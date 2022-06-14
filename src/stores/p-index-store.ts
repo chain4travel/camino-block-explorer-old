@@ -27,16 +27,21 @@ export const usePIndexStore = defineStore('pindex', {
       const result = await this.store.loadTransactionFeesAggregates('p', startDate.toISO(), currentDate.toISO());
       return result && result.aggregates && parseInt(result.aggregates.txfee);
     },
-    async getNumberOfValidators(): Promise<number> {
+    async getNumberOfValidators(): Promise<object> {
       const network = this.appConfig.getActive;
       try {
         const response = await axios.post(`${network.protocol}://${network.host}:${network.port}/ext/bc/P`, { 'jsonrpc': '2.0', 'method': 'platform.getCurrentValidators', 'id': 1 })
         const data = response.data;
-        return data && data.result && data.result.validators ? data.result.validators.length : 0;
+        if (data && data.result && data.result.validators)
+          return {
+            numberOfValidators: data.result.validators.length,
+            numberOfActiveValidators: data.result.validators.filter(v => v.connected).length,
+          };
+        return {};
       } catch (e) {
         // COnsider returning text here?
         console.log('Could not load validator count', e)
-        return 0
+        return {};
       }
     },
 

@@ -16,7 +16,7 @@ export const useXIndexStore = defineStore('xindex', {
   getters: {
   },
   actions: {
-    async getNumberOfValidators(): Promise<number> {
+    async getNumberOfValidators(): Promise<object> {
       return this.pStore.getNumberOfValidators()
     },
     async getChainId(): Promise<string> {
