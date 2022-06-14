@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 import { MagellanCTransactionResponse, MagellanTransactionDetail } from 'src/types/magellan-types';
 import { XPTransaction } from 'src/types/transaction';
 import { getMagellanBaseUrl } from 'src/utils/client-utils';
-import { cTransactionApi } from 'src/utils/magellan-api-utils';
+import { cTransactionApi, cBlocksApi } from 'src/utils/magellan-api-utils';
 import { useMagellanTxStore } from './magellan-tx-store';
 import { assets, addresses } from 'src/utils/magellan-api-utils'
 import { MagellanAssetsResponse, MagellanAddressResponse } from 'src/types/magellan-types'
@@ -25,10 +25,8 @@ export const useAddressStore = defineStore('address', {
       // Also not optimal, that offset/count are applied to both to/from, leading to double the amount of returns and no clear ordering.
       // Here a new/fixed endpoint ordered by date in magellan would be better.
       const limitAndOffsetQueryString = `limit=${count + offset}`;
-      const fromAddressTxsPromise = axios.get(`${getMagellanBaseUrl()}${cTransactionApi}?fromAddress=${address}&${limitAndOffsetQueryString}`)
-      const toAddressTxsPromise = axios.get(`${getMagellanBaseUrl()}${cTransactionApi}?toAddress=${address}&${limitAndOffsetQueryString}`)
-      const [fromAddressTxs, toAddressTxs] = await Promise.all([fromAddressTxsPromise, toAddressTxsPromise])
-      return [...(<MagellanCTransactionResponse>fromAddressTxs.data).Transactions.splice(offset, count), ...(<MagellanCTransactionResponse>toAddressTxs.data).Transactions.splice(offset, count)]
+      const toandfromAddressTxs = await axios.get(`${getMagellanBaseUrl()}${cBlocksApi}?address=${address}&limit=0&${limitAndOffsetQueryString}`)
+      return [...(<MagellanCTransactionResponse>toandfromAddressTxs.data).transactions.splice(offset, count)];
     },
     async loadXpTransactions(address: string, chain: string, offset: number, limit: number): Promise<XPTransaction[]> {
       return this.magellanStore.loadTransactions(chain, offset, limit, address);

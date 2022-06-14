@@ -69,7 +69,7 @@ const tabs =
 
 
 function getFee(element: MagellanTransactionDetail): number {
-  return parseInt(element.receipt.effectiveGasPrice) * parseInt(element.receipt.gasUsed);
+  return parseInt(element.effectiveGasPrice) * parseInt(element.gasUsed);
 }
 
 export default defineComponent({
@@ -99,20 +99,21 @@ export default defineComponent({
           if (!knownHashes.includes(element.hash)) {
             newData.push({
               type: element.type,
-              age: new Date(element.createdAt),
+              age: new Date(element.timestamp * 1000),
               block: element.block,
-              from: element.fromAddr,
-              to: element.toAddr,
+              from: element.from,
+              to: element.to,
               txnFee: getFee(element),
               txnHash: element.hash,
-              value: element.value,
-              direction: element.fromAddr === address ? 'out' : 'in',
+              value: parseInt(element.value),
+              direction: element.from === address ? 'out' : 'in',
             })
             moreToLoad = true;
             knownHashes.push(element.hash);
           }
 
         }
+        // console.log(newData);
         return newData;
       },
       requireLoadMore(): boolean {

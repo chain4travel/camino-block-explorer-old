@@ -1,5 +1,5 @@
 export interface MagellanCTransactionResponse {
-  Transactions: MagellanTransactionDetail[];
+  transactions: MagellanTransactionDetail[];
 }
 
 export interface MagellanCBlocksResponse {
@@ -47,6 +47,7 @@ export interface MagellanTransactionDetail {
   block: number;
   hash: string;
   createdAt: string;
+  timestamp: number;
   nonce: number;
   gasPrice: string;
   maxFeePerGas: string;
@@ -56,6 +57,8 @@ export interface MagellanTransactionDetail {
   input: string;
   fromAddr: string;
   toAddr: string;
+  from: string;
+  to: string;
   v: string;
   r: string;
   s: string;
