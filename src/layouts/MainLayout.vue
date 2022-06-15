@@ -149,32 +149,33 @@
     </body>
 
     <div
-      class="column q-card footer flex self-end"
+      class="column q-card footer flex self-end q-px-xs"
       style="height: 250px; width: 100%"
     >
-      <div class="col-8 row q-mr-xs">
+      <div class="col-8 row q-mr-sm">
         <div class="column col items-center">
-          <div class="navigation-link q-ml-md q-my-xs text-weight-bold">
+          <div class="navigation-link q-my-xs text-weight-bold">
             Community
           </div>
           <div class="column">
             <a
-              class="q-my-xs col navigation-link hover-link"
+              class="q-my-xs col navigation-link hover-link row items-center"
               v-for="footerLink in footerLinks"
               :key="footerLink.name"
               :href="footerLink.href"
               target="_blank"
-              >{{ footerLink.name }}</a
-            >
+              ><div class="q-mr-xs">{{ footerLink.name }}</div>
+                <q-icon :name="mdiOpenInNew" />
+            </a>
           </div>
         </div>
         <div class="column col-8 q-ml-md">
           <div class="navigation-link q-my-xs text-weight-bold">More</div>
           <a
-            class="q-mr-md navigation-link q-my-xs hover-link"
+            class="q-my-xs navigation-link hover-link row items-center"
             href="https://github.com/chain4travel/camino-docs"
             target="_blank"
-            >GitHub
+            ><div class="q-mr-xs">GitHub</div><q-icon :name="mdiOpenInNew" />
           </a>
         </div>
       </div>
@@ -188,14 +189,13 @@ import { defineComponent, onErrorCaptured, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { RouteRecordRaw, useRouter } from 'vue-router';
 import type { ExternalMenuLink } from 'src/types/external-menu-link';
-
 import NetworkSelect from 'src/components/NetworkSelect.vue';
 import { useQuasar } from 'quasar';
 import { useAppConfig } from 'src/stores/app-config';
 import { getOverviewPath } from 'src/utils/route-utils';
 import { ChainType } from 'src/types/chain-type';
 import SearchBanner from 'src/components/SearchBanner.vue';
-
+import { mdiOpenInNew } from '@quasar/extras/mdi-v6'
 const leftDrawerOpen = ref(false);
 
 function addAllChildRoutes(
@@ -275,6 +275,7 @@ export default defineComponent({
         { name: 'Medium', href: 'https://medium.com/@caminofoundation' },
       ],
       copyright,
+      mdiOpenInNew,
     };
   },
   components: { NetworkSelect, SearchBanner },
@@ -290,6 +291,6 @@ export default defineComponent({
   padding-top : 20px
   margin-top : 50px
 .hover-link:hover
-  color : red
+  color :  #e84142
   text-decoration: underline
 </style>
