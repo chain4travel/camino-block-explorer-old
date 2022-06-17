@@ -69,7 +69,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, PropType, Ref } from 'vue';
-import { getAllValidatorsPath } from 'src/utils/route-utils';
+import { getAllValidatorsPath } from '../utils/route-utils';
 import DataCard from 'src/components/ui/DataCard.vue';
 import {
   getDisplayValueForGewi,
