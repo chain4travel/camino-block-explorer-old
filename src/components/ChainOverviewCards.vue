@@ -69,7 +69,6 @@
 
 <script lang="ts">
 import { defineComponent, ref, PropType, Ref } from 'vue';
-import { getAllValidatorsPath } from '../utils/route-utils';
 import DataCard from 'src/components/ui/DataCard.vue';
 import {
   getDisplayValueForGewi,
@@ -80,6 +79,7 @@ import {
   getLabel,
   Timeframe,
 } from 'src/types/chain-loader';
+import { getAllValidatorsPath } from 'src/utils/route-utils';
 
 export default defineComponent({
   name: 'ChainOverviewCards',

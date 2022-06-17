@@ -7,6 +7,7 @@ export const TABLES = 'all';
 const transactions = 'transactions';
 const blocks = 'blocks';
 const address = 'address';
+const validators = 'validators';
 
 export function getPathElement(type: ChainType): string {
   return type.toLowerCase();
@@ -48,6 +49,10 @@ export function getAllBlocksPath(chaintype: ChainType) {
 
 export function getAllTransactionsPath(chaintype: ChainType) {
   return `/${TABLES}/${getPathElement(chaintype)}/${transactions}`;
+}
+
+export function getAllValidatorsPath() {
+  return `/${TABLES}/${validators}`;
 }
 
 export function getOverviewPathName(chaintype: ChainType) {
