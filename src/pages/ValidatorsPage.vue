@@ -11,6 +11,7 @@
               rounded
               outline
               color="primary"
+              to="/"
             >
               <div class="text-link">Back</div>
             </q-btn>
