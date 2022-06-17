@@ -34,6 +34,7 @@
             :virtual-scroll-sticky-size-start="48"
             :pagination="pagination"
             @virtual-scroll="onScroll"
+            hide-bottom
           >
             <template v-slot:body-cell-connected="props">
               <q-td :props="props">
@@ -177,7 +178,7 @@ export default defineComponent({
 
 <style lang="sass">
 .my-sticky-dynamic
-  height: 410px
+  height: 500px
   thead tr th
     text-align : start
     position: sticky

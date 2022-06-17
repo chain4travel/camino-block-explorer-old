@@ -12,6 +12,7 @@ import {
   getOverviewPathName,
   getTransactionDetailsPath,
   getTransactionsPathName,
+  getAllValidatorsPath,
   makeSingleNetworkRoute,
   TABLES,
 } from 'src/utils/route-utils';
@@ -39,6 +40,7 @@ const routes: RouteRecordRaw[] = [
             name: getOverviewPathName(ChainType.C_CHAIN),
             path: getOverviewPath(ChainType.C_CHAIN),
             component: () => import('src/pages/CChainPage.vue'),
+
             meta: {
               showInMenu: true,
               label: 'C-Chain',
@@ -123,6 +125,11 @@ const routes: RouteRecordRaw[] = [
             name: getAllTransactionsPathName(ChainType.P_CHAIN),
             path: getAllTransactionsPath(ChainType.P_CHAIN),
             component: () => import('src/pages/PChainTransactionsAll.vue'),
+          },
+          {
+            name: 'getAllValidators',
+            path: getAllValidatorsPath(),
+            component: () => import('src/pages/ValidatorsPage.vue'),
           },
         ],
       },
