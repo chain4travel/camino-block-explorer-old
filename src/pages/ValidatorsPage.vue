@@ -13,15 +13,15 @@
               color="primary"
               to="/"
             >
-              <div class="text-link">Back</div>
+              <div class="text-white">Back</div>
             </q-btn>
             <div class="text-h6 q-pl-md col-10">Validators</div>
           </div>
         </q-card-section>
         <q-card-section class="no-shadow">
           <q-table
-            class="my-sticky-dynamic monospace no-shadow"
-            table-header-class="q-card monospace"
+            class="my-sticky-dynamic monospace no-shadow text-h6"
+            table-header-class="q-card monospace text-h6"
             card-class="q-card light-level-1"
             color="light-level-1"
             table-class="q-card"
@@ -213,7 +213,9 @@ export default defineComponent({
 .my-sticky-dynamic
   height: 410px
   thead tr th
+    text-align : start
     position: sticky
+    font-size : 16px
     z-index: 1
   /* this will be the loading indicator */
   thead tr:last-child th
@@ -221,4 +223,6 @@ export default defineComponent({
     top: 48px
   thead tr:first-child th
     top: 0
+  td
+    text-align : start
 </style>
