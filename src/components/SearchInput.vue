@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-input id="input" dense class="search-input" bg-color="search-banner-input" rounded
-      label="Search by Address / Hash / Block" outlined v-model="searchInput" clearable @update:model-value="search" debounce="500">
+      label="Search by Address / Hash / Block" outlined v-model="searchInput" clearable @update:model-value="search" v-on:keyup="redirectTo" debounce="500">
       <template v-slot:append>
         <q-avatar size="lg" icon="search">
         </q-avatar>
@@ -31,6 +31,7 @@ import { defineComponent, Ref, ref } from 'vue'
 import { MagellanSearchResponse, MagellanSearchResultElementType, MagellanXPTransactionSearchResult, MagellanCTransactionSearchResult, MagellanCBlockSearchResult, MagellanAddressSearchResult } from 'src/types/magellan-types';
 import { getBlockDetailsPath, getTransactionDetailsPath, getAddressDetailsPath } from 'src/utils/route-utils'
 import { ChainType } from 'src/types/chain-type';
+import { useRouter } from 'vue-router'
 
 const resultLimit = 6;
 
@@ -97,6 +98,7 @@ export default defineComponent({
     const searchInput: Ref<string> = ref('');
     const menuItems: Ref<SearchMenuItem[]> = ref([]);
     const showMenu: Ref<boolean> = ref(false);
+    const router = useRouter();
     return {
       searchInput,
       menuItems,
@@ -132,7 +134,11 @@ export default defineComponent({
           default:
             return 'blue';
         }
-      }
+      },
+      redirectTo(e: KeyboardEvent) {
+        if (e.key === 'Enter' && menuItems.value[0])
+          router.push(menuItems.value[0].link);
+      },
     };
   },
   components: { }
