@@ -12,35 +12,64 @@ export const usePIndexStore = defineStore('pindex', {
     store: useMagellanTxStore(),
     appConfig: useAppConfig(),
   }),
-  getters: {
-  },
+  getters: {},
   actions: {
     async loadNumberOfTransactions(timeframe: Timeframe): Promise<number> {
       const currentDate = DateTime.now().setZone('utc');
       const startDate = getStartDate(currentDate, timeframe);
-      const result = await this.store.loadTransactionAggregates('p', startDate.toISO(), currentDate.toISO());
+      const result = await this.store.loadTransactionAggregates(
+        'p',
+        startDate.toISO(),
+        currentDate.toISO()
+      );
       return result && result.aggregates && result.aggregates.transactionCount;
     },
     async loadTotalGasFess(timeframe: Timeframe): Promise<number> {
       const currentDate = DateTime.now().setZone('utc');
       const startDate = getStartDate(currentDate, timeframe);
-      const result = await this.store.loadTransactionFeesAggregates('p', startDate.toISO(), currentDate.toISO());
+      const result = await this.store.loadTransactionFeesAggregates(
+        'p',
+        startDate.toISO(),
+        currentDate.toISO()
+      );
       return result && result.aggregates && parseInt(result.aggregates.txfee);
+    },
+    async getValidators(): Promise<object> {
+      const network = this.appConfig.getActive;
+      try {
+        const response = await axios.post(
+          `${network.protocol}://${network.host}:${network.port}/ext/bc/P`,
+          { jsonrpc: '2.0', method: 'platform.getCurrentValidators', id: 1 }
+        );
+        const data = response.data;
+        if (data && data.result && data.result.validators)
+          return data.result.validators;
+        return {};
+      } catch (e) {
+        // COnsider returning text here?
+        console.log('Could not load validators', e);
+        return {};
+      }
     },
     async getNumberOfValidators(): Promise<object> {
       const network = this.appConfig.getActive;
       try {
-        const response = await axios.post(`${network.protocol}://${network.host}:${network.port}/ext/bc/P`, { 'jsonrpc': '2.0', 'method': 'platform.getCurrentValidators', 'id': 1 })
+        const response = await axios.post(
+          `${network.protocol}://${network.host}:${network.port}/ext/bc/P`,
+          { jsonrpc: '2.0', method: 'platform.getCurrentValidators', id: 1 }
+        );
         const data = response.data;
         if (data && data.result && data.result.validators)
           return {
             numberOfValidators: data.result.validators.length,
-            numberOfActiveValidators: data.result.validators.filter(v => v.connected).length,
+            numberOfActiveValidators: data.result.validators.filter(
+              (v) => v.connected
+            ).length,
           };
         return {};
       } catch (e) {
         // COnsider returning text here?
-        console.log('Could not load validator count', e)
+        console.log('Could not load validator count', e);
         return {};
       }
     },
