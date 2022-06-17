@@ -139,58 +139,24 @@ const columns = [
     label: 'txID',
   },
 ];
-const seed = [
-  {
-    connected: 'true',
-    nodeID: 'bigola',
-    startTime: 'bigola',
-    endTime: 'bigola',
-    uptime: 'bigola',
-    txID: 'bigola',
-  },
-  {
-    connected: 'false',
-    nodeID: 'bigola',
-    startTime: 'bigola',
-    endTime: 'bigola',
-    uptime: 'bigola',
-    txID: 'bigola',
-  },
-];
-let allRows = [];
-for (let i = 0; i < 50; i++) {
-  allRows = [...allRows, ...seed];
-}
-allRows.forEach((row, index) => {
-  row.index = index;
-});
-
-const pageSize = 50;
-const lastPage = Math.ceil(allRows.length / pageSize);
 export default defineComponent({
   name: 'ValidatorsPage',
   components: { AddressLink },
   async setup() {
-    const nextPage = ref(2);
     const loading = ref(false);
 
     const rows = computed(() => {
-      return allRows;
+      return loadedValidators;
     });
     const store = usePIndexStore();
 
     return {
       onScroll({ to, ref }) {
         const lastIndex = rows.value.length - 1;
-        if (
-          loading.value !== true &&
-          nextPage.value < lastPage &&
-          to === lastIndex
-        ) {
+        if (loading.value !== true && to === lastIndex) {
           loading.value = true;
 
           setTimeout(() => {
-            nextPage.value++;
             nextTick(() => {
               ref.refresh();
               loading.value = false;
@@ -217,9 +183,7 @@ export default defineComponent({
     position: sticky
     font-size : 16px
     z-index: 1
-  /* this will be the loading indicator */
   thead tr:last-child th
-    /* height of all previous header rows */
     top: 48px
   thead tr:first-child th
     top: 0
