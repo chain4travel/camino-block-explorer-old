@@ -3,23 +3,23 @@
     <div class="col-md-10 col-12">
       <q-card>
         <q-card-section>
-          <div class="row">
+          <div class="row items-center">
             <q-btn
               icon="mdi-chevron-left"
               class="col-auto"
-              size="sm"
+              size="md"
               rounded
               outline
               color="primary"
               to="/"
             >
-              <div class="text-white">Back</div>
             </q-btn>
-            <div class="text-h6 q-pl-md col-10">Validators</div>
+            <div class="text-h5 q-pl-md col-10">Validators</div>
           </div>
         </q-card-section>
         <q-card-section class="no-shadow">
           <q-table
+            v-if="loadedValidators?.length > 0"
             class="my-sticky-dynamic monospace no-shadow text-h6"
             table-header-class="q-card monospace text-h6"
             card-class="q-card light-level-1"
@@ -38,22 +38,38 @@
           >
             <template v-slot:body-cell-connected="props">
               <q-td :props="props">
-                <div v-if="props.value !== 'true'">
-                  <q-badge
-                    text-color="black"
-                    color="accent"
-                    class="q-px-md q-py-sm monospace"
-                    :label="props.value"
+                <div
+                  v-if="props.value !== 'true'"
+                  class="row items-center space-between no-wrap"
+                >
+                  <q-icon
+                    class="network-inactive-color"
+                    size="xs"
+                    name="mdi-circle-medium"
                   />
+                  <div>Disconnected</div>
                 </div>
-                <div v-else>
-                  <q-badge
-                    text-color="light-level-1"
-                    color="negative"
-                    class="q-px-md q-py-sm monospace"
-                    :label="props.value"
+                <div v-else class="row items-center space-between no-wrap">
+                  <q-icon
+                    class="network-active-color"
+                    size="xs"
+                    name="mdi-circle-medium"
                   />
+                  <div>Connected</div>
                 </div>
+              </q-td>
+            </template>
+            <template v-slot:body-cell-uptime="props">
+              <q-td :props="props">{{ Math.round(props.value * 100) }}%</q-td>
+            </template>
+            <template v-slot:body-cell-startTime="props">
+              <q-td :props="props">
+                {{ formatDate(new Date(parseInt(props.value))) }}
+              </q-td>
+            </template>
+            <template v-slot:body-cell-endTime="props">
+              <q-td :props="props">
+                {{ formatDate(new Date(parseInt(props.value))) }}
               </q-td>
             </template>
             <template v-slot:body-cell-nodeID="props">
@@ -89,6 +105,13 @@
               </q-td>
             </template>
           </q-table>
+          <q-card
+            v-else
+            style="height: 500px"
+            class="row items-center justify-center"
+          >
+            <q-spinner-dots color="primary" size="lg"
+          /></q-card>
         </q-card-section>
       </q-card>
     </div>
@@ -99,6 +122,7 @@
 import { defineComponent, ref, computed, nextTick } from 'vue';
 import { usePIndexStore } from 'src/stores/p-index-store';
 import AddressLink from 'src/components/ui/AddressLink.vue';
+import { formatDate } from 'src/utils/display-utils';
 
 // we generate lots of rows here
 const columns = [
@@ -106,7 +130,7 @@ const columns = [
     name: 'connected',
     field: 'connected',
     required: false,
-    label: 'connected',
+    label: 'status',
     align: 'left',
   },
   {
@@ -152,6 +176,7 @@ export default defineComponent({
     const store = usePIndexStore();
 
     return {
+      formatDate,
       onScroll({ to, ref }) {
         const lastIndex = rows.value.length - 1;
         if (loading.value !== true && to === lastIndex) {
@@ -182,7 +207,7 @@ export default defineComponent({
   thead tr th
     text-align : start
     position: sticky
-    font-size : 16px
+    font-size : 15px
     z-index: 1
   thead tr:last-child th
     top: 48px

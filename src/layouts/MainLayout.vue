@@ -150,13 +150,11 @@
 
     <div
       class="column q-card footer flex self-end q-px-xs"
-      style="height: 250px; width: 100%"
+      style="height: 180px; width: 100%"
     >
       <div class="col-8 row q-mr-sm">
         <div class="column col items-center">
-          <div class="navigation-link q-my-xs text-weight-bold">
-            Community
-          </div>
+          <div class="navigation-link q-my-xs text-weight-bold">Community</div>
           <div class="column">
             <a
               class="q-my-xs col navigation-link hover-link row items-center"
@@ -165,7 +163,7 @@
               :href="footerLink.href"
               target="_blank"
               ><div class="q-mr-xs">{{ footerLink.name }}</div>
-                <q-icon :name="mdiOpenInNew" />
+              <q-icon :name="mdiOpenInNew" />
             </a>
           </div>
         </div>
@@ -175,7 +173,15 @@
             class="q-my-xs navigation-link hover-link row items-center"
             href="https://github.com/chain4travel/camino-docs"
             target="_blank"
-            ><div class="q-mr-xs">GitHub</div><q-icon :name="mdiOpenInNew" />
+            ><div class="q-mr-xs">GitHub</div>
+            <q-icon :name="mdiOpenInNew" />
+          </a>
+          <a
+            class="q-my-xs navigation-link hover-link row items-center"
+            href="https://medium.com/@caminofoundation"
+            target="_blank"
+            ><div class="q-mr-xs">Medium</div>
+            <q-icon :name="mdiOpenInNew" />
           </a>
         </div>
       </div>
@@ -195,7 +201,7 @@ import { useAppConfig } from 'src/stores/app-config';
 import { getOverviewPath } from 'src/utils/route-utils';
 import { ChainType } from 'src/types/chain-type';
 import SearchBanner from 'src/components/SearchBanner.vue';
-import { mdiOpenInNew } from '@quasar/extras/mdi-v6'
+import { mdiOpenInNew } from '@quasar/extras/mdi-v6';
 const leftDrawerOpen = ref(false);
 
 function addAllChildRoutes(
@@ -272,7 +278,7 @@ export default defineComponent({
         { name: 'Discord', href: 'https://discord.gg/K5THjAweFB' },
         { name: 'Twitter', href: 'https://twitter.com/CaminoFndtn' },
         { name: 'Telegram', href: 'https://t.me/caminochain' },
-        { name: 'Medium', href: 'https://medium.com/@caminofoundation' },
+        // { name: 'Medium', href: 'https://medium.com/@caminofoundation' },
       ],
       copyright,
       mdiOpenInNew,
