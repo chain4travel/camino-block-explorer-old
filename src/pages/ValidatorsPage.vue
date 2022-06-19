@@ -39,7 +39,7 @@
             <template v-slot:body-cell-connected="props">
               <q-td :props="props">
                 <div
-                  v-if="props.value !== 'true'"
+                  v-if="!props.value"
                   class="row items-center space-between no-wrap"
                 >
                   <q-icon
