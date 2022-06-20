@@ -42,20 +42,20 @@
                   v-if="!props.value"
                   class="row items-center space-between no-wrap"
                 >
-                  <q-icon
-                    class="network-inactive-color"
-                    size="xs"
-                    name="mdi-circle-medium"
+                  <q-badge
+                    text-color="black"
+                    color="negative"
+                    class="q-px-md q-py-sm monospace"
+                    label="Disconnected"
                   />
-                  <div>Disconnected</div>
                 </div>
                 <div v-else class="row items-center space-between no-wrap">
-                  <q-icon
-                    class="network-active-color"
-                    size="xs"
-                    name="mdi-circle-medium"
+                  <q-badge
+                    text-color="black"
+                    color="accent"
+                    class="q-px-md q-py-sm monospace"
+                    label="Connected"
                   />
-                  <div>Connected</div>
                 </div>
               </q-td>
             </template>
