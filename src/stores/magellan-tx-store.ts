@@ -69,7 +69,7 @@ function createFundFromOutput(magellanOutput: MagellanXPOutput): Fund {
 export const useMagellanTxStore = defineStore('magellan-tx-store', {
   state: () => ({
     chainIds: {} as Record<string, string>,
-    selectedTime: Timeframe.MONTHS_1,
+    selectedTime: Timeframe.HOURS_24,
     validators: {} as MagellanValidatorsResponse,
     numberOfTransactions: 0 as number,
     totalGasFees: 0 as number,
