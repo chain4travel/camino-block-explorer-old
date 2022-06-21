@@ -18,7 +18,7 @@
             :val="option.value"
             :label="option.label"
             :key="option.label"
-            color="white"
+            :color="$q.dark.isActive ? 'white' : 'primary'"
           />
         </div>
         <!-- <q-select dense @update:model-value="updateFields" v-model="selectedTime" :options="timeOptions" emit-value
