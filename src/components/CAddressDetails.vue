@@ -10,36 +10,19 @@
       </div>
     </div>
     <div class="row q-pt-md justify-center">
-      <q-card class="col">
-        <q-card-section>
-          <div class="row">
-            <div class="col-auto">
-              <q-tabs v-model="tab" dense class="text-grey" active-color="primary" indicator-color="primary"
-                align="justify" narrow-indicator>
-                <q-tab v-for="tab of tabs" :key="tab.key" :name="tab.key" :label="tab.label" />
-              </q-tabs>
-              <q-separator />
+      <DetailsTable height="57vh" :columns="columns" :load-data="loadData" :require-load-more="requireLoadMore"
+        :store="store">
+        <template v-slot:body-cell-direction="props">
+          <q-td :props="props">
+            <div>
+              <q-badge :color="props.value === 'in' ? 'primary' : 'secondary'" :label="props.value" />
             </div>
-          </div>
-          <q-tab-panels v-model="tab" animated>
-            <q-tab-panel name="transactions">
-              <DetailsTable height="57vh" :columns="columns" :load-data="loadData" :require-load-more="requireLoadMore"
-                :store="store">
-                <template v-slot:body-cell-direction="props">
-                  <q-td :props="props">
-                    <div>
-                      <q-badge :color="props.value === 'in' ? 'primary' : 'secondary'" :label="props.value" />
-                    </div>
-                    <div class="my-table-details">
-                      {{ props.row.details }}
-                    </div>
-                  </q-td>
-                </template>
-              </DetailsTable>
-            </q-tab-panel>
-          </q-tab-panels>
-        </q-card-section>
-      </q-card>
+            <div class="my-table-details">
+              {{ props.row.details }}
+            </div>
+          </q-td>
+        </template>
+      </DetailsTable>
     </div>
   </div>
   <div v-else>
