@@ -27,7 +27,6 @@ export interface Fund {
   signature?: string;
 }
 
-
 export interface TransactionTableData {
   blockNumber: number;
   from: string;
@@ -80,5 +79,5 @@ export interface CAddressTransactionTableData {
   to: string;
   value: number;
   txnFee: number;
-  direction: 'out'|'in';
+  direction: 'out' | 'in';
 }

@@ -19,12 +19,14 @@ export const usePIndexStore = defineStore('pindex', {
     async refreshAll(value: Timeframe) {
       this.store.gasFeesLoading = true;
       this.store.transactionsLoading = true;
-      const [transactionAggregate, gasFeeAggregate, validators] = await Promise.all([
-        this.loadNumberOfTransactions(value),
-        this.loadTotalGasFess(value),
-        this.getNumberOfValidators()
-      ]);
-      this.store.numberOfActiveValidators = validators?.numberOfActiveValidators;
+      const [transactionAggregate, gasFeeAggregate, validators] =
+        await Promise.all([
+          this.loadNumberOfTransactions(value),
+          this.loadTotalGasFess(value),
+          this.getNumberOfValidators(),
+        ]);
+      this.store.numberOfActiveValidators =
+        validators?.numberOfActiveValidators;
       this.store.numberOfValidators = validators?.numberOfValidators;
 
       this.store.numberOfTransactions = transactionAggregate || 0;

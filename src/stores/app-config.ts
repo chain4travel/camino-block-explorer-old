@@ -1,7 +1,7 @@
-import { defineStore } from 'pinia'
-import { Network } from 'src/types/network'
-import { useStorage } from '@vueuse/core'
-import { Dark } from 'quasar'
+import { defineStore } from 'pinia';
+import { Network } from 'src/types/network';
+import { useStorage } from '@vueuse/core';
+import { Dark } from 'quasar';
 
 export const useAppConfig = defineStore({
   id: 'appConfig',
@@ -16,7 +16,7 @@ export const useAppConfig = defineStore({
         host: 'columbus.camino.foundation',
         magellanAddress: 'https://magellan.columbus.camino.foundation',
         port: 443,
-        predefined: true
+        predefined: true,
       },
     ] as Network[],
     customNetworks: useStorage('cam-explorer-custom-networks', [] as Network[]),
@@ -27,17 +27,23 @@ export const useAppConfig = defineStore({
       return this.networks.concat(this.customNetworks);
     },
     getActive(): Network {
-      return this.getAllNetworks.find(network => network.id === this.activeNetwork) || this.networks[0];
+      return (
+        this.getAllNetworks.find(
+          (network) => network.id === this.activeNetwork
+        ) || this.networks[0]
+      );
     },
   },
   actions: {
     setActive(id: string): boolean {
-      const newActiveNewtork = this.getAllNetworks.find(network => network.id === id)
+      const newActiveNewtork = this.getAllNetworks.find(
+        (network) => network.id === id
+      );
       if (newActiveNewtork) {
         this.activeNetwork = id;
         return true;
       } else {
-        return false
+        return false;
       }
     },
     pushNetwork(network: Network) {
@@ -47,6 +53,6 @@ export const useAppConfig = defineStore({
       this.customNetworks = this.customNetworks.filter((value) => {
         return value.id !== id;
       });
-    }
-  }
-})
+    },
+  },
+});

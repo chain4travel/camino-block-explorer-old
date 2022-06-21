@@ -5,5 +5,5 @@ export default {
   failed: 'Action failed',
   success: 'Action was successful',
   camino: 'Camino',
-  explorer: 'Explorer'
-}
+  explorer: 'Explorer',
+};

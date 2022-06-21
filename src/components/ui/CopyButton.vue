@@ -1,12 +1,18 @@
 <template>
-  <q-btn class="q-ml-md" @click="() => copyToClipBoard(value.toString())" size="sm" outline
-  rounded icon="mdi-content-copy">
-  <slot></slot>
+  <q-btn
+    class="q-ml-md"
+    @click="() => copyToClipBoard(value.toString())"
+    size="sm"
+    outline
+    rounded
+    icon="mdi-content-copy"
+  >
+    <slot></slot>
   </q-btn>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { Notify } from 'quasar'
+import { defineComponent } from 'vue';
+import { Notify } from 'quasar';
 
 export default defineComponent({
   name: 'CopyButton',
@@ -20,12 +26,11 @@ export default defineComponent({
         Notify.create({
           message: 'Value copied to Clipboard',
           closeBtn: true,
-          timeout: 500
-        })
-      }
-
-    }
+          timeout: 500,
+        });
+      },
+    };
   },
-  components: {  }
-})
+  components: {},
+});
 </script>

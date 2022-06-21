@@ -1,8 +1,19 @@
 import axios from 'axios';
 import { defineStore } from 'pinia';
 import { XPTransaction, Fund } from 'src/types/transaction';
-import { MagellanXPTransactionResponse, MagellanXPTransaction, MagellanXPOutput, MagellanTxFeeAggregatesResponse, MagellanAggregatesResponse, MagellanValidatorsResponse } from 'src/types/magellan-types';
-import { transactionApi, transactionAggregates, transactionFeeAggregates } from 'src/utils/magellan-api-utils';
+import {
+  MagellanXPTransactionResponse,
+  MagellanXPTransaction,
+  MagellanXPOutput,
+  MagellanTxFeeAggregatesResponse,
+  MagellanAggregatesResponse,
+  MagellanValidatorsResponse,
+} from 'src/types/magellan-types';
+import {
+  transactionApi,
+  transactionAggregates,
+  transactionFeeAggregates,
+} from 'src/utils/magellan-api-utils';
 import { getChainId, getMagellanBaseUrl } from 'src/utils/client-utils';
 import { Timeframe } from 'src/types/chain-loader';
 
@@ -13,9 +24,12 @@ function sortByAddress(a: Fund, b: Fund): number {
 function convertMemo(memo: string): string {
   try {
     // Turn the string from bytestream to percent-encoding
-    const percentEnc = atob(memo).split('').map(function (c) {
-      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join('')
+    const percentEnc = atob(memo)
+      .split('')
+      .map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      })
+      .join('');
     // decode base64 string including special characters
     return decodeURIComponent(percentEnc);
   } catch (e) {
@@ -24,7 +38,9 @@ function convertMemo(memo: string): string {
   }
 }
 
-export function createTransaction(magellanTransaction: MagellanXPTransaction): XPTransaction {
+export function createTransaction(
+  magellanTransaction: MagellanXPTransaction
+): XPTransaction {
   return <XPTransaction>{
     id: magellanTransaction.id,
     timestamp: new Date(Date.parse(magellanTransaction.timestamp)),
@@ -35,11 +51,13 @@ export function createTransaction(magellanTransaction: MagellanXPTransaction): X
     inputTotals: magellanTransaction.inputTotals,
     outputTotals: magellanTransaction.outputTotals,
     status: 'accepted', //TODO: set dynamically when magellan delivers this information
-    memo: convertMemo(magellanTransaction.memo)
-  }
+    memo: convertMemo(magellanTransaction.memo),
+  };
 }
 
-export function getOutputFunds(magellanTransaction: MagellanXPTransaction): Fund[] {
+export function getOutputFunds(
+  magellanTransaction: MagellanXPTransaction
+): Fund[] {
   const outputfunds: Fund[] = [];
   for (const output of magellanTransaction.outputs || []) {
     outputfunds.push(createFundFromOutput(output));
@@ -47,7 +65,9 @@ export function getOutputFunds(magellanTransaction: MagellanXPTransaction): Fund
   return outputfunds.sort(sortByAddress);
 }
 
-export function getInputFunds(magellanTransaction: MagellanXPTransaction): Fund[] {
+export function getInputFunds(
+  magellanTransaction: MagellanXPTransaction
+): Fund[] {
   const inputfunds: Fund[] = [];
   if (magellanTransaction.inputs) {
     for (const input of magellanTransaction.inputs) {
@@ -61,9 +81,12 @@ export function getInputFunds(magellanTransaction: MagellanXPTransaction): Fund[
 
 function createFundFromOutput(magellanOutput: MagellanXPOutput): Fund {
   return <Fund>{
-    address: magellanOutput && magellanOutput.addresses ? magellanOutput.addresses[0] : null,
-    value: magellanOutput.amount
-  }
+    address:
+      magellanOutput && magellanOutput.addresses
+        ? magellanOutput.addresses[0]
+        : null,
+    value: magellanOutput.amount,
+  };
 }
 
 export const useMagellanTxStore = defineStore('magellan-tx-store', {
@@ -79,29 +102,39 @@ export const useMagellanTxStore = defineStore('magellan-tx-store', {
     gasFeesLoading: false as boolean,
     transactionsLoading: false as boolean,
   }),
-  getters: {
-  },
+  getters: {},
   actions: {
     async getChainId(chainAlias: string): Promise<string> {
       if (!this.chainIds[chainAlias]) {
         this.chainIds[chainAlias] = await getChainId(chainAlias);
       }
-      return this.chainIds[chainAlias]
+      return this.chainIds[chainAlias];
     },
 
     async loadTransactionById(transactionId: string): Promise<XPTransaction> {
-      const rawTransaction = await axios.get(getMagellanBaseUrl() + transactionApi + '/' + transactionId);
-      return Promise.resolve(createTransaction(rawTransaction.data))
+      const rawTransaction = await axios.get(
+        getMagellanBaseUrl() + transactionApi + '/' + transactionId
+      );
+      return Promise.resolve(createTransaction(rawTransaction.data));
     },
 
-    async loadTransactions(chainAlias: string, offset = 0, limit = 10, address: string | null): Promise<XPTransaction[]> {
+    async loadTransactions(
+      chainAlias: string,
+      offset = 0,
+      limit = 10,
+      address: string | null
+    ): Promise<XPTransaction[]> {
       const chainId = await this.getChainId(chainAlias);
-      let url = `${getMagellanBaseUrl()}${transactionApi}?chainID=${chainId}&offset=${offset}&limit=${limit}&sort=timestamp-desc`
+      let url = `${getMagellanBaseUrl()}${transactionApi}?chainID=${chainId}&offset=${offset}&limit=${limit}&sort=timestamp-desc`;
       if (address) {
-        url += `&address=${address}`
+        url += `&address=${address}`;
       }
-      const rawTransactions: MagellanXPTransactionResponse = await (await axios.get(url)).data;
-      return rawTransactions.transactions ? rawTransactions.transactions.map(createTransaction) : [];
+      const rawTransactions: MagellanXPTransactionResponse = await (
+        await axios.get(url)
+      ).data;
+      return rawTransactions.transactions
+        ? rawTransactions.transactions.map(createTransaction)
+        : [];
     },
 
     /**
@@ -111,24 +144,31 @@ export const useMagellanTxStore = defineStore('magellan-tx-store', {
      * @param startTime the start time used while aggregating formatted as ISO date (e.g. 2022-02-21T00:00:00Z)
      * @param endTime the end time used while aggregating formatted as ISO date (e.g. 2022-02-21T00:00:00Z)
      */
-    async loadTransactionAggregates(chainAlias: string, startTime: string, endTime: string): Promise<MagellanAggregatesResponse> {
+    async loadTransactionAggregates(
+      chainAlias: string,
+      startTime: string,
+      endTime: string
+    ): Promise<MagellanAggregatesResponse> {
       const chainId = await this.getChainId(chainAlias);
-      const url = `${getMagellanBaseUrl()}${transactionAggregates}?chainID=${chainId}&startTime=${startTime}&endTime=${endTime}`
+      const url = `${getMagellanBaseUrl()}${transactionAggregates}?chainID=${chainId}&startTime=${startTime}&endTime=${endTime}`;
       return (await axios.get(url)).data;
     },
 
     /**
- * Returns the aggregated information of transactions
- *
- * @param chainAlias the chain alias in magellan, currently x and p are supported
- * @param startTime the start time used while aggregating formatted as ISO date (e.g. 2022-02-21T00:00:00Z)
- * @param endTime the end time used while aggregating formatted as ISO date (e.g. 2022-02-21T00:00:00Z)
- */
-    async loadTransactionFeesAggregates(chainAlias: string, startTime: string, endTime: string): Promise<MagellanTxFeeAggregatesResponse> {
+     * Returns the aggregated information of transactions
+     *
+     * @param chainAlias the chain alias in magellan, currently x and p are supported
+     * @param startTime the start time used while aggregating formatted as ISO date (e.g. 2022-02-21T00:00:00Z)
+     * @param endTime the end time used while aggregating formatted as ISO date (e.g. 2022-02-21T00:00:00Z)
+     */
+    async loadTransactionFeesAggregates(
+      chainAlias: string,
+      startTime: string,
+      endTime: string
+    ): Promise<MagellanTxFeeAggregatesResponse> {
       const chainId = await this.getChainId(chainAlias);
-      const url = `${getMagellanBaseUrl()}${transactionFeeAggregates}?chainID=${chainId}&startTime=${startTime}&endTime=${endTime}`
+      const url = `${getMagellanBaseUrl()}${transactionFeeAggregates}?chainID=${chainId}&startTime=${startTime}&endTime=${endTime}`;
       return (await axios.get(url)).data;
-    }
-
+    },
   },
 });

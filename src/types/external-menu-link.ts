@@ -1,5 +1,5 @@
 export interface ExternalMenuLink {
-    name: string;
-    href: string;
-    icon: string;
+  name: string;
+  href: string;
+  icon: string;
 }

@@ -1,41 +1,69 @@
 <template>
   <div class="network-select">
-    <q-select dense rounded outlined v-model="selectedNetwork" :options="networkOptions"
-      @update:model-value="networkSelectionChanged">
+    <q-select
+      dense
+      rounded
+      outlined
+      v-model="selectedNetwork"
+      :options="networkOptions"
+      @update:model-value="networkSelectionChanged"
+    >
       <template v-slot:prepend>
-        <q-icon class="network-active-color" size="xs" name="mdi-circle-medium" />
+        <q-icon
+          class="network-active-color"
+          size="xs"
+          name="mdi-circle-medium"
+        />
       </template>
       <template v-slot:option="scope">
-        <q-item v-bind="scope.itemProps" :class="scope.opt.value === undefined ? 'primary-clickable' : ''">
+        <q-item
+          v-bind="scope.itemProps"
+          :class="scope.opt.value === undefined ? 'primary-clickable' : ''"
+        >
           <q-item-section>
             <q-item-label>
               {{ scope.opt.label }}
             </q-item-label>
           </q-item-section>
-          <q-item-section v-if="canBeDeleted(scope.opt.value, scope.selected)" side top>
-            <q-btn @click.stop="removeNetworkOption(scope.index)" round size="sm" color="primary"
-              icon="mdi-delete-forever" />
+          <q-item-section
+            v-if="canBeDeleted(scope.opt.value, scope.selected)"
+            side
+            top
+          >
+            <q-btn
+              @click.stop="removeNetworkOption(scope.index)"
+              round
+              size="sm"
+              color="primary"
+              icon="mdi-delete-forever"
+            />
           </q-item-section>
         </q-item>
       </template>
     </q-select>
-    <AddNetworkDialog v-model="showNewNetworkDialog" @new-network="createNewNetwork" @cancel="dialogCancelled" />
+    <AddNetworkDialog
+      v-model="showNewNetworkDialog"
+      @new-network="createNewNetwork"
+      @cancel="dialogCancelled"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import { useAppConfig } from 'src/stores/app-config';
-import { Network } from 'src/types/network'
+import { Network } from 'src/types/network';
 import { defineComponent, ref } from 'vue';
 import AddNetworkDialog from 'src/components/dialogs/AddNetworkDialog.vue';
 
-function createNetworkOptions(networks: Network[]): Array<{ label: string, value: Network | undefined }> {
-  const networkOptions = networks.map(network => ({
+function createNetworkOptions(
+  networks: Network[]
+): Array<{ label: string; value: Network | undefined }> {
+  const networkOptions = networks.map((network) => ({
     label: network.displayName,
-    value: network as Network | undefined
+    value: network as Network | undefined,
   }));
   networkOptions.push({ label: 'Create new Network', value: undefined });
-  return networkOptions
+  return networkOptions;
 }
 
 export default defineComponent({
@@ -44,28 +72,37 @@ export default defineComponent({
     const appConfig = useAppConfig();
     const showNewNetworkDialog = ref(false);
     const networkOptions = ref(createNetworkOptions(appConfig.getAllNetworks));
-    const selectedNetwork = ref(networkOptions.value.find(e => e.value === appConfig.getActive) || networkOptions.value[0])
+    const selectedNetwork = ref(
+      networkOptions.value.find((e) => e.value === appConfig.getActive) ||
+        networkOptions.value[0]
+    );
     return {
       networkOptions,
       selectedNetwork,
       showNewNetworkDialog,
-      networkSelectionChanged(selectedOption: { label: string, value: Network }) {
+      networkSelectionChanged(selectedOption: {
+        label: string;
+        value: Network;
+      }) {
         if (selectedOption.value === undefined) {
           showNewNetworkDialog.value = true;
         } else {
           //TODO handle sucess/not success!
-          appConfig.setActive(selectedOption.value.id)
+          appConfig.setActive(selectedOption.value.id);
           document.location.reload();
         }
       },
       createNewNetwork(value: Network) {
         if (!value.magellanAddress) {
-          value.magellanAddress = `${value.protocol}://${value.host}:${value.port}/magellan`
+          value.magellanAddress = `${value.protocol}://${value.host}:${value.port}/magellan`;
         }
         appConfig.pushNetwork(value);
         appConfig.setActive(value.id);
-        selectedNetwork.value = { label: value.displayName, value: value }
-        networkOptions.value.splice(networkOptions.value.length - 1, 0, { label: value.displayName, value: value })
+        selectedNetwork.value = { label: value.displayName, value: value };
+        networkOptions.value.splice(networkOptions.value.length - 1, 0, {
+          label: value.displayName,
+          value: value,
+        });
         showNewNetworkDialog.value = false;
         document.location.reload();
       },
@@ -74,19 +111,21 @@ export default defineComponent({
         if (network.value === undefined) {
           return;
         }
-        appConfig.removeNetwork(network.value.id)
+        appConfig.removeNetwork(network.value.id);
         networkOptions.value = createNetworkOptions(appConfig.getAllNetworks);
       },
       canBeDeleted(value: Network, selected: boolean) {
-        return value !== undefined && !value.predefined && !selected
+        return value !== undefined && !value.predefined && !selected;
       },
-      dialogCancelled(){
-        selectedNetwork.value = networkOptions.value.find(e => e.value === appConfig.getActive) || networkOptions.value[0]
-      }
-    }
+      dialogCancelled() {
+        selectedNetwork.value =
+          networkOptions.value.find((e) => e.value === appConfig.getActive) ||
+          networkOptions.value[0];
+      },
+    };
   },
-  components: { AddNetworkDialog }
-})
+  components: { AddNetworkDialog },
+});
 </script>
 <style lang="sass" scoped>
 .network-select

@@ -3,7 +3,13 @@
     <SearchInput />
   </div>
   <div v-if="$q.screen.lt.md">
-    <q-btn class="navigation-link" @click="() => openDialog = true" icon="search" rounded dense></q-btn>
+    <q-btn
+      class="navigation-link"
+      @click="() => (openDialog = true)"
+      icon="search"
+      rounded
+      dense
+    ></q-btn>
     <q-dialog v-model="openDialog">
       <q-card class="pwpl-md-size">
         <q-card-section>
@@ -15,13 +21,11 @@
       </q-card>
     </q-dialog>
   </div>
-
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref } from 'vue';
 import SearchInput from './SearchInput.vue';
-
 
 export default defineComponent({
   name: 'SearchBanner',
@@ -30,7 +34,7 @@ export default defineComponent({
       openDialog: ref(false),
     };
   },
-  components: { SearchInput }
+  components: { SearchInput },
 });
 </script>
 <style lang="sass" scoped>
@@ -38,4 +42,3 @@ export default defineComponent({
   min-width: 400px
   max-height: 40px
 </style>
-

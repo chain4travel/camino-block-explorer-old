@@ -1,4 +1,4 @@
-import { CTransaction } from "./transaction";
+import { CTransaction } from './transaction';
 
 export interface BlockTableData {
   number: number;
@@ -20,9 +20,9 @@ export interface BlockDetails {
   baseGaseFee?: number;
   hash: string;
   parentHash: string;
-  additionalInformation: AdditionalInformation,
+  additionalInformation: AdditionalInformation;
   parentBlockNumber?: number;
-  transactions: CTransaction[]
+  transactions: CTransaction[];
 }
 
 interface AdditionalInformation {

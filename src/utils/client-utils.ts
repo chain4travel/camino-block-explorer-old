@@ -15,14 +15,16 @@ export function getMagellanBaseUrl(): string {
 
 export const getWeb3Client = () => {
   const network = useAppConfig().getActive;
-  return new Web3(`${network.protocol}://${network.host}:${network.port}/ext/bc/C/rpc`)
-}
+  return new Web3(
+    `${network.protocol}://${network.host}:${network.port}/ext/bc/C/rpc`
+  );
+};
 
 export const getChainId = async (alias: string) => {
-  const response = await axios.get(getMagellanBaseUrl() + baseEndpoint)
+  const response = await axios.get(getMagellanBaseUrl() + baseEndpoint);
   const data = await response.data;
   const value = Object.entries(data.chains).filter(([, value]) => {
     return value.chainAlias === alias;
   });
   return value[0][0];
-}
+};
