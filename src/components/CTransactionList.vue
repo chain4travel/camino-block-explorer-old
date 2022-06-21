@@ -8,7 +8,7 @@
         </div>
         <div class="col-sm-grow col-12">
           <div>
-            <AddressLink class="monospace" :value="item.hash" :to="detailsLinkFunction(item.hash)" :xl-length="32"
+            <AddressLink class="monospace" :value="item.hash" :to="detailsLinkFunction(item.hash)" :xl-length="12"
               :lg-length="20" :md-length="10" :sm-length="13" :xs-length="12"></AddressLink>
           </div>
           <RelativeTime class="grey-color" :value="item.timestamp"></RelativeTime>
@@ -17,14 +17,14 @@
           <div class="row q-gutter-sm">
             <div class="col-3">From</div>
             <div class="col">
-              <AddressLink class="monospace" :to="getAddressDetailsPath(item.from)" :value="item.from" :xl-length="26"
+              <AddressLink class="monospace" :to="getAddressDetailsPath(item.from)" :value="item.from" :xl-length="16"
                 :lg-length="15" :md-length="7" :sm-length="10" :xs-length="10"></AddressLink>
             </div>
           </div>
           <div class="row q-gutter-sm">
             <div class="col-3">To </div>
             <div class="col">
-              <AddressLink class="monospace" :to="getAddressDetailsPath(item.to)" :value="item.to" :xl-length="26"
+              <AddressLink class="monospace" :to="getAddressDetailsPath(item.to)" :value="item.to" :xl-length="16"
                 :lg-length="15" :md-length="7" :sm-length="10" :xs-length="10"></AddressLink>
             </div>
           </div>

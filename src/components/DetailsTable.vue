@@ -13,7 +13,7 @@
           </div>
           <div v-else-if="props.value && props.col && props.col.type === 'hash'">
             <AddressLink v-if="props.col.detailsLink" class="monospace" :to="props.col.detailsLink(props.value)"
-              :value="props.value" :xl-length="50" :lg-length="25" :md-length="7" :sm-length="7" :xs-length="20">
+              :value="props.value" :xl-length="30" :lg-length="25" :md-length="12" :sm-length="7" :xs-length="20">
             </AddressLink>
             <LongString v-else class="monospace" :value="props.value" :xl-length="50" :lg-length="25" :md-length="7"
               :sm-length="7" :xs-length="10"></LongString>

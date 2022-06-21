@@ -3,9 +3,12 @@
 
     <div class="row q-pa-md">
       <q-icon class="col-auto grey-color q-pt-xs" size="sm" name="mdi-file-document"></q-icon>
-      <div class="col-auto text-bold text-h6 q-pl-md"> Address <span class="grey-color">{{ address
-      }}</span></div>
-      <CopyButton class="col-auto" :value="address" />
+      <div class="col-auto text-bold text-h6 q-pl-md"> Address 
+        <LongString :value="address" class="grey-color" :xlLength="50" :lgLength="50" :mdLength="50" :smLength="20" :xsLength="10" ></LongString>
+      </div>
+      <div :class="'col-sm-auto col-12' + ($q.screen.gt.xs ? ' flex items-center' : ' q-mt-xs')">
+        <CopyButton class="col-auto" :value="address" style="float:right" />
+      </div>
     </div>
     <div class="row q-gutter-md">
       <div class="col">
@@ -105,6 +108,7 @@ import FundCard from './ui/FundCard.vue';
 import AddressLink from './ui/AddressLink.vue';
 import CopyButton from './ui/CopyButton.vue';
 import RelativeTime from './ui/RelativeTime.vue';
+import LongString from './ui/LongString.vue';
 
 const tabs =
   [{
@@ -154,6 +158,6 @@ export default defineComponent({
       balances
     };
   },
-  components: { ErrorNotFoundPage, DetailField, FundCard, AddressLink, CopyButton, RelativeTime }
+  components: { ErrorNotFoundPage, DetailField, FundCard, AddressLink, CopyButton, RelativeTime, LongString }
 })
 </script>

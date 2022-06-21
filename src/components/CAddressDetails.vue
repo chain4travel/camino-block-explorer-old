@@ -2,9 +2,12 @@
   <div v-if="$route.params.addressId">
     <div class="row q-pa-md">
       <q-icon class="col-auto grey-color q-pt-xs" size="sm" name="mdi-file-document"></q-icon>
-      <div class="col-auto text-bold text-h6 q-pl-md"> Address <span class="grey-color">{{ $route.params.addressId
-      }}</span></div>
-      <CopyButton class="col-auto" :value="$route.params.addressId.toString()" />
+      <div class="col-auto text-bold text-h6 q-pl-md"> Address 
+        <LongString :value="$route.params.addressId" class="grey-color" :xlLength="50" :lgLength="50" :mdLength="50" :smLength="20" :xsLength="16" ></LongString>
+      </div>
+      <div :class="'col-sm-auto col-12' + ($q.screen.gt.xs ? ' flex items-center' : ' q-mt-xs')">
+        <CopyButton class="col-auto" style="float:right" :value="$route.params.addressId.toString()" />
+      </div>
     </div>
     <div class="row q-pt-md justify-center">
       <q-card class="col">
@@ -36,9 +39,7 @@
             </q-tab-panel>
           </q-tab-panels>
         </q-card-section>
-
       </q-card>
-
     </div>
   </div>
   <div v-else>
@@ -59,14 +60,13 @@ import { getTransactionDetailsPath, getAddressDetailsPath } from 'src/utils/rout
 import { ChainType } from 'src/types/chain-type';
 import { ChainLoader } from 'src/types/chain-loader';
 import CopyButton from 'src/components/ui/CopyButton.vue';
+import LongString from './ui/LongString.vue';
 
 const tabs =
   [{
     key: 'transactions',
     label: 'Transactions'
   }]
-
-
 
 function getFee(element: MagellanTransactionDetail): number {
   return parseInt(element.effectiveGasPrice) * parseInt(element.gasUsed);
@@ -78,6 +78,7 @@ export default defineComponent({
     const route = useRoute();
     const addressStore = useAddressStore();
     const address = getStringOrFirstElement(route.params.addressId)
+    console.log(route.params.addressId)
 
     const allTxData: Ref<CAddressTransactionTableData[]> = ref([])
     let moreToLoad = true;
@@ -113,7 +114,6 @@ export default defineComponent({
           }
 
         }
-        // console.log(newData);
         return newData;
       },
       requireLoadMore(): boolean {
@@ -181,6 +181,6 @@ export default defineComponent({
       ]
     };
   },
-  components: { DetailsTable, ErrorNotFoundPage, CopyButton }
+  components: { DetailsTable, ErrorNotFoundPage, CopyButton, LongString }
 })
 </script>

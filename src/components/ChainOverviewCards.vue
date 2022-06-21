@@ -18,6 +18,7 @@
             :val="option.value"
             :label="option.label"
             :key="option.label"
+            color="white"
           />
         </div>
         <!-- <q-select dense @update:model-value="updateFields" v-model="selectedTime" :options="timeOptions" emit-value
@@ -25,7 +26,7 @@
         </q-select> -->
       </div>
     </div>
-    <div class="row q-gutter-sm q-pb-md">
+    <div class="row q-pb-md" style="gap: 10px">
       <div class="col-md col-12">
         <router-link class="text-link" :to="redirectAllValidators">
           <DataCard title="Number of Validators" class="text-h4">

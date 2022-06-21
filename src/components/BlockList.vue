@@ -6,7 +6,7 @@
         <div class="gt-xs col-auto text-center m q-pr-md">
           <q-icon class="square-background" size="sm" name="mdi-cube-outline" />
         </div>
-        <div class="col-xl-2 col-lg-3 col-sm-4 q-pr-lg col-12">
+        <div class="col-xl-3 col-lg-3 col-sm-4 q-pr-lg col-12">
           <div>
             <AddressLink :value="item.number" :to="detailsLinkFunction(item.number)"></AddressLink>
           </div>
@@ -16,7 +16,7 @@
           <div>
             {{ item.numberOfTransactions + " txns" }}
           </div>
-          <LongString class="monospace" :value="item.hash" :xl-length="58" :lg-length="32" :md-length="9" :sm-length="16" :xs-length="16"></LongString>
+          <LongString class="monospace" :value="item.hash" :xl-length="32" :lg-length="32" :md-length="12" :sm-length="20" :xs-length="20"></LongString>
         </div>
         <div :class="'col-auto self-center justify-end'+ ($q.screen.gt.xs ? ' q-px-sm ':'')">
           <GasAmount :value="item.gasUsed" />

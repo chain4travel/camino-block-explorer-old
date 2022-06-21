@@ -9,24 +9,24 @@
         <div class="col-lg-4 col-sm-3 col-12 q-pt-sm">
           <div class="row">
             <div class="col-md-7 col-lg-9 col-12">
-              <AddressLink class="monospace" :value="item.id" :to="detailsLinkFunction(item.id)" :xl-length="50"
-                :lg-length="38" :md-length="14" :sm-length="14" :xs-length="25"></AddressLink>
+              <AddressLink class="monospace" :value="item.id" :to="detailsLinkFunction(item.id)" :xl-length="35"
+                :lg-length="30" :md-length="14" :sm-length="12" :xs-length="25"></AddressLink>
             </div>
             <div class="col-md-5 col-lg-3">
-              <q-chip :size="$q.screen.lt.sm ? 'md' : 'sm'">{{ item.type }}</q-chip>
+              <q-chip :class="$q.screen.lt.md ? 'chip' : 'q-mr-md chip'" :size="$q.screen.lt.sm ? 'md' : 'sm'">{{ item.type }}</q-chip>
             </div>
           </div>
           <RelativeTime class="q-mt-xs" :value="item.timestamp"></RelativeTime>
         </div>
 
         <div :class="'col-sm-grow col-12' + ($q.screen.xs ? ' q-py-md' : '')">
-          <div class="row items-center">
+          <div class="row items-center q-py-sm">
             <div :class="'col-2'">From </div>
             <div :class="'col'">
               <div class="row items-center" :key="ad.id" v-for="ad in item.from">
                 <div :class="'col self-center' + ($q.screen.xs ? ' col-xs-12' : '')">
-                  <AddressLink class="monospace" :to="getAddressLink(ad.address)" :value="ad.address" :xl-length="50"
-                    :lg-length="32" :md-length="14" :sm-length="10" :xs-length="20"></AddressLink>
+                  <AddressLink class="monospace" :to="getAddressLink(ad.address)" :value="ad.address" :xl-length="35"
+                    :lg-length="32" :md-length="19" :sm-length="10" :xs-length="20"></AddressLink>
                 </div>
                 <div :class="'col-auto text-right'">
                   <CamAmount :value="ad.value" currency="nCam"/>
@@ -39,11 +39,11 @@
             <div :class="'col-2 q-pt-sm'">To </div>
             <div :class="'col'">
               <div
-                v-bind:class="{ 'text-grey-8': item.from && item.from[0] && ad.address == item.from[0].address, 'row': true }"
+                v-bind:class="{ 'text-grey-8': item.from && item.from[0] && ad.address == item.from[0].address, 'row q-pb-xs': true }"
                 :key="ad.id" v-for="ad in item.to">
                 <div :class="'col self-center' + ($q.screen.xs ? ' col-xs-12' : '')">
-                  <AddressLink class="monospace" :to="getAddressLink(ad.address)" :value="ad.address" :xl-length="50"
-                    :lg-length="32" :md-length="14" :sm-length="10" :xs-length="20"></AddressLink>
+                  <AddressLink class="monospace" :to="getAddressLink(ad.address)" :value="ad.address" :xl-length="35"
+                    :lg-length="32" :md-length="19" :sm-length="10" :xs-length="20"></AddressLink>
                 </div>
                 <div class="col-auto text-right">
                   <CamAmount :value="ad.value" currency="nCam"/>
@@ -113,4 +113,9 @@ export default defineComponent({
     width: 100%
 .separator-lines
   opacity: 50%
+
+.chip
+  float: right
+  min-width: 50px
+  text-align: center
 </style>
