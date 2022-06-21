@@ -1,4 +1,7 @@
 <template>
+  <div class="col-12 text-right q-pb-sm">
+    <q-btn outline rounded color="primary" icon="mdi-refresh" @click="refreshAll()" />
+  </div>
   <div class="row justify-center">
     <ChainOverviewCards class="col-12" :store="cStore"/>
   </div>
@@ -56,6 +59,11 @@ export default defineComponent({
       blockPage,
       transactionsPage,
       blockHasNextPage: computed(() => !(blocks.value.some(item => item.number === 0))),
+      async refreshAll() {
+        cStore.refreshAll(cStore.store.selectedTime);
+        blocks.value = await cStore.loadBlocks(NaN, props.pageSize);
+        transactions.value = await cStore.loadTransactions(NaN, props.pageSize);
+      },
       search(value: string) {
         emit('search', value);
       },

@@ -64,6 +64,7 @@ export interface MagellanTransactionDetail {
   s: string;
   receipt: MagellanTransactionReceipt;
   effectiveGasPrice: string;
+  gasUsed: string;
 }
 
 export interface MagellanTransactionReceipt {
@@ -217,6 +218,11 @@ export interface MagellanXPTransactionSearchResult {
   validatorStart: number;
   validatorEnd: number;
   txBlockId: string;
+}
+
+export interface MagellanValidatorsResponse {
+  numberOfActiveValidators: number;
+  numberOfValidators: number;
 }
 
 export enum MagellanSearchResultElementType {

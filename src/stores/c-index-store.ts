@@ -5,7 +5,7 @@ import { CTransaction } from 'src/types/transaction';
 import { BlockDetails } from 'src/types/block';
 import { getMagellanBaseUrl } from 'src/utils/client-utils';
 import { cBlocksApi, cTransactionApi, cBlocksDetailsApi } from 'src/utils/magellan-api-utils';
-import { MagellanCBlocksResponse, MagellanCTransactionResponse, MagellanBlockDetail, MagellanTransactionDetail } from 'src/types/magellan-types';
+import { MagellanCBlocksResponse, MagellanCTransactionResponse, MagellanBlockDetail, MagellanTransactionDetail, MagellanValidatorsResponse } from 'src/types/magellan-types';
 import { TranscationDetail } from 'src/types/transaction';
 import { DateTime } from 'luxon';
 import { Timeframe } from 'src/types/chain-loader';
@@ -36,6 +36,22 @@ export const useCIndexStore = defineStore('cindex', {
   getters: {
   },
   actions: {
+    async refreshAll(value: Timeframe) {
+      this.store.gasFeesLoading = true;
+      this.store.transactionsLoading = true;
+      const [transactionAggregate, gasFeeAggregate, validators] = await Promise.all([
+        this.loadNumberOfTransactions(value),
+        this.loadTotalGasFess(value),
+        this.getNumberOfValidators()
+      ]);
+      this.store.numberOfActiveValidators = validators?.numberOfActiveValidators;
+      this.store.numberOfValidators = validators?.numberOfValidators;
+
+      this.store.numberOfTransactions = transactionAggregate || 0;
+      this.store.totalGasFees = gasFeeAggregate || 0;
+      this.store.gasFeesLoading = false;
+      this.store.transactionsLoading = false;
+    },
     async loadNumberOfTransactions(timeframe: Timeframe): Promise<number> {
       const currentDate = DateTime.now().setZone('utc');
       const startDate = getStartDate(currentDate, timeframe);
@@ -48,7 +64,7 @@ export const useCIndexStore = defineStore('cindex', {
       const result = await this.store.loadTransactionFeesAggregates('c', startDate.toISO(), currentDate.toISO());
       return result && result.aggregates && parseInt(result.aggregates.txfee);
     },
-    async getNumberOfValidators(): Promise<object> {
+    async getNumberOfValidators(): Promise<MagellanValidatorsResponse> {
       return this.pStore.getNumberOfValidators();
     },
     async loadBlocks(blockStart = NaN, count = 10): Promise<BlockTableData[]> {

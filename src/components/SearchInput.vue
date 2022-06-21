@@ -33,8 +33,6 @@ import { getBlockDetailsPath, getTransactionDetailsPath, getAddressDetailsPath }
 import { ChainType } from 'src/types/chain-type';
 import { useRouter } from 'vue-router'
 
-const resultLimit = 6;
-
 async function mapToItem(type: MagellanSearchResultElementType, data: MagellanXPTransactionSearchResult | MagellanCTransactionSearchResult | MagellanCBlockSearchResult | MagellanAddressSearchResult): Promise<SearchMenuItem | undefined> {
   switch (type) {
     case MagellanSearchResultElementType.C_BLOCK:
