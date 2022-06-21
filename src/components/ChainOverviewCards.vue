@@ -32,7 +32,9 @@
           <DataCard title="Number of Validators" class="text-h4">
             <span v-if="!validatorsLoading">
               {{
-                mStore.numberOfValidators ? mStore.numberOfValidators.toLocaleString() : '-'
+                mStore.numberOfValidators
+                  ? mStore.numberOfValidators.toLocaleString()
+                  : '-'
               }}
             </span>
             <q-spinner v-else color="primary" />
@@ -67,17 +69,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, PropType, Ref } from 'vue';
+import { defineComponent, ref, PropType } from 'vue';
 import DataCard from 'src/components/ui/DataCard.vue';
 import {
   getDisplayValueForGewi,
   getDisplayValue,
 } from 'src/utils/currency-utils';
-import {
-  ChainOverviewLoader,
-  getLabel,
-  Timeframe,
-} from 'src/types/chain-loader';
+import { ChainOverviewLoader, Timeframe } from 'src/types/chain-loader';
 import { getAllValidatorsPath } from 'src/utils/route-utils';
 import { useMagellanTxStore } from 'src/stores/magellan-tx-store';
 import { timeOptions } from 'src/utils/date-utils';
@@ -96,8 +94,12 @@ export default defineComponent({
     // const gasFeesLoading = ref(false);
     mStore.validators = await props.store?.getNumberOfValidators();
     mStore.numberOfValidators = mStore.validators.numberOfValidators;
-    mStore.numberOfActiveValidators = mStore.validators.numberOfActiveValidators;
-    mStore.percentageOfActiveValidators = ((mStore.numberOfActiveValidators / mStore.numberOfValidators) * 100).toFixed(0);
+    mStore.numberOfActiveValidators =
+      mStore.validators.numberOfActiveValidators;
+    mStore.percentageOfActiveValidators = (
+      (mStore.numberOfActiveValidators / mStore.numberOfValidators) *
+      100
+    ).toFixed(0);
 
     async function updateFields(value: Timeframe) {
       mStore.selectedTime = value;
@@ -128,7 +130,7 @@ export default defineComponent({
       getDisplayValue,
       getDisplayValueForGewi,
       updateFields,
-      mStore
+      mStore,
     };
   },
   components: { DataCard },

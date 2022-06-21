@@ -75,7 +75,7 @@ export const useMagellanTxStore = defineStore('magellan-tx-store', {
     totalGasFees: 0 as number,
     numberOfActiveValidators: 0 as number,
     numberOfValidators: 0 as number,
-    percentageOfActiveValidators: "",
+    percentageOfActiveValidators: '',
     gasFeesLoading: false as boolean,
     transactionsLoading: false as boolean,
   }),
