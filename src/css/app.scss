@@ -44,6 +44,11 @@ body.body--dark {
     color: $background-light;
   }
 
+  .q-chip__content {
+    display: flex;
+    justify-content: center;
+  }
+
   .square-background {
     background: $dark-level-2;
     padding: 10px;
@@ -272,5 +277,39 @@ body.body--light {
         margin-right: 0;
       }
     }
+  }
+}
+
+.custom-container {
+  width: 100%;
+}
+@media (min-width: 640px) {
+  .custom-container {
+    max-width: 600px;
+  }
+}
+@media (min-width: 768px) {
+  .custom-container {
+    max-width: 730px;
+  }
+}
+@media (min-width: 1024px) {
+  .custom-container {
+    max-width: 990px;
+  }
+}
+@media (min-width: 1280px) {
+  .custom-container {
+    max-width: 1240px;
+  }
+}
+@media (min-width: 1440px) {
+  .custom-container {
+    max-width: 1400px;
+  }
+}
+@media (min-width: 1920px) {
+  .custom-container {
+    max-width: 1880px;
   }
 }

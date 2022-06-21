@@ -1,5 +1,5 @@
 <template>
-  <q-page-container>
+  <q-page-container class="custom-container">
     <Suspense>
       <template #default>
         <div class="q-mt-md">

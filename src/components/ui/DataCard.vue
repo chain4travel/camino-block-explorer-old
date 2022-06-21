@@ -1,5 +1,5 @@
 <template>
-  <q-card>
+  <q-card style="min-height: 140px; border-radius: 8px">
     <q-card-section  v-if="title">
       <div class="row items-end">
         <div class="text-subtitle1 q-pl-md text-center col-12">{{ title }}</div>

@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="row justify-center">
-      <ChainOverviewCards class="col-9" :store="store" />
+      <ChainOverviewCards class="col-12" :store="store" />
     </div>
     <div class="row full-width">
       <!-- Latest Transactions-->
-      <div class=" col-12 q-pr-md q-pl-md">
+      <div class="col-12">
         <!-- Rename that component-->
         <XPTransactionList :transactions="transactions"
           :show-all-link="getAllTransactionsPath(chainType)" @refresh="refreshTransactions" :type="chainType" :detailsLinkFunction="getTransactionDetailsLink" >

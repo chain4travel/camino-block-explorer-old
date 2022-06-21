@@ -1,5 +1,5 @@
 <template>
-  <q-btn class="q-mx-md q-ml-xs" @click="() => copyToClipBoard(value.toString())" size="sm" outline
+  <q-btn class="q-ml-md" @click="() => copyToClipBoard(value.toString())" size="sm" outline
   rounded icon="mdi-content-copy">
   <slot></slot>
   </q-btn>

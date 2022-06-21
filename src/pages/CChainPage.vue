@@ -1,9 +1,9 @@
 <template>
   <div class="row justify-center">
-    <ChainOverviewCards class="col-9" :store="cStore"/>
+    <ChainOverviewCards class="col-12" :store="cStore"/>
   </div>
   <div class="row">
-    <div :class="$q.screen.lt.md ? 'col-12 q-pa-md' : 'col-md-6 q-pr-sm q-pl-md'">
+    <div :class="$q.screen.lt.md ? 'col-12 q-py-md' : 'col-md-6 q-pr-sm'">
       <div>
         <!-- Latest Blocks-->
         <BlockList :has-next-page="blockHasNextPage" :blocks="blocks" :show-all-link="getAllBlocksPath(ChainType.C_CHAIN)"
@@ -12,7 +12,7 @@
       </div>
     </div>
     <!-- Latest Transactions-->
-    <div :class="$q.screen.lt.md ? 'col-12 q-pa-md' : 'col-md-6 q-pl-sm q-pr-md'">
+    <div :class="$q.screen.lt.md ? 'col-12 q-py-md' : 'col-md-6 q-pl-sm'">
       <CTransactionList :transactions="transactions" :show-all-link="getAllTransactionsPath(ChainType.C_CHAIN)"
         @refresh="refreshTransactions" :detailsLinkFunction="getTransactionDetailsLink">
       </CTransactionList>

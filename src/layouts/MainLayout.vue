@@ -127,7 +127,7 @@
       </q-scroll-area>
     </q-drawer>
 
-    <body class="col fit">
+    <body class="col fit flex justify-center q-px-md">
       <Suspense>
         <template #default>
           <router-view />
