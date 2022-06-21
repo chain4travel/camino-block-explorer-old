@@ -1,6 +1,5 @@
 <template>
-  <ListCard :title="title || 'Latest Blocks'" :items="blocks" :show-all-link="showAllLink"
-    @refresh="() => $emit('refresh')">
+  <ListCard :title="title || 'Latest Blocks'" :items="blocks" :show-all-link="showAllLink" hideRefresh>
     <template v-slot="{ item }">
       <div class="row q-py-sm">
         <div class="gt-xs col-auto text-center m q-pr-md">
