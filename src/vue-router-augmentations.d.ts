@@ -1,11 +1,11 @@
 // Ensure this file is parsed as a module regardless of dependencies.
-export { }
+export {};
 
 declare module 'vue-router' {
   interface RouteMeta {
     // is optional
-    showInMenu?: boolean
-    label?: string,
-    icon?: string
+    showInMenu?: boolean;
+    label?: string;
+    icon?: string;
   }
 }

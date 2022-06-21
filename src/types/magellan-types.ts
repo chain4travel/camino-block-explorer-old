@@ -41,7 +41,6 @@ interface MagellanTransaction {
   effectiveGasPrice: string;
 }
 
-
 export interface MagellanTransactionDetail {
   type: number;
   block: number;
@@ -73,7 +72,7 @@ export interface MagellanTransactionReceipt {
   status: string;
   cumulativeGasUsed: string;
   logsBloom: string;
-  logs: MagellanTransactionDetailLog[],
+  logs: MagellanTransactionDetailLog[];
   transactionHash: string;
   contractAddress: string;
   gasUsed: string;
@@ -93,7 +92,6 @@ export interface MagellanTransactionDetailLog {
   blockHash: string;
   logIndex: number;
   removed: boolean;
-
 }
 
 export interface MagellanBlockDetail {
@@ -118,7 +116,7 @@ export interface MagellanBlockDetail {
     extDataGasUsed: string;
     blockGasCost: string;
     hash: string;
-  },
+  };
   transactions: MagellanTransactionDetail[];
 }
 
@@ -136,37 +134,40 @@ export interface MagellanXPTransaction {
   txFee: number;
   type: string;
   chainID: string;
-  inputTotals: object,
-  outputTotals: object,
-  memo: string
+  inputTotals: object;
+  outputTotals: object;
+  memo: string;
 }
 
 export interface MagellanXPOutput {
-  id: string,
-  amount: number,
-  addresses: string[]
+  id: string;
+  amount: number;
+  addresses: string[];
 }
 
 export interface MagellanXPInput {
-  output: MagellanXPOutput,
-  credentials: MagellanXPCredentials[]
+  output: MagellanXPOutput;
+  credentials: MagellanXPCredentials[];
 }
 
 export interface MagellanXPCredentials {
-  address: string,
-  public_key: string,
-  signature: string
+  address: string;
+  public_key: string;
+  signature: string;
 }
-
 
 export interface MagellanSearchResponse {
   count: number;
-  results: MagellanSearchResultElement[]
+  results: MagellanSearchResultElement[];
 }
 
 export interface MagellanSearchResultElement {
-  type: MagellanSearchResultElementType,
-  data: MagellanXPTransactionSearchResult | MagellanCTransactionSearchResult | MagellanCBlockSearchResult | MagellanAddressSearchResult
+  type: MagellanSearchResultElementType;
+  data:
+    | MagellanXPTransactionSearchResult
+    | MagellanCTransactionSearchResult
+    | MagellanCBlockSearchResult
+    | MagellanAddressSearchResult;
 }
 
 export interface MagellanAddressSearchResult {
@@ -184,7 +185,6 @@ export interface MagellanCBlockSearchResult {
   CreatedAt: Date;
   number: number;
 }
-
 
 export interface MagellanCTransactionSearchResult {
   type: number; //0 -> legacy, 2 EIP1559
@@ -211,7 +211,7 @@ export interface MagellanXPTransactionSearchResult {
   txFee: number;
   genesis: boolean;
   rewarded: boolean;
-  rewardedTime?: object, //no idea of datatype
+  rewardedTime?: object; //no idea of datatype
   epoch: number;
   vertexId: string;
   validatorNodeID: string;
@@ -264,7 +264,6 @@ export interface AddressResponseAsset {
   totalSent: string;
 }
 
-
 export interface MagellanAggregatesResponse {
   aggregates: Aggregates;
   startTime: string;
@@ -280,7 +279,6 @@ export interface Aggregates {
   outputCount: number;
   assetCount: number;
 }
-
 
 export interface MagellanTxFeeAggregatesResponse {
   aggregates: TxFeeAggregates;

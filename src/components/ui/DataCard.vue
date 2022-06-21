@@ -1,6 +1,6 @@
 <template>
   <q-card style="min-height: 140px; border-radius: 8px">
-    <q-card-section  v-if="title">
+    <q-card-section v-if="title">
       <div class="row items-end">
         <div class="text-subtitle1 q-pl-md text-center col-12">{{ title }}</div>
       </div>
@@ -9,7 +9,6 @@
     <q-card-section class="text-center flex justify-center items-center">
       <slot></slot>
     </q-card-section>
-
   </q-card>
 </template>
 
@@ -24,12 +23,11 @@ export default defineComponent({
     value: { type: [String, Number], required: false },
   },
   async setup(props, { emit }) {
-
-    let selected = useModelWrapper(props, emit, 'selectedOption')
+    let selected = useModelWrapper(props, emit, 'selectedOption');
 
     return {
-      selected
-    }
-  }
-})
+      selected,
+    };
+  },
+});
 </script>

@@ -3,7 +3,11 @@ import { MagellanTransactionDetail } from './magellan-types';
 export interface ChainLoader {
   loadLatestBlocks<T>(limit: number, offset: number): Promise<T[]>;
   loadLatestTransactions<T>(limit: number, offset: number): Promise<T[]>;
-  loadAllCTxsForAddress(address: string, offset: number, count: number): Promise<MagellanTransactionDetail[]>;
+  loadAllCTxsForAddress(
+    address: string,
+    offset: number,
+    count: number
+  ): Promise<MagellanTransactionDetail[]>;
 }
 
 export interface ChainOverviewLoader {
@@ -12,11 +16,10 @@ export interface ChainOverviewLoader {
   loadTotalGasFess(timeframe: Timeframe): Promise<number>;
 }
 
-
 export enum Timeframe {
   HOURS_24 = 'HOURS_24',
   DAYS_7 = 'DAYS_7',
-  MONTHS_1 = 'MONTHS_1'
+  MONTHS_1 = 'MONTHS_1',
 }
 
 export function getLabel(timeframe: Timeframe) {

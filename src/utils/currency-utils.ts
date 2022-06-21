@@ -1,4 +1,4 @@
-import { Amount } from 'src/types/amount'
+import { Amount } from 'src/types/amount';
 
 const conversionACamPerCam = 1000000000000000000;
 
@@ -44,21 +44,21 @@ export function getDisplayAmount(aCam: number): Amount {
     return {
       value: aCamToCam(aCam),
       currency: 'CAM',
-      currencyIcon: 'img:/images/camino-coin-logo.png'
-    }
+      currencyIcon: 'img:/images/camino-coin-logo.png',
+    };
   }
   if (aCam >= ACAM_NCAM_CONVERSION_THRESHHOLD) {
     return {
       value: aCamToNCam(aCam),
       currency: 'nCAM',
-      currencyIcon: 'img:/images/camino-ncam-coin-logo.png'
-    }
+      currencyIcon: 'img:/images/camino-ncam-coin-logo.png',
+    };
   }
   return {
     value: aCam,
     currency: 'aCAM',
-    currencyIcon: 'img:/images/camino-acam-coin-logo.png'
-  }
+    currencyIcon: 'img:/images/camino-acam-coin-logo.png',
+  };
 }
 
 export function formatAmount(value: number, currency: string): string {
@@ -66,5 +66,13 @@ export function formatAmount(value: number, currency: string): string {
 }
 
 export const currencyFields = [
-  'baseFeePerGas', 'gasLimit', 'gasUsed', 'cumulativeGasUsed', 'gasUsed', 'effectiveGasPrice', 'value', 'gasPrice', 'gas'
-]
+  'baseFeePerGas',
+  'gasLimit',
+  'gasUsed',
+  'cumulativeGasUsed',
+  'gasUsed',
+  'effectiveGasPrice',
+  'value',
+  'gasPrice',
+  'gas',
+];
