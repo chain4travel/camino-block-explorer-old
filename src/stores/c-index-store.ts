@@ -36,6 +36,39 @@ async function loadBlocksAndTransactions(
   ).data;
 }
 
+async function loadBlocksFromBlockStart(
+  blockCount = 10,
+  startingBlock = 0
+) {
+  return await (
+    await axios.get(
+      `${getMagellanBaseUrl()}${cBlocksApi}?limit=${blockCount}&limit=0&blockStart=${startingBlock}`
+    )
+  ).data;
+}
+
+async function loadBlocksFromBlockEnd(
+  blockCount = 10,
+  startingBlock = 0
+) {
+  return await (
+    await axios.get(
+      `${getMagellanBaseUrl()}${cBlocksApi}?limit=${blockCount}&limit=0&blockStart=${startingBlock}`
+    )
+  ).data;
+}
+
+async function loadTransactionsFromID(
+  transactionCount = 10,
+  transactionId = 0
+) {
+  return await (
+    await axios.get(
+      `${getMagellanBaseUrl()}${cBlocksApi}?limit=0&limit=${transactionCount}&transactionId=${transactionId}`
+    )
+  ).data;
+}
+
 // async function cTransactionsBetweenDates(start: DateTime, end: DateTime): Promise<MagellanTransactionDetail[]> {
 //   //Query parameters are currently ignored, so manual filter needed at the end. Does not scale well!
 //   const data: MagellanCTransactionResponse = await (await axios.get(`${getMagellanBaseUrl()}${cTransactionApi}?startTime=${start.toISO()}&endTime=${end.toISO()}`)).data;
@@ -49,8 +82,9 @@ export const useCIndexStore = defineStore('cindex', {
   state: () => ({
     store: useMagellanTxStore(),
     pStore: usePIndexStore(),
-    firstBlockNumber: NaN,
-    firstTransactionNumber: NaN,
+    startBlock: 0 as number,
+    endBlock: 0 as number,
+    transactionsId: 0 as number,
   }),
   getters: {},
   actions: {
@@ -162,9 +196,6 @@ export const useCIndexStore = defineStore('cindex', {
         return [];
       }
     },
-    async loadFirstBlockNumber(block: BlockTableData): Promise<number> {
-      return (this.firstBlockNumber = block.number);
-    },
     async loadTransactionById(
       transactionId: string
     ): Promise<TranscationDetail> {
@@ -258,5 +289,10 @@ export const useCIndexStore = defineStore('cindex', {
         )
       ).data;
     },
+    // async loadBlockfromStartBlock(blockStart = 0, count = 10): Promise<BlockTableData[]> {
+    //   try {
+    //     co
+    //   }
+    // }
   },
 });
