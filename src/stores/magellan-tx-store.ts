@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { defineStore } from 'pinia';
 import { XPTransaction, Fund } from 'src/types/transaction';
-import { MagellanXPTransactionResponse, MagellanXPTransaction, MagellanXPOutput } from 'src/types/magellan-types';
+import { MagellanXPTransactionResponse, MagellanXPTransaction, MagellanXPOutput, MagellanTxFeeAggregatesResponse, MagellanAggregatesResponse, MagellanValidatorsResponse } from 'src/types/magellan-types';
 import { transactionApi, transactionAggregates, transactionFeeAggregates } from 'src/utils/magellan-api-utils';
 import { getChainId, getMagellanBaseUrl } from 'src/utils/client-utils';
-
+import { Timeframe } from 'src/types/chain-loader';
 
 function sortByAddress(a: Fund, b: Fund): number {
   return a.address.localeCompare(b.address);
@@ -68,7 +68,16 @@ function createFundFromOutput(magellanOutput: MagellanXPOutput): Fund {
 
 export const useMagellanTxStore = defineStore('magellan-tx-store', {
   state: () => ({
-    chainIds: {} as Record<string, string>
+    chainIds: {} as Record<string, string>,
+    selectedTime: Timeframe.HOURS_24,
+    validators: {} as MagellanValidatorsResponse,
+    numberOfTransactions: 0 as number,
+    totalGasFees: 0 as number,
+    numberOfActiveValidators: 0 as number,
+    numberOfValidators: 0 as number,
+    percentageOfActiveValidators: "",
+    gasFeesLoading: false as boolean,
+    transactionsLoading: false as boolean,
   }),
   getters: {
   },

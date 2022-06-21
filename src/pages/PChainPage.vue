@@ -1,7 +1,10 @@
 <template>
   <div>
+    <div class="col-12 text-right q-pb-sm">
+      <q-btn outline rounded color="primary" icon="mdi-refresh" @click="refreshAll()" />
+    </div>
     <div class="row justify-center">
-      <ChainOverviewCards class="col-12" :store="store" />
+      <ChainOverviewCards class="col-12" :store="pStore" />
     </div>
     <div class="row full-width">
       <!-- Latest Transactions-->
@@ -30,16 +33,20 @@ export default defineComponent({
   async setup() {
     const pageSize = 10;
     const chainType = ChainType.P_CHAIN;
-    const store = usePIndexStore();
-    const transactions = ref(await store?.loadTransactions(0, pageSize))
+    const pStore = usePIndexStore();
+    const transactions = ref(await pStore?.loadTransactions(0, pageSize))
 
     return {
-      store,
+      pStore,
       pageSize,
       chainType,
       transactions,
+      async refreshAll() {
+        pStore.refreshAll(pStore.store.selectedTime);
+        transactions.value = await pStore?.loadTransactions(0, pageSize)
+      },
       async refreshTransactions() {
-        transactions.value = await store?.loadTransactions(0, pageSize)
+        transactions.value = await pStore?.loadTransactions(0, pageSize)
       },
       getTransactionDetailsLink(item: string) {
         return getTransactionDetailsPath(chainType, item);

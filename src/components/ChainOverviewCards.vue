@@ -2,7 +2,7 @@
   <div>
     <div
       :class="
-        'row  q-pa-sm ' +
+        'row  q-pa-sm q-pb-md ' +
         ($q.screen.gt.sm
           ? 'justify-end text-right'
           : 'justify-center text-center')
@@ -14,7 +14,7 @@
             dense
             @update:model-value="updateFields"
             v-for="option in timeOptions"
-            v-model="selectedTime"
+            v-model="mStore.selectedTime"
             :val="option.value"
             :label="option.label"
             :key="option.label"
@@ -32,34 +32,32 @@
           <DataCard title="Number of Validators" class="text-h4">
             <span v-if="!validatorsLoading">
               {{
-                numberOfValidators ? numberOfValidators.toLocaleString() : '-'
+                mStore.numberOfValidators ? mStore.numberOfValidators.toLocaleString() : '-'
               }}
             </span>
             <q-spinner v-else color="primary" />
             <span
               class="grey-color q-pl-sm text-h6"
-              v-if="!validatorsLoading && numberOfActiveValidators > 0"
+              v-if="!validatorsLoading && mStore.numberOfActiveValidators"
             >
-              ({{ numberOfActiveValidators }} /
-              {{ percentageOfActiveValidators }}% active)
+              ({{ mStore.numberOfActiveValidators }} /
+              {{ mStore.percentageOfActiveValidators }}% active)
             </span>
           </DataCard>
         </router-link>
       </div>
       <div class="col-md col-12">
         <DataCard title="Number of Transactions " class="text-h4">
-          <span v-if="!transactionsLoading">{{
-            numberOfTransactions.toLocaleString()
+          <span v-if="!mStore.transactionsLoading">{{
+            mStore.numberOfTransactions.toLocaleString()
           }}</span>
           <q-spinner v-else color="primary" />
         </DataCard>
       </div>
       <div class="col-md col-12">
         <DataCard title="Total Gas Fees" class="text-h4">
-          <span v-if="!gasFeesLoading">{{
-            priceInWei
-              ? getDisplayValue(totalGasFees)
-              : getDisplayValueForGewi(totalGasFees)
+          <span v-if="!mStore.gasFeesLoading">{{
+            getDisplayValueForGewi(mStore.totalGasFees)
           }}</span>
           <q-spinner v-else color="primary" />
         </DataCard>
@@ -81,6 +79,10 @@ import {
   Timeframe,
 } from 'src/types/chain-loader';
 import { getAllValidatorsPath } from 'src/utils/route-utils';
+import { useMagellanTxStore } from 'src/stores/magellan-tx-store';
+import { timeOptions } from 'src/utils/date-utils';
+
+const mStore = useMagellanTxStore();
 
 export default defineComponent({
   name: 'ChainOverviewCards',
@@ -89,60 +91,44 @@ export default defineComponent({
     priceInWei: { type: Boolean, default: false },
   },
   async setup(props) {
-    const timeOptions = ref([
-      { value: Timeframe.HOURS_24, label: getLabel(Timeframe.HOURS_24) },
-      { value: Timeframe.DAYS_7, label: getLabel(Timeframe.DAYS_7) },
-      { value: Timeframe.MONTHS_1, label: getLabel(Timeframe.MONTHS_1) },
-    ]);
-    const selectedTime: Ref<Timeframe> = ref(Timeframe.HOURS_24);
-
-    const validators = ref(await props.store?.getNumberOfValidators());
-    const numberOfActiveValidators = ref(
-      validators?.value?.numberOfActiveValidators
-    );
-    const numberOfValidators = ref(validators?.value?.numberOfValidators);
-    const numberOfTransactions = ref(100);
-    const totalGasFees = ref(100000000000);
-    const transactionsLoading = ref(false);
+    // const transactionsLoading = ref(false);
     const validatorsLoading = ref(false);
-    const gasFeesLoading = ref(false);
-    const percentageOfActiveValidators = ref(
-      (
-        (numberOfActiveValidators.value / numberOfValidators.value) *
-        100
-      ).toFixed(0)
-    );
+    // const gasFeesLoading = ref(false);
+    mStore.validators = await props.store?.getNumberOfValidators();
+    mStore.numberOfValidators = mStore.validators.numberOfValidators;
+    mStore.numberOfActiveValidators = mStore.validators.numberOfActiveValidators;
+    mStore.percentageOfActiveValidators = ((mStore.numberOfActiveValidators / mStore.numberOfValidators) * 100).toFixed(0);
 
     async function updateFields(value: Timeframe) {
-      gasFeesLoading.value = true;
-      transactionsLoading.value = true;
+      mStore.selectedTime = value;
+      mStore.gasFeesLoading = true;
+      mStore.transactionsLoading = true;
+      // gasFeesLoading.value = true;
+      // transactionsLoading.value = true;
       const [transactionAggregate, gasFeeAggregate] = await Promise.all([
         props.store?.loadNumberOfTransactions(value),
         props.store?.loadTotalGasFess(value),
       ]);
-      numberOfTransactions.value = transactionAggregate || 0;
-      totalGasFees.value = gasFeeAggregate || 0;
-      gasFeesLoading.value = false;
-      transactionsLoading.value = false;
+      mStore.numberOfTransactions = transactionAggregate || 0;
+      mStore.totalGasFees = gasFeeAggregate || 0;
+      // gasFeesLoading.value = false;
+      // transactionsLoading.value = false;
+      mStore.gasFeesLoading = false;
+      mStore.transactionsLoading = false;
     }
 
-    updateFields(selectedTime.value);
+    updateFields(mStore.selectedTime);
 
     return {
       redirectAllValidators: getAllValidatorsPath(),
-      transactionsLoading,
+      // transactionsLoading,
       validatorsLoading,
-      gasFeesLoading,
-      numberOfValidators,
-      numberOfActiveValidators,
-      percentageOfActiveValidators,
-      numberOfTransactions,
-      totalGasFees,
+      // gasFeesLoading,
       timeOptions,
-      selectedTime,
       getDisplayValue,
       getDisplayValueForGewi,
       updateFields,
+      mStore
     };
   },
   components: { DataCard },
