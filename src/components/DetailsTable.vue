@@ -1,5 +1,5 @@
 <template>
-  <div :class="$q.screen.lt.md ? '' : 'q-pa-md'">
+  <div :class="$q.screen.lt.md ? 'col-12' : 'col-12 q-pa-sm'">
     <q-table :style="'height:'+ height" card-class="q-card" table-header-class="q-card" :grid="$q.screen.lt.md" class="sticky-headers "
       :title="title" :rows="data" :columns="columns" :loading="loading" row-key="index" virtual-scroll
       :virtual-scroll-item-size="48" :virtual-scroll-sticky-size-start="48" :rows-per-page-options="[0]"
@@ -7,9 +7,7 @@
       <template v-slot:body-cell="props">
         <q-td :props="props">
           <div class="row justify-center" v-if="props.col && props.col.type === 'currency'">
-            <div>
-              <CamAmount style="min-width: 140px; max-width: 140px;" :value="props.value"></CamAmount>
-            </div>
+            <CamAmount style="min-width: 130px; max-width: 140px;" :value="props.value"></CamAmount>
           </div>
           <div v-else-if="props.value && props.col && props.col.type === 'hash'">
             <AddressLink v-if="props.col.detailsLink" class="monospace" :to="props.col.detailsLink(props.value)"
@@ -30,7 +28,7 @@
             {{ props.value.toLocaleString() }}
           </div>
           <div v-else class="overflow-handle">
-            {{ props.value }}
+            {{ parseInt(props.value) }}
           </div>
         </q-td>
       </template>
