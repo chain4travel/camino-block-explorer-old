@@ -14,8 +14,9 @@ import {
   MagellanCTransactionResponse,
   MagellanBlockDetail,
   MagellanTransactionDetail,
-  MagellanValidatorsResponse,
 } from 'src/types/magellan-types';
+import { NodeValidatorsResponse } from 'src/types/node-types';
+
 import { TranscationDetail } from 'src/types/transaction';
 import { DateTime } from 'luxon';
 import { Timeframe } from 'src/types/chain-loader';
@@ -25,13 +26,14 @@ import { useMagellanTxStore } from 'src/stores/magellan-tx-store';
 
 async function loadBlocksAndTransactions(
   startingBlock = NaN,
-  blockCount = 10,
   endingBlock = NaN,
+  transactionId = 0,
+  blockCount = 10,
   transactionCount = 10
 ): Promise<MagellanCBlocksResponse> {
   return await (
     await axios.get(
-      `${getMagellanBaseUrl()}${cBlocksApi}?limit=${blockCount}&limit=${transactionCount}&blockStart=${startingBlock}&blockEnd=${endingBlock}`
+      `${getMagellanBaseUrl()}${cBlocksApi}?limit=${blockCount}&limit=${transactionCount}&blockStart=${startingBlock}&blockEnd=${endingBlock}&transactionId=${transactionId}`
     )
   ).data;
 }
@@ -49,8 +51,6 @@ export const useCIndexStore = defineStore('cindex', {
   state: () => ({
     store: useMagellanTxStore(),
     pStore: usePIndexStore(),
-    firstBlockNumber: NaN,
-    firstTransactionNumber: NaN,
   }),
   getters: {},
   actions: {
@@ -92,19 +92,23 @@ export const useCIndexStore = defineStore('cindex', {
       );
       return result && result.aggregates && parseInt(result.aggregates.txfee);
     },
-    async getNumberOfValidators(): Promise<MagellanValidatorsResponse> {
+    async getNumberOfValidators(): Promise<NodeValidatorsResponse> {
       return this.pStore.getNumberOfValidators();
     },
     async loadBlocks(blockStart = NaN, count = 10): Promise<BlockTableData[]> {
       try {
         const cBlockresponse = await loadBlocksAndTransactions(
           blockStart,
-          count,
           NaN,
+          0,
+          count,
           0
         );
         if (!cBlockresponse.blocks) {
           return [];
+        }
+        if (!isNaN(blockStart) && cBlockresponse.blocks.length > 0) {
+          cBlockresponse.blocks = cBlockresponse.blocks.slice(1);
         }
         return cBlockresponse.blocks.map(
           (block) =>
@@ -127,6 +131,7 @@ export const useCIndexStore = defineStore('cindex', {
     },
     async loadTransactions(
       startBlock = NaN,
+      transactionId = 0,
       count = 10
     ): Promise<CTransaction[]> {
       // currently offset is not available "natively", so we add offset and count and skip the offset elements in processing
@@ -134,17 +139,22 @@ export const useCIndexStore = defineStore('cindex', {
       try {
         const cBlockresponse = await loadBlocksAndTransactions(
           startBlock,
-          0,
           NaN,
+          transactionId,
+          0,
           count
         );
         if (!cBlockresponse.transactions) {
           return [];
         }
+        if (!isNaN(startBlock) && cBlockresponse.transactions.length > 0) {
+          cBlockresponse.transactions = cBlockresponse.transactions.slice(1);
+        }
         return cBlockresponse.transactions.map(
           (element) =>
             <CTransaction>{
               block: parseInt(element.block),
+              index: parseInt(element.index),
               from: element.from,
               hash: element.hash,
               status:
@@ -161,9 +171,6 @@ export const useCIndexStore = defineStore('cindex', {
       } catch (e) {
         return [];
       }
-    },
-    async loadFirstBlockNumber(block: BlockTableData): Promise<number> {
-      return (this.firstBlockNumber = block.number);
     },
     async loadTransactionById(
       transactionId: string
@@ -217,10 +224,11 @@ export const useCIndexStore = defineStore('cindex', {
         transactionCount: block.transactions ? block.transactions.length : 0,
         gasLimit: parseInt(block.header.gasLimit),
         gasUsed: parseInt(block.header.gasUsed),
-        timestamp: new Date(block.header.timestamp * 1000),
+        timestamp: new Date(parseInt(block.header.timestamp) * 1000),
         transactions: block.transactions
           ? block.transactions.map((item) => ({
               block: item.block,
+              index: parseInt(item.receipt.transactionIndex),
               from: item.fromAddr,
               hash: item.hash,
               status: item.receipt.status,

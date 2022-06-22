@@ -182,7 +182,7 @@ import LongString from './ui/LongString.vue';
 import RelativeTime from './ui/RelativeTime.vue';
 import CamAmount from './ui/CamAmount.vue';
 
-const pageSize = 20;
+const pageSize = 50;
 
 export default defineComponent({
   name: 'DetailsTable',
@@ -216,6 +216,7 @@ export default defineComponent({
         loading.value = true;
         currentOffset.value = 0;
         knownHashes = [];
+        data.value = [];
         data.value = await props.loadData(
           props.store,
           knownHashes,
@@ -237,7 +238,8 @@ export default defineComponent({
             props.store,
             knownHashes,
             currentOffset.value,
-            pageSize
+            pageSize,
+            data.value.length ? data.value[currentOffset.value - 1] : undefined
           );
           currentOffset.value += apiData.length || 0;
           data.value.push(...apiData);

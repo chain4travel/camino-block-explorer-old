@@ -7,7 +7,7 @@ import axios from 'axios';
 import { DateTime } from 'luxon';
 import { getStartDate } from 'src/utils/date-utils';
 import { Timeframe } from 'src/types/chain-loader';
-import { MagellanValidatorsResponse } from 'src/types/magellan-types';
+import { NodeValidator, NodeValidatorsResponse } from 'src/types/node-types';
 
 export const usePIndexStore = defineStore('pindex', {
   state: () => ({
@@ -71,7 +71,7 @@ export const usePIndexStore = defineStore('pindex', {
         return {};
       }
     },
-    async getNumberOfValidators(): Promise<MagellanValidatorsResponse> {
+    async getNumberOfValidators(): Promise<NodeValidatorsResponse> {
       const network = this.appConfig.getActive;
       try {
         const response = await axios.post(
@@ -83,7 +83,7 @@ export const usePIndexStore = defineStore('pindex', {
           return {
             numberOfValidators: data.result.validators.length,
             numberOfActiveValidators: data.result.validators.filter(
-              (v) => v.connected
+              (v: NodeValidator) => v.connected
             ).length,
           };
         return { numberOfValidators: 0, numberOfActiveValidators: 0 };

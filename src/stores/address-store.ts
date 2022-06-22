@@ -6,7 +6,7 @@ import {
 } from 'src/types/magellan-types';
 import { XPTransaction } from 'src/types/transaction';
 import { getMagellanBaseUrl } from 'src/utils/client-utils';
-import { cTransactionApi, cBlocksApi } from 'src/utils/magellan-api-utils';
+import { cBlocksApi } from 'src/utils/magellan-api-utils';
 import { useMagellanTxStore } from './magellan-tx-store';
 import { assets, addresses } from 'src/utils/magellan-api-utils';
 import {

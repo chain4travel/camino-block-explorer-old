@@ -1,5 +1,5 @@
 export interface MagellanCTransactionResponse {
-  transactions: MagellanTransactionDetail[];
+  Transactions: MagellanTransactionDetail[];
 }
 
 export interface MagellanCBlocksResponse {
@@ -218,11 +218,6 @@ export interface MagellanXPTransactionSearchResult {
   validatorStart: number;
   validatorEnd: number;
   txBlockId: string;
-}
-
-export interface MagellanValidatorsResponse {
-  numberOfActiveValidators: number;
-  numberOfValidators: number;
 }
 
 export enum MagellanSearchResultElementType {
