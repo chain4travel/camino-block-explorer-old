@@ -291,3 +291,9 @@ export interface TxFeeAggregates {
   endTime: string;
   txfee: string;
 }
+
+export enum MagellanCblockApiCall {
+  BLOCK_START = 'blockStart',
+  BLOCK_END = 'blockEnd',
+  TRANSACTION_ID = 'transactionId',
+}

@@ -15,6 +15,7 @@ import {
   MagellanBlockDetail,
   MagellanTransactionDetail,
   MagellanValidatorsResponse,
+  MagellanCblockApiCall,
 } from 'src/types/magellan-types';
 import { TranscationDetail } from 'src/types/transaction';
 import { DateTime } from 'luxon';
@@ -36,38 +37,15 @@ async function loadBlocksAndTransactions(
   ).data;
 }
 
-async function loadBlocksFromBlockStart(
-  blockCount = 10,
-  startingBlock = 0
-) {
-  return await (
-    await axios.get(
-      `${getMagellanBaseUrl()}${cBlocksApi}?limit=${blockCount}&limit=0&blockStart=${startingBlock}`
-    )
-  ).data;
+async function loadBlocksandTransactionsFrom(count = 10, paramFrom = 0, param: MagellanCblockApiCall) {
+  if (param === MagellanCblockApiCall.BLOCK_START)
+    return await (
+      await axios.get(
+        `${getMagellanBaseUrl()}${cBlocksApi}?limit=${count}&limit=0&blockStart=${paramFrom}`
+      )
+    ).data;
 }
 
-async function loadBlocksFromBlockEnd(
-  blockCount = 10,
-  startingBlock = 0
-) {
-  return await (
-    await axios.get(
-      `${getMagellanBaseUrl()}${cBlocksApi}?limit=${blockCount}&limit=0&blockStart=${startingBlock}`
-    )
-  ).data;
-}
-
-async function loadTransactionsFromID(
-  transactionCount = 10,
-  transactionId = 0
-) {
-  return await (
-    await axios.get(
-      `${getMagellanBaseUrl()}${cBlocksApi}?limit=0&limit=${transactionCount}&transactionId=${transactionId}`
-    )
-  ).data;
-}
 
 // async function cTransactionsBetweenDates(start: DateTime, end: DateTime): Promise<MagellanTransactionDetail[]> {
 //   //Query parameters are currently ignored, so manual filter needed at the end. Does not scale well!
