@@ -124,7 +124,6 @@ export default defineComponent({
     const route = useRoute();
     const addressStore = useAddressStore();
     const address = getStringOrFirstElement(route.params.addressId);
-    console.log(route.params.addressId);
 
     const allTxData: Ref<CAddressTransactionTableData[]> = ref([]);
     let moreToLoad = true;
@@ -140,12 +139,7 @@ export default defineComponent({
       tabs,
       store: addressStore,
 
-      async loadData(
-        store: ChainLoader,
-        knownHashes: string[],
-        offset: number,
-        limit: number
-      ) {
+      async loadData(store: ChainLoader, offset: number, limit: number) {
         const data = await store.loadAllCTxsForAddress(
           getStringOrFirstElement(route.params.addressId),
           offset,
@@ -154,21 +148,18 @@ export default defineComponent({
         const newData: CAddressTransactionTableData[] = [];
         moreToLoad = false;
         for (const element of data) {
-          if (!knownHashes.includes(element.hash)) {
-            newData.push({
-              type: element.type,
-              age: new Date(element.timestamp * 1000),
-              block: element.block,
-              from: element.from,
-              to: element.to,
-              txnFee: getFee(element),
-              txnHash: element.hash,
-              value: parseInt(element.value),
-              direction: element.from === address ? 'out' : 'in',
-            });
-            moreToLoad = true;
-            knownHashes.push(element.hash);
-          }
+          newData.push({
+            type: element.type,
+            age: new Date(element.timestamp * 1000),
+            block: parseInt(element.block),
+            from: element.from,
+            to: element.to,
+            txnFee: getFee(element),
+            txnHash: element.hash,
+            value: parseInt(element.value),
+            direction: element.from === address ? 'out' : 'in',
+          });
+          moreToLoad = true;
         }
         return newData;
       },

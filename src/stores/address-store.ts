@@ -17,6 +17,8 @@ import { AddressBalance } from 'src/types/address';
 
 export const useAddressStore = defineStore('address', {
   state: () => ({
+    blockStart: NaN,
+    blockEnd: NaN,
     magellanStore: useMagellanTxStore(),
     assets: undefined as
       | Map<string, { name: string; symbol: string }>
@@ -34,15 +36,14 @@ export const useAddressStore = defineStore('address', {
       // get correct range
       // Also not optimal, that offset/count are applied to both to/from, leading to double the amount of returns and no clear ordering.
       // Here a new/fixed endpoint ordered by date in magellan would be better.
-      const limitAndOffsetQueryString = `limit=${count + offset}`;
       const toandfromAddressTxs = await axios.get(
-        `${getMagellanBaseUrl()}${cBlocksApi}?address=${address}&limit=0&${limitAndOffsetQueryString}`
+        `${getMagellanBaseUrl()}${cBlocksApi}?address=${address}&limit=0&limit=${20}&blockStart=${
+          this.blockStart
+        }`
       );
-      return [
-        ...(<MagellanCTransactionResponse>(
-          toandfromAddressTxs.data
-        )).transactions.splice(offset, count),
-      ];
+      this.blockStart =
+        parseInt(toandfromAddressTxs.data.transactions[19].block) - 1;
+      return toandfromAddressTxs.data.transactions;
     },
     async loadXpTransactions(
       address: string,
