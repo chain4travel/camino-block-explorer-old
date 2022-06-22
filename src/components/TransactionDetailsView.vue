@@ -24,6 +24,9 @@
           :value="content.hash"
           type="hexdata"
           :allow-copy="true"
+          :md-length="38"
+          :sm-length="30"
+          :xs-length="16"
         />
       </q-list>
     </q-card-section>
@@ -55,6 +58,8 @@
           type="hexdata"
           :allow-copy="true"
           :md-length="38"
+          :sm-length="30"
+          :xs-length="16"
         />
         <DetailField
           icon="mdi-help-circle-outline"
@@ -63,6 +68,8 @@
           type="hexdata"
           :allow-copy="true"
           :md-length="38"
+          :sm-length="30"
+          :xs-length="16"
         />
       </q-list>
     </q-card-section>
@@ -132,13 +139,17 @@ import { getBlockDetailsPath } from 'src/utils/route-utils';
 import { ChainType } from 'src/types/chain-type';
 import DetailField from 'src/components/ui/DetailField.vue';
 import { TranscationDetail } from 'src/types/transaction';
+import { LocationQueryValue } from 'vue-router';
 
 export default defineComponent({
   name: 'TransactionDetailsView',
   props: {
     title: { type: String as PropType<string>, required: false },
     type: { type: String as PropType<ChainType>, required: true },
-    backRoute: { type: String as PropType<string>, required: false },
+    backRoute: {
+      type: String as PropType<string | LocationQueryValue[]>,
+      required: false,
+    },
     content: { type: Object as PropType<TranscationDetail>, required: true },
     magellan: { type: Boolean, default: false },
   },
