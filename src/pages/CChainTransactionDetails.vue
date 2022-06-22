@@ -67,10 +67,6 @@ export default defineComponent({
   async setup() {
     const route = useRoute();
     const cChain = useCIndexStore();
-    const ll = await cChain.loadTransactionById(
-      getStringOrFirstElement(route.params.transactionId)
-    );
-    console.log('llllllll', ll);
     return {
       tab: ref('transactions'),
       tabs,
