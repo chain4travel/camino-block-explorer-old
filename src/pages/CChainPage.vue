@@ -73,9 +73,6 @@ export default defineComponent({
     );
     const blockPage = ref(1);
     const transactionsPage = ref(1);
-    cStore.firstBlockNumber = await cStore.loadFirstBlockNumber(
-      blocks.value[0]
-    );
 
     return {
       cStore,
@@ -97,15 +94,9 @@ export default defineComponent({
       },
       async refreshBlocks() {
         blocks.value = await cStore.loadBlocks(NaN, props.pageSize);
-        cStore.firstBlockNumber = await cStore.loadFirstBlockNumber(
-          blocks.value[0]
-        );
       },
       async refreshTransactions() {
         transactions.value = await cStore.loadTransactions(NaN, props.pageSize);
-        cStore.firstBlockNumber = await cStore.loadFirstBlockNumber(
-          blocks.value[0]
-        );
       },
       getBlockDetailsLink(item: number) {
         return getBlockDetailsPath(ChainType.C_CHAIN, item);

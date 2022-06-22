@@ -27,12 +27,13 @@ import {
 } from 'src/utils/route-utils';
 import { defineComponent } from 'vue';
 import { CTransaction, TransactionTableData } from 'src/types/transaction';
-import { ChainLoader } from 'src/types/chain-loader';
+import { CChainLoader } from 'src/types/chain-loader';
 import DetailsTable from '../components/DetailsTable.vue';
 
 function mapToTableData(transaction: CTransaction): TransactionTableData {
   return {
     blockNumber: transaction.block,
+    transactionIndex: transaction.index,
     from: transaction.from,
     hash: transaction.hash,
     status: transaction.status,
@@ -71,27 +72,21 @@ export default defineComponent({
         return moreToLoad;
       },
       async loadTransactions(
-        store: ChainLoader,
-        knownHashes: string[],
-        offset: number,
-        limit: number
+        store: CChainLoader,
+        _: string[],
+        __: number,
+        limit: number,
+        lastItem: TransactionTableData
       ) {
-        const apiData = isNaN(store.firstBlockNumber)
-          ? await store.loadTransactions(NaN, limit + offset)
-          : await store.loadTransactions(
-              store.firstBlockNumber - offset,
+        const apiData = await (lastItem
+          ? store.loadTransactions(
+              lastItem.blockNumber,
+              lastItem.transactionIndex,
               limit
-            );
-        const newData: TransactionTableData[] = [];
-        moreToLoad = false;
-        apiData.map(mapToTableData).forEach((newTransaction) => {
-          if (!knownHashes.includes(newTransaction.hash)) {
-            newData.push(newTransaction);
-            knownHashes.push(newTransaction.hash);
-            moreToLoad = true;
-          }
-        });
-        return newData;
+            )
+          : store.loadTransactions(NaN, 0, limit));
+        moreToLoad = apiData.length > 0;
+        return apiData.map(mapToTableData);
       },
       columns: [
         {

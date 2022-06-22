@@ -2,6 +2,7 @@ export interface CTransaction {
   hash: string;
   status: string; // enum?
   block: number;
+  index: number;
   timestamp: Date;
   from: string;
   to: string;
@@ -29,6 +30,7 @@ export interface Fund {
 
 export interface TransactionTableData {
   blockNumber: number;
+  transactionIndex: number;
   from: string;
   to: string;
   hash: string;
