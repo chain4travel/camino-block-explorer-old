@@ -29,11 +29,13 @@ async function loadBlocksAndTransactions(
   endingBlock = NaN,
   transactionId = 0,
   blockCount = 10,
-  transactionCount = 10
+  transactionCount = 10,
+  address = ''
 ): Promise<MagellanCBlocksResponse> {
+  if (address != '') address = `&address=${address}`;
   return await (
     await axios.get(
-      `${getMagellanBaseUrl()}${cBlocksApi}?limit=${blockCount}&limit=${transactionCount}&blockStart=${startingBlock}&blockEnd=${endingBlock}&transactionId=${transactionId}`
+      `${getMagellanBaseUrl()}${cBlocksApi}?limit=${blockCount}&limit=${transactionCount}&blockStart=${startingBlock}&blockEnd=${endingBlock}&transactionId=${transactionId}${address}`
     )
   ).data;
 }
@@ -51,6 +53,12 @@ export const useCIndexStore = defineStore('cindex', {
   state: () => ({
     store: useMagellanTxStore(),
     pStore: usePIndexStore(),
+    txHashCache: [] as {
+      hash: string;
+      blockNumber: number;
+      transactionId: number;
+    }[],
+    txHashCacheAddress: '',
   }),
   getters: {},
   actions: {
@@ -132,7 +140,8 @@ export const useCIndexStore = defineStore('cindex', {
     async loadTransactions(
       startBlock = NaN,
       transactionId = 0,
-      count = 10
+      count = 10,
+      address = ''
     ): Promise<CTransaction[]> {
       // currently offset is not available "natively", so we add offset and count and skip the offset elements in processing
       // this does not work for more than 5k elements at once.. will need to adjust for that to work
@@ -142,7 +151,8 @@ export const useCIndexStore = defineStore('cindex', {
           NaN,
           transactionId,
           0,
-          count
+          count,
+          address
         );
         if (!cBlockresponse.transactions) {
           return [];
@@ -265,6 +275,84 @@ export const useCIndexStore = defineStore('cindex', {
           `${getMagellanBaseUrl()}${cBlocksDetailsApi}/${blockNumber}`
         )
       ).data;
+    },
+    async getNextTransactionHash(
+      address: string,
+      blockNumber: number,
+      transactionId: number,
+      backward: boolean
+    ): Promise<string> {
+      // Address change
+      if (this.txHashCacheAddress !== address) {
+        this.txHashCacheAddress = address;
+        this.txHashCache = [];
+      }
+      // Not in stack -> restart stack
+      let idx = this.txHashCache.findIndex(
+        (elem) =>
+          blockNumber === elem.blockNumber &&
+          transactionId === elem.transactionId
+      );
+      if (idx < 0) this.txHashCache = [];
+      idx += backward ? (idx < 0 ? 0 : -1) : 1;
+
+      let startBlock = NaN,
+        endBlock = NaN;
+
+      if (backward && idx < 0) {
+        // Load 50 cblocks before current using endBlock (newer)
+        endBlock = blockNumber;
+      } else if (!backward && idx === this.txHashCache.length) {
+        // Load 50 cblocks after current using startBlock (older)
+        startBlock = blockNumber;
+      } else return this.txHashCache[idx].hash;
+
+      try {
+        const cBlockResponse = await loadBlocksAndTransactions(
+          startBlock,
+          endBlock,
+          transactionId,
+          0,
+          this.txHashCache.length ? 51 : 50,
+          address
+        );
+        if (!cBlockResponse.transactions) {
+          return '';
+        }
+        // We have to reverse the list!
+        if (!isNaN(endBlock))
+          cBlockResponse.transactions = cBlockResponse.transactions.reverse();
+
+        // Skip first item if we are appending current list
+        if (this.txHashCache.length > 0) {
+          cBlockResponse.transactions = cBlockResponse.transactions.slice(1);
+        }
+        if (!isNaN(endBlock)) {
+          this.txHashCache = cBlockResponse.transactions
+            .map((elem) => {
+              return {
+                hash: elem.hash,
+                blockNumber: parseInt(elem.block),
+                transactionId: parseInt(elem.index),
+              };
+            })
+            .concat(this.txHashCache);
+          idx += cBlockResponse.transactions.length;
+        } else
+          this.txHashCache = this.txHashCache.concat(
+            cBlockResponse.transactions.map((elem) => {
+              return {
+                hash: elem.hash,
+                blockNumber: parseInt(elem.block),
+                transactionId: parseInt(elem.index),
+              };
+            })
+          );
+        return this.txHashCache[idx].hash;
+      } catch (e) {
+        console.log((e as Error).message);
+        return '';
+      }
     },
   },
 });

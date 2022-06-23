@@ -76,6 +76,7 @@ export interface CAddressTransactionTableData {
   type: number;
   txnHash: string;
   block: number;
+  index: number;
   age: Date;
   from: string;
   to: string;
