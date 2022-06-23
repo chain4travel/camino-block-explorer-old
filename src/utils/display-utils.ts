@@ -1,6 +1,27 @@
 import { Duration } from 'luxon';
 import { Fund } from 'src/types/transaction';
 
+// export function getRelativeTime(timestamp: Date | number | string): string {
+//   const time = getTime(timestamp);
+//   if (!Number.isInteger(time)) {
+//     return 'Unknown';
+//   }
+//   const duration = Duration.fromMillis(new Date().getTime() - time, {
+//     locale: 'en-US',
+//   }).shiftTo('seconds');
+//   if (duration.seconds < 1) {
+//     return 'less than one second';
+//   } else if (duration.seconds < 60) {
+//     return duration.toHuman({ maximumFractionDigits: 0 });
+//   } else if (duration.seconds < 3600) {
+//     return duration.shiftTo('minutes').toHuman({ maximumFractionDigits: 0 });
+//   } else if (duration.seconds < 86400) {
+//     return duration.shiftTo('hours').toHuman({ maximumFractionDigits: 0 });
+//   } else {
+//     return duration.shiftTo('days').toHuman({ maximumFractionDigits: 0 });
+//   }
+// }
+
 export function getRelativeTime(timestamp: Date | number | string): string {
   const time = getTime(timestamp);
   if (!Number.isInteger(time)) {
@@ -9,16 +30,23 @@ export function getRelativeTime(timestamp: Date | number | string): string {
   const duration = Duration.fromMillis(new Date().getTime() - time, {
     locale: 'en-US',
   }).shiftTo('seconds');
-  if (duration.seconds < 1) {
-    return 'less than one second';
+  if (duration.seconds < 1) return '< 1 sec';
+  else if (duration.seconds >= 1 && duration.seconds < 2) {
+    return '1 sec';
   } else if (duration.seconds < 60) {
-    return duration.toHuman({ maximumFractionDigits: 0 });
+    return duration.seconds.toFixed(0) + ' secs';
+  } else if (duration.seconds >= 60 && duration.seconds < 120) {
+    return '1 min';
   } else if (duration.seconds < 3600) {
-    return duration.shiftTo('minutes').toHuman({ maximumFractionDigits: 0 });
+    return duration.shiftTo('minutes').minutes.toFixed(0) + ' mins';
+  } else if (duration.seconds >= 3600 && duration.seconds < 7200) {
+    return '1 hr';
   } else if (duration.seconds < 86400) {
-    return duration.shiftTo('hours').toHuman({ maximumFractionDigits: 0 });
+    return duration.shiftTo('hours').hours.toFixed(0) + ' hrs';
+  } else if (duration.seconds >= 86400 && duration.seconds < 172800) {
+    return '1 day';
   } else {
-    return duration.shiftTo('days').toHuman({ maximumFractionDigits: 0 });
+    return duration.shiftTo('days').days.toFixed(0) + ' days';
   }
 }
 
