@@ -5,6 +5,21 @@
       <q-card class="col">
         <q-card-section>
           <div class="row">
+            <q-btn
+              icon="mdi-chevron-left"
+              class="col-auto"
+              size="sm"
+              rounded
+              outline
+              color="primary"
+              :to="backroute"
+            >
+            </q-btn>
+            <div class="text-h6 q-pl-md col-10">C-Chain Transaction</div>
+          </div>
+        </q-card-section>
+        <q-card-section>
+          <div class="row">
             <div class="col-auto">
               <q-tabs
                 v-model="tab"
@@ -22,17 +37,19 @@
                   :label="tab.label"
                 />
               </q-tabs>
+              <q-separator />
             </div>
           </div>
           <q-tab-panels v-model="tab" animated>
-            <q-tab-panel name="transactions">
+            <q-tab-panel name="overview">
               <TransactionDetailsView
                 :type="type"
-                title="C-Chain Transaction"
                 :back-route="backroute"
                 :content="loadedTransaction"
               >
               </TransactionDetailsView>
+            </q-tab-panel>
+            <q-tab-panel name="logs">
             </q-tab-panel>
           </q-tab-panels>
         </q-card-section>
@@ -42,7 +59,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, PropType } from 'vue';
 import TransactionDetailsView from 'src/components/TransactionDetailsView.vue';
 import { useRoute } from 'vue-router';
 import { getOverviewPath } from 'src/utils/route-utils';
@@ -52,8 +69,8 @@ import { getStringOrFirstElement } from 'src/utils/display-utils';
 
 const tabs = [
   {
-    key: 'transactions',
-    label: 'Transactions',
+    key: 'overview',
+    label: 'Overview',
   },
   {
     key: 'logs',
@@ -68,7 +85,7 @@ export default defineComponent({
     const route = useRoute();
     const cChain = useCIndexStore();
     return {
-      tab: ref('transactions'),
+      tab: ref('overview'),
       tabs,
       transactionId: route.params.transactionId,
       backroute: route.query.back
