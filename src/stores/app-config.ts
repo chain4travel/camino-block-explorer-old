@@ -18,6 +18,11 @@ export const useAppConfig = defineStore({
         port: 443,
         predefined: true,
       },
+      {
+        id: 'mainnet-testnet',
+        displayName: 'Mainnet Network',
+        predefined: true,
+      },
     ] as Network[],
     customNetworks: useStorage('cam-explorer-custom-networks', [] as Network[]),
     darkMode: useStorage('cam-explorer-dark-mode', Dark.isActive as boolean),
