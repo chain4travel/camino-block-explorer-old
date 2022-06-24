@@ -1,20 +1,5 @@
 <template>
   <q-card>
-    <q-card-section v-if="title">
-      <div class="row">
-        <q-btn
-          icon="mdi-chevron-left"
-          class="col-auto"
-          size="sm"
-          rounded
-          outline
-          color="primary"
-          :to="backRoute"
-        >
-        </q-btn>
-        <div class="text-h6 q-pl-md col-10">{{ title }}</div>
-      </div>
-    </q-card-section>
     <q-card-section>
       <q-list bordered separator>
         <DetailField

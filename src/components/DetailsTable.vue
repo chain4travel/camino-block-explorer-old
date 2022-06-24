@@ -18,14 +18,14 @@
       @virtual-scroll="onScroll"
     >
       <template v-slot:body-cell="props">
-        <q-td :props="props">
+        <q-td :props="props" class="q-pa-sm">
           <div
             class="row justify-center"
             v-if="props.col && props.col.type === 'currency'"
           >
             <div>
               <CamAmount
-                style="min-width: 140px; max-width: 140px"
+                style="min-width: max-content"
                 :value="props.value"
               ></CamAmount>
             </div>
@@ -40,7 +40,7 @@
               :value="props.value"
               :xl-length="30"
               :lg-length="25"
-              :md-length="12"
+              :md-length="10"
               :sm-length="7"
               :xs-length="20"
             >
@@ -68,7 +68,7 @@
             {{ props.value.toLocaleString() }}
           </div>
           <div v-else class="overflow-handle">
-            {{ props.value }}
+            {{ parseInt(props.value) }}
           </div>
         </q-td>
       </template>

@@ -7,7 +7,6 @@ export const useAppConfig = defineStore({
   id: 'appConfig',
   state: () => ({
     activeNetwork: useStorage('cam-explorer-active-network', 'camino-local'),
-    activeNetworkName: 'Columbus Network',
     networks: [
       // TODO Add Main net once available!
       {
@@ -47,7 +46,6 @@ export const useAppConfig = defineStore({
       );
       if (newActiveNewtork) {
         this.activeNetwork = id;
-        this.activeNetworkName = newActiveNewtork.displayName;
         return true;
       } else {
         return false;
