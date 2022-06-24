@@ -22,10 +22,6 @@ export const useAppConfig = defineStore({
       {
         id: 'mainnet-testnet',
         displayName: 'Mainnet Network',
-        protocol: 'https',
-        host: 'columbus.camino.foundation',
-        magellanAddress: 'https://magellan.columbus.camino.foundation',
-        port: 433,
         predefined: true,
       },
     ] as Network[],
