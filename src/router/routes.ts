@@ -140,6 +140,12 @@ const routes: RouteRecordRaw[] = [
         path: '/tx/:txId',
         component: () => import('src/pages/TxRedirectPage.vue'),
       },
+      // Mainnet Netrwok
+      {
+        name: 'mainnet',
+        path: '/mainnet',
+        component: () => import('src/pages/ComingSoon.vue'),
+      },
       // Path includes Network selector
       {
         path: '/columbus/:base+',
