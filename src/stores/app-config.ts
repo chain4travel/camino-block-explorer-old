@@ -47,6 +47,7 @@ export const useAppConfig = defineStore({
       );
       if (newActiveNewtork) {
         this.activeNetwork = id;
+        this.activeNetworkName = newActiveNewtork.displayName;
         return true;
       } else {
         return false;
