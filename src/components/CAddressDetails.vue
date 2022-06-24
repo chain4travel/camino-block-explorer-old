@@ -56,7 +56,7 @@
             </div>
           </div>
           <q-tab-panels v-model="tab" animated>
-            <q-tab-panel name="transactions">
+            <q-tab-panel name="transactions" class="q-pa-none">
               <DetailsTable
                 height="57vh"
                 :columns="columns"
@@ -124,7 +124,6 @@ export default defineComponent({
     const route = useRoute();
     const addressStore = useAddressStore();
     const address = getStringOrFirstElement(route.params.addressId);
-    console.log(route.params.addressId);
 
     const allTxData: Ref<CAddressTransactionTableData[]> = ref([]);
     let moreToLoad = true;
