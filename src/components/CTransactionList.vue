@@ -16,10 +16,10 @@
               class="monospace"
               :value="item.hash"
               :to="detailsLinkFunction(item.hash)"
-              :xl-length="12"
+              :xl-length="37"
               :lg-length="20"
               :md-length="10"
-              :sm-length="13"
+              :sm-length="20"
               :xs-length="12"
             ></AddressLink>
           </div>
@@ -38,10 +38,10 @@
                 class="monospace"
                 :to="getAddressDetailsPath(item.from)"
                 :value="item.from"
-                :xl-length="16"
+                :xl-length="25"
                 :lg-length="15"
                 :md-length="7"
-                :sm-length="10"
+                :sm-length="15"
                 :xs-length="10"
               ></AddressLink>
             </div>
@@ -53,10 +53,10 @@
                 class="monospace"
                 :to="getAddressDetailsPath(item.to)"
                 :value="item.to"
-                :xl-length="16"
+                :xl-length="25"
                 :lg-length="15"
                 :md-length="7"
-                :sm-length="10"
+                :sm-length="15"
                 :xs-length="10"
               ></AddressLink>
             </div>

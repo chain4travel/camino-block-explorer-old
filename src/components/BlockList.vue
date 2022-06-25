@@ -10,7 +10,7 @@
         <div class="gt-xs col-auto text-center m q-pr-md">
           <q-icon class="square-background" size="sm" name="mdi-cube-outline" />
         </div>
-        <div class="col-xl-3 col-lg-3 col-sm-3 q-pr-lg col-12">
+        <div class="col-xl-2 col-lg-2 col-sm-3 q-pr-lg col-12">
           <div>
             <AddressLink
               :value="item.number"
@@ -29,8 +29,8 @@
           <LongString
             class="monospace"
             :value="item.hash"
-            :xl-length="32"
-            :lg-length="32"
+            :xl-length="55"
+            :lg-length="40"
             :md-length="18"
             :sm-length="25"
             :xs-length="25"
