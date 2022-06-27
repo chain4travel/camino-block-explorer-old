@@ -4,7 +4,7 @@
       dense
       rounded
       outlined
-      v-model="selectedNetwork"
+      v-model="activeNetworkName"
       :options="networkOptions"
       @update:model-value="networkSelectionChanged"
     >
@@ -54,6 +54,8 @@ import { useAppConfig } from 'src/stores/app-config';
 import { Network } from 'src/types/network';
 import { defineComponent, ref } from 'vue';
 import AddNetworkDialog from 'src/components/dialogs/AddNetworkDialog.vue';
+import { useRouter } from 'vue-router';
+import { storeToRefs } from 'pinia';
 
 function createNetworkOptions(
   networks: Network[]
@@ -70,13 +72,17 @@ export default defineComponent({
   name: 'NetworkSelect',
   setup() {
     const appConfig = useAppConfig();
+    const { activeNetworkName } = storeToRefs(appConfig);
     const showNewNetworkDialog = ref(false);
+    const router = useRouter();
     const networkOptions = ref(createNetworkOptions(appConfig.getAllNetworks));
+
     const selectedNetwork = ref(
       networkOptions.value.find((e) => e.value === appConfig.getActive) ||
         networkOptions.value[0]
     );
     return {
+      activeNetworkName,
       networkOptions,
       selectedNetwork,
       showNewNetworkDialog,
@@ -89,7 +95,11 @@ export default defineComponent({
         } else {
           //TODO handle sucess/not success!
           appConfig.setActive(selectedOption.value.id);
-          document.location.reload();
+          let navigateTo =
+            selectedOption.value.displayName !== 'Mainnet Network'
+              ? '/columbus'
+              : '/mainnet';
+          router.push(navigateTo);
         }
       },
       createNewNetwork(value: Network) {

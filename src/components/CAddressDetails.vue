@@ -56,7 +56,7 @@
             </div>
           </div>
           <q-tab-panels v-model="tab" animated>
-            <q-tab-panel name="transactions">
+            <q-tab-panel name="transactions" class="q-pa-none">
               <DetailsTable
                 height="57vh"
                 :columns="columns"
@@ -91,7 +91,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, Ref } from 'vue';
 import DetailsTable from './DetailsTable.vue';
 import { useRoute } from 'vue-router';
 import ErrorNotFoundPage from 'src/pages/ErrorNotFoundPage.vue';
@@ -121,6 +121,8 @@ export default defineComponent({
   async setup() {
     const route = useRoute();
     const address = getStringOrFirstElement(route.params.addressId);
+
+    const allTxData: Ref<CAddressTransactionTableData[]> = ref([]);
     let moreToLoad = true;
 
     function detailsLink(item: string) {
