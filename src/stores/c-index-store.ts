@@ -17,12 +17,16 @@ import {
 } from 'src/types/magellan-types';
 import { NodeValidatorsResponse } from 'src/types/node-types';
 
-import { TranscationDetail } from 'src/types/transaction';
+import { TranscationDetail, TrimmedTransactionDetails } from 'src/types/transaction';
 import { DateTime } from 'luxon';
 import { Timeframe } from 'src/types/chain-loader';
 import { getStartDate } from 'src/utils/date-utils';
 import { usePIndexStore } from './p-index-store';
 import { useMagellanTxStore } from 'src/stores/magellan-tx-store';
+import {
+  getTransactionIndex,
+  getNextPrevPath,
+} from 'src/utils/transaction-utils';
 
 async function loadBlocksAndTransactions(
   startingBlock = NaN,
@@ -308,6 +312,13 @@ export const useCIndexStore = defineStore('cindex', {
       } else return this.txHashCache[idx].hash;
 
       try {
+        const dataFormating = (tx: TrimmedTransactionDetails) => {
+          return {
+            hash: tx.hash,
+            blockNumber: parseInt(tx.block),
+            transactionId: parseInt(tx.index),
+          };
+        };
         const cBlockResponse = await loadBlocksAndTransactions(
           startBlock,
           endBlock,
@@ -320,37 +331,68 @@ export const useCIndexStore = defineStore('cindex', {
           return '';
         }
         // We have to reverse the list!
-        if (!isNaN(endBlock))
+        if (isNaN(endBlock))
           cBlockResponse.transactions = cBlockResponse.transactions.reverse();
-
         // Skip first item if we are appending current list
-        if (this.txHashCache.length > 0) {
+        if (!isNaN(endBlock)) {
           cBlockResponse.transactions = cBlockResponse.transactions.slice(1);
         }
-        if (!isNaN(endBlock)) {
-          this.txHashCache = cBlockResponse.transactions
-            .map((elem) => {
-              return {
-                hash: elem.hash,
-                blockNumber: parseInt(elem.block),
-                transactionId: parseInt(elem.index),
-              };
-            })
-            .concat(this.txHashCache);
+        if (isNaN(endBlock)) {
+          this.txHashCache = [
+            ...cBlockResponse.transactions.map(dataFormating),
+            ...this.txHashCache,
+          ];
           idx += cBlockResponse.transactions.length;
         } else
-          this.txHashCache = this.txHashCache.concat(
-            cBlockResponse.transactions.map((elem) => {
-              return {
-                hash: elem.hash,
-                blockNumber: parseInt(elem.block),
-                transactionId: parseInt(elem.index),
-              };
-            })
-          );
+          this.txHashCache = [
+            ...this.txHashCache,
+            ...cBlockResponse.transactions.map(dataFormating),
+          ];
         return this.txHashCache[idx].hash;
       } catch (e) {
         console.log((e as Error).message);
+        return '';
+      }
+    },
+    async getNextAndPreviousTransactionHashs(Transaction: TranscationDetail) {
+      return await Promise.all([
+        this.getNextTransactionHash(
+          Transaction.fromAddr,
+          Transaction.block,
+          Transaction.transactionId as number,
+          false
+        ),
+        this.getNextTransactionHash(
+          Transaction.fromAddr,
+          Transaction.block,
+          Transaction.transactionId as number,
+          true
+        ),
+      ]);
+    },
+    async getPreviousTx(Transaction: TranscationDetail) {
+      let index = getTransactionIndex(Transaction, this.txHashCache);
+      const remainingTxLength = this.txHashCache.length - index;
+      if (index > 0 && this.txHashCache.length - remainingTxLength >= 1) {
+        return getNextPrevPath(this.txHashCache, index, false);
+      } else {
+        await this.getNextAndPreviousTransactionHashs(Transaction);
+        index = getTransactionIndex(Transaction, this.txHashCache);
+        if (index > 0) {
+          return getNextPrevPath(this.txHashCache, index, false);
+        } else return '';
+      }
+    },
+    async getNextTx(Transaction: TranscationDetail) {
+      let index = getTransactionIndex(Transaction, this.txHashCache);
+      if (index < this.txHashCache.length - 1) {
+        return getNextPrevPath(this.txHashCache, index, true);
+      } else {
+        await this.getNextAndPreviousTransactionHashs(Transaction);
+        index = getTransactionIndex(Transaction, this.txHashCache);
+        if (index < this.txHashCache.length - 1) {
+          return getNextPrevPath(this.txHashCache, index, true);
+        }
         return '';
       }
     },

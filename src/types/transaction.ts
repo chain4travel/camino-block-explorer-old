@@ -70,6 +70,13 @@ export interface TranscationDetail {
   contractAddress?: string;
   transactionCost: number;
   effectiveGasPrice: number;
+  transactionId?: number;
+}
+
+export interface TrimmedTransactionDetails {
+  hash: string;
+  block: string;
+  index: string;
 }
 
 export interface CAddressTransactionTableData {
