@@ -17,7 +17,10 @@ import {
 } from 'src/types/magellan-types';
 import { NodeValidatorsResponse } from 'src/types/node-types';
 
-import { TranscationDetail, TrimmedTransactionDetails } from 'src/types/transaction';
+import {
+  TranscationDetail,
+  TrimmedTransactionDetails,
+} from 'src/types/transaction';
 import { DateTime } from 'luxon';
 import { Timeframe } from 'src/types/chain-loader';
 import { getStartDate } from 'src/utils/date-utils';
@@ -26,6 +29,7 @@ import { useMagellanTxStore } from 'src/stores/magellan-tx-store';
 import {
   getTransactionIndex,
   getNextPrevPath,
+  TxHashItem,
 } from 'src/utils/transaction-utils';
 
 async function loadBlocksAndTransactions(
@@ -57,11 +61,7 @@ export const useCIndexStore = defineStore('cindex', {
   state: () => ({
     store: useMagellanTxStore(),
     pStore: usePIndexStore(),
-    txHashCache: [] as {
-      hash: string;
-      blockNumber: number;
-      transactionId: number;
-    }[],
+    txHashCache: [] as TxHashItem[],
     txHashCacheAddress: '',
   }),
   getters: {},

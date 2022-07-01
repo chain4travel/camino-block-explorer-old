@@ -97,9 +97,7 @@ import { useRoute } from 'vue-router';
 import ErrorNotFoundPage from 'src/pages/ErrorNotFoundPage.vue';
 import { useCIndexStore } from 'src/stores/c-index-store';
 import { getStringOrFirstElement } from 'src/utils/display-utils';
-import {
-  CAddressTransactionTableData,
-} from 'src/types/transaction';
+import { CAddressTransactionTableData } from 'src/types/transaction';
 import {
   getTransactionDetailsPath,
   getAddressDetailsPath,
